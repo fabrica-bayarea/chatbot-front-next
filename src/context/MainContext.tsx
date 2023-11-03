@@ -1,4 +1,5 @@
 'use client';
+
 import { createContext, ReactNode, useState } from 'react';
 
 import api from '@/api';
@@ -50,7 +51,20 @@ export function MainProvider({ children }: { children: ReactNode }) {
     return makeRequest(options);
   };
 
-  const shared = { isLoading, login };
+  const register = async (payload: PayloadType) => {
+    const successFn = (data: unknown) => {};
+
+    const options = {
+      apiRequest: api.fakeRequest,
+      payload,
+      successCode: statusCodes.OK,
+      successFn,
+    };
+
+    return makeRequest(options);
+  };
+
+  const shared = { isLoading, login, register };
 
   return <MainContext.Provider value={{ ...shared }}>{children}</MainContext.Provider>;
 }

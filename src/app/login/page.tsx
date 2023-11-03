@@ -1,4 +1,5 @@
 'use client';
+
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
@@ -63,6 +64,7 @@ function Login() {
             <InputGroup
               type="email"
               name="email"
+              value={inputs.email.value}
               onChange={handleChange}
               placeholder="Digite seu e-mail..."
               label="E-mail *"
@@ -70,6 +72,7 @@ function Login() {
             <InputGroup
               type="password"
               name="password"
+              value={inputs.password.value}
               onChange={handleChange}
               placeholder="Digite sua senha..."
               label="Senha *"

@@ -29,6 +29,7 @@ export type InputGroupProps = {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type: string;
+  value?: string;
 };
 
 export type PasswordInputProps = {
@@ -38,4 +39,5 @@ export type PasswordInputProps = {
 export type MainContextType = {
   isLoading: boolean;
   login: (payload: PayloadType) => Promise<ResultType>;
+  register: (payload: PayloadType) => Promise<ResultType>;
 };
