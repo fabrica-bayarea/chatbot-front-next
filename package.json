@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev",
+    "lint": "next lint",
+    "lint:style": "stylelint '**/*.{css,ts,tsx}'",
+    "start": "next start"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -25,6 +26,9 @@
     "@types/react-dom": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "postcss-styled-syntax": "^0.5.0",
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard": "^34.0.0",
     "typescript": "latest"
   }
 }
