@@ -18,6 +18,7 @@ export type UserType = {
   name: string;
   password?: string;
 };
+
 export type DataType = MessageType | UserType;
 
 export type ResultType = [boolean, DataType];
@@ -34,7 +35,9 @@ export type RequestType = {
 export type MainContextType = {
   isLoading: boolean;
   login: (payload: PayloadType) => Promise<ResultType>;
+  logout: () => void;
   register: (payload: PayloadType) => Promise<ResultType>;
+  user: null | UserType;
 };
 
 export type InputGroupProps = {

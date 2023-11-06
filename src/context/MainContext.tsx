@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, ReactNode, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import api from '@/api';
 import { statusCodes } from '@/utils';
@@ -17,6 +18,7 @@ import type {
 const MainContext = createContext<MainContextType | undefined>(undefined);
 
 export function MainProvider({ children }: { children: ReactNode }) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<null | UserType>(null);
 
@@ -49,9 +51,10 @@ export function MainProvider({ children }: { children: ReactNode }) {
   // Request functions
   const login = async (payload: PayloadType) => {
     const successFn = (data: DataType) => {
-      // const expirationTime = new Date().getTime() + 60 * 60 * 1000;
-      // const dataWithExpiration = { ...data, expirationTime };
-      if (data) setUser(data as UserType);
+      setUser(data as UserType);
+      const expirationTime = new Date().getTime() + 60 * 60 * 1000;
+      const dataWithExpiration = { ...data, expirationTime };
+      localStorage.setItem('session', JSON.stringify(dataWithExpiration));
     };
 
     const options = {
@@ -79,7 +82,30 @@ export function MainProvider({ children }: { children: ReactNode }) {
     return makeRequest(options);
   };
 
-  const shared = { isLoading, login, register };
+  // Other functions
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('session');
+    router.push('/login');
+  };
+
+  useEffect(() => {
+    const localSession = localStorage.getItem('session');
+
+    if (localSession) {
+      const parsedSession = JSON.parse(localSession);
+      setUser(parsedSession.user);
+      const currentTime = new Date().getTime();
+
+      if (currentTime > parsedSession.expirationTime) {
+        logout();
+      }
+    } else {
+      router.push('/login');
+    }
+  }, []);
+
+  const shared = { isLoading, login, logout, register, user };
 
   return <MainContext.Provider value={{ ...shared }}>{children}</MainContext.Provider>;
 }

@@ -20,9 +20,9 @@ const inputScheme: InputSchemeType = {
 
 function Register() {
   const { isLoading, register } = useMainContext();
+  const router = useRouter();
   const [inputs, setInputs] = useState(inputScheme);
   const [statusMessage, setStatusMessage] = useState('');
-  const router = useRouter();
   const validation = useValidation(inputs);
 
   // Input handler
