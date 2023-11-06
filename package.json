@@ -7,6 +7,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "lint:style": "stylelint '**/*.{css,ts,tsx}'",
+    "server": "json-server --watch ./server/data/db.json --routes ./server/routes/routes.json --middlewares ./server/middlewares/login.js",
     "start": "next start"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "@types/react-dom": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "json-server": "^0.17.4",
     "postcss-styled-syntax": "^0.5.0",
     "stylelint": "^15.11.0",
     "stylelint-config-standard": "^34.0.0",

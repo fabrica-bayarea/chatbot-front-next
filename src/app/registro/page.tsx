@@ -3,14 +3,13 @@
 import { faChevronLeft, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 import { InputGroup, Logo } from '@/components';
 import { IconButton, MainButton, Form, Main, Section } from '@/components/styled';
 import { useMainContext, useValidation } from '@/hooks';
-import { reduceInputs } from '@/utils';
-import type { InputSchemeType } from '@/types';
+import type { InputSchemeType, MessageType, RegisterBodyType } from '@/types';
 
 const inputScheme: InputSchemeType = {
   email: { value: '', isRequired: true },
@@ -36,13 +35,19 @@ function Register() {
   // Register
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const body = reduceInputs(inputs);
+
+    const body: RegisterBodyType = {
+      email: inputs.email.value,
+      name: inputs.name.value,
+      password: inputs.password.value,
+    };
+
     const [success, data] = await register({ body });
 
     if (success) {
-      router.push('/login');
+      router.push('/');
     } else {
-      setStatusMessage(data.message);
+      setStatusMessage((data as MessageType).message);
     }
   };
 

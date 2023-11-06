@@ -4,13 +4,21 @@ export type InputSchemeType = {
   [key: string]: { value: string; isRequired: boolean };
 };
 
-export type InputValuesType = {
-  [key: string]: string;
-};
-
-export type DataType = { message: string };
-
 export type PayloadType = { [key: string]: unknown };
+
+export type LoginBodyType = { email: string; password: string };
+
+export type RegisterBodyType = { email: string; name: string; password: string };
+
+export type MessageType = { message: string };
+
+export type UserType = {
+  email: string;
+  id?: string;
+  name: string;
+  password?: string;
+};
+export type DataType = MessageType | UserType;
 
 export type ResultType = [boolean, DataType];
 
@@ -20,7 +28,13 @@ export type RequestType = {
   apiRequest: (payload: PayloadType) => Promise<ResponseType>;
   payload: PayloadType;
   successCode: number;
-  successFn: (data: DataType) => unknown | Promise<unknown>;
+  successFn: (data: DataType) => void | Promise<void>;
+};
+
+export type MainContextType = {
+  isLoading: boolean;
+  login: (payload: PayloadType) => Promise<ResultType>;
+  register: (payload: PayloadType) => Promise<ResultType>;
 };
 
 export type InputGroupProps = {
@@ -34,10 +48,4 @@ export type InputGroupProps = {
 
 export type PasswordInputProps = {
   name: string;
-};
-
-export type MainContextType = {
-  isLoading: boolean;
-  login: (payload: PayloadType) => Promise<ResultType>;
-  register: (payload: PayloadType) => Promise<ResultType>;
 };
