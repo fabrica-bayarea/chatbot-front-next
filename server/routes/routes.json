@@ -1,0 +1,4 @@
+{
+  "/conversations/user/:id": "/conversations?userId=:id",
+  "/login": "/login"
+}
