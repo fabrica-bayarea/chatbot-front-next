@@ -9,7 +9,7 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import { InputGroup, Logo } from '@/components';
 import { IconButton, MainButton, Form, Main, Section } from '@/components/styled';
 import { useMainContext, useValidation } from '@/hooks';
-import type { InputSchemeType, MessageType, RegisterBodyType } from '@/types';
+import type { InputSchemeType, StatusMessageType } from '@/types';
 
 const inputScheme: InputSchemeType = {
   email: { value: '', isRequired: true },
@@ -36,7 +36,7 @@ function Register() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const body: RegisterBodyType = {
+    const body = {
       email: inputs.email.value,
       name: inputs.name.value,
       password: inputs.password.value,
@@ -47,7 +47,7 @@ function Register() {
     if (success) {
       router.push('/');
     } else {
-      setStatusMessage((data as MessageType).message);
+      setStatusMessage((data as StatusMessageType).message);
     }
   };
 

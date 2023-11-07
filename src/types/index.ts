@@ -4,29 +4,42 @@ export type InputSchemeType = {
   [key: string]: { value: string; isRequired: boolean };
 };
 
-export type PayloadType = { [key: string]: unknown };
+export type LoginPayloadType = { body: { email: string; password: string } };
 
-export type LoginBodyType = { email: string; password: string };
+export type RegisterPayloadType = {
+  body: { email: string; name: string; password: string };
+};
 
-export type RegisterBodyType = { email: string; name: string; password: string };
-
-export type MessageType = { message: string };
+export type StatusMessageType = { message: string };
 
 export type UserType = {
   email: string;
-  id?: string;
+  id: string;
   name: string;
   password?: string;
 };
 
-export type DataType = MessageType | UserType;
+export type ChatMessageType = {
+  role: string;
+  content: string;
+  time?: number;
+};
 
-export type ResultType = [boolean, DataType];
+export type ConversationType = {
+  id: string;
+  messages: ChatMessageType[];
+  userId: string;
+};
 
-export type ResponseType = { status: number; data: DataType };
+export type ResultType<DataType> = [boolean, DataType | StatusMessageType];
 
-export type RequestType = {
-  apiRequest: (payload: PayloadType) => Promise<ResponseType>;
+export type ResponseType<DataType> = {
+  status: number;
+  data: DataType | StatusMessageType;
+};
+
+export type RequestType<PayloadType, DataType> = {
+  apiRequest: (payload: PayloadType) => Promise<ResponseType<DataType>>;
   payload: PayloadType;
   successCode: number;
   successFn: (data: DataType) => void | Promise<void>;
@@ -34,9 +47,9 @@ export type RequestType = {
 
 export type MainContextType = {
   isLoading: boolean;
-  login: (payload: PayloadType) => Promise<ResultType>;
+  login: (payload: LoginPayloadType) => Promise<ResultType<UserType>>;
   logout: () => void;
-  register: (payload: PayloadType) => Promise<ResultType>;
+  register: (payload: RegisterPayloadType) => Promise<ResultType<UserType>>;
   user: null | UserType;
 };
 

@@ -7,9 +7,9 @@ import api from '@/api';
 import { statusCodes } from '@/utils';
 
 import type {
-  DataType,
+  LoginPayloadType,
   MainContextType,
-  PayloadType,
+  RegisterPayloadType,
   RequestType,
   ResultType,
   UserType,
@@ -24,19 +24,19 @@ export function MainProvider({ children }: { children: ReactNode }) {
 
   // Generic function that prepares a request.
   // If successful, execute the passed function, otherwise show an error message.
-  const makeRequest = async ({
+  async function makeRequest<PayloadType, DataType>({
     apiRequest,
     payload,
     successCode,
     successFn,
-  }: RequestType): Promise<ResultType> => {
+  }: RequestType<PayloadType, DataType>): Promise<ResultType<DataType>> {
     setIsLoading(true);
 
     try {
       const { status, data } = await apiRequest({ ...payload });
 
       if (status === successCode) {
-        await successFn(data);
+        await successFn(data as DataType);
         return [true, data];
       }
 
@@ -46,12 +46,12 @@ export function MainProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   // Request functions
-  const login = async (payload: PayloadType) => {
-    const successFn = (data: DataType) => {
-      setUser(data as UserType);
+  const login = async (payload: LoginPayloadType) => {
+    const successFn = (data: UserType) => {
+      setUser(data);
       const expirationTime = new Date().getTime() + 60 * 60 * 1000;
       const dataWithExpiration = { ...data, expirationTime };
       localStorage.setItem('session', JSON.stringify(dataWithExpiration));
@@ -64,11 +64,11 @@ export function MainProvider({ children }: { children: ReactNode }) {
       successFn,
     };
 
-    return makeRequest(options);
+    return makeRequest<LoginPayloadType, UserType>(options);
   };
 
-  const register = async (payload: PayloadType) => {
-    const successFn = async (data: DataType) => {
+  const register = async (payload: RegisterPayloadType) => {
+    const successFn = async (data: UserType) => {
       login(payload);
     };
 
@@ -79,7 +79,7 @@ export function MainProvider({ children }: { children: ReactNode }) {
       successFn,
     };
 
-    return makeRequest(options);
+    return makeRequest<RegisterPayloadType, UserType>(options);
   };
 
   // Other functions
