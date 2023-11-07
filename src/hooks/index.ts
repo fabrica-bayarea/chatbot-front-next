@@ -1,4 +1,5 @@
+import useChatContext from './useChatContext';
 import useMainContext from './useMainContext';
 import useValidation from './useValidation';
 
-export { useMainContext, useValidation };
+export { useChatContext, useMainContext, useValidation };

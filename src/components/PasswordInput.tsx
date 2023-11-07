@@ -4,7 +4,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, MainInput } from './styled';
-import type { PasswordInputProps } from '@/types';
 
 const Container = styled.div`
   position: relative;
@@ -23,7 +22,7 @@ const Container = styled.div`
   }
 `;
 
-function PasswordInput({ name, ...attributes }: PasswordInputProps) {
+function PasswordInput({ name, ...attributes }: { name: string }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (

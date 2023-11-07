@@ -1,3 +1,4 @@
+import ChatContext, { ChatProvider } from './ChatContext';
 import MainContext, { MainProvider } from './MainContext';
 
-export { MainContext, MainProvider };
+export { ChatContext, ChatProvider, MainContext, MainProvider };

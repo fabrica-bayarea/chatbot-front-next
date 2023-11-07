@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
 
 import api from '@/api';
 import { statusCodes } from '@/utils';
@@ -15,21 +15,22 @@ import type {
   UserType,
 } from '@/types';
 
-const MainContext = createContext<MainContextType | undefined>(undefined);
+const MainContext = createContext<undefined | MainContextType>(undefined);
 
 export function MainProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<null | UserType>(null);
 
   // Generic function that prepares a request.
   // If successful, execute the passed function, otherwise show an error message.
-  async function makeRequest<PayloadType, DataType>({
+  const makeRequest = async <PayloadType, DataType>({
     apiRequest,
     payload,
     successCode,
     successFn,
-  }: RequestType<PayloadType, DataType>): Promise<ResultType<DataType>> {
+  }: RequestType<PayloadType, DataType>): Promise<ResultType<DataType>> => {
     setIsLoading(true);
 
     try {
@@ -46,7 +47,7 @@ export function MainProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   // Request functions
   const login = async (payload: LoginPayloadType) => {
@@ -83,11 +84,11 @@ export function MainProvider({ children }: { children: ReactNode }) {
   };
 
   // Other functions
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
     localStorage.removeItem('session');
     router.push('/login');
-  };
+  }, [router]);
 
   useEffect(() => {
     const localSession = localStorage.getItem('session');
@@ -100,12 +101,12 @@ export function MainProvider({ children }: { children: ReactNode }) {
       if (currentTime > parsedSession.expirationTime) {
         logout();
       }
-    } else {
+    } else if (pathname === '/') {
       router.push('/login');
     }
-  }, []);
+  }, [logout, pathname, router]);
 
-  const shared = { isLoading, login, logout, register, user };
+  const shared = { isLoading, login, logout, makeRequest, register, user };
 
   return <MainContext.Provider value={{ ...shared }}>{children}</MainContext.Provider>;
 }

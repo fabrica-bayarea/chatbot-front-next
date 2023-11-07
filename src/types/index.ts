@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 export type InputSchemeType = {
   [key: string]: { value: string; isRequired: boolean };
@@ -22,7 +22,7 @@ export type UserType = {
 export type ChatMessageType = {
   role: string;
   content: string;
-  time?: number;
+  time: number;
 };
 
 export type ConversationType = {
@@ -49,8 +49,23 @@ export type MainContextType = {
   isLoading: boolean;
   login: (payload: LoginPayloadType) => Promise<ResultType<UserType>>;
   logout: () => void;
+  makeRequest: <PayloadType, DataType>({
+    apiRequest,
+    payload,
+    successCode,
+    successFn,
+  }: RequestType<PayloadType, DataType>) => Promise<ResultType<DataType>>;
   register: (payload: RegisterPayloadType) => Promise<ResultType<UserType>>;
   user: null | UserType;
+};
+
+export type ChatContextType = {
+  messages: ChatMessageType[];
+  history: ConversationType[];
+  setHistory: Dispatch<SetStateAction<ConversationType[]>>;
+  changeConversation: (id: null | string, messages: ChatMessageType[]) => void;
+  deleteConversation: (payload: { id: string }) => Promise<ResultType<{}>>;
+  getHistory: () => Promise<ResultType<ConversationType[]>>;
 };
 
 export type InputGroupProps = {
@@ -60,8 +75,4 @@ export type InputGroupProps = {
   placeholder?: string;
   type: string;
   value?: string;
-};
-
-export type PasswordInputProps = {
-  name: string;
 };
