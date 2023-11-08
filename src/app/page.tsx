@@ -32,7 +32,7 @@ function Home() {
           <span>Olá, {user?.name}! 👋</span>
           <Dropdown showFn={setShowHistory} />
         </header>
-        <div>{showHistory ? <History showFn={setShowHistory} /> : <Chat />}</div>
+        <div>{showHistory ? <History showFn={setShowHistory} /> : <div></div>}</div>
       </HomeSection>
     </Main>
   );

@@ -2,20 +2,31 @@ import PasswordInput from './PasswordInput';
 import { MainInput, Label } from './styled';
 import type { InputGroupProps } from '@/types';
 
-function InputGroup({ label, name, type = 'text', ...attributes }: InputGroupProps) {
+function InputGroup({ name, scheme, type, ...attributes }: InputGroupProps) {
   // Render functions
   const renderInput = () => {
     if (type === 'password') {
-      return <PasswordInput name={name} {...attributes} />;
+      return <PasswordInput name={name} value={scheme.value} {...attributes} />;
     } else {
-      return <MainInput type={type} id={`${name}-input`} name={name} {...attributes} />;
+      return (
+        <MainInput
+          type={type}
+          id={`${name}-input`}
+          name={name}
+          value={scheme.value}
+          {...attributes}
+        />
+      );
     }
   };
 
   // Main render
   return (
     <Label htmlFor={`${name}-input`}>
-      <span>{label}</span>
+      <span>
+        {scheme.label}
+        {scheme.isRequired && ' *'}
+      </span>
       {renderInput()}
     </Label>
   );

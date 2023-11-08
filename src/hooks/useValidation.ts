@@ -2,14 +2,21 @@ import { useEffect, useState } from 'react';
 
 import type { InputSchemeType } from '@/types';
 
-function useValidation(inputs: InputSchemeType) {
+function useValidation(inputs: { [key: string]: InputSchemeType }) {
   const [validation, setValidation] = useState<boolean | string>(false);
 
   useEffect(() => {
     const runValidations = () => {
+      if (Object.values(inputs).every((input) => input.value === '')) {
+        return false;
+      }
+
       for (let key in inputs) {
         const { value, isRequired } = inputs[key];
-        if (value === '' && isRequired) return false;
+
+        if (value === '' && isRequired) {
+          return `O campo '${inputs[key].label.toLowerCase()}' é obrigatório.`;
+        }
 
         switch (key) {
           case 'email':

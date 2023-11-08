@@ -11,12 +11,13 @@ const Form = styled.form`
   width: 100%;
 
   & > div {
-    color: var(--clr-red);
     height: 50px;
-    text-align: center;
 
-    svg {
-      margin-right: 10px;
+    & > span {
+      align-items: center;
+      color: var(--clr-red);
+      display: flex;
+      gap: 10px;
     }
   }
 

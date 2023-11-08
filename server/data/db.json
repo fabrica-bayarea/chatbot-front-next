@@ -11,18 +11,16 @@
     {
       "id": "JOxCER6",
       "messages": [
-        [
-          {
-            "role": "user",
-            "content": "Quais as cores da bandeira do Brasil?",
-            "time": 1699123767736
-          },
-          {
-            "role": "assistant",
-            "content": "Verde, amarelo, azul e branco.",
-            "time": 1699123799775
-          }
-        ]
+        {
+          "role": "user",
+          "content": "Quais as cores da bandeira do Brasil?",
+          "time": 1699123767736
+        },
+        {
+          "role": "assistant",
+          "content": "Verde, amarelo, azul e branco.",
+          "time": 1699123799775
+        }
       ],
       "userId": "GOFTHdb"
     }

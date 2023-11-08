@@ -1,7 +1,6 @@
 'use client';
 
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
@@ -11,9 +10,9 @@ import { MainButton, Form, Main, Section } from '@/components/styled';
 import { useMainContext, useValidation } from '@/hooks';
 import type { InputSchemeType, StatusMessageType } from '@/types';
 
-const inputScheme: InputSchemeType = {
-  email: { value: '', isRequired: true },
-  password: { value: '', isRequired: true },
+const inputScheme: { [key: string]: InputSchemeType } = {
+  email: { isRequired: true, label: 'E-mail', value: '' },
+  password: { isRequired: true, label: 'Senha', value: '' },
 };
 
 function Login() {
@@ -66,25 +65,28 @@ function Login() {
         <div>
           <Form onSubmit={handleSubmit}>
             <InputGroup
-              type="email"
+              type="text"
               name="email"
-              value={inputs.email.value}
               onChange={handleChange}
               placeholder="Digite seu e-mail..."
-              label="E-mail *"
+              scheme={inputs.email}
             />
             <InputGroup
               type="password"
               name="password"
-              value={inputs.password.value}
               onChange={handleChange}
               placeholder="Digite sua senha..."
-              label="Senha *"
+              scheme={inputs.password}
             />
             <div>
               {statusMessage && (
                 <span>
-                  <FontAwesomeIcon icon={faCircleExclamation} />
+                  <Image
+                    src="/circle_exclamation.svg"
+                    height={16}
+                    width={16}
+                    alt="Exclamation icon"
+                  />
                   {statusMessage}
                 </span>
               )}

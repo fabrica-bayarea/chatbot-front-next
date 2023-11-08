@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, createContext, useState } from 'react';
+import { ReactNode, createContext, useCallback, useState } from 'react';
 
 import api from '@/api';
 import { useMainContext } from '@/hooks';
@@ -37,25 +37,28 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     return makeRequest<{ id: string }, {}>(options);
   };
 
-  const getHistory = async () => {
+  //
+  // useCallback is mandatory to avoid infinite renders
+  const getHistory = useCallback(async () => {
     const successFn = (data: ConversationType[]) => {
       const sortedData = data.sort((a, b) => {
         const timeA = a.messages[a.messages.length - 1].time;
         const timeB = b.messages[b.messages.length - 1].time;
         return timeB - timeA;
       });
+
       setHistory(sortedData);
     };
 
     const options = {
       apiRequest: api.fetchConversations,
-      payload: { userId: (user as UserType).id },
+      payload: { userId: (user as UserType)?.id },
       successCode: statusCodes.OK,
       successFn,
     };
 
     return makeRequest<{ userId: string }, ConversationType[]>(options);
-  };
+  }, [makeRequest, user]);
 
   //   const getReply = useCallback(
   //     async (content) => {

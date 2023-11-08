@@ -1,5 +1,4 @@
-import { faCheck, faClose, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -14,7 +13,8 @@ const Container = styled.div`
 
   & > button {
     font-size: 1em;
-    opacity: 0.4;
+    opacity: 0.25;
+    transition: opacity 200ms ease;
 
     &:hover {
       opacity: 1;
@@ -36,7 +36,7 @@ function TrashButton({ conversationId }: { conversationId: string }) {
             deleteConversation({ id: conversationId });
           }}
         >
-          <FontAwesomeIcon icon={faCheck} />
+          <Image src="check.svg" height={20} width={20} alt="Check icon" />
         </IconButton>
         <IconButton
           type="button"
@@ -45,7 +45,7 @@ function TrashButton({ conversationId }: { conversationId: string }) {
             setShowConfirmation(false);
           }}
         >
-          <FontAwesomeIcon icon={faClose} />
+          <Image src="xmark.svg" height={20} width={20} alt="Cancel icon" />
         </IconButton>
       </Container>
     );
@@ -60,7 +60,7 @@ function TrashButton({ conversationId }: { conversationId: string }) {
           setShowConfirmation(true);
         }}
       >
-        <FontAwesomeIcon icon={faTrash} />
+        <Image src="trash.svg" height={16} width={16} alt="Trash icon" />
       </IconButton>
     </Container>
   );

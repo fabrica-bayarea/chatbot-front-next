@@ -1,7 +1,9 @@
-import type { Metadata } from 'next';
 import { ReactNode } from 'react';
+import type { Metadata } from 'next';
 
-import { MainProvider } from '@/context';
+import { ChatProvider, MainProvider } from '@/context';
+import StyledComponentsRegistry from '@/lib/registry';
+
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -11,10 +13,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <MainProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </MainProvider>
+    <html lang="en">
+      <body>
+        <MainProvider>
+          <ChatProvider>
+            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          </ChatProvider>
+        </MainProvider>
+      </body>
+    </html>
   );
 }
