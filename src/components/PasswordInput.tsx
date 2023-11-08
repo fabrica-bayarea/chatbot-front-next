@@ -1,5 +1,4 @@
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -22,7 +21,7 @@ const Container = styled.div`
   }
 `;
 
-function PasswordInput({ name, ...attributes }: { name: string }) {
+function PasswordInput({ name, value, ...attributes }: { name: string; value: string }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -31,10 +30,16 @@ function PasswordInput({ name, ...attributes }: { name: string }) {
         type={showPassword ? 'text' : 'password'}
         id={`${name}-input`}
         name={name}
+        value={value}
         {...attributes}
       />
       <Button type="button" onClick={() => setShowPassword(!showPassword)}>
-        <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+        <Image
+          src={showPassword ? '/visibility.svg' : '/visibility_off.svg'}
+          height={16}
+          width={16}
+          alt="Visibility icon"
+        />
       </Button>
     </Container>
   );

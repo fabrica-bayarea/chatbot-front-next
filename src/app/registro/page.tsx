@@ -1,7 +1,6 @@
 'use client';
 
-import { faChevronLeft, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
@@ -11,11 +10,11 @@ import { IconButton, MainButton, Form, Main, Section } from '@/components/styled
 import { useMainContext, useValidation } from '@/hooks';
 import type { InputSchemeType, StatusMessageType } from '@/types';
 
-const inputScheme: InputSchemeType = {
-  email: { value: '', isRequired: true },
-  name: { value: '', isRequired: true },
-  password: { value: '', isRequired: true },
-  confirmation: { value: '', isRequired: true },
+const inputScheme: { [key: string]: InputSchemeType } = {
+  email: { isRequired: true, label: 'E-mail', value: '' },
+  name: { isRequired: true, label: 'Nome', value: '' },
+  password: { isRequired: true, label: 'Senha', value: '' },
+  confirmation: { isRequired: true, label: 'Confirmação de senha', value: '' },
 };
 
 function Register() {
@@ -66,47 +65,53 @@ function Register() {
         <header>
           <h2>Registro</h2>
           <IconButton type="button" onClick={() => router.push('/login')} $bg={'white'}>
-            <FontAwesomeIcon icon={faChevronLeft} />
+            <Image
+              src="/chevron_left.svg"
+              height={24}
+              width={24}
+              alt="Chevron left icon"
+            />
           </IconButton>
         </header>
         <div>
           <Form onSubmit={handleSubmit}>
             <InputGroup
-              type="email"
+              type="text"
               name="email"
-              value={inputs.email.value}
               onChange={handleChange}
               placeholder="Digite seu e-mail..."
-              label="E-mail *"
+              scheme={inputs.email}
             />
             <InputGroup
               type="text"
               name="name"
-              value={inputs.name.value}
               onChange={handleChange}
               placeholder="Digite seu nome..."
-              label="Primeiro nome *"
+              scheme={inputs.name}
             />
             <InputGroup
               type="password"
               name="password"
-              value={inputs.password.value}
               onChange={handleChange}
               placeholder="Digite uma senha..."
-              label="Senha *"
+              scheme={inputs.password}
             />
             <InputGroup
               type="password"
               name="confirmation"
-              value={inputs.confirmation.value}
               onChange={handleChange}
               placeholder="Confirme sua senha..."
-              label="Confirmação de senha *"
+              scheme={inputs.confirmation}
             />
             <div>
               {statusMessage && (
                 <span>
-                  <FontAwesomeIcon icon={faCircleExclamation} />
+                  <Image
+                    src="/circle_exclamation.svg"
+                    height={16}
+                    width={16}
+                    alt="Exclamation icon"
+                  />
                   {statusMessage}
                 </span>
               )}

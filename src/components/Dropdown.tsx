@@ -1,5 +1,4 @@
-import { faBars, faClose } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
@@ -50,18 +49,25 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   // Listen for click events outside the button to close the menu
   useEffect(() => {
     const handleOutsideClick = () => {
-      setIsVisible(false);
+      if (isVisible) {
+        setIsVisible(false);
+      }
     };
 
     document.addEventListener('click', handleOutsideClick);
 
     return () => document.removeEventListener('click', handleOutsideClick);
-  }, []);
+  }, [isVisible]);
 
   return (
     <Container>
       <ToggleButton type="button" onClick={() => setIsVisible(!isVisible)}>
-        <FontAwesomeIcon icon={isVisible ? faClose : faBars} />
+        <Image
+          src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
+          height={30}
+          width={30}
+          alt="Menu icon"
+        />
       </ToggleButton>
       <Navigation $visibility={isVisible}>
         <DropdownButton

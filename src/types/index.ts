@@ -1,8 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
-export type InputSchemeType = {
-  [key: string]: { value: string; isRequired: boolean };
-};
+export type InputSchemeType = { isRequired: boolean; label: string; value: string };
 
 export type LoginPayloadType = { body: { email: string; password: string } };
 
@@ -69,10 +67,10 @@ export type ChatContextType = {
 };
 
 export type InputGroupProps = {
-  label: string;
   name: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  scheme: InputSchemeType;
   type: string;
   value?: string;
 };
