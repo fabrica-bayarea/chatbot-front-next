@@ -7,7 +7,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "lint:style": "stylelint '**/*.{css,ts,tsx}'",
-    "server": "json-server --watch ./server/data/db.json --routes ./server/routes/routes.json --middlewares ./server/middlewares/login.js",
+    "server": "json-server --watch ./server/data/db.json",
     "start": "next start"
   },
   "dependencies": {

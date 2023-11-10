@@ -1,22 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
-export type InputSchemeType = { isRequired: boolean; label: string; value: string };
-
-export type LoginPayloadType = { body: { email: string; password: string } };
-
-export type RegisterPayloadType = {
-  body: { email: string; name: string; password: string };
-};
-
-export type StatusMessageType = { message: string };
-
-export type UserType = {
-  email: string;
-  id: string;
-  name: string;
-  password?: string;
-};
-
 export type ChatMessageType = {
   role: string;
   content: string;
@@ -28,6 +11,27 @@ export type ConversationType = {
   messages: ChatMessageType[];
   userId: string;
 };
+
+export type FeedbackType = undefined | 'good' | 'poor';
+
+export type InputSchemeType = { isRequired: boolean; label: string; value: string };
+
+export type StatusMessageType = { message: string };
+
+export type UserType = {
+  email: string;
+  id: string;
+  name: string;
+  password?: string;
+};
+
+export type LoginPayloadType = { body: { email: string; password: string } };
+
+export type RegisterPayloadType = {
+  body: { email: string; name: string; password: string };
+};
+
+export type ReplyPayloadType = { body: ConversationType };
 
 export type ResultType<DataType> = [boolean, DataType | StatusMessageType];
 
@@ -58,12 +62,13 @@ export type MainContextType = {
 };
 
 export type ChatContextType = {
-  messages: ChatMessageType[];
-  history: ConversationType[];
-  setHistory: Dispatch<SetStateAction<ConversationType[]>>;
-  changeConversation: (id: null | string, messages: ChatMessageType[]) => void;
+  changeConversation: (id: string, messages: ChatMessageType[]) => void;
   deleteConversation: (payload: { id: string }) => Promise<ResultType<{}>>;
   getHistory: () => Promise<ResultType<ConversationType[]>>;
+  getReply: (payload: { content: string }) => Promise<ResultType<ConversationType>>;
+  history: ConversationType[];
+  messages: ChatMessageType[];
+  setHistory: Dispatch<SetStateAction<ConversationType[]>>;
 };
 
 export type InputGroupProps = {

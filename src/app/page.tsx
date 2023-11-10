@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { Chat, Dropdown, History, Logo } from '@/components';
 import { Main, Section } from '@/components/styled';
+import { ChatProvider } from '@/context';
 import { useMainContext } from '@/hooks';
 import { devices } from '@/utils';
 
@@ -25,16 +26,18 @@ function Home() {
   const [showHistory, setShowHistory] = useState(false);
 
   return (
-    <Main>
-      <Logo />
-      <HomeSection>
-        <header>
-          <span>Olá, {user?.name}! 👋</span>
-          <Dropdown showFn={setShowHistory} />
-        </header>
-        <div>{showHistory ? <History showFn={setShowHistory} /> : <div></div>}</div>
-      </HomeSection>
-    </Main>
+    <ChatProvider>
+      <Main>
+        <Logo />
+        <HomeSection>
+          <header>
+            <span>Olá, {user?.name}! 👋</span>
+            <Dropdown showFn={setShowHistory} />
+          </header>
+          <div>{showHistory ? <History showFn={setShowHistory} /> : <Chat />}</div>
+        </HomeSection>
+      </Main>
+    </ChatProvider>
   );
 }
 

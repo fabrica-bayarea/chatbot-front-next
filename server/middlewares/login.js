@@ -1,13 +1,14 @@
-const fs = require('fs');
+const config = require('../../json-server.json');
 
-module.exports = function (req, res, next) {
-  if (req.path === '/login') {
-    const buffer = fs.readFileSync('./server/data/db.json');
-    const db = JSON.parse(buffer.toString('utf8'));
-    const { email, password } = req.body;
-    const user = db.users.find((user) => user.email === email);
+const URL = `http://localhost:${config.port}`;
 
-    if (user && user.password === password) {
+module.exports = async function ({ body, path }, res, next) {
+  if (path === '/login') {
+    // Check if the user exists and if the password is valid
+    const data = await fetch(`${URL}/users?email=${body.email}`);
+    const [user] = await data.json();
+
+    if (user && user.password === body.password) {
       return res.status(200).json({ user });
     }
 

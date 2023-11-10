@@ -65,9 +65,7 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
 
   useEffect(() => {
     getHistory();
-
-    return () => setHistory([]);
-  }, [getHistory, setHistory]);
+  }, []);
 
   if (isLoading) {
     return <BeatLoader color="lightgray" size={12} />;
@@ -97,7 +95,7 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
               <span>({messages.length} mensagens)</span>
               <span>{messages[0].content}</span>
             </ItemDetails>
-            <TrashButton conversationId={id} />
+            <TrashButton id={id} />
           </ListItem>
         );
       })}

@@ -22,7 +22,7 @@ const Container = styled.div`
   }
 `;
 
-function TrashButton({ conversationId }: { conversationId: string }) {
+function TrashButton({ id }: { id: string }) {
   const { deleteConversation } = useChatContext();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -33,7 +33,7 @@ function TrashButton({ conversationId }: { conversationId: string }) {
           type="button"
           onClick={(event) => {
             event.stopPropagation();
-            deleteConversation({ id: conversationId });
+            deleteConversation({ id });
           }}
         >
           <Image src="check.svg" height={20} width={20} alt="Check icon" />

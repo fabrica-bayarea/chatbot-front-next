@@ -44,7 +44,7 @@ function Register() {
     const [success, data] = await register({ body });
 
     if (success) {
-      router.push('/');
+      router.push('/login');
     } else {
       setStatusMessage((data as StatusMessageType).message);
     }

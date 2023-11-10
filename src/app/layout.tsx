@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 
-import { ChatProvider, MainProvider } from '@/context';
+import { MainProvider } from '@/context';
 import StyledComponentsRegistry from '@/lib/registry';
 
 import './globals.css';
@@ -16,9 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body>
         <MainProvider>
-          <ChatProvider>
-            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-          </ChatProvider>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </MainProvider>
       </body>
     </html>

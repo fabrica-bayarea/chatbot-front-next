@@ -69,9 +69,7 @@ export function MainProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (payload: RegisterPayloadType) => {
-    const successFn = async (data: UserType) => {
-      login(payload);
-    };
+    const successFn = async (data: UserType) => {};
 
     const options = {
       apiRequest: api.createUser,

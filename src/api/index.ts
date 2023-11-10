@@ -2,34 +2,18 @@ import {
   ConversationType,
   LoginPayloadType,
   RegisterPayloadType,
+  ReplyPayloadType,
   ResponseType,
-  StatusMessageType,
   UserType,
 } from '@/types';
 
-const URL = 'http://localhost:3001';
+const URL = 'http://localhost:3100';
 
 const api = {
-  async fakeRequest() {
-    return new Promise<ResponseType<StatusMessageType>>((resolve, reject) => {
-      setTimeout(() => {
-        const randomValue = Math.random();
-
-        if (randomValue < 0.5) {
-          resolve({ status: 200, data: { message: 'Sucesso!' } });
-        } else {
-          reject({ status: 500, data: { message: 'Algo deu errado!' } });
-        }
-      }, 3000);
-    });
-  },
-
   async createUser({ body }: RegisterPayloadType): Promise<ResponseType<UserType>> {
     const response = await fetch(`${URL}/users`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
 
@@ -44,6 +28,7 @@ const api = {
     });
 
     const data = await response.json();
+
     return { status: response.status, data };
   },
 
@@ -58,14 +43,22 @@ const api = {
     return { status: response.status, data };
   },
 
-  // async fetchReply({ messages }) {},
+  async fetchReply({ body }: ReplyPayloadType): Promise<ResponseType<ConversationType>> {
+    const response = await fetch(`${URL}/reply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    return { status: response.status, data };
+  },
 
   async login({ body }: LoginPayloadType): Promise<ResponseType<UserType>> {
     const response = await fetch(`${URL}/login`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
 

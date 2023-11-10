@@ -17,7 +17,7 @@ const ChatContext = createContext<undefined | ChatContextType>(undefined);
 
 export function ChatProvider({ children }: { children: ReactNode }) {
   const { makeRequest, user } = useMainContext();
-  const [conversationId, setConversationId] = useState<null | string>(null);
+  const [conversationId, setConversationId] = useState('');
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [history, setHistory] = useState<ConversationType[]>([]);
 
@@ -52,7 +52,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
     const options = {
       apiRequest: api.fetchConversations,
-      payload: { userId: (user as UserType)?.id },
+      payload: { userId: (user as UserType).id },
       successCode: statusCodes.OK,
       successFn,
     };
@@ -60,43 +60,56 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     return makeRequest<{ userId: string }, ConversationType[]>(options);
   }, [makeRequest, user]);
 
-  //   const getReply = useCallback(
-  //     async (content) => {
-  //       const newMessages = messages.concat({
-  //         role: 'user',
-  //         content,
-  //         time: new Date().getTime(),
-  //       });
+  const getReply = useCallback(
+    async (payload: { content: string }) => {
+      const newMessages = messages.concat({
+        role: 'user',
+        content: payload.content,
+        time: new Date().getTime(),
+      });
 
-  //       setMessages(newMessages);
-  //       const body = { conversationId, userId: user.id, messages: newMessages };
+      setMessages(newMessages);
 
-  //       const successFn = (data) => {
-  //         if (!conversationId) {
-  //           setConversationId(data.conversationId);
-  //         }
-  //         setMessages(data.messages);
-  //       };
+      const body = {
+        id: conversationId,
+        messages: newMessages,
+        userId: (user as UserType).id,
+      };
 
-  //       return makeRequest(api.fetchReply, { body }, statusCodes.OK, successFn);
-  //     },
-  //     [conversationId, makeRequest, messages, user?.id]
-  //   );
+      const successFn = (data: ConversationType) => {
+        if (!conversationId) {
+          setConversationId(data.id);
+        }
+
+        setMessages(data.messages);
+      };
+
+      const options = {
+        apiRequest: api.fetchReply,
+        payload: { body },
+        successCode: statusCodes.OK,
+        successFn,
+      };
+
+      return makeRequest<{ body: ConversationType }, ConversationType>(options);
+    },
+    [conversationId, makeRequest, messages, user]
+  );
 
   // Other functions
-  const changeConversation = (id: null | string, messages: ChatMessageType[]) => {
+  const changeConversation = (id: string, messages: ChatMessageType[]) => {
     setConversationId(id);
     setMessages(messages);
   };
 
   const shared = {
-    messages,
-    history,
-    setHistory,
     changeConversation,
     deleteConversation,
     getHistory,
-    // getReply,
+    getReply,
+    history,
+    messages,
+    setHistory,
   };
 
   return <ChatContext.Provider value={{ ...shared }}>{children}</ChatContext.Provider>;
