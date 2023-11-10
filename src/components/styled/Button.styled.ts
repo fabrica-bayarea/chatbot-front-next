@@ -22,12 +22,12 @@ const DialogButton = styled(Button)`
   min-width: 60px;
   padding: 10px;
 
-  &:hover:not(:disabled) {
-    background-color: var(--clr-c);
-  }
-
   &:disabled {
     opacity: 0.4;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--clr-c);
   }
 `;
 

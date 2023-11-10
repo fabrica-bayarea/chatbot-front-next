@@ -14,7 +14,7 @@ const Container = styled.div`
   button {
     aspect-ratio: 2 / 1;
     position: absolute;
-    right: 0px;
+    right: 0;
     top: 50%;
     transform: translate(0, -50%);
     width: 40px;
