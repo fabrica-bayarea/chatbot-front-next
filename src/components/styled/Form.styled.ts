@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { devices } from '@/utils';
+import { mediaQueries } from '@/utils';
 
 const Form = styled.form`
   align-items: center;
@@ -21,7 +21,7 @@ const Form = styled.form`
     }
   }
 
-  @media ${devices.mobileL} {
+  ${mediaQueries.mobileL} {
     padding: 40px 20px 0;
   }
 `;

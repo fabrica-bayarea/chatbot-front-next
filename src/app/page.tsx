@@ -7,14 +7,14 @@ import { Chat, Dropdown, History, Logo } from '@/components';
 import { Main, Section } from '@/components/styled';
 import { ChatProvider } from '@/context';
 import { useMainContext } from '@/hooks';
-import { devices } from '@/utils';
+import { mediaQueries } from '@/utils';
 
 const HomeSection = styled(Section)`
   & > div {
     height: 600px;
   }
 
-  @media ${devices.laptopS} {
+  ${mediaQueries.laptopS} {
     & > div {
       height: 500px;
     }

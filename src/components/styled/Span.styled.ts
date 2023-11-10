@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 
-const ChatMessage = styled.span`
+import type { ChatMessageProps } from '@/types';
+
+const ChatMessage = styled.span<ChatMessageProps>`
   --r: 5px;
 
   line-height: 20px;
@@ -34,6 +36,15 @@ const ChatMessage = styled.span`
     `}
 
   ${(props) =>
+    props.$role === 'error' &&
+    css`
+      align-self: center;
+      background-color: var(--clr-light-red);
+      border-radius: var(--r);
+      padding: 8px;
+    `}
+
+  ${(props) =>
     props.$role === 'suggestion' &&
     css`
       align-self: flex-end;
@@ -52,15 +63,6 @@ const ChatMessage = styled.span`
       align-self: flex-end;
       background-color: var(--clr-lighter-gray);
       border-radius: var(--r) var(--r) 0 var(--r);
-    `}
-
-    ${(props) =>
-    props.$role === 'error' &&
-    css`
-      align-self: center;
-      background-color: var(--clr-light-red);
-      border-radius: var(--r);
-      padding: 8px;
     `}
 `;
 

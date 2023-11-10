@@ -17,7 +17,7 @@ const ToggleButton = styled(IconButton)`
   z-index: 100;
 `;
 
-const Navigation = styled.nav`
+const Navigation = styled.nav<{ $visibility: boolean }>`
   border: 1px solid var(--clr-c);
   box-shadow: 0 0 2px 0 rgb(0 0 0 / 20%);
   display: flex;
@@ -73,7 +73,7 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
         <DropdownButton
           type="button"
           onClick={() => {
-            changeConversation(null, []);
+            changeConversation('', []);
             showFn(false);
           }}
         >

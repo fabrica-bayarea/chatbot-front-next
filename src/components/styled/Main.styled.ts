@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { devices } from '@/utils';
+import { mediaQueries } from '@/utils';
 
 const Main = styled.main`
   align-items: center;
@@ -9,16 +9,16 @@ const Main = styled.main`
   justify-content: space-evenly;
   min-height: 100vh;
 
-  @media ${devices.laptopS} {
+  ${mediaQueries.laptopS} {
     flex-direction: column;
     justify-content: flex-start;
   }
 
-  @media ${devices.mobileL} {
+  ${mediaQueries.mobileL} {
     padding: 0 10px 20px;
   }
 
-  @media ${devices.mobileM} {
+  ${mediaQueries.mobileM} {
     font-size: 0.9rem;
   }
 `;

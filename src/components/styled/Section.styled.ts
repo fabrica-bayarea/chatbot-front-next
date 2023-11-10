@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { devices } from '@/utils';
+import { mediaQueries } from '@/utils';
 
 const Section = styled.section`
   --r: 20px;
@@ -41,7 +41,7 @@ const Section = styled.section`
     padding-bottom: 40px;
   }
 
-  @media ${devices.mobileL} {
+  ${mediaQueries.mobileL} {
     width: 100%;
 
     & > header {
@@ -49,7 +49,7 @@ const Section = styled.section`
     }
   }
 
-  /* @media ${devices.mobileS} {
+  /* ${mediaQueries.mobileS} {
     & > header {
       & > span {
         font-size: 1.2em;

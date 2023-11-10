@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Feedback from './Feedback';
 import { IconButton, Form, ChatInput, ChatMessage } from './styled';
 import { useChatContext, useMainContext } from '@/hooks';
-import { devices } from '@/utils';
+import { mediaQueries } from '@/utils';
 
 const Container = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ const Conversation = styled.div`
     background-color: var(--clr-c);
   }
 
-  @media ${devices.mobileL} {
+  ${mediaQueries.mobileL} {
     padding: 40px 10px 0;
   }
 `;
@@ -50,7 +50,7 @@ const SendButton = styled(IconButton)`
   position: absolute;
   right: -30px;
 
-  @media ${devices.mobileL} {
+  ${mediaQueries.mobileL} {
     right: 10px;
   }
 `;

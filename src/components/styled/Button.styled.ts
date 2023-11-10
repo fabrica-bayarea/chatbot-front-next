@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import type { IconButtonProps } from '@/types';
+
 const Button = styled.button`
   align-items: center;
   background-color: transparent;
@@ -43,13 +45,12 @@ const DropdownButton = styled(Button)`
   }
 `;
 
-const IconButton = styled(Button)`
+const IconButton = styled(Button)<IconButtonProps>`
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   color: ${(props) => props.$color || 'var(--clr-dark)'};
   font-size: 1.5em;
   height: 40px;
-  scale: ${(props) => props.$scale || 1};
 
   ${(props) =>
     props.$bg === 'white' &&

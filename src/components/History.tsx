@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import TrashButton from './TrashButton';
 import { useChatContext, useMainContext } from '@/hooks';
-import { devices } from '@/utils';
+import { mediaQueries } from '@/utils';
 
 const List = styled.ul`
   display: flex;
@@ -35,7 +35,7 @@ const ListItem = styled.li`
     background-color: var(--clr-light);
   }
 
-  @media ${devices.mobileL} {
+  ${mediaQueries.mobileL} {
     padding: 20px 0 20px 20px;
   }
 `;

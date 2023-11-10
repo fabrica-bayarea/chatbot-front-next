@@ -64,7 +64,7 @@ function Register() {
       <Section>
         <header>
           <h2>Registro</h2>
-          <IconButton type="button" onClick={() => router.push('/login')} $bg={'white'}>
+          <IconButton type="button" onClick={() => router.push('/login')} $bg="white">
             <Image
               src="/chevron_left.svg"
               height={24}

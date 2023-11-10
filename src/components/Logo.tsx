@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { devices } from '@/utils';
+import { mediaQueries } from '@/utils';
 
 const Container = styled.div`
   align-items: center;
@@ -10,7 +10,7 @@ const Container = styled.div`
   gap: 20px;
   scale: 1.2;
 
-  @media ${devices.laptopS} {
+  ${mediaQueries.laptopS} {
     scale: 0.8;
   }
 `;

@@ -1,4 +1,4 @@
-import devices, { screenSizes } from './devices';
+import mediaQueries, { screenSizes } from './mediaQueries';
 import statusCodes from './statusCodes';
 
-export { devices, screenSizes, statusCodes };
+export { mediaQueries, screenSizes, statusCodes };

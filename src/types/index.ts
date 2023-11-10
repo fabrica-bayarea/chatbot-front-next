@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 export type ChatMessageType = {
-  role: string;
+  role: 'assistant' | 'user';
   content: string;
   time: number;
 };
@@ -78,4 +78,13 @@ export type InputGroupProps = {
   scheme: InputSchemeType;
   type: string;
   value?: string;
+};
+
+export type IconButtonProps = {
+  $bg?: string;
+  $color?: string;
+};
+
+export type ChatMessageProps = {
+  $role: 'assistant' | 'error' | 'suggestion' | 'user';
 };
