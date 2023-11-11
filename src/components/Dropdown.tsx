@@ -46,7 +46,7 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
-  // Listen for click events outside the button to close the menu
+  // Listen for click events to close the menu
   useEffect(() => {
     const handleOutsideClick = () => {
       if (isVisible) {

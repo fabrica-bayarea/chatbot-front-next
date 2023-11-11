@@ -60,9 +60,10 @@ const ItemDetails = styled.div`
 `;
 
 function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
-  const { history, setHistory, changeConversation, getHistory } = useChatContext();
+  const { history, changeConversation, getHistory } = useChatContext();
   const { isLoading } = useMainContext();
 
+  // Make the request when the component has been mounted
   useEffect(() => {
     getHistory();
   }, []);

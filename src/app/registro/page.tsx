@@ -31,7 +31,7 @@ function Register() {
     setInputs(newInputs);
   };
 
-  // Register
+  // Make the registration request and redirect to the login page or show an error message
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -50,6 +50,7 @@ function Register() {
     }
   };
 
+  // Display the validation message to the user, if it exists
   useEffect(() => {
     if (typeof validation === 'string') {
       setStatusMessage(validation);

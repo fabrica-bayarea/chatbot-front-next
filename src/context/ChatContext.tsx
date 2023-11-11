@@ -22,23 +22,24 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [history, setHistory] = useState<ConversationType[]>([]);
 
   // Request functions
-  const deleteConversation = async (payload: { id: string }) => {
-    const successFn = () => {
-      setHistory(history.filter((conversation) => conversation.id !== payload.id));
-    };
+  const deleteConversation = useCallback(
+    async (payload: { id: string }) => {
+      const successFn = () => {
+        setHistory(history.filter((conversation) => conversation.id !== payload.id));
+      };
 
-    const options = {
-      apiRequest: api.deleteConversation,
-      payload,
-      successCode: statusCodes.OK,
-      successFn,
-    };
+      const options = {
+        apiRequest: api.deleteConversation,
+        payload,
+        successCode: statusCodes.OK,
+        successFn,
+      };
 
-    return makeRequest<{ id: string }, {}>(options);
-  };
+      return makeRequest<{ id: string }, {}>(options);
+    },
+    [history, makeRequest]
+  );
 
-  //
-  // useCallback is mandatory to avoid infinite renders
   const getHistory = useCallback(async () => {
     const successFn = (data: ConversationType[]) => {
       const sortedData = data.sort((a, b) => {
@@ -96,7 +97,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     [conversationId, makeRequest, messages, user]
   );
 
-  // Other functions
+  // Update conversation id and messages
   const changeConversation = (id: string, messages: ChatMessageType[]) => {
     setConversationId(id);
     setMessages(messages);
@@ -109,7 +110,6 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     getReply,
     history,
     messages,
-    setHistory,
   };
 
   return <ChatContext.Provider value={{ ...shared }}>{children}</ChatContext.Provider>;

@@ -25,6 +25,8 @@ export type UserType = {
   password?: string;
 };
 
+export type ValidationType = boolean | string;
+
 export type LoginPayloadType = { body: { email: string; password: string } };
 
 export type RegisterPayloadType = {
@@ -68,7 +70,6 @@ export type ChatContextType = {
   getReply: (payload: { content: string }) => Promise<ResultType<ConversationType>>;
   history: ConversationType[];
   messages: ChatMessageType[];
-  setHistory: Dispatch<SetStateAction<ConversationType[]>>;
 };
 
 export type InputGroupProps = {

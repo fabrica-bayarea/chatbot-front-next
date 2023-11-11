@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 
-import type { InputSchemeType } from '@/types';
+import type { InputSchemeType, ValidationType } from '@/types';
 
-function useValidation(inputs: { [key: string]: InputSchemeType }) {
-  const [validation, setValidation] = useState<boolean | string>(false);
+function useValidation(inputs: { [key: string]: InputSchemeType }): ValidationType {
+  const [validation, setValidation] = useState<ValidationType>(false);
 
   useEffect(() => {
     const runValidations = () => {
+      // If all inputs are empty, return false
       if (Object.values(inputs).every((input) => input.value === '')) {
         return false;
       }
 
+      // For each input, check whether it is valid. If not, return a message
       for (let key in inputs) {
         const { value, isRequired } = inputs[key];
 
@@ -38,6 +40,7 @@ function useValidation(inputs: { [key: string]: InputSchemeType }) {
         }
       }
 
+      // All inputs are valid
       return true;
     };
 

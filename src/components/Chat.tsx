@@ -62,7 +62,7 @@ function Chat() {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [error, setError] = useState(false);
 
-  // Request a response to update the conversation
+  // Request an AI response to update the conversation
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const inputElement = inputRef.current as HTMLInputElement;
@@ -140,9 +140,7 @@ function Chat() {
         {renderMessages()}
         {messages.length === 0 && renderSuggestions()}
         {error && <ChatMessage $role="error">Ooops... algo deu errado.</ChatMessage>}
-        {!isLoading && messages.length !== 0 && (
-          <Feedback scrollFn={scrollToBottom} />
-        )}
+        {!isLoading && messages.length !== 0 && <Feedback scrollFn={scrollToBottom} />}
         <div ref={controlRef}>
           {isLoading && <BeatLoader color="lightgray" size={8} />}
         </div>

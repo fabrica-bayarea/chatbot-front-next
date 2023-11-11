@@ -29,7 +29,7 @@ function Login() {
     setInputs(newInputs);
   };
 
-  // Log in
+  // Make a login request and redirect to Home or show an error message
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -47,6 +47,7 @@ function Login() {
     }
   };
 
+  // Display the validation message to the user, if it exists
   useEffect(() => {
     if (typeof validation === 'string') {
       setStatusMessage(validation);
