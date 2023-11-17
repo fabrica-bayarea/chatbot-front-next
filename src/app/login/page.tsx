@@ -93,7 +93,7 @@ function Login() {
               )}
             </div>
             <MainButton type="submit" disabled={isLoading || validation !== true}>
-              {isLoading ? <BeatLoader color="blue" size={8} /> : 'Entrar'}
+              {isLoading ? <BeatLoader color="red" size={8} /> : 'Entrar'}
             </MainButton>
           </Form>
           <a href="" style={{ textDecoration: 'line-through' }}>

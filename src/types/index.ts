@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent } from 'react';
 
 export type ChatMessageType = {
   role: 'assistant' | 'user';
@@ -82,8 +82,7 @@ export type InputGroupProps = {
 };
 
 export type IconButtonProps = {
-  $bg?: string;
-  $color?: string;
+  $bg?: 'color' | 'white';
 };
 
 export type ChatMessageProps = {

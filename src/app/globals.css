@@ -2,18 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 
 :root {
-  --clr-a: #4776e6;
-  --clr-b: #8e54e9;
-  --clr-c: #56ccf2;
-  --clr-d: #2f80ed;
-  --clr-dark: rgb(45 45 90);
-  --clr-light: rgb(240 240 255);
-  --clr-light-gray: rgb(215 215 215);
-  --clr-lighter-gray: rgb(240 240 240);
-  --clr-red: rgb(210 80 80);
-  --clr-light-red: rgb(240 215 215);
-  --gradient-a: linear-gradient(to right, #4776e6, #8e54e9);
-  --gradient-b: linear-gradient(135deg, #56ccf2, #2f80ed);
+  --clr-a: #f0d4d4;
+  --clr-b: #ed2241;
+  --clr-c: #b41e3c;
+  --clr-d: #961e1e;
+  --clr-dark: #3c1e1e;
+  --clr-light: #fff0f0;
+  --clr-lighter-gray: #f0f0f0;
+  --clr-light-gray: #d7d7d7;
+  --clr-gray: #a1a1a1;
 
   --font-a: 'Lato', sans-serif;
   --font-b: 'Ubuntu', sans-serif;

@@ -16,7 +16,7 @@ const Container = styled.div`
 
 const LogoImage = styled.div`
   align-items: center;
-  background: var(--gradient-a);
+  background-color: white;
   border-radius: 50px;
   border-bottom-left-radius: 0;
   display: flex;
@@ -25,7 +25,7 @@ const LogoImage = styled.div`
   width: 180px;
 
   & > div {
-    background-color: var(--clr-light);
+    background-color: var(--clr-b);
     border-radius: 30px;
     height: 60px;
     position: relative;
@@ -35,7 +35,7 @@ const LogoImage = styled.div`
     &::after {
       content: '';
       aspect-ratio: 1;
-      background-color: var(--clr-a);
+      background-color: var(--clr-d);
       border-radius: 50%;
       position: absolute;
       top: 20px;
@@ -53,6 +53,7 @@ const LogoImage = styled.div`
 `;
 
 const LogoText = styled.h1`
+  color: white;
   font-size: 5em;
 `;
 

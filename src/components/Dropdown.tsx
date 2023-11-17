@@ -18,7 +18,7 @@ const ToggleButton = styled(IconButton)`
 `;
 
 const Navigation = styled.nav<{ $visibility: boolean }>`
-  border: 1px solid var(--clr-c);
+  border: 1px solid var(--clr-d);
   box-shadow: 0 0 2px 0 rgb(0 0 0 / 20%);
   display: flex;
   flex-direction: column;

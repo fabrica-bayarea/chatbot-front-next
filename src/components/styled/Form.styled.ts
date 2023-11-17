@@ -15,7 +15,7 @@ const Form = styled.form`
 
     & > span {
       align-items: center;
-      color: var(--clr-red);
+      color: var(--clr-b);
       display: flex;
       gap: 10px;
     }
