@@ -19,7 +19,7 @@ const Button = styled.button`
 `;
 
 const DialogButton = styled(Button)`
-  border: 1px solid var(--clr-c);
+  border: 1px solid var(--clr-a);
   border-radius: 5px;
   min-width: 60px;
   padding: 10px;
@@ -29,12 +29,12 @@ const DialogButton = styled(Button)`
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--clr-c);
+    background-color: var(--clr-a);
   }
 `;
 
 const DropdownButton = styled(Button)`
-  background-color: var(--clr-a);
+  background-color: var(--clr-c);
   color: var(--clr-light);
   justify-content: flex-start;
   letter-spacing: 1px;
@@ -48,7 +48,6 @@ const DropdownButton = styled(Button)`
 const IconButton = styled(Button)<IconButtonProps>`
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  color: ${(props) => props.$color || 'var(--clr-dark)'};
   font-size: 1.5em;
   height: 40px;
 
@@ -57,22 +56,20 @@ const IconButton = styled(Button)<IconButtonProps>`
     css`
       background-color: white;
       box-shadow: 0 4px 4px 0 rgb(0 0 0 / 20%);
-      color: var(--clr-d);
     `}
 
   ${(props) =>
     props.$bg === 'color' &&
     css`
-      background: var(--gradient-a);
+      background: var(--clr-d);
       box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
-      color: var(--clr-light);
     `}
 `;
 
 const MainButton = styled(Button)`
   border: 2px solid var(--clr-b);
   border-radius: 25px;
-  color: var(--clr-a);
+  color: var(--clr-b);
   font-size: 1.2em;
   height: 50px;
   padding: 0 10px;

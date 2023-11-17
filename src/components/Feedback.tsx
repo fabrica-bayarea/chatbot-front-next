@@ -23,7 +23,7 @@ const Container = styled.div`
 
 const Dialog = styled.div`
   background-color: var(--clr-light);
-  border: 2px solid var(--clr-c);
+  border: 2px solid var(--clr-a);
   flex-direction: column;
   font-size: 0.9em;
   gap: 10px;
@@ -55,7 +55,6 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
           onClick={() => {
             setFeedback('good');
           }}
-          $color={'var(--clr-a)'}
         >
           <Image src="thumbs_up.svg" height={24} width={24} alt="Thumbs up icon" />
         </IconButton>
@@ -65,7 +64,6 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
           onClick={() => {
             setFeedback('poor');
           }}
-          $color={'var(--clr-b)'}
         >
           <Image src="thumbs_down.svg" height={24} width={24} alt="Thumbs down icon" />
         </IconButton>

@@ -118,7 +118,7 @@ function Register() {
               )}
             </div>
             <MainButton type="submit" disabled={isLoading || validation !== true}>
-              {isLoading ? <BeatLoader color="blue" size={8} /> : 'Registrar'}
+              {isLoading ? <BeatLoader color="red" size={8} /> : 'Registrar'}
             </MainButton>
           </Form>
         </div>
