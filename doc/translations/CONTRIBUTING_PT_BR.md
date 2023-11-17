@@ -96,9 +96,9 @@ Um escopo pode ser fornecido no tipo de *commit* para fornecer informações con
 **Exemplos:**
 
 ```
-git commit -m fix(API): fix incorrect status codes
-git commit -m feat: add field validation
-git commit -m chore!: drop support for Node 6
+git commit -m "fix(API): fix incorrect status codes"
+git commit -m "feat: add field validation"
+git commit -m "chore!: drop support for Node 6"
 ```
 
 Por favor, consulte a [documentação](https://www.conventionalcommits.org/pt-br/v1.0.0/) para mais detalhes.

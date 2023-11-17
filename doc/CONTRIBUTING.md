@@ -96,9 +96,9 @@ A scope can be provided on the commit type to provide additional contextual info
 **Examples:**
 
 ```
-git commit -m fix(API): fix incorrect status codes
-git commit -m feat: add field validation
-git commit -m chore!: drop support for Node 6
+git commit -m "fix(API): fix incorrect status codes"
+git commit -m "feat: add field validation"
+git commit -m "chore!: drop support for Node 6"
 ```
 
 Please refer to [Conventional Commits docs](https://www.conventionalcommits.org/en/) for more details.

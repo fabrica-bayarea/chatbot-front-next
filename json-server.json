@@ -1,0 +1,6 @@
+{
+  "delay": 2000,
+  "middlewares": ["./server/middlewares/login.js", "./server/middlewares/reply.js"],
+  "port": 3100,
+  "routes": "./server/routes/routes.json"
+}

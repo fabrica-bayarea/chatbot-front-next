@@ -1,18 +1,20 @@
 {
-  "name": "front-template",
+  "name": "chatbot-front-next",
   "version": "0.1.0",
-  "private": true,
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev",
+    "lint": "next lint",
+    "lint:style": "stylelint '**/*.{css,ts,tsx}'",
+    "server": "json-server --watch ./server/data/db.json",
+    "start": "next start"
   },
   "dependencies": {
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-spinners": "^0.13.8",
     "styled-components": "^6.0.8"
   },
   "devDependencies": {
@@ -21,6 +23,10 @@
     "@types/react-dom": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "json-server": "^0.17.4",
+    "postcss-styled-syntax": "^0.5.0",
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard": "^34.0.0",
     "typescript": "latest"
   }
 }
