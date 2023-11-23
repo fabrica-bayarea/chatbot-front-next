@@ -2,8 +2,8 @@
 
 import { ReactNode, createContext, useCallback, useState } from 'react';
 
-import api from '@/api';
 import { useMainContext } from '@/hooks';
+import api from '@/lib/data';
 import { statusCodes } from '@/utils';
 
 import type {

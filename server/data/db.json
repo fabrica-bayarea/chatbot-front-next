@@ -225,10 +225,66 @@
           "role": "assistant",
           "content": "Que tal uma pizza de pepperoni, margherita ou quatro queijos? Essas são opções muito populares e deliciosas!",
           "time": 1700742664919
+        },
+        {
+          "role": "user",
+          "content": "Quero quatro queijos, por favor!",
+          "time": 1700750334436
+        },
+        {
+          "role": "assistant",
+          "content": "Com certeza! Espero que você aproveite seu delicioso sabor de quatro queijos. Bom apetite!",
+          "time": 1700750372558
+        },
+        {
+          "role": "user",
+          "content": "Quanto tempo vai demorar?",
+          "time": 1700750410110
+        },
+        {
+          "role": "assistant",
+          "content": "O tempo de entrega pode depender de vários fatores, como a distância e o fluxo de pedidos. Sugiro entrar em contato com o restaurante para obter uma estimativa mais precisa do tempo de entrega.",
+          "time": 1700750412688
+        },
+        {
+          "role": "user",
+          "content": "Qual o número de telefone?",
+          "time": 1700750447157
+        },
+        {
+          "role": "assistant",
+          "content": "Peço desculpas, mas como assistente virtual, não possuo acesso a dados externos como números de telefone. Sugiro fazer uma pesquisa rápida na internet ou verificar em um aplicativo de entrega de comida para encontrar o número de telefone do restaurante mais próximo de você.",
+          "time": 1700750450219
+        },
+        {
+          "role": "user",
+          "content": "Obrigado!",
+          "time": 1700750495733
+        },
+        {
+          "role": "assistant",
+          "content": "De nada! Se precisar de mais alguma coisa, estou aqui para ajudar. Tenha um ótimo dia!",
+          "time": 1700750504060
         }
       ],
       "userId": "GOFTHdb",
       "id": "4eRFzeC"
+    },
+    {
+      "messages": [
+        {
+          "role": "user",
+          "content": "O que é Next.js?",
+          "time": 1700755423226
+        },
+        {
+          "role": "assistant",
+          "content": "Next.js é um framework de desenvolvimento web para React.js. Ele é usado para criar aplicativos web rápidos e escaláveis, permitindo a renderização do lado do servidor e do lado do cliente. É uma escolha popular para projetos que exigem renderização no servidor e fornece recursos avançados, como pré-renderização estática e dinâmica, roteamento automático e carregamento otimizado de código.",
+          "time": 1700755427124
+        }
+      ],
+      "userId": "GOFTHdb",
+      "id": "Z-YUKVa"
     }
   ]
 }

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "next": "latest",
+    "openai": "^4.20.0",
     "react": "latest",
     "react-dom": "latest",
     "react-spinners": "^0.13.8",

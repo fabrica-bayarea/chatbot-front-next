@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
 
-import api from '@/api';
+import api from '@/lib/data';
 import { statusCodes } from '@/utils';
 
 import type {
