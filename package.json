@@ -11,6 +11,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "argon2": "^0.31.2",
     "next": "latest",
     "openai": "^4.20.0",
     "react": "latest",
