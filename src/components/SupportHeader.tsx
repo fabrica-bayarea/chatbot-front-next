@@ -14,17 +14,17 @@ const Container = styled.header`
   height: 120px;
   padding: 0 120px;
 
+  & > div:nth-child(3) {
+    display: flex;
+    gap: 20px;
+  }
+
   & > div:nth-child(2) {
     flex-grow: 10;
 
     & > div {
       font-size: 1.25rem;
     }
-  }
-
-  & > div:nth-child(3) {
-    display: flex;
-    gap: 20px;
   }
 `;
 

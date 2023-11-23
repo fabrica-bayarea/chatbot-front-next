@@ -68,14 +68,13 @@ const ChatMessage = styled.span<ChatMessageProps>`
 `;
 
 const InfoMessage = styled.span`
+  align-self: center;
   background-color: var(--clr-dark-gray);
   border-radius: 5px;
   color: var(--clr-light);
   font-size: 0.9rem;
   font-style: italic;
   margin: 20px 0;
-  /* text-align: center; */
-  align-self: center;
   padding: 5px 10px;
   width: fit-content;
 `;
