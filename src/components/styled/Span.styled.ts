@@ -39,8 +39,9 @@ const ChatMessage = styled.span<ChatMessageProps>`
     props.$role === 'error' &&
     css`
       align-self: center;
-      background-color: var(--clr-light-red);
+      background-color: var(--clr-c);
       border-radius: var(--r);
+      color: var(--clr-light);
       padding: 8px;
     `}
 
@@ -66,4 +67,17 @@ const ChatMessage = styled.span<ChatMessageProps>`
     `}
 `;
 
-export { ChatMessage };
+const InfoMessage = styled.span`
+  background-color: var(--clr-dark-gray);
+  border-radius: 5px;
+  color: var(--clr-light);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 20px 0;
+  /* text-align: center; */
+  align-self: center;
+  padding: 5px 10px;
+  width: fit-content;
+`;
+
+export { ChatMessage, InfoMessage };

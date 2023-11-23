@@ -18,6 +18,14 @@ const Button = styled.button`
   }
 `;
 
+const AltButton = styled(Button)`
+  background-color: var(--clr-b);
+  border-radius: 5px;
+  color: var(--clr-light);
+  font-size: 0.9rem;
+  padding: 10px 20px;
+`;
+
 const DialogButton = styled(Button)`
   border: 1px solid var(--clr-a);
   border-radius: 5px;
@@ -49,7 +57,7 @@ const IconButton = styled(Button)<IconButtonProps>`
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   font-size: 1.5em;
-  height: 40px;
+  min-width: ${(props) => props.$width ?? '40px'};
 
   ${(props) =>
     props.$bg === 'white' &&
@@ -80,4 +88,4 @@ const MainButton = styled(Button)`
   }
 `;
 
-export { Button, DialogButton, DropdownButton, IconButton, MainButton };
+export { Button, AltButton, DialogButton, DropdownButton, IconButton, MainButton };

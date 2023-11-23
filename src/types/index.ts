@@ -23,6 +23,7 @@ export type UserType = {
   id: string;
   name: string;
   password?: string;
+  role: string;
 };
 
 export type ValidationType = boolean | string;
@@ -81,8 +82,17 @@ export type InputGroupProps = {
   value?: string;
 };
 
+export type SupportSideBarProps = {
+  conversations: (ConversationType & { user: UserType })[];
+};
+
+export type SupportHeaderProps = {
+  conversation: ConversationType & { user: UserType };
+};
+
 export type IconButtonProps = {
   $bg?: 'color' | 'white';
+  $width?: string;
 };
 
 export type ChatMessageProps = {

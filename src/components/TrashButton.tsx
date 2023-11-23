@@ -36,7 +36,7 @@ function TrashButton({ id }: { id: string }) {
             deleteConversation({ id });
           }}
         >
-          <Image src="check.svg" height={20} width={20} alt="Check icon" />
+          <Image src="/check.svg" height={20} width={20} alt="Check icon" />
         </IconButton>
         <IconButton
           type="button"
@@ -45,7 +45,7 @@ function TrashButton({ id }: { id: string }) {
             setShowConfirmation(false);
           }}
         >
-          <Image src="xmark.svg" height={20} width={20} alt="Cancel icon" />
+          <Image src="/xmark.svg" height={20} width={20} alt="Cancel icon" />
         </IconButton>
       </Container>
     );
@@ -60,7 +60,7 @@ function TrashButton({ id }: { id: string }) {
           setShowConfirmation(true);
         }}
       >
-        <Image src="trash.svg" height={16} width={16} alt="Trash icon" />
+        <Image src="/trash.svg" height={16} width={16} alt="Trash icon" />
       </IconButton>
     </Container>
   );

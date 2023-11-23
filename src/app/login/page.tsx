@@ -6,7 +6,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 import { InputGroup, Logo } from '@/components';
-import { MainButton, Form, Main, Section } from '@/components/styled';
+import { MainButton, ColumnForm, Main, Section } from '@/components/styled';
 import { useMainContext, useValidation } from '@/hooks';
 import type { InputSchemeType, StatusMessageType } from '@/types';
 
@@ -64,7 +64,7 @@ function Login() {
           <h2>Login</h2>
         </header>
         <div>
-          <Form onSubmit={handleSubmit}>
+          <ColumnForm onSubmit={handleSubmit}>
             <InputGroup
               type="text"
               name="email"
@@ -95,7 +95,7 @@ function Login() {
             <MainButton type="submit" disabled={isLoading || validation !== true}>
               {isLoading ? <BeatLoader color="red" size={8} /> : 'Entrar'}
             </MainButton>
-          </Form>
+          </ColumnForm>
           <a href="" style={{ textDecoration: 'line-through' }}>
             Esqueci minha senha
           </a>

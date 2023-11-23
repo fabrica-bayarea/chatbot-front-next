@@ -6,7 +6,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 import { InputGroup, Logo } from '@/components';
-import { IconButton, MainButton, Form, Main, Section } from '@/components/styled';
+import { IconButton, MainButton, ColumnForm, Main, Section } from '@/components/styled';
 import { useMainContext, useValidation } from '@/hooks';
 import type { InputSchemeType, StatusMessageType } from '@/types';
 
@@ -75,7 +75,7 @@ function Register() {
           </IconButton>
         </header>
         <div>
-          <Form onSubmit={handleSubmit}>
+          <ColumnForm onSubmit={handleSubmit}>
             <InputGroup
               type="text"
               name="email"
@@ -120,7 +120,7 @@ function Register() {
             <MainButton type="submit" disabled={isLoading || validation !== true}>
               {isLoading ? <BeatLoader color="red" size={8} /> : 'Registrar'}
             </MainButton>
-          </Form>
+          </ColumnForm>
         </div>
       </Section>
     </Main>

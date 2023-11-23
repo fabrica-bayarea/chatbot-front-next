@@ -25,6 +25,10 @@ const Conversation = styled.div`
   overflow-y: scroll;
   padding: 40px 20px 0 40px;
 
+  & > div {
+    margin: 10px 0;
+  }
+
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -148,7 +152,7 @@ function Chat() {
       <Form onSubmit={handleSubmit}>
         <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
         <SendButton type="submit" $bg="color">
-          <Image src="paper_plane-white.svg" height={24} width={24} alt="Send icon" />
+          <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
         </SendButton>
       </Form>
     </Container>

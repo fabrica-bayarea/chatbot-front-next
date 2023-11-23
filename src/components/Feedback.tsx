@@ -56,7 +56,7 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
             setFeedback('good');
           }}
         >
-          <Image src="thumbs_up.svg" height={24} width={24} alt="Thumbs up icon" />
+          <Image src="/thumbs_up.svg" height={24} width={24} alt="Thumbs up icon" />
         </IconButton>
         <IconButton
           type="button"
@@ -65,7 +65,7 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
             setFeedback('poor');
           }}
         >
-          <Image src="thumbs_down.svg" height={24} width={24} alt="Thumbs down icon" />
+          <Image src="/thumbs_down.svg" height={24} width={24} alt="Thumbs down icon" />
         </IconButton>
       </div>
       {feedback && (
