@@ -1,5 +1,5 @@
 async function Support() {
-  return <main></main>;
+  return <></>;
 }
 
 export default Support;

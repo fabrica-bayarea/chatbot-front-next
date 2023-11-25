@@ -91,7 +91,7 @@ function SupportSideBar({ conversations }: SupportSideBarProps) {
             return (
               <ListItem
                 key={index}
-                onClick={() => router.push(`/atendimento/${id}`)}
+                onClick={() => router.push(`/suporte/${id}`)}
                 role="button"
                 tabIndex={0}
               >

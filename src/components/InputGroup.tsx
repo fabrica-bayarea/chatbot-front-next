@@ -1,3 +1,5 @@
+'use client';
+
 import PasswordInput from './PasswordInput';
 import { MainInput, Label } from './styled';
 import type { InputGroupProps } from '@/types';

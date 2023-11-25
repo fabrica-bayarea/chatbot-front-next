@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "argon2": "^0.31.2",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
     "next": "latest",
     "openai": "^4.20.0",
     "react": "latest",
@@ -20,6 +22,7 @@
     "styled-components": "^6.0.8"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",

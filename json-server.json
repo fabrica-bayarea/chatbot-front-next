@@ -1,9 +1,9 @@
 {
   "delay": 2000,
   "middlewares": [
-    "./server/middlewares/login.js",
-    "./server/middlewares/register.js",
-    "./server/middlewares/reply.js"
+    "./server/middlewares/login.cjs",
+    "./server/middlewares/register.cjs",
+    "./server/middlewares/reply.cjs"
   ],
   "port": 3100,
   "routes": "./server/routes/routes.json"

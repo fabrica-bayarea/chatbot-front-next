@@ -1,27 +1,19 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
+import { createContext, ReactNode, useCallback, useState } from 'react';
 
-import api from '@/lib/data';
-import { statusCodes } from '@/utils';
-
-import type {
-  LoginPayloadType,
-  MainContextType,
-  RegisterPayloadType,
-  RequestType,
-  ResultType,
-  UserType,
-} from '@/types';
+import type { MainContextType, RequestType, ResultType, UserType } from '@/types';
 
 const MainContext = createContext<undefined | MainContextType>(undefined);
 
-export function MainProvider({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
-  const router = useRouter();
+export function MainProvider({
+  children,
+  user,
+}: {
+  children: ReactNode;
+  user: null | UserType;
+}) {
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<null | UserType>(null);
 
   // Generic function that prepares a request.
   // If successful, execute the passed function, otherwise show an error message.
@@ -52,70 +44,7 @@ export function MainProvider({ children }: { children: ReactNode }) {
     []
   );
 
-  // Request functions
-  const login = useCallback(
-    async (payload: LoginPayloadType) => {
-      const successFn = (data: UserType) => {
-        setUser(data);
-        const expirationTime = new Date().getTime() + 60 * 60 * 1000;
-        const dataWithExpiration = { ...data, expirationTime };
-        localStorage.setItem('session', JSON.stringify(dataWithExpiration));
-      };
-
-      const options = {
-        apiRequest: api.login,
-        payload,
-        successCode: statusCodes.OK,
-        successFn,
-      };
-
-      return makeRequest<LoginPayloadType, UserType>(options);
-    },
-    [makeRequest]
-  );
-
-  const register = useCallback(
-    async (payload: RegisterPayloadType) => {
-      const successFn = async (data: UserType) => {};
-
-      const options = {
-        apiRequest: api.createUser,
-        payload,
-        successCode: statusCodes.CREATED,
-        successFn,
-      };
-
-      return makeRequest<RegisterPayloadType, UserType>(options);
-    },
-    [makeRequest]
-  );
-
-  // Remove user session and redirect to login page
-  const logout = useCallback(() => {
-    setUser(null);
-    localStorage.removeItem('session');
-    router.push('/login');
-  }, [router]);
-
-  // Check the user session. If expired, log out. If it does not exist, redirects to the
-  // login page.
-  useEffect(() => {
-    const localSession = localStorage.getItem('session');
-
-    if (localSession) {
-      const parsedSession = JSON.parse(localSession);
-      setUser(parsedSession.user);
-      const currentTime = new Date().getTime();
-
-      if (currentTime > parsedSession.expirationTime) {
-        logout();
-      }
-    } else if (pathname === '/') {
-      router.push('/login');
-    }
-  }, [logout, pathname, router]);
-
-  const shared = { isLoading, login, logout, makeRequest, register, user };
+  const shared = { isLoading, makeRequest, user };
 
   return <MainContext.Provider value={{ ...shared }}>{children}</MainContext.Provider>;
 }
