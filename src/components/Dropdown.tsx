@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -5,6 +7,7 @@ import styled, { css } from 'styled-components';
 
 import { DropdownButton, IconButton } from './styled';
 import { useChatContext, useMainContext } from '@/hooks';
+import { logout } from '@/app/actions';
 
 const Container = styled.div`
   position: relative;
@@ -42,8 +45,6 @@ const Navigation = styled.nav<{ $visibility: boolean }>`
 
 function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   const { changeConversation } = useChatContext();
-  const { logout } = useMainContext();
-  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
   // Listen for click events to close the menu
@@ -91,7 +92,6 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
           type="button"
           onClick={() => {
             logout();
-            router.push('/login');
           }}
         >
           Sair

@@ -1,3 +1,5 @@
+'use client';
+
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';

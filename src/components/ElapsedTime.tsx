@@ -1,5 +1,5 @@
 function ElapsedTime({ time }: { time: number }) {
-  const timeDifference = new Date().getTime() - time;
+  const timeDifference = Date.now() - time;
   const timeInSeconds = Math.trunc(timeDifference / 1000);
 
   let timeString = 'Há ';

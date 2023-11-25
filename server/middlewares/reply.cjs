@@ -11,8 +11,8 @@ module.exports = async function ({ body, path }, res, next) {
 
     let data = await response.json();
 
-    // Add the message time and make the appropriate request to the json-server
-    const time = new Date().getTime();
+    // Add the message time and make the appropriate request to the server
+    const time = Date.now();
     const messagesWithReply = [...body.messages, { ...data.message, time }];
 
     const newConversation = {

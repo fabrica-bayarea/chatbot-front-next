@@ -4,22 +4,29 @@
       "id": "GOFTHdb",
       "email": "limapaulobsb@gmail.com",
       "name": "Paulo Lima",
-      "password": "123123",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$bdC3Q4OJMVgEYpXP6Cjc/A$3fgiexHAk75ITJzH3NrgzJi53qgTXPENMxKoGC1E+yo",
       "role": "admin"
     },
     {
       "id": "DP_V0dx",
       "email": "kvictor1711@gmail.com",
       "name": "Kaio",
-      "password": "123123",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$oLGY0JgB0hxgMo/LnXY9FA$u+V+LgGPkd8g2kfGNNlJLK0NNA90O26RqBVstVlLdYs",
       "role": "admin"
     },
     {
       "id": "HSMkWmM",
       "email": "felipebalbino53@gmail.com",
       "name": "Felipe",
-      "password": "123123",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$Hmh3l+M4KG7T4HYyPA0XQA$bEey0KKap3LBSl6ZpopbXmTcf9Aex+woyfwB1WvxRfU",
       "role": "admin"
+    },
+    {
+      "email": "johndoe@gmail.com",
+      "name": "John",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$QvyrcVyn42efiA1zTDOeOg$Fd7JkFIE8VcUlITGJWDqemeQqv7aUKG0itdrx8ovL/0",
+      "role": "user",
+      "id": "gA7v-EC"
     }
   ],
   "conversations": [
@@ -136,7 +143,7 @@
           "time": 1700740111074
         }
       ],
-      "status": "redirected",
+      "status": "human",
       "userId": "GOFTHdb",
       "id": "JOxCER6"
     },
@@ -154,7 +161,7 @@
           "time": 1700566226679
         }
       ],
-      "status": "redirected",
+      "status": "human",
       "userId": "DP_V0dx"
     },
     {
@@ -171,7 +178,7 @@
           "time": 1700596317998
         }
       ],
-      "status": "redirected",
+      "status": "human",
       "userId": "HSMkWmM"
     },
     {
@@ -285,6 +292,22 @@
       ],
       "userId": "GOFTHdb",
       "id": "Z-YUKVa"
+    },
+    {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Bom dia!",
+          "time": 1700954533370
+        },
+        {
+          "role": "assistant",
+          "content": "Bom dia! Em que posso ajudar?",
+          "time": 1700954535208
+        }
+      ],
+      "userId": "gA7v-EC",
+      "id": "LcnHKYW"
     }
   ]
 }

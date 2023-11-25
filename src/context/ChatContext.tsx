@@ -66,7 +66,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       const newMessages = messages.concat({
         role: 'user',
         content: payload.content,
-        time: new Date().getTime(),
+        time: Date.now(),
       });
 
       setMessages(newMessages);

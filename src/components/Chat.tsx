@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';

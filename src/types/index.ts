@@ -9,6 +9,7 @@ export type ChatMessageType = {
 export type ConversationType = {
   id: string;
   messages: ChatMessageType[];
+  status?: 'robot' | 'human' | 'closed';
   userId: string;
 };
 
@@ -25,6 +26,8 @@ export type UserType = {
   password?: string;
   role: string;
 };
+
+export type SessionType = { token: string; user: UserType };
 
 export type ValidationType = boolean | string;
 
@@ -52,15 +55,15 @@ export type RequestType<PayloadType, DataType> = {
 
 export type MainContextType = {
   isLoading: boolean;
-  login: (payload: LoginPayloadType) => Promise<ResultType<UserType>>;
-  logout: () => void;
+  // login: (payload: LoginPayloadType) => Promise<ResultType<UserType>>;
+  // logout: () => void;
   makeRequest: <PayloadType, DataType>({
     apiRequest,
     payload,
     successCode,
     successFn,
   }: RequestType<PayloadType, DataType>) => Promise<ResultType<DataType>>;
-  register: (payload: RegisterPayloadType) => Promise<ResultType<UserType>>;
+  // register: (payload: RegisterPayloadType) => Promise<ResultType<UserType>>;
   user: null | UserType;
 };
 
