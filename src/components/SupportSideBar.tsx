@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { Avatar, IconButton } from './styled';
 import type { SupportSideBarProps } from '@/types';
+import { logout } from '@/app/actions';
 
 const ElapsedTime = dynamic(() => import('./ElapsedTime'), {
   ssr: false,
@@ -71,7 +72,7 @@ const Footer = styled.footer`
   justify-content: space-around;
 `;
 
-function SupportSideBar({ conversations }: SupportSideBarProps) {
+function SupportSideBar({ conversations, user }: SupportSideBarProps) {
   const router = useRouter();
 
   return (
@@ -109,10 +110,10 @@ function SupportSideBar({ conversations }: SupportSideBarProps) {
       </List>
       <Footer>
         <div>
-          <div>Paulo Lima</div>
-          <div>limapaulobsb@gmail.com</div>
+          <div>{user.name}</div>
+          <div>{user.email}</div>
         </div>
-        <IconButton>
+        <IconButton onClick={() => logout()}>
           <Image src="/logout-white.svg" height={18} width={18} alt="Logout icon" />
         </IconButton>
       </Footer>

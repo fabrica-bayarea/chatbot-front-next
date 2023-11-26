@@ -87,6 +87,7 @@ export type InputGroupProps = {
 
 export type SupportSideBarProps = {
   conversations: (ConversationType & { user: UserType })[];
+  user: UserType;
 };
 
 export type SupportHeaderProps = {

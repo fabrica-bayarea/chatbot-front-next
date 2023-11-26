@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
@@ -88,12 +87,7 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
         >
           Histórico
         </DropdownButton>
-        <DropdownButton
-          type="button"
-          onClick={() => {
-            logout();
-          }}
-        >
+        <DropdownButton type="button" onClick={() => logout()}>
           Sair
         </DropdownButton>
       </Navigation>
