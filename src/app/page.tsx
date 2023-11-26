@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -8,8 +8,20 @@ import { Main, Section } from '@/components/styled';
 import { ChatProvider } from '@/context';
 import { useMainContext } from '@/hooks';
 import { mediaQueries } from '@/utils';
+import Link from 'next/link';
 
-const HomeSection = styled(Section)`
+const Container = styled(Main)`
+  & > a {
+    aspect-ratio: 1;
+    display: flex;
+    left: 20px;
+    position: absolute;
+    top: 20px;
+    width: 30px;
+  }
+`;
+
+const App = styled(Section)`
   & > div {
     height: 600px;
   }
@@ -27,16 +39,26 @@ function Home() {
 
   return (
     <ChatProvider>
-      <Main>
+      <Container>
+        {(user?.role === 'admin' || user?.role === 'support') && (
+          <Link href={'/suporte'}>
+            <Image
+              src="/users_rectangle-white.svg"
+              height={24}
+              width={24}
+              alt="Support link"
+            />
+          </Link>
+        )}
         <Logo />
-        <HomeSection>
+        <App>
           <header>
             <span>Olá, {user?.name}! 👋</span>
             <Dropdown showFn={setShowHistory} />
           </header>
           <div>{showHistory ? <History showFn={setShowHistory} /> : <Chat />}</div>
-        </HomeSection>
-      </Main>
+        </App>
+      </Container>
     </ChatProvider>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
-
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
@@ -22,6 +22,15 @@ const Container = styled.aside`
   flex-direction: column;
   min-height: 100vh;
   min-width: 360px;
+
+  & > a {
+    aspect-ratio: 1;
+    display: flex;
+    left: 20px;
+    position: absolute;
+    top: 20px;
+    width: 30px;
+  }
 
   & > h1 {
     color: var(--clr-b);
@@ -77,6 +86,14 @@ function SupportSideBar({ conversations, user }: SupportSideBarProps) {
 
   return (
     <Container>
+      <Link href={'/'}>
+        <Image
+          src="/home.svg"
+          height={24}
+          width={24}
+          alt="Home link"
+        />
+      </Link>
       <h1>Atendimentos</h1>
       <List>
         {conversations

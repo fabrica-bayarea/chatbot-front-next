@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { getSession } from './actions';
 import StyledComponentsRegistry from './registry';
 import { MainProvider } from '@/context';
+
 import './globals.css';
 
 export const metadata: Metadata = {
