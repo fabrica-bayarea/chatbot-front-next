@@ -10,6 +10,7 @@ import type {
   ChatContextType,
   ChatMessageType,
   ConversationType,
+  FeedbackType,
   UserType,
 } from '@/types';
 
@@ -17,9 +18,16 @@ const ChatContext = createContext<undefined | ChatContextType>(undefined);
 
 export function ChatProvider({ children }: { children: ReactNode }) {
   const { makeRequest, user } = useMainContext();
-  const [conversationId, setConversationId] = useState('');
-  const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [history, setHistory] = useState<ConversationType[]>([]);
+
+  const initialConversation: ConversationType = {
+    id: undefined,
+    messages: [],
+    status: 'open',
+    userId: (user as UserType).id,
+  };
+
+  const [conversation, setConversation] = useState<ConversationType>(initialConversation);
 
   // Request functions
   const deleteConversation = useCallback(
@@ -52,7 +60,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     };
 
     const options = {
-      apiRequest: api.fetchConversations,
+      apiRequest: api.fetchConversationsByUser,
       payload: { userId: (user as UserType).id },
       successCode: statusCodes.OK,
       successFn,
@@ -63,53 +71,74 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
   const getReply = useCallback(
     async (payload: { content: string }) => {
-      const newMessages = messages.concat({
+      const prev = { ...conversation };
+
+      const newMessages = prev.messages.concat({
         role: 'user',
         content: payload.content,
         time: Date.now(),
       });
 
-      setMessages(newMessages);
-
-      const body = {
-        id: conversationId,
-        messages: newMessages,
-        userId: (user as UserType).id,
-      };
+      const newConversation = { ...prev, messages: newMessages };
+      setConversation({ ...newConversation });
 
       const successFn = (data: ConversationType) => {
-        if (!conversationId) {
-          setConversationId(data.id);
-        }
+        setConversation({ ...data });
+      };
 
-        setMessages(data.messages);
+      const errorFn = () => {
+        setConversation({ ...prev });
       };
 
       const options = {
         apiRequest: api.fetchReply,
-        payload: { body },
+        payload: { body: newConversation },
         successCode: statusCodes.OK,
         successFn,
+        errorFn,
       };
 
       return makeRequest<{ body: ConversationType }, ConversationType>(options);
     },
-    [conversationId, makeRequest, messages, user]
+    [conversation, makeRequest]
   );
 
-  // Update conversation id and messages
-  const changeConversation = (id: string, messages: ChatMessageType[]) => {
-    setConversationId(id);
-    setMessages(messages);
-  };
+  const changeFeedback = useCallback(
+    async (payload: { feedback: FeedbackType }) => {
+      const newMessages = [...conversation.messages];
+      newMessages[newMessages.length - 1].feedback = payload.feedback;
+      const newConversation = { ...conversation, messages: newMessages };
+      setConversation({ ...newConversation });
+      const successFn = () => {};
+
+      const options = {
+        apiRequest: api.updateMessages,
+        payload: {
+          body: { messages: conversation.messages },
+          conversationId: conversation.id as string,
+        },
+        successCode: statusCodes.OK,
+        successFn,
+      };
+
+      return makeRequest<
+        { body: { messages: ChatMessageType[] }; conversationId: string },
+        ConversationType
+      >(options);
+    },
+    [conversation, makeRequest]
+  );
 
   const shared = {
-    changeConversation,
+    changeFeedback,
+    conversation,
+    conversationLength: conversation.messages.length,
     deleteConversation,
     getHistory,
     getReply,
+    initialConversation,
     history,
-    messages,
+    setConversation,
   };
 
   return <ChatContext.Provider value={{ ...shared }}>{children}</ChatContext.Provider>;

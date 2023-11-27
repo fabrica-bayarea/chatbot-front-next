@@ -1,5 +1,7 @@
 import {
+  ChatMessageType,
   ConversationType,
+  FeedbackType,
   LoginPayloadType,
   RegisterPayloadType,
   ReplyPayloadType,
@@ -43,12 +45,12 @@ const api = {
     return { status: response.status, data };
   },
 
-  async fetchConversations({
+  async fetchConversationsByUser({
     userId,
   }: {
     userId: string;
   }): Promise<ResponseType<ConversationType[]>> {
-    const response = await fetch(`${URL}/conversations/user/${userId}`);
+    const response = await fetch(`${URL}/conversations?userId=${userId}`);
     const data = await response.json();
 
     return { status: response.status, data };
@@ -56,7 +58,7 @@ const api = {
 
   async fetchHumanConversations() {
     const response = await fetch(
-      'http://localhost:3100/conversations?status=human&_expand=user',
+      'http://localhost:3100/conversations?status=redirected&_expand=user',
       { next: { revalidate: 10 } }
     );
 
@@ -68,6 +70,24 @@ const api = {
   async fetchReply({ body }: ReplyPayloadType): Promise<ResponseType<ConversationType>> {
     const response = await fetch(`${URL}/reply`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    return { status: response.status, data };
+  },
+
+  async updateMessages({
+    body,
+    conversationId,
+  }: {
+    body: { messages: ChatMessageType[] };
+    conversationId: string;
+  }) {
+    const response = await fetch(`${URL}/conversations/${conversationId}`, {
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });

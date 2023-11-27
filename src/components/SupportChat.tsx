@@ -76,7 +76,7 @@ function SupportChat({ conversation }: SupportHeaderProps) {
       </Conversation>
       <Form onSubmit={handleSubmit} $padding="0 240px">
         <ChatTextArea placeholder="Digite uma mensagem..." />
-        <IconButton $width="60px" type="submit" $bg="color">
+        <IconButton type="submit" $bgColor="var(--clr-d)" $width="60px">
           <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
         </IconButton>
       </Form>

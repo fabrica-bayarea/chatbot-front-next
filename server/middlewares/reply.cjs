@@ -9,19 +9,21 @@ module.exports = async function ({ body, path }, res, next) {
       body: JSON.stringify({ messages: body.messages }),
     });
 
-    let data = await response.json();
+    const { message: reply } = await response.json();
 
     // Add the message time and make the appropriate request to the server
-    const time = Date.now();
-    const messagesWithReply = [...body.messages, { ...data.message, time }];
+    const messagesWithReply = [
+      ...body.messages,
+      { ...reply, time: Date.now(), feedback: 'none' },
+    ];
 
     const newConversation = {
+      ...body,
       messages: messagesWithReply,
-      userId: body.userId,
     };
 
+    const route = body.id ? `/conversations/${body.id}` : '/conversations';
     const method = body.id ? 'PUT' : 'POST';
-    const route = method === 'PUT' ? `/conversations/${body.id}` : '/conversations';
 
     response = await fetch(`http://localhost:${config.port}${route}`, {
       method,
@@ -29,8 +31,8 @@ module.exports = async function ({ body, path }, res, next) {
       body: JSON.stringify(newConversation),
     });
 
-    data = await response.json();
-    newConversation.id = data.id;
+    const { id: newId } = await response.json();
+    newConversation.id = newId;
 
     return res.status(200).json(newConversation);
   }

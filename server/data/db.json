@@ -25,12 +25,13 @@
       "email": "johndoe@gmail.com",
       "name": "John",
       "password": "$argon2id$v=19$m=65536,t=3,p=4$QvyrcVyn42efiA1zTDOeOg$Fd7JkFIE8VcUlITGJWDqemeQqv7aUKG0itdrx8ovL/0",
-      "role": "user",
+      "role": "collaborator",
       "id": "gA7v-EC"
     }
   ],
   "conversations": [
     {
+      "id": "JOxCER6",
       "messages": [
         {
           "role": "user",
@@ -40,112 +41,23 @@
         {
           "role": "assistant",
           "content": "Verde, amarelo, azul e branco.",
-          "time": 1699123799775
-        },
-        {
-          "role": "user",
-          "content": "E da Rússia?",
-          "time": 1700652637187
-        },
-        {
-          "role": "assistant",
-          "content": "Branco, azul e vermelho.",
-          "time": 1700652740522
-        },
-        {
-          "role": "user",
-          "content": "E da Itália?",
-          "time": 1700653017501
-        },
-        {
-          "role": "assistant",
-          "content": "Verde, branco e vermelho.",
-          "time": 1700653019002
-        },
-        {
-          "role": "user",
-          "content": "E do Marrocos?",
-          "time": 1700653030602
-        },
-        {
-          "role": "assistant",
-          "content": "Verde e vermelho.",
-          "time": 1700653032333
+          "time": 1699123799775,
+          "feedback": "good"
         },
         {
           "role": "user",
           "content": "E da Argentina?",
-          "time": 1700659443429
+          "time": 1701095795232
         },
         {
           "role": "assistant",
           "content": "Azul e branco.",
-          "time": 1700659467320
-        },
-        {
-          "role": "user",
-          "content": "E da Argélia?",
-          "time": 1700688994925
-        },
-        {
-          "role": "assistant",
-          "content": "Verde, branco e vermelho.",
-          "time": 1700689027273
-        },
-        {
-          "role": "user",
-          "content": "Qual a mais colorida de todas?",
-          "time": 1700689033535
-        },
-        {
-          "role": "assistant",
-          "content": "A bandeira mais colorida entre as mencionadas anteriormente é a do Brasil, que possui as cores verde, amarelo, azul e branco.",
-          "time": 1700689034800
-        },
-        {
-          "role": "user",
-          "content": "De todos o países.",
-          "time": 1700689051497
-        },
-        {
-          "role": "assistant",
-          "content": "A bandeira mais colorida de todos os países pode ser considerada a do Nepal. Ela consiste em duas cores principais - vermelho e azul - e possui um emblema especial no centro que contém mais cores, incluindo amarelo, branco e verde.",
-          "time": 1700689054245
-        },
-        {
-          "role": "user",
-          "content": "E a menos.",
-          "time": 1700689067117
-        },
-        {
-          "role": "assistant",
-          "content": "A bandeira que possui menos cores entre os países mencionados anteriormente é a da Alemanha, que consiste apenas nas cores preto, vermelho e dourado.",
-          "time": 1700689068869
-        },
-        {
-          "role": "user",
-          "content": "De onde você tirou Alemanha?",
-          "time": 1700692091818
-        },
-        {
-          "role": "assistant",
-          "content": "Peço desculpas pelo equívoco. A bandeira que possui menos cores entre os países mencionados anteriormente é a da Arábia Saudita, que é completamente verde.",
-          "time": 1700692092818
-        },
-        {
-          "role": "user",
-          "content": "E da Bélgica?",
-          "time": 1700740052363
-        },
-        {
-          "role": "assistant",
-          "content": "A bandeira da Bélgica consiste nas cores preto, amarelo e vermelho, tornando-a uma das menos coloridas entre os países mencionados anteriormente.",
-          "time": 1700740111074
+          "time": 1701095801936,
+          "feedback": "good"
         }
       ],
-      "status": "human",
-      "userId": "GOFTHdb",
-      "id": "JOxCER6"
+      "status": "open",
+      "userId": "GOFTHdb"
     },
     {
       "id": "qfBFe0a",
@@ -158,10 +70,11 @@
         {
           "role": "assistant",
           "content": "Uma família encontrou um cachorrinho abandonado na rua. Eles o levaram para casa e o chamaram de Max. Max era um cachorro repleto de amor e gratidão. Ele sempre demonstrava sua alegria e carinho pela família, especialmente pelas crianças. O tempo passou e Max se tornou parte inseparável da família.\n\nUm dia, a família ouviu falar de um abrigo de animais que estava passando por dificuldades financeiras. Eles decidiram ajudar de alguma forma. A família organizou um bazar na vizinhança para arrecadar fundos para o abrigo. Max, com seu jeito encantador e bom humor, se tornou o centro das atenções. Todos se apaixonaram por ele e suas travessuras.\n\nNo final do dia, o bazar foi um sucesso e a família conseguiu arrecadar uma quantia significativa para o abrigo. Eles foram até lá para entregar a doação e ficaram emocionados ao verem todos os animais tão agradecidos. Max, com aquele olhar doce em seus olhos, entendeu o propósito de sua família e estava feliz em ter ajudado.\n\nEssa história emocionante mostra como um simples ato de amor e generosidade pode transformar vidas, tanto de seres humanos quanto de animais. Max ensinou a todos sobre o poder da compaixão e o valor de fazer o bem. E, desde então, a família e Max continuaram a ajudar outros animais em situação de abandono, espalhando alegria e amor por onde passavam.",
-          "time": 1700566226679
+          "time": 1700566226679,
+          "feedback": "none"
         }
       ],
-      "status": "human",
+      "status": "redirected",
       "userId": "DP_V0dx"
     },
     {
@@ -175,139 +88,12 @@
         {
           "role": "assistant",
           "content": "O menor mamífero conhecido é o musaranho-pigmeu africano, com um comprimento médio de 2,9 centímetros.",
-          "time": 1700596317998
+          "time": 1700596317998,
+          "feedback": "none"
         }
       ],
-      "status": "human",
+      "status": "redirected",
       "userId": "HSMkWmM"
-    },
-    {
-      "messages": [
-        {
-          "role": "user",
-          "content": "Bom dia!",
-          "time": 1700742358194
-        },
-        {
-          "role": "assistant",
-          "content": "Bom dia! Como posso te ajudar hoje?",
-          "time": 1700742359528
-        },
-        {
-          "role": "user",
-          "content": "Estou com fome!",
-          "time": 1700742384123
-        },
-        {
-          "role": "assistant",
-          "content": "Que tipo de comida você está procurando? Posso sugerir algo para você.",
-          "time": 1700742385444
-        },
-        {
-          "role": "user",
-          "content": "Salgada!",
-          "time": 1700742397392
-        },
-        {
-          "role": "assistant",
-          "content": "Que tal um sanduíche ou uma fatia de pizza? São opções salgadas que podem te satisfazer.",
-          "time": 1700742403857
-        },
-        {
-          "role": "user",
-          "content": "Pode ser!",
-          "time": 1700742542317
-        },
-        {
-          "role": "assistant",
-          "content": "Ótimo! Você prefere algum tipo específico de sanduíche ou pizza?",
-          "time": 1700742543698
-        },
-        {
-          "role": "user",
-          "content": "Pizza",
-          "time": 1700742662954
-        },
-        {
-          "role": "assistant",
-          "content": "Que tal uma pizza de pepperoni, margherita ou quatro queijos? Essas são opções muito populares e deliciosas!",
-          "time": 1700742664919
-        },
-        {
-          "role": "user",
-          "content": "Quero quatro queijos, por favor!",
-          "time": 1700750334436
-        },
-        {
-          "role": "assistant",
-          "content": "Com certeza! Espero que você aproveite seu delicioso sabor de quatro queijos. Bom apetite!",
-          "time": 1700750372558
-        },
-        {
-          "role": "user",
-          "content": "Quanto tempo vai demorar?",
-          "time": 1700750410110
-        },
-        {
-          "role": "assistant",
-          "content": "O tempo de entrega pode depender de vários fatores, como a distância e o fluxo de pedidos. Sugiro entrar em contato com o restaurante para obter uma estimativa mais precisa do tempo de entrega.",
-          "time": 1700750412688
-        },
-        {
-          "role": "user",
-          "content": "Qual o número de telefone?",
-          "time": 1700750447157
-        },
-        {
-          "role": "assistant",
-          "content": "Peço desculpas, mas como assistente virtual, não possuo acesso a dados externos como números de telefone. Sugiro fazer uma pesquisa rápida na internet ou verificar em um aplicativo de entrega de comida para encontrar o número de telefone do restaurante mais próximo de você.",
-          "time": 1700750450219
-        },
-        {
-          "role": "user",
-          "content": "Obrigado!",
-          "time": 1700750495733
-        },
-        {
-          "role": "assistant",
-          "content": "De nada! Se precisar de mais alguma coisa, estou aqui para ajudar. Tenha um ótimo dia!",
-          "time": 1700750504060
-        }
-      ],
-      "userId": "GOFTHdb",
-      "id": "4eRFzeC"
-    },
-    {
-      "messages": [
-        {
-          "role": "user",
-          "content": "O que é Next.js?",
-          "time": 1700755423226
-        },
-        {
-          "role": "assistant",
-          "content": "Next.js é um framework de desenvolvimento web para React.js. Ele é usado para criar aplicativos web rápidos e escaláveis, permitindo a renderização do lado do servidor e do lado do cliente. É uma escolha popular para projetos que exigem renderização no servidor e fornece recursos avançados, como pré-renderização estática e dinâmica, roteamento automático e carregamento otimizado de código.",
-          "time": 1700755427124
-        }
-      ],
-      "userId": "GOFTHdb",
-      "id": "Z-YUKVa"
-    },
-    {
-      "messages": [
-        {
-          "role": "user",
-          "content": "Bom dia!",
-          "time": 1700954533370
-        },
-        {
-          "role": "assistant",
-          "content": "Bom dia! Em que posso ajudar?",
-          "time": 1700954535208
-        }
-      ],
-      "userId": "gA7v-EC",
-      "id": "LcnHKYW"
     }
   ]
 }

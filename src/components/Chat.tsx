@@ -6,6 +6,7 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
 import Feedback from './Feedback';
+import Suggestions from './Suggestions';
 import { IconButton, Form, ChatInput, ChatMessage } from './styled';
 import { useChatContext, useMainContext } from '@/hooks';
 import { mediaQueries } from '@/utils';
@@ -14,7 +15,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 0;
   position: relative;
   width: 100%;
 `;
@@ -26,10 +26,6 @@ const Conversation = styled.div`
   gap: 30px;
   overflow-y: scroll;
   padding: 40px 20px 0 40px;
-
-  & > div {
-    margin: 10px 0;
-  }
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -44,10 +40,10 @@ const Conversation = styled.div`
   }
 `;
 
-const Suggestions = styled.div`
+const Loading = styled.div`
+  align-items: center;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  min-height: 40px;
 `;
 
 const SendButton = styled(IconButton)`
@@ -62,13 +58,23 @@ const SendButton = styled(IconButton)`
 `;
 
 function Chat() {
-  const { messages, getReply } = useChatContext();
+  const { conversation, conversationLength, getReply } = useChatContext();
   const { isLoading } = useMainContext();
-  const controlRef = useRef<null | HTMLDivElement>(null);
+  const loadingRef = useRef<null | HTMLDivElement>(null);
   const inputRef = useRef<null | HTMLInputElement>(null);
-  const [error, setError] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   // Request an AI response to update the conversation
+  const handleReply = async (content: string) => {
+    setShowError(false);
+    const [success] = await getReply({ content });
+
+    if (!success) {
+      setShowError(true);
+    }
+  };
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const inputElement = inputRef.current as HTMLInputElement;
@@ -79,61 +85,26 @@ function Chat() {
     }
 
     inputElement.value = '';
-    setError(false);
-    const [success] = await getReply({ content });
-
-    if (!success) {
-      setError(true);
-    }
+    await handleReply(content);
   };
 
   // Ensure that the control element is visible
   const scrollToBottom = () => {
-    const controlElement = controlRef.current as HTMLDivElement;
+    const controlElement = loadingRef.current as HTMLDivElement;
     controlElement.scrollIntoView();
-  };
-
-  // Render functions
-  const renderMessages = () => {
-    return messages.map((message, index) => (
-      <ChatMessage key={index} $role={message.role}>
-        {message.content}
-      </ChatMessage>
-    ));
-  };
-
-  const renderSuggestions = () => {
-    const suggestions = [
-      'Quais as cores da bandeira do Brasil?',
-      'Como trocar uma lâmpada?',
-      'Conte uma história emocionante!',
-    ];
-
-    return (
-      <Suggestions>
-        {suggestions.map((suggestion, index) => (
-          <ChatMessage
-            key={index}
-            onClick={() => getReply({ content: suggestion })}
-            role="button"
-            tabIndex={0}
-            $role="suggestion"
-          >
-            {suggestion}
-          </ChatMessage>
-        ))}
-      </Suggestions>
-    );
   };
 
   // Keeps the chat always scrolled down
   useEffect(() => {
-    if (messages.length !== 0) {
+    if (conversationLength !== 0) {
       scrollToBottom();
     }
-  }, [messages]);
+  }, [conversationLength]);
 
-  // Main render
+  useEffect(() => {
+    setShowFeedback(conversationLength % 2 === 0 && conversationLength !== 0);
+  }, [conversationLength]);
+
   return (
     <Container>
       <Conversation>
@@ -143,17 +114,21 @@ function Chat() {
           Selecione uma das perguntas frequentes abaixo ou faça uma você mesmo! Estou aqui
           para ajudar da melhor forma possível!
         </ChatMessage>
-        {renderMessages()}
-        {messages.length === 0 && renderSuggestions()}
-        {error && <ChatMessage $role="error">Ooops... algo deu errado.</ChatMessage>}
-        {!isLoading && messages.length !== 0 && <Feedback scrollFn={scrollToBottom} />}
-        <div ref={controlRef}>
+        {conversation.messages.map((message, index) => (
+          <ChatMessage key={index} $role={message.role}>
+            {message.content}
+          </ChatMessage>
+        ))}
+        {conversationLength === 0 && <Suggestions handleReply={handleReply} />}
+        {showError && <ChatMessage $role="error">Ooops... algo deu errado.</ChatMessage>}
+        {showFeedback && <Feedback scrollFn={scrollToBottom} />}
+        <Loading ref={loadingRef}>
           {isLoading && <BeatLoader color="lightgray" size={8} />}
-        </div>
+        </Loading>
       </Conversation>
       <Form onSubmit={handleSubmit}>
         <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
-        <SendButton type="submit" $bg="color">
+        <SendButton type="submit" $bgColor="var(--clr-d)">
           <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
         </SendButton>
       </Form>
