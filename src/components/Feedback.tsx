@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { DialogButton, IconButton } from './styled';
 import type { FeedbackType } from '@/types';
-import { useChatContext } from '@/hooks';
+import { useChatContext, useMainContext } from '@/hooks';
 
 const Question = styled.div`
   align-items: center;
@@ -40,7 +40,8 @@ const Dialog = styled.div`
 `;
 
 function Feedback({ scrollFn }: { scrollFn: () => void }) {
-  const { changeFeedback } = useChatContext();
+  const { isLoading } = useMainContext();
+  const { changeFeedback, changeConversationStatus } = useChatContext();
   const [feedback, setFeedback] = useState<FeedbackType>(undefined);
   const [showDialog, setShowDialog] = useState(false);
 
@@ -90,8 +91,15 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
             <>
               <span>Gostaria de ser direcionado para um de nossos colaboradores?</span>
               <div>
-                <DialogButton>Sim</DialogButton>
-                <DialogButton onClick={() => setShowDialog(false)}>Não</DialogButton>
+                <DialogButton
+                  onClick={() => changeConversationStatus({ status: 'redirected' })}
+                  disabled={isLoading}
+                >
+                  Sim
+                </DialogButton>
+                <DialogButton onClick={() => setShowDialog(false)} disabled={isLoading}>
+                  Não
+                </DialogButton>
               </div>
             </>
           )}

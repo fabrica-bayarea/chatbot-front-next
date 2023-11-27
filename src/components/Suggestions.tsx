@@ -3,6 +3,13 @@
 import styled from 'styled-components';
 
 import { ChatMessage } from './styled';
+import { useChatContext } from '@/hooks';
+
+const suggestions = [
+  'Quais as cores da bandeira do Brasil?',
+  'Como trocar uma lâmpada?',
+  'Conte uma história emocionante!',
+];
 
 const Container = styled.div`
   display: flex;
@@ -10,19 +17,15 @@ const Container = styled.div`
   gap: 10px;
 `;
 
-function Suggestions({ handleReply }: { handleReply: (content: string) => void }) {
-  const suggestions = [
-    'Quais as cores da bandeira do Brasil?',
-    'Como trocar uma lâmpada?',
-    'Conte uma história emocionante!',
-  ];
+function Suggestions() {
+  const { getReply } = useChatContext();
 
   return (
     <Container>
       {suggestions.map((suggestion, index) => (
         <ChatMessage
           key={index}
-          onClick={() => handleReply(suggestion)}
+          onClick={() => getReply({ content: suggestion })}
           role="button"
           tabIndex={0}
           $role="suggestion"

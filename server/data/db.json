@@ -42,18 +42,7 @@
           "role": "assistant",
           "content": "Verde, amarelo, azul e branco.",
           "time": 1699123799775,
-          "feedback": "good"
-        },
-        {
-          "role": "user",
-          "content": "E da Argentina?",
-          "time": 1701095795232
-        },
-        {
-          "role": "assistant",
-          "content": "Azul e branco.",
-          "time": 1701095801936,
-          "feedback": "good"
+          "feedback": "none"
         }
       ],
       "status": "open",

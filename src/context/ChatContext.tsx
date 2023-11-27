@@ -9,6 +9,7 @@ import { statusCodes } from '@/utils';
 import type {
   ChatContextType,
   ChatMessageType,
+  ConversationStatusType,
   ConversationType,
   FeedbackType,
   UserType,
@@ -112,17 +113,41 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       const successFn = () => {};
 
       const options = {
-        apiRequest: api.updateMessages,
+        apiRequest: api.updateConversationMessages,
         payload: {
           body: { messages: conversation.messages },
-          conversationId: conversation.id as string,
+          id: conversation.id as string,
         },
         successCode: statusCodes.OK,
         successFn,
       };
 
       return makeRequest<
-        { body: { messages: ChatMessageType[] }; conversationId: string },
+        { body: { messages: ChatMessageType[] }; id: string },
+        ConversationType
+      >(options);
+    },
+    [conversation, makeRequest]
+  );
+
+  const changeConversationStatus = useCallback(
+    async (payload: { status: ConversationStatusType }) => {
+      const successFn = () => {
+        setConversation((prev) => ({ ...prev, status: payload.status }));
+      };
+
+      const options = {
+        apiRequest: api.updateConversationStatus,
+        payload: {
+          body: { status: payload.status },
+          id: conversation.id as string,
+        },
+        successCode: statusCodes.OK,
+        successFn,
+      };
+
+      return makeRequest<
+        { body: { status: ConversationStatusType }; id: string },
         ConversationType
       >(options);
     },
@@ -139,6 +164,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     initialConversation,
     history,
     setConversation,
+    changeConversationStatus,
+    isRedirected: conversation.status === 'redirected',
   };
 
   return <ChatContext.Provider value={{ ...shared }}>{children}</ChatContext.Provider>;

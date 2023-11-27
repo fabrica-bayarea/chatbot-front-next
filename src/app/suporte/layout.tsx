@@ -9,7 +9,7 @@ import styles from './support.module.css';
 
 async function Layout({ children }: { children: ReactNode }) {
   const user = await getSession();
-  const { data } = await api.fetchHumanConversations();
+  const { data } = await api.fetchRedirectedConversations();
 
   return (
     <main className={styles.main}>

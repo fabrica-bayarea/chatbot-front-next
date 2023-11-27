@@ -40,7 +40,7 @@ function Home() {
   return (
     <ChatProvider>
       <Container>
-        {(user?.role === 'admin' || user?.role === 'support') && (
+        {(user?.role === 'admin' || user?.role === 'collaborator') && (
           <Link href={'/suporte'}>
             <Image
               src="/users_rectangle-white.svg"

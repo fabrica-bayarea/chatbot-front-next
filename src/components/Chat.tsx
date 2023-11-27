@@ -19,13 +19,34 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Conversation = styled.div`
+const Conversation = styled.div<{ $redirected: boolean }>`
   display: flex;
   flex-direction: column;
   flex-grow: 10;
   gap: 30px;
   overflow-y: scroll;
   padding: 40px 20px 0 40px;
+
+  & > .redirect-status {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    gap: 20px;
+    padding: 0 40px;
+    text-align: center;
+
+    & > p {
+      font-style: italic;
+    }
+
+    & > span {
+      font-weight: bold;
+    }
+  }
+
+  & > *:not(.redirect-status) {
+    opacity: ${({ $redirected }) => ($redirected ? '0.8' : '1')};
+  }
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -58,34 +79,25 @@ const SendButton = styled(IconButton)`
 `;
 
 function Chat() {
-  const { conversation, conversationLength, getReply } = useChatContext();
+  const { user } = useMainContext();
+  const { conversation, conversationLength, getReply, isRedirected } = useChatContext();
   const { isLoading } = useMainContext();
   const loadingRef = useRef<null | HTMLDivElement>(null);
   const inputRef = useRef<null | HTMLInputElement>(null);
-  const [showError, setShowError] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
 
   // Request an AI response to update the conversation
-  const handleReply = async (content: string) => {
-    setShowError(false);
-    const [success] = await getReply({ content });
-
-    if (!success) {
-      setShowError(true);
-    }
-  };
-
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const inputElement = inputRef.current as HTMLInputElement;
     const content = inputElement.value;
 
-    if (!content || isLoading) {
+    if (!content || isLoading || isRedirected) {
       return;
     }
 
     inputElement.value = '';
-    await handleReply(content);
+    await getReply({ content });
   };
 
   // Ensure that the control element is visible
@@ -101,13 +113,18 @@ function Chat() {
     }
   }, [conversationLength]);
 
+  // Shows feedback if the conversation is open and the last message is from the assistant
   useEffect(() => {
-    setShowFeedback(conversationLength % 2 === 0 && conversationLength !== 0);
-  }, [conversationLength]);
+    setShowFeedback(
+      conversation.status === 'open' &&
+        conversationLength % 2 === 0 &&
+        conversationLength !== 0
+    );
+  }, [conversation.status, conversationLength]);
 
   return (
     <Container>
-      <Conversation>
+      <Conversation $redirected={isRedirected}>
         <ChatMessage $role="assistant">
           Eu sou <strong>Eda</strong>, assistente virtual.
           <br />
@@ -119,19 +136,29 @@ function Chat() {
             {message.content}
           </ChatMessage>
         ))}
-        {conversationLength === 0 && <Suggestions handleReply={handleReply} />}
-        {showError && <ChatMessage $role="error">Ooops... algo deu errado.</ChatMessage>}
+        {conversationLength === 0 && <Suggestions />}
         {showFeedback && <Feedback scrollFn={scrollToBottom} />}
+        {isRedirected && (
+          <div className="redirect-status">
+            <p>
+              Esta conversa foi direcionada para nosso setor de suporte e assim que
+              possível uma resposta será enviada para o e-mail:
+            </p>
+            <span>{user?.email}</span>
+          </div>
+        )}
         <Loading ref={loadingRef}>
           {isLoading && <BeatLoader color="lightgray" size={8} />}
         </Loading>
       </Conversation>
-      <Form onSubmit={handleSubmit}>
-        <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
-        <SendButton type="submit" $bgColor="var(--clr-d)">
-          <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
-        </SendButton>
-      </Form>
+      {!isRedirected && (
+        <Form onSubmit={handleSubmit}>
+          <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
+          <SendButton type="submit" $bgColor="var(--clr-d)">
+            <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
+          </SendButton>
+        </Form>
+      )}
     </Container>
   );
 }

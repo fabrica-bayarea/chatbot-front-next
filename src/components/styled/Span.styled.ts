@@ -14,25 +14,6 @@ const ChatMessage = styled.span<ChatMessageProps>`
     css`
       background-color: var(--clr-a);
       border-radius: var(--r) var(--r) var(--r) 0;
-      /* margin-left: 40px; */
-      /* position: relative; */
-
-      /* &::before {
-        content: 'E';
-        align-items: center;
-        aspect-ratio: 1 / 1;
-        background-color: var(--clr-c);
-        border-radius: 50%;
-        bottom: 0;
-        color: var(--clr-light);
-        display: flex;
-        font-size: 0.8em;
-        font-weight: bold;
-        height: 30px;
-        justify-content: center;
-        left: -40px;
-        position: absolute;
-      } */
     `}
 
   ${(props) =>

@@ -1,5 +1,6 @@
 import {
   ChatMessageType,
+  ConversationStatusType,
   ConversationType,
   FeedbackType,
   LoginPayloadType,
@@ -56,10 +57,10 @@ const api = {
     return { status: response.status, data };
   },
 
-  async fetchHumanConversations() {
+  async fetchRedirectedConversations() {
     const response = await fetch(
       'http://localhost:3100/conversations?status=redirected&_expand=user',
-      { next: { revalidate: 10 } }
+      { cache: 'no-store' }
     );
 
     const data = await response.json();
@@ -79,14 +80,32 @@ const api = {
     return { status: response.status, data };
   },
 
-  async updateMessages({
+  async updateConversationMessages({
     body,
-    conversationId,
+    id,
   }: {
     body: { messages: ChatMessageType[] };
-    conversationId: string;
+    id: string;
   }) {
-    const response = await fetch(`${URL}/conversations/${conversationId}`, {
+    const response = await fetch(`${URL}/conversations/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    return { status: response.status, data };
+  },
+
+  async updateConversationStatus({
+    body,
+    id,
+  }: {
+    body: { status: ConversationStatusType };
+    id: string;
+  }) {
+    const response = await fetch(`${URL}/conversations/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

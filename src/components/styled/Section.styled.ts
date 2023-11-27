@@ -48,14 +48,6 @@ const Section = styled.section`
       padding: 0 30px 0 20px;
     }
   }
-
-  /* ${mediaQueries.mobileS} {
-    & > header {
-      & > span {
-        font-size: 1.2em;
-      }
-    }
-  } */
 `;
 
 export { Section };

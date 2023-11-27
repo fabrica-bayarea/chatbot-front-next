@@ -10,11 +10,13 @@ export type ChatMessageType = {
 export type ConversationType = {
   id: undefined | string;
   messages: ChatMessageType[];
-  status: 'open';
+  status: ConversationStatusType;
   userId: string;
 };
 
 export type FeedbackType = undefined | 'good' | 'poor';
+
+export type ConversationStatusType = 'open' | 'redirected';
 
 export type InputSchemeType = { isRequired: boolean; label: string; value: string };
 
@@ -77,7 +79,9 @@ export type ChatContextType = {
   getReply: (payload: { content: string }) => Promise<ResultType<ConversationType>>;
   history: ConversationType[];
   setConversation: Dispatch<SetStateAction<ConversationType>>;
+  changeConversationStatus: (payload: { status: ConversationStatusType }) => void;
   initialConversation: ConversationType;
+  isRedirected: boolean;
 };
 
 export type InputGroupProps = {

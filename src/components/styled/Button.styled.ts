@@ -39,7 +39,7 @@ export const DialogButton = styled(Button)`
   padding: 10px;
   transition: background-color 200ms ease;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: var(--clr-a);
   }
 `;
