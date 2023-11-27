@@ -5,17 +5,15 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { DropdownButton, IconButton } from './styled';
-import { useChatContext, useMainContext } from '@/hooks';
 import { logout } from '@/app/actions';
+import { useChatContext } from '@/hooks';
 
 const Container = styled.div`
   position: relative;
 `;
 
 const ToggleButton = styled(IconButton)`
-  color: var(--clr-light);
   font-size: 2em;
-  position: relative;
   z-index: 100;
 `;
 
@@ -43,7 +41,7 @@ const Navigation = styled.nav<{ $visibility: boolean }>`
 `;
 
 function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
-  const { changeConversation } = useChatContext();
+  const { setConversation, initialConversation } = useChatContext();
   const [isVisible, setIsVisible] = useState(false);
 
   // Listen for click events to close the menu
@@ -61,7 +59,7 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
 
   return (
     <Container>
-      <ToggleButton type="button" onClick={() => setIsVisible(!isVisible)}>
+      <ToggleButton onClick={() => setIsVisible(!isVisible)}>
         <Image
           src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
           height={30}
@@ -73,7 +71,7 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
         <DropdownButton
           type="button"
           onClick={() => {
-            changeConversation('', []);
+            setConversation(initialConversation);
             showFn(false);
           }}
         >

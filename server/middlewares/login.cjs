@@ -18,7 +18,7 @@ module.exports = async function (req, res, next) {
     delete user.password;
     const token = jwt.sign(user, process.env.JWT_SECRET_KEY);
 
-    return res.status(200).json({ token, user });
+    return res.status(200).json({ token });
   }
 
   return next();

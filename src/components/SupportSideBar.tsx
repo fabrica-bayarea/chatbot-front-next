@@ -20,7 +20,7 @@ const Container = styled.aside`
   box-shadow: 1px 0 4px 0 rgb(0 0 0 / 10%);
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   min-width: 360px;
 
   & > a {
@@ -44,6 +44,15 @@ const Container = styled.aside`
 
 const List = styled.ul`
   flex-grow: 10;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--clr-c);
+  }
 `;
 
 const ListItem = styled.li`
@@ -87,12 +96,7 @@ function SupportSideBar({ conversations, user }: SupportSideBarProps) {
   return (
     <Container>
       <Link href={'/'}>
-        <Image
-          src="/home.svg"
-          height={24}
-          width={24}
-          alt="Home link"
-        />
+        <Image src="/home.svg" height={24} width={24} alt="Home link" />
       </Link>
       <h1>Atendimentos</h1>
       <List>

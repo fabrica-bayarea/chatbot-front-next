@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
     const user = JSON.parse(session);
 
-    if (user.role !== 'admin' && user.role !== 'support') {
+    if (user.role !== 'admin' && user.role !== 'collaborator') {
       return NextResponse.rewrite(new URL('/unauthorized', request.url));
     }
   }

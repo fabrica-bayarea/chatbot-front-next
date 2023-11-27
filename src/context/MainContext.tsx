@@ -2,7 +2,13 @@
 
 import { createContext, ReactNode, useCallback, useState } from 'react';
 
-import type { MainContextType, RequestType, ResultType, UserType } from '@/types';
+import type {
+  MainContextType,
+  RequestType,
+  ResultType,
+  StatusMessageType,
+  UserType,
+} from '@/types';
 
 const MainContext = createContext<undefined | MainContextType>(undefined);
 
@@ -23,20 +29,24 @@ export function MainProvider({
       payload,
       successCode,
       successFn,
+      errorFn,
     }: RequestType<PayloadType, DataType>): Promise<ResultType<DataType>> => {
       setIsLoading(true);
 
       try {
         const { status, data } = await apiRequest({ ...payload });
 
-        if (status === successCode) {
-          await successFn(data as DataType);
-          return [true, data];
+        if (status !== successCode) {
+          errorFn && (await errorFn(data as StatusMessageType));
+          return [false, data];
         }
 
-        return [false, data];
+        successFn && (await successFn(data as DataType));
+        return [true, data];
       } catch (error) {
-        return [false, { message: 'Algo deu errado!' }];
+        const data = { message: 'Algo deu errado!' };
+        errorFn && (await errorFn(data));
+        return [false, data];
       } finally {
         setIsLoading(false);
       }

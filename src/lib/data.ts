@@ -1,5 +1,8 @@
 import {
+  ChatMessageType,
+  ConversationStatusType,
   ConversationType,
+  FeedbackType,
   LoginPayloadType,
   RegisterPayloadType,
   ReplyPayloadType,
@@ -43,21 +46,21 @@ const api = {
     return { status: response.status, data };
   },
 
-  async fetchConversations({
+  async fetchConversationsByUser({
     userId,
   }: {
     userId: string;
   }): Promise<ResponseType<ConversationType[]>> {
-    const response = await fetch(`${URL}/conversations/user/${userId}`);
+    const response = await fetch(`${URL}/conversations?userId=${userId}`);
     const data = await response.json();
 
     return { status: response.status, data };
   },
 
-  async fetchHumanConversations() {
+  async fetchRedirectedConversations() {
     const response = await fetch(
-      'http://localhost:3100/conversations?status=human&_expand=user',
-      { next: { revalidate: 10 } }
+      'http://localhost:3100/conversations?status=redirected&_expand=user',
+      { cache: 'no-store' }
     );
 
     const data = await response.json();
@@ -68,6 +71,42 @@ const api = {
   async fetchReply({ body }: ReplyPayloadType): Promise<ResponseType<ConversationType>> {
     const response = await fetch(`${URL}/reply`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    return { status: response.status, data };
+  },
+
+  async updateConversationMessages({
+    body,
+    id,
+  }: {
+    body: { messages: ChatMessageType[] };
+    id: string;
+  }) {
+    const response = await fetch(`${URL}/conversations/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    return { status: response.status, data };
+  },
+
+  async updateConversationStatus({
+    body,
+    id,
+  }: {
+    body: { status: ConversationStatusType };
+    id: string;
+  }) {
+    const response = await fetch(`${URL}/conversations/${id}`, {
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });

@@ -1,19 +1,22 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 export type ChatMessageType = {
   role: 'assistant' | 'user';
   content: string;
   time: number;
+  feedback?: FeedbackType;
 };
 
 export type ConversationType = {
-  id: string;
+  id: undefined | string;
   messages: ChatMessageType[];
-  status?: 'robot' | 'human' | 'closed';
+  status: ConversationStatusType;
   userId: string;
 };
 
 export type FeedbackType = undefined | 'good' | 'poor';
+
+export type ConversationStatusType = 'open' | 'redirected';
 
 export type InputSchemeType = { isRequired: boolean; label: string; value: string };
 
@@ -49,31 +52,36 @@ export type ResponseType<DataType> = {
 export type RequestType<PayloadType, DataType> = {
   apiRequest: (payload: PayloadType) => Promise<ResponseType<DataType>>;
   payload: PayloadType;
-  successCode: number;
-  successFn: (data: DataType) => void | Promise<void>;
+  successCode?: number;
+  successFn?: (data: DataType) => void | Promise<void>;
+  errorFn?: (data: StatusMessageType) => void | Promise<void>;
 };
 
 export type MainContextType = {
   isLoading: boolean;
-  // login: (payload: LoginPayloadType) => Promise<ResultType<UserType>>;
-  // logout: () => void;
   makeRequest: <PayloadType, DataType>({
     apiRequest,
     payload,
     successCode,
     successFn,
   }: RequestType<PayloadType, DataType>) => Promise<ResultType<DataType>>;
-  // register: (payload: RegisterPayloadType) => Promise<ResultType<UserType>>;
   user: null | UserType;
 };
 
 export type ChatContextType = {
-  changeConversation: (id: string, messages: ChatMessageType[]) => void;
+  changeFeedback: (payload: {
+    feedback: FeedbackType;
+  }) => Promise<ResultType<ConversationType>>;
+  conversation: ConversationType;
+  conversationLength: number;
   deleteConversation: (payload: { id: string }) => Promise<ResultType<{}>>;
   getHistory: () => Promise<ResultType<ConversationType[]>>;
   getReply: (payload: { content: string }) => Promise<ResultType<ConversationType>>;
   history: ConversationType[];
-  messages: ChatMessageType[];
+  setConversation: Dispatch<SetStateAction<ConversationType>>;
+  changeConversationStatus: (payload: { status: ConversationStatusType }) => void;
+  initialConversation: ConversationType;
+  isRedirected: boolean;
 };
 
 export type InputGroupProps = {
@@ -92,11 +100,6 @@ export type SupportSideBarProps = {
 
 export type SupportHeaderProps = {
   conversation: ConversationType & { user: UserType };
-};
-
-export type IconButtonProps = {
-  $bg?: 'color' | 'white';
-  $width?: string;
 };
 
 export type ChatMessageProps = {

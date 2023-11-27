@@ -62,7 +62,7 @@ const ItemDetails = styled.div`
 `;
 
 function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
-  const { history, changeConversation, getHistory } = useChatContext();
+  const { history, setConversation, getHistory } = useChatContext();
   const { isLoading } = useMainContext();
 
   // Make the request when the component has been mounted
@@ -80,14 +80,15 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
 
   return (
     <List>
-      {history.map(({ id, messages }) => {
+      {history.map((conversation) => {
+        const { id, messages } = conversation;
         const firstTime = new Date(messages[0].time).toLocaleString('pt-BR');
 
         return (
           <ListItem
             key={id}
             onClick={() => {
-              changeConversation(id, messages);
+              setConversation(conversation);
               showFn(false);
             }}
             role="button"
