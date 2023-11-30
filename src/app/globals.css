@@ -43,3 +43,19 @@ h5,
 h6 {
   font-family: var(--font-b);
 }
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+  }
+
+  20% {
+    box-shadow: 0 0 0 0 rgb(0 0 0 / 75%);
+    transform: scale(1);
+  }
+
+  100% {
+    box-shadow: 0 0 0 10px rgb(0 0 0 / 0%);
+    transform: scale(0.95);
+  }
+}

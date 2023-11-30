@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Avatar, IconButton } from './styled';
 import { logout } from '@/app/actions';
@@ -76,11 +76,17 @@ const ListItem = styled.li`
 
 const Status = styled.div<{ $status: ConversationStatus }>`
   aspect-ratio: 1;
-  background-color: ${({ $status }) =>
-    $status === 'accepted' ? 'var(--clr-a)' : 'var(--clr-b)'};
+  background-color: var(--clr-a);
   border-radius: 50%;
   opacity: 0.8;
   width: 20px;
+
+  ${({ $status }) =>
+    $status !== 'accepted' &&
+    css`
+      animation: pulse 1500ms infinite;
+      background-color: var(--clr-b);
+    `}
 `;
 
 const Footer = styled.footer`
