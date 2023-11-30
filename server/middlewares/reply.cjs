@@ -1,7 +1,9 @@
 const config = require('../../json-server.json');
 
-module.exports = async function ({ body, path }, res, next) {
-  if (path === '/reply') {
+module.exports = async function ({ body, method, path }, res, next) {
+  const url = `http://localhost:${config.port}`;
+
+  if (path === '/reply' && method === 'POST') {
     // Send the conversation with the user's last message to an OpenAI API
     let response = await fetch('http://localhost:3000/api/ai', {
       method: 'POST',
@@ -14,7 +16,7 @@ module.exports = async function ({ body, path }, res, next) {
     // Add the message time and make the appropriate request to the server
     const messagesWithReply = [
       ...body.messages,
-      { ...reply, time: Date.now(), feedback: 'none' },
+      { ...reply, time: Date.now() },
     ];
 
     const newConversation = {
@@ -25,7 +27,7 @@ module.exports = async function ({ body, path }, res, next) {
     const route = body.id ? `/conversations/${body.id}` : '/conversations';
     const method = body.id ? 'PUT' : 'POST';
 
-    response = await fetch(`http://localhost:${config.port}${route}`, {
+    response = await fetch(`${url}${route}`, {
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newConversation),

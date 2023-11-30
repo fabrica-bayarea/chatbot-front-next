@@ -18,9 +18,7 @@ function Login() {
         </header>
         <div>
           <LoginForm />
-          <MainButton type="button" onClick={() => router.push('/registro')}>
-            Registro
-          </MainButton>
+          <MainButton onClick={() => router.push('/registro')}>Registro</MainButton>
         </div>
       </Section>
     </Main>

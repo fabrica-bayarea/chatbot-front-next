@@ -1,20 +1,19 @@
-import {
-  ChatMessageType,
-  ConversationStatusType,
-  ConversationType,
-  FeedbackType,
-  LoginPayloadType,
-  RegisterPayloadType,
-  ReplyPayloadType,
-  ResponseType,
-  SessionType,
-  UserType,
-} from '@/types';
+import type {
+  APIResult,
+  Conversation,
+  ConversationExpanded,
+  CreateUserPayload,
+  LoginPayload,
+  Session,
+  UpdateConversationPayload,
+  UpdateWithCompletionPayload,
+  User,
+} from './definitions';
 
 const URL = 'http://localhost:3100';
 
 const api = {
-  async createUser({ body }: RegisterPayloadType): Promise<ResponseType<UserType>> {
+  async createUser({ body }: CreateUserPayload): Promise<APIResult<User>> {
     const response = await fetch(`${URL}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -26,9 +25,12 @@ const api = {
     return { status: response.status, data };
   },
 
-  async deleteConversation({ id }: { id: string }): Promise<ResponseType<{}>> {
-    const response = await fetch(`${URL}/conversations/${id}`, {
-      method: 'DELETE',
+  async login({ body }: LoginPayload): Promise<APIResult<Session>> {
+    const response = await fetch(`http://localhost:3100/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      cache: 'no-store',
     });
 
     const data = await response.json();
@@ -36,9 +38,13 @@ const api = {
     return { status: response.status, data };
   },
 
-  async fetchConversation({ id }: { id: string }) {
+  async fetchConversation({
+    id,
+  }: {
+    id: string;
+  }): Promise<APIResult<ConversationExpanded>> {
     const response = await fetch(`${URL}/conversations/${id}?_expand=user`, {
-      next: { revalidate: 10 },
+      next: { revalidate: 30, tags: ['support'] },
     });
 
     const data = await response.json();
@@ -50,17 +56,21 @@ const api = {
     userId,
   }: {
     userId: string;
-  }): Promise<ResponseType<ConversationType[]>> {
+  }): Promise<APIResult<Conversation[]>> {
     const response = await fetch(`${URL}/conversations?userId=${userId}`);
     const data = await response.json();
 
     return { status: response.status, data };
   },
 
-  async fetchRedirectedConversations() {
+  async fetchSupportConversations({
+    collaboratorId,
+  }: {
+    collaboratorId: string;
+  }): Promise<APIResult<ConversationExpanded[]>> {
     const response = await fetch(
-      'http://localhost:3100/conversations?status=redirected&_expand=user',
-      { cache: 'no-store' }
+      `${URL}/conversations/support?collaboratorId=${collaboratorId}&_expand=user`,
+      { next: { revalidate: 30, tags: ['support'] } }
     );
 
     const data = await response.json();
@@ -68,7 +78,24 @@ const api = {
     return { status: response.status, data };
   },
 
-  async fetchReply({ body }: ReplyPayloadType): Promise<ResponseType<ConversationType>> {
+  async updateConversation({
+    body,
+    id,
+  }: UpdateConversationPayload): Promise<APIResult<Conversation>> {
+    const response = await fetch(`${URL}/conversations/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    return { status: response.status, data };
+  },
+
+  async updateWithCompletion({
+    body,
+  }: UpdateWithCompletionPayload): Promise<APIResult<Conversation>> {
     const response = await fetch(`${URL}/reply`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -80,48 +107,9 @@ const api = {
     return { status: response.status, data };
   },
 
-  async updateConversationMessages({
-    body,
-    id,
-  }: {
-    body: { messages: ChatMessageType[] };
-    id: string;
-  }) {
+  async deleteConversation({ id }: { id: string }): Promise<APIResult<{}>> {
     const response = await fetch(`${URL}/conversations/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-
-    const data = await response.json();
-
-    return { status: response.status, data };
-  },
-
-  async updateConversationStatus({
-    body,
-    id,
-  }: {
-    body: { status: ConversationStatusType };
-    id: string;
-  }) {
-    const response = await fetch(`${URL}/conversations/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-
-    const data = await response.json();
-
-    return { status: response.status, data };
-  },
-
-  async login({ body }: LoginPayloadType): Promise<ResponseType<SessionType>> {
-    const response = await fetch(`${URL}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      cache: 'no-store',
+      method: 'DELETE',
     });
 
     const data = await response.json();

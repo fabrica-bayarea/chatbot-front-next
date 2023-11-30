@@ -1,12 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { DropdownButton, IconButton } from './styled';
 import { logout } from '@/app/actions';
 import { useChatContext } from '@/hooks';
+import type { DropdownProps } from '@/lib/definitions';
 
 const Container = styled.div`
   position: relative;
@@ -40,8 +41,8 @@ const Navigation = styled.nav<{ $visibility: boolean }>`
     `}
 `;
 
-function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
-  const { setConversation, initialConversation } = useChatContext();
+function Dropdown({ showFn }: DropdownProps) {
+  const { initialConversation, setConversation } = useChatContext();
   const [isVisible, setIsVisible] = useState(false);
 
   // Listen for click events to close the menu
@@ -69,7 +70,6 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
       </ToggleButton>
       <Navigation $visibility={isVisible}>
         <DropdownButton
-          type="button"
           onClick={() => {
             setConversation(initialConversation);
             showFn(false);
@@ -78,16 +78,13 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
           Nova conversa
         </DropdownButton>
         <DropdownButton
-          type="button"
           onClick={() => {
             showFn(true);
           }}
         >
           Histórico
         </DropdownButton>
-        <DropdownButton type="button" onClick={() => logout()}>
-          Sair
-        </DropdownButton>
+        <DropdownButton onClick={() => logout()}>Sair</DropdownButton>
       </Navigation>
     </Container>
   );

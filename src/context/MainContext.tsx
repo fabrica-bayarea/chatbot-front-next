@@ -1,51 +1,49 @@
 'use client';
 
-import { createContext, ReactNode, useCallback, useState } from 'react';
+import { createContext, useCallback, useState } from 'react';
 
-import type {
-  MainContextType,
-  RequestType,
-  ResultType,
-  StatusMessageType,
-  UserType,
-} from '@/types';
+import {
+  ContextResult,
+  MainContextProps,
+  MainContextShared,
+  MakeRequestParams,
+  StatusMessage,
+} from '@/lib/definitions';
 
-const MainContext = createContext<undefined | MainContextType>(undefined);
+const MainContext = createContext<MainContextShared | undefined>(undefined);
 
-export function MainProvider({
-  children,
-  user,
-}: {
-  children: ReactNode;
-  user: null | UserType;
-}) {
+export function MainProvider({ children, user }: MainContextProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   // Generic function that prepares a request.
   // If successful, execute the passed function, otherwise show an error message.
   const makeRequest = useCallback(
-    async <PayloadType, DataType>({
+    async <Payload, Data>({
       apiRequest,
       payload,
       successCode,
       successFn,
       errorFn,
-    }: RequestType<PayloadType, DataType>): Promise<ResultType<DataType>> => {
+    }: MakeRequestParams<Payload, Data>): Promise<ContextResult<Data>> => {
       setIsLoading(true);
 
       try {
         const { status, data } = await apiRequest({ ...payload });
 
         if (status !== successCode) {
-          errorFn && (await errorFn(data as StatusMessageType));
+          errorFn && (await errorFn(data as StatusMessage));
+
           return [false, data];
         }
 
-        successFn && (await successFn(data as DataType));
+        successFn && (await successFn(data as Data));
+
         return [true, data];
       } catch (error) {
+        console.log(error);
         const data = { message: 'Algo deu errado!' };
         errorFn && (await errorFn(data));
+
         return [false, data];
       } finally {
         setIsLoading(false);
@@ -54,7 +52,7 @@ export function MainProvider({
     []
   );
 
-  const shared = { isLoading, makeRequest, user };
+  const shared: MainContextShared = { isLoading, makeRequest, user };
 
   return <MainContext.Provider value={{ ...shared }}>{children}</MainContext.Provider>;
 }

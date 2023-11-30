@@ -1,13 +1,13 @@
-import jwt, { type Secret } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
-import type { UserType } from '@/types';
+import type { User } from './definitions';
 
-const secret = process.env.JWT_SECRET_KEY as Secret;
+const secret = process.env.JWT_SECRET_KEY as jwt.Secret;
 
-export function verifyToken(token: string) {
-  return jwt.verify(token, secret);
+export function createToken(user: User): string {
+  return jwt.sign(user, secret);
 }
 
-export function createToken(user: UserType) {
-  return jwt.sign(user, secret);
+export function verifyToken(token: string): User {
+  return jwt.verify(token, secret) as User;
 }

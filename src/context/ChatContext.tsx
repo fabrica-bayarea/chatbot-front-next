@@ -1,174 +1,206 @@
 'use client';
 
-import { ReactNode, createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useState } from 'react';
 
 import { useMainContext } from '@/hooks';
 import api from '@/lib/data';
-import { statusCodes } from '@/utils';
 
-import type {
-  ChatContextType,
-  ChatMessageType,
-  ConversationStatusType,
-  ConversationType,
-  FeedbackType,
-  UserType,
-} from '@/types';
+import {
+  ChatContextProps,
+  ChatContextShared,
+  Conversation,
+  ConversationStatus,
+  MakeRequestParams,
+  MessageFeedback,
+  UpdateConversationPayload,
+  UpdateWithCompletionPayload,
+} from '@/lib/definitions';
 
-const ChatContext = createContext<undefined | ChatContextType>(undefined);
+import statusCodes from '@/lib/statusCodes';
+import { revalidate } from '@/app/actions';
+import { revalidateTag } from 'next/cache';
 
-export function ChatProvider({ children }: { children: ReactNode }) {
+const ChatContext = createContext<ChatContextShared | undefined>(undefined);
+
+export function ChatProvider(props: ChatContextProps) {
   const { makeRequest, user } = useMainContext();
-  const [history, setHistory] = useState<ConversationType[]>([]);
+  const [history, setHistory] = useState<Conversation[]>([]);
 
-  const initialConversation: ConversationType = {
-    id: undefined,
+  const initialConversation: Conversation = {
     messages: [],
     status: 'open',
-    userId: (user as UserType).id,
+    userId: user?.id as string,
   };
 
-  const [conversation, setConversation] = useState<ConversationType>(initialConversation);
+  const [conversation, setConversation] = useState<Conversation>(
+    props.conversation ?? initialConversation
+  );
 
   // Request functions
   const deleteConversation = useCallback(
-    async (payload: { id: string }) => {
-      const successFn = () => {
-        setHistory(history.filter((conversation) => conversation.id !== payload.id));
+    async ({ id }: { id: string }) => {
+      const successFn = async () => {
+        setHistory(history.filter((conversation) => conversation.id !== id));
       };
 
-      const options = {
+      const params: MakeRequestParams<{ id: string }, {}> = {
         apiRequest: api.deleteConversation,
-        payload,
+        payload: { id },
         successCode: statusCodes.OK,
         successFn,
       };
 
-      return makeRequest<{ id: string }, {}>(options);
+      return makeRequest(params);
     },
     [history, makeRequest]
   );
 
   const getHistory = useCallback(async () => {
-    const successFn = (data: ConversationType[]) => {
-      const sortedData = data.sort((a, b) => {
+    const successFn = async (data: Conversation[]) => {
+      const sortedConversations = data.sort((a, b) => {
         const timeA = a.messages[a.messages.length - 1].time;
         const timeB = b.messages[b.messages.length - 1].time;
         return timeB - timeA;
       });
 
-      setHistory(sortedData);
+      setHistory(sortedConversations);
     };
 
-    const options = {
+    const params: MakeRequestParams<{ userId: string }, Conversation[]> = {
       apiRequest: api.fetchConversationsByUser,
-      payload: { userId: (user as UserType).id },
+      payload: { userId: user?.id as string },
       successCode: statusCodes.OK,
       successFn,
     };
 
-    return makeRequest<{ userId: string }, ConversationType[]>(options);
+    return makeRequest(params);
   }, [makeRequest, user]);
 
   const getReply = useCallback(
-    async (payload: { content: string }) => {
-      const prev = { ...conversation };
+    async ({ content }: { content: string }) => {
+      const previousConversation = { ...conversation };
 
-      const newMessages = prev.messages.concat({
+      const updatedMessages = previousConversation.messages.concat({
         role: 'user',
-        content: payload.content,
+        content,
         time: Date.now(),
       });
 
-      const newConversation = { ...prev, messages: newMessages };
-      setConversation({ ...newConversation });
+      const updatedConversation = { ...conversation, messages: updatedMessages };
+      setConversation({ ...updatedConversation });
 
-      const successFn = (data: ConversationType) => {
+      const successFn = async (data: Conversation) => {
         setConversation({ ...data });
       };
 
-      const errorFn = () => {
-        setConversation({ ...prev });
+      const errorFn = async () => {
+        setConversation({ ...previousConversation });
       };
 
-      const options = {
-        apiRequest: api.fetchReply,
-        payload: { body: newConversation },
+      const params: MakeRequestParams<UpdateWithCompletionPayload, Conversation> = {
+        apiRequest: api.updateWithCompletion,
+        payload: { body: updatedConversation },
         successCode: statusCodes.OK,
         successFn,
         errorFn,
       };
 
-      return makeRequest<{ body: ConversationType }, ConversationType>(options);
+      return makeRequest(params);
     },
     [conversation, makeRequest]
   );
 
   const changeFeedback = useCallback(
-    async (payload: { feedback: FeedbackType }) => {
-      const newMessages = [...conversation.messages];
-      newMessages[newMessages.length - 1].feedback = payload.feedback;
-      const newConversation = { ...conversation, messages: newMessages };
-      setConversation({ ...newConversation });
-      const successFn = () => {};
+    async ({ feedback }: { feedback: MessageFeedback }) => {
+      const updatedMessages = [...conversation.messages];
+      const lastIndex = updatedMessages.length - 1;
+      updatedMessages[lastIndex].feedback = feedback;
 
-      const options = {
-        apiRequest: api.updateConversationMessages,
-        payload: {
-          body: { messages: conversation.messages },
-          id: conversation.id as string,
-        },
-        successCode: statusCodes.OK,
-        successFn,
+      const payload: UpdateConversationPayload = {
+        body: { messages: updatedMessages },
+        id: conversation.id as string,
       };
 
-      return makeRequest<
-        { body: { messages: ChatMessageType[] }; id: string },
-        ConversationType
-      >(options);
+      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
+        apiRequest: api.updateConversation,
+        payload,
+        successCode: statusCodes.OK,
+      };
+
+      return makeRequest(params);
     },
     [conversation, makeRequest]
   );
 
-  const changeConversationStatus = useCallback(
-    async (payload: { status: ConversationStatusType }) => {
-      const successFn = () => {
-        setConversation((prev) => ({ ...prev, status: payload.status }));
+  const changeStatus = useCallback(
+    async ({ status }: { status: ConversationStatus }) => {
+      const payload: UpdateConversationPayload = {
+        body: { status },
+        id: conversation.id as string,
       };
 
-      const options = {
-        apiRequest: api.updateConversationStatus,
-        payload: {
-          body: { status: payload.status },
-          id: conversation.id as string,
-        },
+      const successFn = async () => {
+        setConversation({ ...conversation, status });
+      };
+
+      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
+        apiRequest: api.updateConversation,
+        payload,
         successCode: statusCodes.OK,
         successFn,
       };
 
-      return makeRequest<
-        { body: { status: ConversationStatusType }; id: string },
-        ConversationType
-      >(options);
+      return makeRequest(params);
     },
     [conversation, makeRequest]
   );
+
+  const acceptConversation = useCallback(async () => {
+    const body: Partial<Conversation> = {
+      status: 'accepted',
+      support: {
+        collaboratorId: user?.id as string,
+        messages: [],
+      },
+    };
+
+    const payload: UpdateConversationPayload = {
+      body,
+      id: conversation.id as string,
+    };
+
+    const successFn = async () => {
+      setConversation({ ...conversation, ...body });
+      await revalidate({ tag: 'support' });
+    };
+
+    const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
+      apiRequest: api.updateConversation,
+      payload,
+      successCode: statusCodes.OK,
+      successFn,
+    };
+
+    return makeRequest(params);
+  }, [conversation, makeRequest, user?.id]);
 
   const shared = {
+    acceptConversation,
+    changeStatus,
     changeFeedback,
     conversation,
     conversationLength: conversation.messages.length,
     deleteConversation,
     getHistory,
     getReply,
-    initialConversation,
     history,
+    initialConversation,
     setConversation,
-    changeConversationStatus,
-    isRedirected: conversation.status === 'redirected',
   };
 
-  return <ChatContext.Provider value={{ ...shared }}>{children}</ChatContext.Provider>;
+  return (
+    <ChatContext.Provider value={{ ...shared }}>{props.children}</ChatContext.Provider>
+  );
 }
 
 export default ChatContext;

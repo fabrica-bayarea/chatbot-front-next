@@ -20,24 +20,34 @@ export const Button = styled.button`
 
   &:disabled {
     cursor: unset;
-    opacity: 0.4;
   }
 `;
 
 export const AltButton = styled(Button)`
   background-color: var(--clr-b);
-  border-radius: 5px;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255 255 255 / 20%),
+    rgba(255 255 255 / 0%) 40%
+  );
+  border: 1px solid var(--clr-b);
+  border-radius: 4px;
   color: var(--clr-light);
   font-size: 0.9rem;
-  padding: 10px 20px;
+  height: 40px;
+  width: 200px;
+
+  &:disabled {
+    opacity: 0.6;
+  }
 `;
 
 export const DialogButton = styled(Button)`
   border: 1px solid var(--clr-a);
   border-radius: 5px;
-  min-width: 60px;
-  padding: 10px;
+  height: 40px;
   transition: background-color 200ms ease;
+  width: 60px;
 
   &:hover:not(:disabled) {
     background-color: var(--clr-a);
@@ -82,6 +92,9 @@ export const MainButton = styled(Button)`
   color: var(--clr-b);
   font-size: 1.2em;
   height: 50px;
-  padding: 0 10px;
   width: 250px;
+
+  &:disabled {
+    opacity: 0.4;
+  }
 `;

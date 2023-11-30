@@ -3,17 +3,22 @@ import type { ReactNode } from 'react';
 import { getSession } from '@/app/actions';
 import SupportSideBar from '@/components/SupportSideBar';
 import api from '@/lib/data';
-import { UserType } from '@/types';
+import { ConversationExpanded } from '@/lib/definitions';
 
 import styles from './support.module.css';
 
 async function Layout({ children }: { children: ReactNode }) {
-  const user = await getSession();
-  const { data } = await api.fetchRedirectedConversations();
+  const session = await getSession();
+
+  const { data } = await api.fetchSupportConversations({
+    collaboratorId: session?.user.id as string,
+  });
+
+  const conversations = data as ConversationExpanded[];
 
   return (
     <main className={styles.main}>
-      <SupportSideBar conversations={data} user={user as UserType} />
+      <SupportSideBar conversations={conversations} />
       {children}
     </main>
   );

@@ -2,18 +2,12 @@
 
 import styled from 'styled-components';
 
-import { mediaQueries } from '@/utils';
-
 const Container = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
   gap: 20px;
   scale: 1.2;
-
-  ${mediaQueries.laptopS} {
-    scale: 0.8;
-  }
 `;
 
 const LogoImage = styled.div`

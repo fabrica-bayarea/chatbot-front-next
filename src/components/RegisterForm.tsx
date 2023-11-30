@@ -9,9 +9,9 @@ import SubmitButton from './SubmitButton';
 import { ColumnForm } from './styled';
 import { register } from '@/app/actions';
 import { useValidation } from '@/hooks';
-import type { InputSchemeType, StatusMessageType } from '@/types';
+import type { InputScheme, StatusMessage } from '@/lib/definitions';
 
-const inputScheme: { [key: string]: InputSchemeType } = {
+const inputSchemes: { [key: string]: InputScheme } = {
   email: { isRequired: true, label: 'E-mail', value: '' },
   name: { isRequired: true, label: 'Nome', value: '' },
   password: { isRequired: true, label: 'Senha', value: '' },
@@ -19,12 +19,12 @@ const inputScheme: { [key: string]: InputSchemeType } = {
 };
 
 function RegisterForm() {
-  const [inputs, setInputs] = useState(inputScheme);
+  const [inputs, setInputs] = useState(inputSchemes);
   const [statusMessage, setStatusMessage] = useState('');
   const validation = useValidation(inputs);
 
   const [formState, formAction] = useFormState(
-    (prevState: StatusMessageType, formData: FormData) => register(formData),
+    (prevState: StatusMessage, formData: FormData) => register(formData),
     { message: '' }
   );
 
@@ -35,7 +35,7 @@ function RegisterForm() {
     setInputs(newInputs);
   };
 
-  // Displays the validation message to the user, if it exists
+  // Displays a status message to the user
   useEffect(() => {
     if (typeof validation === 'string') {
       setStatusMessage(validation);
@@ -91,7 +91,7 @@ function RegisterForm() {
           </span>
         )}
       </div>
-      <SubmitButton validation={validation} />
+      <SubmitButton validation={validation}>Registrar</SubmitButton>
     </ColumnForm>
   );
 }

@@ -1,11 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useRef } from 'react';
 import styled from 'styled-components';
 
 import { IconButton, Form, ChatTextArea, ChatMessage, InfoMessage } from './styled';
-import type { ChatMessageType, SupportHeaderProps } from '@/types';
+import { useChatContext } from '@/hooks';
+import type { ConversationMessage } from '@/lib/definitions';
 
 const Container = styled.div`
   display: flex;
@@ -31,20 +32,22 @@ const Conversation = styled.div`
   }
 `;
 
-function AssistantConversation({ messages }: { messages: ChatMessageType[] }) {
+function AssistantConversation({ messages }: { messages: ConversationMessage[] }) {
   return (
     <>
+      <InfoMessage>Início do atendimento virtual</InfoMessage>
       {messages.map((message, index) => (
         <ChatMessage key={index} $role={message.role}>
           {message.content}
         </ChatMessage>
       ))}
+      <InfoMessage>Fim do atendimento virtual</InfoMessage>
     </>
   );
 }
 
-function SupportChat({ conversation }: SupportHeaderProps) {
-  const messages = conversation.messages;
+function SupportChat() {
+  const { conversation } = useChatContext();
   const controlRef = useRef<null | HTMLDivElement>(null);
 
   //
@@ -52,26 +55,11 @@ function SupportChat({ conversation }: SupportHeaderProps) {
     event.preventDefault();
   };
 
-  // Ensure that the control element is visible
-  const scrollToBottom = () => {
-    const controlElement = controlRef.current as HTMLDivElement;
-    controlElement.scrollIntoView();
-  };
-
-  // Keeps the chat always scrolled down
-  useEffect(() => {
-    if (messages.length !== 0) {
-      scrollToBottom();
-    }
-  }, [messages]);
-
   // Main render
   return (
     <Container>
       <Conversation>
-        <InfoMessage>Início do atendimento virtual</InfoMessage>
-        <AssistantConversation messages={messages} />
-        <InfoMessage>Fim do atendimento virtual</InfoMessage>
+        <AssistantConversation messages={conversation.messages} />
         <div ref={controlRef}></div>
       </Conversation>
       <Form onSubmit={handleSubmit} $padding="0 240px">

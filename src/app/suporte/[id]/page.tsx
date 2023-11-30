@@ -1,17 +1,27 @@
+import { getSession } from '@/app/actions';
 import SupportChat from '@/components/SupportChat';
 import SupportHeader from '@/components/SupportHeader';
-
+import { ChatProvider } from '@/context';
 import api from '@/lib/data';
+import type { ConversationExpanded, SupportProps } from '@/lib/definitions';
 
-async function Support({ params }: { params: { id: string } }) {
-  const id = params.id;
-  const { data } = await api.fetchConversation({ id });
+async function Support({ params }: SupportProps) {
+  const session = await getSession();
+
+  const { data } = await api.fetchSupportConversations({
+    collaboratorId: session?.user.id as string,
+  });
+
+  const conversations = data as ConversationExpanded[];
+  const [conversation] = conversations.filter(({ id }) => id === params.id);
 
   return (
-    <section>
-      <SupportHeader conversation={data} />
-      <SupportChat conversation={data} />
-    </section>
+    <ChatProvider conversation={conversation}>
+      <section>
+        <SupportHeader />
+        <SupportChat />
+      </section>
+    </ChatProvider>
   );
 }
 

@@ -9,7 +9,6 @@ import Feedback from './Feedback';
 import Suggestions from './Suggestions';
 import { IconButton, Form, ChatInput, ChatMessage } from './styled';
 import { useChatContext, useMainContext } from '@/hooks';
-import { mediaQueries } from '@/utils';
 
 const Container = styled.div`
   display: flex;
@@ -23,29 +22,28 @@ const Conversation = styled.div<{ $redirected: boolean }>`
   display: flex;
   flex-direction: column;
   flex-grow: 10;
-  gap: 30px;
+  gap: 20px;
   overflow-y: scroll;
   padding: 40px 20px 0 40px;
 
   & > .redirect-status {
-    display: flex;
-    flex-direction: column;
     font-size: 0.8rem;
-    gap: 20px;
-    padding: 0 40px;
+    margin: 40px 40px 0;
     text-align: center;
 
     & > p {
       font-style: italic;
+      margin-bottom: 20px;
     }
 
     & > span {
+      font-size: 0.9rem;
       font-weight: bold;
     }
   }
 
   & > *:not(.redirect-status) {
-    opacity: ${({ $redirected }) => ($redirected ? '0.8' : '1')};
+    opacity: ${({ $redirected }) => ($redirected ? '0.6' : '1')};
   }
 
   &::-webkit-scrollbar {
@@ -54,10 +52,6 @@ const Conversation = styled.div<{ $redirected: boolean }>`
 
   &::-webkit-scrollbar-thumb {
     background-color: var(--clr-c);
-  }
-
-  ${mediaQueries.mobileL} {
-    padding: 40px 10px 0;
   }
 `;
 
@@ -72,19 +66,18 @@ const SendButton = styled(IconButton)`
   height: 60px;
   position: absolute;
   right: -30px;
-
-  ${mediaQueries.mobileL} {
-    right: 10px;
-  }
 `;
 
 function Chat() {
   const { user } = useMainContext();
-  const { conversation, conversationLength, getReply, isRedirected } = useChatContext();
+  const { conversation, conversationLength, getReply } = useChatContext();
   const { isLoading } = useMainContext();
-  const loadingRef = useRef<null | HTMLDivElement>(null);
   const inputRef = useRef<null | HTMLInputElement>(null);
+  const loadingRef = useRef<null | HTMLDivElement>(null);
   const [showFeedback, setShowFeedback] = useState(false);
+
+  const isRedirected =
+    conversation.status === 'redirected' || conversation.status === 'accepted';
 
   // Request an AI response to update the conversation
   const handleSubmit = async (event: FormEvent) => {
@@ -141,7 +134,7 @@ function Chat() {
         {isRedirected && (
           <div className="redirect-status">
             <p>
-              Esta conversa foi direcionada para nosso setor de suporte e assim que
+              Esta conversa foi direcionada para o nosso setor de suporte e assim que
               possível uma resposta será enviada para o e-mail:
             </p>
             <span>{user?.email}</span>

@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { mediaQueries } from '@/utils';
-
 const Form = styled.form<{ $padding?: string }>`
   align-items: center;
   display: flex;
@@ -25,10 +23,6 @@ const ColumnForm = styled(Form)`
       display: flex;
       gap: 10px;
     }
-  }
-
-  ${mediaQueries.mobileL} {
-    padding: 40px 20px 0;
   }
 `;
 

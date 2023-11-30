@@ -1,8 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import type { ChatMessageProps } from '@/types';
-
-const ChatMessage = styled.span<ChatMessageProps>`
+const ChatMessage = styled.span<{ $role: string }>`
   --r: 5px;
 
   line-height: 20px;

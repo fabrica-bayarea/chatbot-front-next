@@ -1,12 +1,12 @@
 'use client';
 
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
 import TrashButton from './TrashButton';
 import { useChatContext, useMainContext } from '@/hooks';
-import { mediaQueries } from '@/utils';
+import type { HistoryProps } from '@/lib/definitions';
 
 const List = styled.ul`
   display: flex;
@@ -36,10 +36,6 @@ const ListItem = styled.li`
   &:hover {
     background-color: var(--clr-light);
   }
-
-  ${mediaQueries.mobileL} {
-    padding: 20px 0 20px 20px;
-  }
 `;
 
 const ItemDetails = styled.div`
@@ -61,7 +57,7 @@ const ItemDetails = styled.div`
   }
 `;
 
-function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
+function History({ showFn }: HistoryProps) {
   const { history, setConversation, getHistory } = useChatContext();
   const { isLoading } = useMainContext();
 
@@ -99,7 +95,7 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
               <span>({messages.length} mensagens)</span>
               <span>{messages[0].content}</span>
             </ItemDetails>
-            <TrashButton id={id} />
+            <TrashButton id={id as string} />
           </ListItem>
         );
       })}

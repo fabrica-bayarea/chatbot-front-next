@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import type { InputSchemeType, ValidationType } from '@/types';
+import { InputScheme } from '@/lib/definitions';
 
-function useValidation(inputs: { [key: string]: InputSchemeType }): ValidationType {
-  const [validation, setValidation] = useState<ValidationType>(false);
+function useValidation(inputs: { [key: string]: InputScheme }): boolean | string {
+  const [validation, setValidation] = useState<boolean | string>(false);
 
   useEffect(() => {
     const runValidations = () => {
@@ -14,9 +14,9 @@ function useValidation(inputs: { [key: string]: InputSchemeType }): ValidationTy
 
       // For each input, check whether it is valid. If not, return a message
       for (let key in inputs) {
-        const { value, isRequired } = inputs[key];
+        const { isRequired, value } = inputs[key];
 
-        if (value === '' && isRequired) {
+        if (isRequired && value === '') {
           return `O campo '${inputs[key].label.toLowerCase()}' é obrigatório.`;
         }
 

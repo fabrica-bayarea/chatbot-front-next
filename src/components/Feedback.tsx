@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { DialogButton, IconButton } from './styled';
-import type { FeedbackType } from '@/types';
 import { useChatContext, useMainContext } from '@/hooks';
+import type { MessageFeedback } from '@/lib/definitions';
 
 const Question = styled.div`
   align-items: center;
@@ -41,11 +41,11 @@ const Dialog = styled.div`
 
 function Feedback({ scrollFn }: { scrollFn: () => void }) {
   const { isLoading } = useMainContext();
-  const { changeFeedback, changeConversationStatus } = useChatContext();
-  const [feedback, setFeedback] = useState<FeedbackType>(undefined);
+  const { changeFeedback, changeStatus } = useChatContext();
+  const [feedback, setFeedback] = useState<MessageFeedback | undefined>(undefined);
   const [showDialog, setShowDialog] = useState(false);
 
-  const handleFeedback = async (value: FeedbackType) => {
+  const handleFeedback = async (value: MessageFeedback) => {
     if (feedback !== value) {
       const [success] = await changeFeedback({ feedback: value });
 
@@ -84,7 +84,7 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
       {showDialog && (
         <Dialog>
           <IconButton onClick={() => setShowDialog(false)} $hover={true}>
-            <Image src="/xmark.svg" height={16} width={16} alt="Close button" />
+            <Image src="/xmark.svg" height={16} width={16} alt="Close icon" />
           </IconButton>
           <span>Feedback recebido!</span>
           {feedback === 'poor' && (
@@ -92,7 +92,7 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
               <span>Gostaria de ser direcionado para um de nossos colaboradores?</span>
               <div>
                 <DialogButton
-                  onClick={() => changeConversationStatus({ status: 'redirected' })}
+                  onClick={() => changeStatus({ status: 'redirected' })}
                   disabled={isLoading}
                 >
                   Sim

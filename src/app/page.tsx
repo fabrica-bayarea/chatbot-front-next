@@ -1,14 +1,16 @@
 'use client';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { Chat, Dropdown, History, Logo } from '@/components';
+import Chat from '@/components/Chat';
+import Dropdown from '@/components/Dropdown';
+import History from '@/components/History';
+import Logo from '@/components/Logo';
 import { Main, Section } from '@/components/styled';
 import { ChatProvider } from '@/context';
 import { useMainContext } from '@/hooks';
-import { mediaQueries } from '@/utils';
-import Link from 'next/link';
 
 const Container = styled(Main)`
   & > a {
@@ -24,12 +26,6 @@ const Container = styled(Main)`
 const App = styled(Section)`
   & > div {
     height: 600px;
-  }
-
-  ${mediaQueries.laptopS} {
-    & > div {
-      height: 500px;
-    }
   }
 `;
 

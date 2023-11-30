@@ -10,21 +10,21 @@ import SubmitButton from './SubmitButton';
 import { ColumnForm } from './styled';
 import { login } from '@/app/actions';
 import { useValidation } from '@/hooks';
-import type { InputSchemeType, StatusMessageType } from '@/types';
+import type { InputScheme, StatusMessage } from '@/lib/definitions';
 
-const inputScheme: { [key: string]: InputSchemeType } = {
+const inputSchemes: { [key: string]: InputScheme } = {
   email: { isRequired: true, label: 'E-mail', value: '' },
   password: { isRequired: true, label: 'Senha', value: '' },
 };
 
 function LoginForm() {
   const path = usePathname();
-  const [inputs, setInputs] = useState(inputScheme);
+  const [inputs, setInputs] = useState(inputSchemes);
   const [statusMessage, setStatusMessage] = useState('');
   const validation = useValidation(inputs);
 
   const [formState, formAction] = useFormState(
-    (prevState: StatusMessageType, formData: FormData) => login(formData, path),
+    (prevState: StatusMessage, formData: FormData) => login(formData, path),
     { message: '' }
   );
 
@@ -35,7 +35,7 @@ function LoginForm() {
     setInputs(newInputs);
   };
 
-  // Displays the validation message to the user, if it exists
+  // Displays a status message to the user
   useEffect(() => {
     if (typeof validation === 'string') {
       setStatusMessage(validation);
@@ -77,7 +77,7 @@ function LoginForm() {
           </span>
         )}
       </div>
-      <SubmitButton validation={validation} />
+      <SubmitButton validation={validation}>Entrar</SubmitButton>
     </ColumnForm>
   );
 }

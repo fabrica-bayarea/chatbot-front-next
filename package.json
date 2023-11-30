@@ -19,6 +19,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-spinners": "^0.13.8",
+    "resend": "^2.0.0",
     "styled-components": "^6.0.8"
   },
   "devDependencies": {

@@ -2,8 +2,11 @@
 
 import styled from 'styled-components';
 
-import { Avatar, AltButton } from './styled';
-import type { SupportHeaderProps } from '@/types';
+import RequestButton from './RequestButton';
+import { Avatar } from './styled';
+import { revalidate } from '@/app/actions';
+import { useChatContext } from '@/hooks';
+import { revalidateTag } from 'next/cache';
 
 const Container = styled.header`
   align-items: center;
@@ -28,17 +31,32 @@ const Container = styled.header`
   }
 `;
 
-function SupportHeader({ conversation }: SupportHeaderProps) {
+function SupportHeader() {
+  const { acceptConversation, conversation } = useChatContext();
+
   return (
     <Container>
-      <Avatar>{conversation.user.name.charAt(0)}</Avatar>
+      <Avatar>{conversation.user?.name.charAt(0)}</Avatar>
       <div>
-        <h1>{conversation.user.name}</h1>
-        <div>{conversation.user.email}</div>
+        <h1>{conversation.user?.name}</h1>
+        <div>{conversation.user?.email}</div>
       </div>
       <div>
-        <AltButton type="button">Enviar por e-mail</AltButton>
-        <AltButton type="button">Encerrar atendimento</AltButton>
+        {conversation.status === 'redirected' && (
+          <RequestButton disabled={false} request={acceptConversation}>
+            Iniciar atendimento
+          </RequestButton>
+        )}
+        {conversation.status === 'accepted' && (
+          <>
+            <RequestButton disabled={true} request={async () => {}}>
+              Enviar por e-mail
+            </RequestButton>
+            <RequestButton disabled={true} request={async () => {}}>
+              Encerrar atendimento
+            </RequestButton>
+          </>
+        )}
       </div>
     </Container>
   );

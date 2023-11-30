@@ -22,13 +22,13 @@ function TrashButton({ id }: { id: string }) {
     return (
       <Container>
         <IconButton
-          onClick={(event) => {
+          onClick={async (event) => {
             event.stopPropagation();
-            deleteConversation({ id });
+            await deleteConversation({ id });
           }}
           $hover={true}
         >
-          <Image src="/check.svg" height={20} width={20} alt="Check icon" />
+          <Image src="/check.svg" height={20} width={20} alt="Confirm icon" />
         </IconButton>
         <IconButton
           onClick={(event) => {

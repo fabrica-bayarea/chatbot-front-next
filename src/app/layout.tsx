@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 
 import { getSession } from './actions';
 import StyledComponentsRegistry from './registry';
@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const user = await getSession();
+  const session = await getSession();
 
   return (
     <html lang="en">
       <body>
-        <MainProvider user={user}>
+        <MainProvider user={session?.user}>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </MainProvider>
       </body>

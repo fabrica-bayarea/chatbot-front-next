@@ -9,7 +9,7 @@ export const screenSizes = {
   desktop: 1920,
 };
 
-const mediaQueries = {
+export const mediaQueries = {
   mobileS: `@media (max-width: ${screenSizes.mobileS}px)`,
   mobileM: `@media (max-width: ${screenSizes.mobileM}px)`,
   mobileL: `@media (max-width: ${screenSizes.mobileL}px)`,
@@ -19,5 +19,3 @@ const mediaQueries = {
   laptopL: `@media (max-width: ${screenSizes.laptopL}px)`,
   desktop: `@media (max-width: ${screenSizes.desktop}px)`,
 };
-
-export default mediaQueries;
