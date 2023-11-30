@@ -24,7 +24,7 @@ function TrashButton({ id }: { id: string }) {
         <IconButton
           onClick={async (event) => {
             event.stopPropagation();
-            await deleteConversation({ id });
+            await deleteConversation(id);
           }}
           $hover={true}
         >

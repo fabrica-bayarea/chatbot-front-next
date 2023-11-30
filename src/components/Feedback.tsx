@@ -47,7 +47,7 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
 
   const handleFeedback = async (value: MessageFeedback) => {
     if (feedback !== value) {
-      const [success] = await changeFeedback({ feedback: value });
+      const [success] = await changeFeedback(value);
 
       if (success) {
         setFeedback(value);
@@ -92,7 +92,7 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
               <span>Gostaria de ser direcionado para um de nossos colaboradores?</span>
               <div>
                 <DialogButton
-                  onClick={() => changeStatus({ status: 'redirected' })}
+                  onClick={() => changeStatus('redirected')}
                   disabled={isLoading}
                 >
                   Sim

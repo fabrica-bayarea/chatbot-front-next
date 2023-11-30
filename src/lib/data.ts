@@ -18,6 +18,7 @@ const api = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
+      cache: 'no-store',
     });
 
     const data = await response.json();
@@ -44,7 +45,7 @@ const api = {
     id: string;
   }): Promise<APIResult<ConversationExpanded>> {
     const response = await fetch(`${URL}/conversations/${id}?_expand=user`, {
-      next: { revalidate: 30, tags: ['support'] },
+      next: { revalidate: 10, tags: ['support'] },
     });
 
     const data = await response.json();
@@ -70,7 +71,7 @@ const api = {
   }): Promise<APIResult<ConversationExpanded[]>> {
     const response = await fetch(
       `${URL}/conversations/support?collaboratorId=${collaboratorId}&_expand=user`,
-      { next: { revalidate: 30, tags: ['support'] } }
+      { next: { revalidate: 10, tags: ['support'] } }
     );
 
     const data = await response.json();

@@ -18,7 +18,6 @@ import {
 
 import statusCodes from '@/lib/statusCodes';
 import { revalidate } from '@/app/actions';
-import { revalidateTag } from 'next/cache';
 
 const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 
@@ -38,7 +37,7 @@ export function ChatProvider(props: ChatContextProps) {
 
   // Request functions
   const deleteConversation = useCallback(
-    async ({ id }: { id: string }) => {
+    async (id: string) => {
       const successFn = async () => {
         setHistory(history.filter((conversation) => conversation.id !== id));
       };
@@ -77,7 +76,7 @@ export function ChatProvider(props: ChatContextProps) {
   }, [makeRequest, user]);
 
   const getReply = useCallback(
-    async ({ content }: { content: string }) => {
+    async (content: string) => {
       const previousConversation = { ...conversation };
 
       const updatedMessages = previousConversation.messages.concat({
@@ -111,7 +110,7 @@ export function ChatProvider(props: ChatContextProps) {
   );
 
   const changeFeedback = useCallback(
-    async ({ feedback }: { feedback: MessageFeedback }) => {
+    async (feedback: MessageFeedback) => {
       const updatedMessages = [...conversation.messages];
       const lastIndex = updatedMessages.length - 1;
       updatedMessages[lastIndex].feedback = feedback;
@@ -133,7 +132,7 @@ export function ChatProvider(props: ChatContextProps) {
   );
 
   const changeStatus = useCallback(
-    async ({ status }: { status: ConversationStatus }) => {
+    async (status: ConversationStatus) => {
       const payload: UpdateConversationPayload = {
         body: { status },
         id: conversation.id as string,
@@ -141,6 +140,7 @@ export function ChatProvider(props: ChatContextProps) {
 
       const successFn = async () => {
         setConversation({ ...conversation, status });
+        await revalidate({ tag: 'support' });
       };
 
       const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
@@ -184,7 +184,7 @@ export function ChatProvider(props: ChatContextProps) {
     return makeRequest(params);
   }, [conversation, makeRequest, user?.id]);
 
-  const shared = {
+  const shared: ChatContextShared = {
     acceptConversation,
     changeStatus,
     changeFeedback,

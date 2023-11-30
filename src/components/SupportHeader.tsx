@@ -4,9 +4,7 @@ import styled from 'styled-components';
 
 import RequestButton from './RequestButton';
 import { Avatar } from './styled';
-import { revalidate } from '@/app/actions';
 import { useChatContext } from '@/hooks';
-import { revalidateTag } from 'next/cache';
 
 const Container = styled.header`
   align-items: center;
@@ -32,7 +30,7 @@ const Container = styled.header`
 `;
 
 function SupportHeader() {
-  const { acceptConversation, conversation } = useChatContext();
+  const { acceptConversation, changeStatus, conversation } = useChatContext();
 
   return (
     <Container>
@@ -49,10 +47,10 @@ function SupportHeader() {
         )}
         {conversation.status === 'accepted' && (
           <>
-            <RequestButton disabled={true} request={async () => {}}>
+            <RequestButton disabled={false} request={async () => {}}>
               Enviar por e-mail
             </RequestButton>
-            <RequestButton disabled={true} request={async () => {}}>
+            <RequestButton disabled={false} request={async () => changeStatus('closed')}>
               Encerrar atendimento
             </RequestButton>
           </>

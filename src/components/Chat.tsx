@@ -90,7 +90,7 @@ function Chat() {
     }
 
     inputElement.value = '';
-    await getReply({ content });
+    await getReply(content);
   };
 
   // Ensure that the control element is visible

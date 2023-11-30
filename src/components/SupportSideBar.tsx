@@ -42,6 +42,10 @@ const Container = styled.aside`
     text-align: center;
     text-transform: uppercase;
   }
+
+  & > span {
+    text-align: center;
+  }
 `;
 
 const List = styled.ul`
@@ -116,6 +120,7 @@ function SupportSideBar({ conversations }: SupportSideBarProps) {
         <Image src="/home.svg" height={24} width={24} alt="Home link" />
       </Link>
       <h1>Atendimentos</h1>
+      {conversations.length === 0 && <span>Não há nada aqui!</span>}
       <List>
         {conversations
           .sort((a, b) => {

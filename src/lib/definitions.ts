@@ -80,17 +80,13 @@ export type RevalidateParams = {
 
 export type ChatContextShared = {
   acceptConversation: () => Promise<ContextResult<Conversation>>;
-  changeStatus: (params: {
-    status: ConversationStatus;
-  }) => Promise<ContextResult<Conversation>>;
-  changeFeedback: (params: {
-    feedback: MessageFeedback;
-  }) => Promise<ContextResult<Conversation>>;
+  changeStatus: (status: ConversationStatus) => Promise<ContextResult<Conversation>>;
+  changeFeedback: (feedback: MessageFeedback) => Promise<ContextResult<Conversation>>;
   conversation: ConversationExpanded;
   conversationLength: number;
-  deleteConversation: (params: { id: string }) => Promise<ContextResult<{}>>;
+  deleteConversation: (id: string) => Promise<ContextResult<{}>>;
   getHistory: () => Promise<ContextResult<Conversation[]>>;
-  getReply: (params: { content: string }) => Promise<ContextResult<Conversation>>;
+  getReply: (content: string) => Promise<ContextResult<Conversation>>;
   history: Conversation[];
   initialConversation: Conversation;
   setConversation: Dispatch<SetStateAction<Conversation>>;

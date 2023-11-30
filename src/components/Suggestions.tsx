@@ -25,7 +25,7 @@ function Suggestions() {
       {suggestions.map((suggestion, index) => (
         <ChatMessage
           key={index}
-          onClick={() => getReply({ content: suggestion })}
+          onClick={() => getReply(suggestion)}
           role="button"
           tabIndex={0}
           $role="suggestion"
