@@ -20,10 +20,10 @@ export function MainProvider({ children, user }: MainContextProps) {
   const makeRequest = useCallback(
     async <Payload, Data>({
       apiRequest,
+      errorFn,
       payload,
       successCode,
       successFn,
-      errorFn,
     }: MakeRequestParams<Payload, Data>): Promise<ContextResult<Data>> => {
       setIsLoading(true);
 

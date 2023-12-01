@@ -1,12 +1,12 @@
-import type { NextRequest } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-import type { ConversationMessage } from '@/lib/definitions';
+import type { Conversation } from '@/lib/definitions';
 
 const openai = new OpenAI();
 
 export async function POST(req: NextRequest) {
-  const body: { messages: ConversationMessage[] } = await req.json();
+  const body: Pick<Conversation, 'messages'> = await req.json();
 
   // Simple instruction for AI
   const instruction = {
@@ -30,5 +30,5 @@ export async function POST(req: NextRequest) {
   const chatCompletion = await openai.chat.completions.create(params);
   const { message } = chatCompletion.choices[0];
 
-  return Response.json({ message });
+  return NextResponse.json({ message });
 }

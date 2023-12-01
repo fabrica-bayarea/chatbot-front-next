@@ -9,6 +9,7 @@ import Feedback from './Feedback';
 import Suggestions from './Suggestions';
 import { IconButton, Form, ChatInput, ChatMessage } from './styled';
 import { useChatContext, useMainContext } from '@/hooks';
+import LineBreaks from './LineBreaks';
 
 const Container = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Conversation = styled.div<{ $redirected: boolean }>`
+const Conversation = styled.div<{ $open: boolean }>`
   display: flex;
   flex-direction: column;
   flex-grow: 10;
@@ -43,7 +44,7 @@ const Conversation = styled.div<{ $redirected: boolean }>`
   }
 
   & > *:not(.redirect-status) {
-    opacity: ${({ $redirected }) => ($redirected ? '0.6' : '1')};
+    opacity: ${({ $open }) => ($open ? '1' : '0.6')};
   }
 
   &::-webkit-scrollbar {
@@ -72,12 +73,11 @@ function Chat() {
   const { user } = useMainContext();
   const { conversation, conversationLength, getReply } = useChatContext();
   const { isLoading } = useMainContext();
-  const inputRef = useRef<null | HTMLInputElement>(null);
-  const loadingRef = useRef<null | HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const loadingRef = useRef<HTMLDivElement | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
 
-  const isRedirected =
-    conversation.status === 'redirected' || conversation.status === 'accepted';
+  const isOpen = conversation.status === 'open';
 
   // Request an AI response to update the conversation
   const handleSubmit = async (event: FormEvent) => {
@@ -85,7 +85,7 @@ function Chat() {
     const inputElement = inputRef.current as HTMLInputElement;
     const content = inputElement.value;
 
-    if (!content || isLoading || isRedirected) {
+    if (!content || isLoading) {
       return;
     }
 
@@ -117,21 +117,21 @@ function Chat() {
 
   return (
     <Container>
-      <Conversation $redirected={isRedirected}>
+      <Conversation $open={isOpen}>
         <ChatMessage $role="assistant">
           Eu sou <strong>Eda</strong>, assistente virtual.
           <br />
           Selecione uma das perguntas frequentes abaixo ou faça uma você mesmo! Estou aqui
           para ajudar da melhor forma possível!
         </ChatMessage>
-        {conversation.messages.map((message, index) => (
-          <ChatMessage key={index} $role={message.role}>
-            {message.content}
+        {conversation.messages.map(({ content, role }, index) => (
+          <ChatMessage key={index} $role={role}>
+            <LineBreaks content={content} />
           </ChatMessage>
         ))}
         {conversationLength === 0 && <Suggestions />}
         {showFeedback && <Feedback scrollFn={scrollToBottom} />}
-        {isRedirected && (
+        {!isOpen && (
           <div className="redirect-status">
             <p>
               Esta conversa foi direcionada para o nosso setor de suporte e assim que
@@ -144,7 +144,7 @@ function Chat() {
           {isLoading && <BeatLoader color="lightgray" size={8} />}
         </Loading>
       </Conversation>
-      {!isRedirected && (
+      {isOpen && (
         <Form onSubmit={handleSubmit}>
           <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
           <SendButton type="submit" $bgColor="var(--clr-d)">

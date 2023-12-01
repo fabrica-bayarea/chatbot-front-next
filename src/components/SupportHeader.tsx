@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import styled from 'styled-components';
 
 import RequestButton from './RequestButton';
@@ -15,11 +16,6 @@ const Container = styled.header`
   height: 120px;
   padding: 0 120px;
 
-  & > div:nth-child(3) {
-    display: flex;
-    gap: 20px;
-  }
-
   & > div:nth-child(2) {
     flex-grow: 10;
 
@@ -27,10 +23,26 @@ const Container = styled.header`
       font-size: 1.25rem;
     }
   }
+
+  & > nav {
+    display: flex;
+    gap: 20px;
+    position: relative;
+
+    & > span {
+      bottom: -25px;
+      font-size: 0.75rem;
+      position: absolute;
+    }
+  }
 `;
 
 function SupportHeader() {
-  const { acceptConversation, changeStatus, conversation } = useChatContext();
+  const { acceptConversation, changeStatus, conversation, sendEmail, supportLength } =
+    useChatContext();
+
+  const lastSent = conversation.support?.lastSent as number;
+  const lastSentString = new Date(lastSent).toLocaleString('pt-BR');
 
   return (
     <Container>
@@ -39,23 +51,27 @@ function SupportHeader() {
         <h1>{conversation.user?.name}</h1>
         <div>{conversation.user?.email}</div>
       </div>
-      <div>
+      <nav>
         {conversation.status === 'redirected' && (
           <RequestButton disabled={false} request={acceptConversation}>
             Iniciar atendimento
           </RequestButton>
         )}
         {conversation.status === 'accepted' && (
-          <>
-            <RequestButton disabled={false} request={async () => {}}>
+          <Fragment>
+            <RequestButton disabled={supportLength === 0} request={sendEmail}>
               Enviar por e-mail
             </RequestButton>
-            <RequestButton disabled={false} request={async () => changeStatus('closed')}>
+            <RequestButton
+              disabled={supportLength === 0}
+              request={async () => changeStatus('closed')}
+            >
               Encerrar atendimento
             </RequestButton>
-          </>
+            {lastSent && <span>{`Último envio: ${lastSentString}`}</span>}
+          </Fragment>
         )}
-      </div>
+      </nav>
     </Container>
   );
 }

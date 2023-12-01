@@ -27,6 +27,20 @@
       "name": "John",
       "password": "$argon2id$v=19$m=65536,t=3,p=4$QvyrcVyn42efiA1zTDOeOg$Fd7JkFIE8VcUlITGJWDqemeQqv7aUKG0itdrx8ovL/0",
       "role": "collaborator"
+    },
+    {
+      "email": "paulohenriqueaplima@gmail.com",
+      "name": "Paulo H",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$2OVPkIupeJ9bV6kFO5xrBw$0uj9h/FHPpYyp7GrmHoCkA13FwCpHAg0EI0jVzQGgyY",
+      "role": "user",
+      "id": "NtrdyRU"
+    },
+    {
+      "email": "paulohenriquea2plima@gmail.com",
+      "name": "Paulo H",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$/ge6VBQb5FUS0r5PhYzlZA$vsesQYD0EdbFLSxgr/CK7lzySmPK21tH2UqXBV/dZ5M",
+      "role": "user",
+      "id": "6K20OP2"
     }
   ],
   "conversations": [
@@ -114,6 +128,63 @@
       ],
       "status": "redirected",
       "userId": "HSMkWmM"
+    },
+    {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Tudo bem?",
+          "time": 1701462434997
+        },
+        {
+          "role": "assistant",
+          "content": "Tudo bem, obrigada por perguntar. E você?",
+          "time": 1701462437222,
+          "feedback": "poor"
+        }
+      ],
+      "status": "closed",
+      "userId": "gA7v-EC",
+      "id": "LleDVN5",
+      "support": {
+        "collaboratorId": "GOFTHdb",
+        "messages": [
+          {
+            "role": "collaborator",
+            "content": "Tudo bem??? Espero que sim!!",
+            "time": 1701462488254
+          }
+        ]
+      }
+    },
+    {
+      "messages": [
+        {
+          "role": "user",
+          "content": "123",
+          "time": 1701462556344
+        },
+        {
+          "role": "assistant",
+          "content": "Desculpe, mas não entendi o que você quer dizer com \"123\". Você poderia fornecer mais contexto ou elaborar sua pergunta? Estou aqui para ajudar!",
+          "time": 1701462558153,
+          "feedback": "poor"
+        }
+      ],
+      "status": "closed",
+      "userId": "NtrdyRU",
+      "id": "ngXOxRC",
+      "support": {
+        "collaboratorId": "GOFTHdb",
+        "messages": [
+          {
+            "role": "collaborator",
+            "content": "Acho que vc quis dizer bla",
+            "time": 1701462627273
+          }
+        ],
+        "lastSent": 1701462634344
+      }
     }
   ]
 }

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { getSession } from '@/app/actions';
 import SupportSideBar from '@/components/SupportSideBar';
 import api from '@/lib/data';
-import { ConversationExpanded } from '@/lib/definitions';
+import { Conversation } from '@/lib/definitions';
 
 import styles from './support.module.css';
 
@@ -14,7 +14,7 @@ async function Layout({ children }: { children: ReactNode }) {
     collaboratorId: session?.user.id as string,
   });
 
-  const conversations = data as ConversationExpanded[];
+  const conversations = data as Conversation[];
 
   return (
     <main className={styles.main}>

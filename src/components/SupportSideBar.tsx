@@ -98,7 +98,7 @@ const Footer = styled.footer`
   background-color: var(--clr-b);
   background-image: linear-gradient(
     to bottom right,
-    rgba(255 255 255 / 20%),
+    rgba(255 255 255 / 20%) -20%,
     rgba(255 255 255 / 0%) 40%
   );
   border-top: 2px solid var(--clr-b);

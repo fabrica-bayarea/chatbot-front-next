@@ -1,21 +1,36 @@
 import styled, { css } from 'styled-components';
 
-const ChatMessage = styled.span<{ $role: string }>`
-  --r: 5px;
+type ChatMessageProps = {
+  $inverted?: boolean;
+  $role: 'assistant' | 'collaborator' | 'error' | 'suggestion' | 'user';
+};
 
-  line-height: 20px;
-  padding: 10px;
+const ChatMessage = styled.span<ChatMessageProps>`
+  --r: 8px;
+  --radius: var(--r) var(--r) var(--r) 0;
+  --radius-inverted: var(--r) var(--r) 0 var(--r);
+
+  padding: 12px;
   width: fit-content;
 
-  ${(props) =>
-    props.$role === 'assistant' &&
+  ${({ $inverted, $role }) =>
+    $role === 'assistant' &&
     css`
+      align-self: ${$inverted ? 'flex-end' : 'flex-start'};
       background-color: var(--clr-a);
-      border-radius: var(--r) var(--r) var(--r) 0;
+      border-radius: var(${$inverted ? '--radius-inverted' : '--radius'});
     `}
 
-  ${(props) =>
-    props.$role === 'error' &&
+  ${({ $role }) =>
+    $role === 'collaborator' &&
+    css`
+      align-self: flex-end;
+      background-color: var(--clr-a);
+      border-radius: var(--r) var(--r) 0 var(--r);
+    `}
+
+  ${({ $role }) =>
+    $role === 'error' &&
     css`
       align-self: center;
       background-color: var(--clr-c);
@@ -24,8 +39,8 @@ const ChatMessage = styled.span<{ $role: string }>`
       padding: 8px;
     `}
 
-  ${(props) =>
-    props.$role === 'suggestion' &&
+  ${({ $role }) =>
+    $role === 'suggestion' &&
     css`
       align-self: flex-end;
       background-color: var(--clr-lighter-gray);
@@ -37,23 +52,22 @@ const ChatMessage = styled.span<{ $role: string }>`
       }
     `}
 
-  ${(props) =>
-    props.$role === 'user' &&
+  ${({ $inverted, $role }) =>
+    $role === 'user' &&
     css`
-      align-self: flex-end;
+      align-self: ${$inverted ? 'flex-start' : 'flex-end'};
       background-color: var(--clr-lighter-gray);
-      border-radius: var(--r) var(--r) 0 var(--r);
+      border-radius: var(${$inverted ? '--radius' : '--radius-inverted'});
     `}
 `;
 
-const InfoMessage = styled.span`
+const InfoMessage = styled.span<{ $bgColor?: string }>`
   align-self: center;
-  background-color: var(--clr-dark-gray);
-  border-radius: 5px;
+  background-color: ${({ $bgColor }) => $bgColor ?? 'var(--clr-dark-gray)'};
+  border-radius: 4px;
   color: var(--clr-light);
-  font-size: 0.9rem;
-  font-style: italic;
-  margin: 20px 0;
+  font-size: 0.75rem;
+  margin: 40px 0;
   padding: 5px 10px;
   width: fit-content;
 `;

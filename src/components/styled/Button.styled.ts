@@ -27,8 +27,8 @@ export const AltButton = styled(Button)`
   background-color: var(--clr-b);
   background-image: linear-gradient(
     to bottom right,
-    rgba(255 255 255 / 20%),
-    rgba(255 255 255 / 0%) 40%
+    rgba(255 255 255 / 40%),
+    rgba(255 255 255 / 0%) 25%
   );
   border: 1px solid var(--clr-b);
   border-radius: 4px;

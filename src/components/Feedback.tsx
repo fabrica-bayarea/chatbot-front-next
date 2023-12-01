@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { DialogButton, IconButton } from './styled';
@@ -88,7 +88,7 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
           </IconButton>
           <span>Feedback recebido!</span>
           {feedback === 'poor' && (
-            <>
+            <Fragment>
               <span>Gostaria de ser direcionado para um de nossos colaboradores?</span>
               <div>
                 <DialogButton
@@ -101,7 +101,7 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
                   Não
                 </DialogButton>
               </div>
-            </>
+            </Fragment>
           )}
         </Dialog>
       )}

@@ -37,9 +37,8 @@ export type Conversation = {
   userId: string;
   id?: string;
   support?: ConversationSupport;
+  user?: User;
 };
-
-export type ConversationExpanded = Conversation & { user?: User };
 
 export type CreateUserPayload = {
   body: { email: string; name: string; password: string };
@@ -47,6 +46,21 @@ export type CreateUserPayload = {
 
 export type LoginPayload = {
   body: { email: string; password: string };
+};
+
+export type SendEmailPayload = {
+  body: {
+    collaboratorName: string;
+    email: string;
+    id: string;
+    messages: ConversationMessage[];
+    name: string;
+  };
+};
+
+export type SendEmailResponse = {
+  data: { id: string } | null;
+  error: { message: string; name: string } | null;
 };
 
 export type UpdateConversationPayload = {
@@ -82,14 +96,17 @@ export type ChatContextShared = {
   acceptConversation: () => Promise<ContextResult<Conversation>>;
   changeStatus: (status: ConversationStatus) => Promise<ContextResult<Conversation>>;
   changeFeedback: (feedback: MessageFeedback) => Promise<ContextResult<Conversation>>;
-  conversation: ConversationExpanded;
+  conversation: Conversation;
   conversationLength: number;
   deleteConversation: (id: string) => Promise<ContextResult<{}>>;
   getHistory: () => Promise<ContextResult<Conversation[]>>;
   getReply: (content: string) => Promise<ContextResult<Conversation>>;
   history: Conversation[];
   initialConversation: Conversation;
+  sendEmail: () => Promise<ContextResult<SendEmailResponse>>;
+  sendReply: (content: string) => Promise<ContextResult<Conversation>>;
   setConversation: Dispatch<SetStateAction<Conversation>>;
+  supportLength: number;
 };
 
 export type MainContextShared = {
@@ -106,7 +123,7 @@ export type MainContextShared = {
 
 export type ChatContextProps = {
   children: ReactNode;
-  conversation?: ConversationExpanded;
+  conversation?: Conversation;
 };
 
 export type MainContextProps = {
@@ -115,6 +132,15 @@ export type MainContextProps = {
 };
 
 export type DropdownProps = { showFn: Dispatch<SetStateAction<boolean>> };
+
+export type ElapsedTimeProps = { time: number };
+
+export type EmailTemplateProps = {
+  collaboratorName: string;
+  id: string;
+  messages: ConversationMessage[];
+  name: string;
+};
 
 export type HistoryProps = { showFn: Dispatch<SetStateAction<boolean>> };
 
@@ -126,6 +152,8 @@ export type InputGroupProps = {
   placeholder?: string;
   value?: string;
 };
+
+export type LineBreaksProps = { content: string };
 
 export type PasswordInputProps = { name: string; value: string };
 
@@ -143,5 +171,5 @@ export type SubmitButtonProps = {
 export type SupportProps = { params: { id: string } };
 
 export type SupportSideBarProps = {
-  conversations: ConversationExpanded[];
+  conversations: Conversation[];
 };

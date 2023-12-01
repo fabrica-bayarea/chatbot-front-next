@@ -1,4 +1,6 @@
-function ElapsedTime({ time }: { time: number }) {
+import { ElapsedTimeProps } from '@/lib/definitions';
+
+function ElapsedTime({ time }: ElapsedTimeProps) {
   const timeDifference = Date.now() - time;
   const timeInSeconds = Math.trunc(timeDifference / 1000);
 

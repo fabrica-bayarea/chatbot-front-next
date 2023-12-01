@@ -9,9 +9,13 @@ import {
   ChatContextProps,
   ChatContextShared,
   Conversation,
+  ConversationMessage,
   ConversationStatus,
+  ConversationSupport,
   MakeRequestParams,
   MessageFeedback,
+  SendEmailPayload,
+  SendEmailResponse,
   UpdateConversationPayload,
   UpdateWithCompletionPayload,
 } from '@/lib/definitions';
@@ -36,6 +40,104 @@ export function ChatProvider(props: ChatContextProps) {
   );
 
   // Request functions
+  const acceptConversation = useCallback(async () => {
+    const body: Partial<Conversation> = {
+      status: 'accepted',
+      support: {
+        collaboratorId: user?.id as string,
+        messages: [],
+      },
+    };
+
+    const payload: UpdateConversationPayload = {
+      body,
+      id: conversation.id as string,
+    };
+
+    const successFn = async () => {
+      setConversation({ ...conversation, ...body });
+      await revalidate({ tag: 'support' });
+    };
+
+    const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
+      apiRequest: api.updateConversation,
+      payload,
+      successCode: statusCodes.OK,
+      successFn,
+    };
+
+    return makeRequest(params);
+  }, [conversation, makeRequest, user?.id]);
+
+  const changeFeedback = useCallback(
+    async (feedback: MessageFeedback) => {
+      const updatedMessages = [...conversation.messages];
+      const lastIndex = updatedMessages.length - 1;
+      updatedMessages[lastIndex].feedback = feedback;
+
+      const payload: UpdateConversationPayload = {
+        body: { messages: updatedMessages },
+        id: conversation.id as string,
+      };
+
+      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
+        apiRequest: api.updateConversation,
+        payload,
+        successCode: statusCodes.OK,
+      };
+
+      return makeRequest(params);
+    },
+    [conversation, makeRequest]
+  );
+
+  const changeLastSent = useCallback(async () => {
+    const support = conversation.support as ConversationSupport;
+    const updatedSupport = { ...support, lastSent: Date.now() };
+
+    const payload: UpdateConversationPayload = {
+      body: { support: updatedSupport },
+      id: conversation.id as string,
+    };
+
+    const successFn = async () => {
+      setConversation({ ...conversation, support: updatedSupport });
+    };
+
+    const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
+      apiRequest: api.updateConversation,
+      payload,
+      successCode: statusCodes.OK,
+      successFn,
+    };
+
+    return makeRequest(params);
+  }, [conversation, makeRequest]);
+
+  const changeStatus = useCallback(
+    async (status: ConversationStatus) => {
+      const payload: UpdateConversationPayload = {
+        body: { status },
+        id: conversation.id as string,
+      };
+
+      const successFn = async () => {
+        setConversation({ ...conversation, status });
+        await revalidate({ tag: 'support' });
+      };
+
+      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
+        apiRequest: api.updateConversation,
+        payload,
+        successCode: statusCodes.OK,
+        successFn,
+      };
+
+      return makeRequest(params);
+    },
+    [conversation, makeRequest]
+  );
+
   const deleteConversation = useCallback(
     async (id: string) => {
       const successFn = async () => {
@@ -79,7 +181,7 @@ export function ChatProvider(props: ChatContextProps) {
     async (content: string) => {
       const previousConversation = { ...conversation };
 
-      const updatedMessages = previousConversation.messages.concat({
+      const updatedMessages = conversation.messages.concat({
         role: 'user',
         content,
         time: Date.now(),
@@ -88,20 +190,20 @@ export function ChatProvider(props: ChatContextProps) {
       const updatedConversation = { ...conversation, messages: updatedMessages };
       setConversation({ ...updatedConversation });
 
-      const successFn = async (data: Conversation) => {
-        setConversation({ ...data });
-      };
-
       const errorFn = async () => {
         setConversation({ ...previousConversation });
       };
 
+      const successFn = async (data: Conversation) => {
+        setConversation({ ...data });
+      };
+
       const params: MakeRequestParams<UpdateWithCompletionPayload, Conversation> = {
         apiRequest: api.updateWithCompletion,
+        errorFn,
         payload: { body: updatedConversation },
         successCode: statusCodes.OK,
         successFn,
-        errorFn,
       };
 
       return makeRequest(params);
@@ -109,80 +211,69 @@ export function ChatProvider(props: ChatContextProps) {
     [conversation, makeRequest]
   );
 
-  const changeFeedback = useCallback(
-    async (feedback: MessageFeedback) => {
-      const updatedMessages = [...conversation.messages];
-      const lastIndex = updatedMessages.length - 1;
-      updatedMessages[lastIndex].feedback = feedback;
-
-      const payload: UpdateConversationPayload = {
-        body: { messages: updatedMessages },
+  const sendEmail = useCallback(async () => {
+    const payload: SendEmailPayload = {
+      body: {
+        collaboratorName: user?.name as string,
+        email: conversation.user?.email as string,
         id: conversation.id as string,
-      };
-
-      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-        apiRequest: api.updateConversation,
-        payload,
-        successCode: statusCodes.OK,
-      };
-
-      return makeRequest(params);
-    },
-    [conversation, makeRequest]
-  );
-
-  const changeStatus = useCallback(
-    async (status: ConversationStatus) => {
-      const payload: UpdateConversationPayload = {
-        body: { status },
-        id: conversation.id as string,
-      };
-
-      const successFn = async () => {
-        setConversation({ ...conversation, status });
-        await revalidate({ tag: 'support' });
-      };
-
-      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-        apiRequest: api.updateConversation,
-        payload,
-        successCode: statusCodes.OK,
-        successFn,
-      };
-
-      return makeRequest(params);
-    },
-    [conversation, makeRequest]
-  );
-
-  const acceptConversation = useCallback(async () => {
-    const body: Partial<Conversation> = {
-      status: 'accepted',
-      support: {
-        collaboratorId: user?.id as string,
-        messages: [],
+        messages: conversation.support?.messages as ConversationMessage[],
+        name: conversation.user?.name as string,
       },
     };
 
-    const payload: UpdateConversationPayload = {
-      body,
-      id: conversation.id as string,
-    };
-
     const successFn = async () => {
-      setConversation({ ...conversation, ...body });
-      await revalidate({ tag: 'support' });
+      await changeLastSent();
     };
 
-    const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-      apiRequest: api.updateConversation,
+    const params: MakeRequestParams<SendEmailPayload, SendEmailResponse> = {
+      apiRequest: api.sendEmail,
       payload,
       successCode: statusCodes.OK,
       successFn,
     };
 
     return makeRequest(params);
-  }, [conversation, makeRequest, user?.id]);
+  }, [changeLastSent, conversation, makeRequest, user?.name]);
+
+  const sendReply = useCallback(
+    async (content: string) => {
+      const previousConversation = { ...conversation };
+      const support = conversation.support as ConversationSupport;
+
+      const updatedMessages = support.messages.concat({
+        role: 'collaborator',
+        content,
+        time: Date.now(),
+      });
+
+      const updatedSupport = { ...support, messages: updatedMessages };
+
+      setConversation({
+        ...conversation,
+        support: { ...updatedSupport },
+      });
+
+      const errorFn = async () => {
+        setConversation({ ...previousConversation });
+      };
+
+      const payload: UpdateConversationPayload = {
+        body: { support: updatedSupport },
+        id: conversation.id as string,
+      };
+
+      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
+        apiRequest: api.updateConversation,
+        errorFn,
+        payload,
+        successCode: statusCodes.OK,
+      };
+
+      return makeRequest(params);
+    },
+    [conversation, makeRequest]
+  );
 
   const shared: ChatContextShared = {
     acceptConversation,
@@ -195,7 +286,10 @@ export function ChatProvider(props: ChatContextProps) {
     getReply,
     history,
     initialConversation,
+    sendEmail,
+    sendReply,
     setConversation,
+    supportLength: conversation.support?.messages.length ?? 0,
   };
 
   return (
