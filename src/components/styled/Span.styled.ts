@@ -1,51 +1,46 @@
 import styled, { css } from 'styled-components';
 
-import type { ChatMessageProps } from '@/types';
+type ChatMessageProps = {
+  $inverted?: boolean;
+  $role: 'assistant' | 'collaborator' | 'error' | 'suggestion' | 'user';
+};
 
 const ChatMessage = styled.span<ChatMessageProps>`
-  --r: 5px;
+  --r: 8px;
+  --radius: var(--r) var(--r) var(--r) 0;
+  --radius-inverted: var(--r) var(--r) 0 var(--r);
 
-  line-height: 20px;
-  padding: 10px;
+  padding: 12px;
   width: fit-content;
 
-  ${(props) =>
-    props.$role === 'assistant' &&
+  ${({ $inverted, $role }) =>
+    $role === 'assistant' &&
     css`
+      align-self: ${$inverted ? 'flex-end' : 'flex-start'};
       background-color: var(--clr-a);
-      border-radius: var(--r) var(--r) var(--r) 0;
-      margin-left: 40px;
-      position: relative;
-
-      &::before {
-        content: 'E';
-        align-items: center;
-        aspect-ratio: 1 / 1;
-        background-color: var(--clr-c);
-        border-radius: 50%;
-        bottom: 0;
-        color: var(--clr-light);
-        display: flex;
-        font-size: 0.8em;
-        font-weight: bold;
-        height: 30px;
-        justify-content: center;
-        left: -40px;
-        position: absolute;
-      }
+      border-radius: var(${$inverted ? '--radius-inverted' : '--radius'});
     `}
 
-  ${(props) =>
-    props.$role === 'error' &&
+  ${({ $role }) =>
+    $role === 'collaborator' &&
+    css`
+      align-self: flex-end;
+      background-color: var(--clr-a);
+      border-radius: var(--r) var(--r) 0 var(--r);
+    `}
+
+  ${({ $role }) =>
+    $role === 'error' &&
     css`
       align-self: center;
-      background-color: var(--clr-light-red);
+      background-color: var(--clr-c);
       border-radius: var(--r);
+      color: var(--clr-light);
       padding: 8px;
     `}
 
-  ${(props) =>
-    props.$role === 'suggestion' &&
+  ${({ $role }) =>
+    $role === 'suggestion' &&
     css`
       align-self: flex-end;
       background-color: var(--clr-lighter-gray);
@@ -57,13 +52,24 @@ const ChatMessage = styled.span<ChatMessageProps>`
       }
     `}
 
-  ${(props) =>
-    props.$role === 'user' &&
+  ${({ $inverted, $role }) =>
+    $role === 'user' &&
     css`
-      align-self: flex-end;
+      align-self: ${$inverted ? 'flex-start' : 'flex-end'};
       background-color: var(--clr-lighter-gray);
-      border-radius: var(--r) var(--r) 0 var(--r);
+      border-radius: var(${$inverted ? '--radius' : '--radius-inverted'});
     `}
 `;
 
-export { ChatMessage };
+const InfoMessage = styled.span<{ $bgColor?: string }>`
+  align-self: center;
+  background-color: ${({ $bgColor }) => $bgColor ?? 'var(--clr-dark-gray)'};
+  border-radius: 4px;
+  color: var(--clr-light);
+  font-size: 0.75rem;
+  margin: 40px 0;
+  padding: 5px 10px;
+  width: fit-content;
+`;
+
+export { ChatMessage, InfoMessage };

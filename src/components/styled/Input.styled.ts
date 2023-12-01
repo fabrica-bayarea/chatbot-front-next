@@ -23,6 +23,7 @@ const ChatInput = styled(Input)`
   border-top: 1px solid var(--clr-lighter-gray);
   font-size: 1.2em;
   height: 50px;
+  margin: 0 40px;
 `;
 
 const MainInput = styled(Input)`
@@ -30,4 +31,25 @@ const MainInput = styled(Input)`
   font-size: 1em;
 `;
 
-export { Input, ChatInput, MainInput };
+const ChatTextArea = styled.textarea`
+  border: 1px solid var(--clr-light-gray);
+  border-radius: 5px;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1.2rem;
+  height: 120px;
+  padding: 10px;
+  resize: none;
+  width: 100%;
+
+  &::placeholder {
+    color: var(--clr-light-gray);
+    transition: opacity 200ms ease-in-out;
+  }
+
+  &:focus::placeholder {
+    opacity: 0;
+  }
+`;
+
+export { Input, ChatInput, MainInput, ChatTextArea };

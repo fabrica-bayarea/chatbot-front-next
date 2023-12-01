@@ -1,7 +1,7 @@
 'use client';
 
 import { useServerInsertedHTML } from 'next/navigation';
-import { ReactNode, useState } from 'react';
+import { Fragment, ReactNode, useState } from 'react';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 
 function StyledComponentsRegistry({ children }: { children: ReactNode }) {
@@ -13,11 +13,11 @@ function StyledComponentsRegistry({ children }: { children: ReactNode }) {
     const styles = styledComponentsStyleSheet.getStyleElement();
     styledComponentsStyleSheet.instance.clearTag();
 
-    return <>{styles}</>;
+    return <Fragment>{styles}</Fragment>;
   });
 
   if (typeof window !== 'undefined') {
-    return <>{children}</>;
+    return <Fragment>{children}</Fragment>;
   }
 
   return (

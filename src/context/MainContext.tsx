@@ -1,50 +1,50 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
+import { createContext, useCallback, useState } from 'react';
 
-import api from '@/api';
-import { statusCodes } from '@/utils';
+import {
+  ContextResult,
+  MainContextProps,
+  MainContextShared,
+  MakeRequestParams,
+  StatusMessage,
+} from '@/lib/definitions';
 
-import type {
-  LoginPayloadType,
-  MainContextType,
-  RegisterPayloadType,
-  RequestType,
-  ResultType,
-  UserType,
-} from '@/types';
+const MainContext = createContext<MainContextShared | undefined>(undefined);
 
-const MainContext = createContext<undefined | MainContextType>(undefined);
-
-export function MainProvider({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
-  const router = useRouter();
+export function MainProvider({ children, user }: MainContextProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<null | UserType>(null);
 
   // Generic function that prepares a request.
   // If successful, execute the passed function, otherwise show an error message.
   const makeRequest = useCallback(
-    async <PayloadType, DataType>({
+    async <Payload, Data>({
       apiRequest,
+      errorFn,
       payload,
       successCode,
       successFn,
-    }: RequestType<PayloadType, DataType>): Promise<ResultType<DataType>> => {
+    }: MakeRequestParams<Payload, Data>): Promise<ContextResult<Data>> => {
       setIsLoading(true);
 
       try {
         const { status, data } = await apiRequest({ ...payload });
 
-        if (status === successCode) {
-          await successFn(data as DataType);
-          return [true, data];
+        if (status !== successCode) {
+          errorFn && (await errorFn(data as StatusMessage));
+
+          return [false, data];
         }
 
-        return [false, data];
+        successFn && (await successFn(data as Data));
+
+        return [true, data];
       } catch (error) {
-        return [false, { message: 'Algo deu errado!' }];
+        console.log(error);
+        const data = { message: 'Algo deu errado!' };
+        errorFn && (await errorFn(data));
+
+        return [false, data];
       } finally {
         setIsLoading(false);
       }
@@ -52,70 +52,7 @@ export function MainProvider({ children }: { children: ReactNode }) {
     []
   );
 
-  // Request functions
-  const login = useCallback(
-    async (payload: LoginPayloadType) => {
-      const successFn = (data: UserType) => {
-        setUser(data);
-        const expirationTime = new Date().getTime() + 60 * 60 * 1000;
-        const dataWithExpiration = { ...data, expirationTime };
-        localStorage.setItem('session', JSON.stringify(dataWithExpiration));
-      };
-
-      const options = {
-        apiRequest: api.login,
-        payload,
-        successCode: statusCodes.OK,
-        successFn,
-      };
-
-      return makeRequest<LoginPayloadType, UserType>(options);
-    },
-    [makeRequest]
-  );
-
-  const register = useCallback(
-    async (payload: RegisterPayloadType) => {
-      const successFn = async (data: UserType) => {};
-
-      const options = {
-        apiRequest: api.createUser,
-        payload,
-        successCode: statusCodes.CREATED,
-        successFn,
-      };
-
-      return makeRequest<RegisterPayloadType, UserType>(options);
-    },
-    [makeRequest]
-  );
-
-  // Remove user session and redirect to login page
-  const logout = useCallback(() => {
-    setUser(null);
-    localStorage.removeItem('session');
-    router.push('/login');
-  }, [router]);
-
-  // Check the user session. If expired, log out. If it does not exist, redirects to the
-  // login page.
-  useEffect(() => {
-    const localSession = localStorage.getItem('session');
-
-    if (localSession) {
-      const parsedSession = JSON.parse(localSession);
-      setUser(parsedSession.user);
-      const currentTime = new Date().getTime();
-
-      if (currentTime > parsedSession.expirationTime) {
-        logout();
-      }
-    } else if (pathname === '/') {
-      router.push('/login');
-    }
-  }, [logout, pathname, router]);
-
-  const shared = { isLoading, login, logout, makeRequest, register, user };
+  const shared: MainContextShared = { isLoading, makeRequest, user };
 
   return <MainContext.Provider value={{ ...shared }}>{children}</MainContext.Provider>;
 }

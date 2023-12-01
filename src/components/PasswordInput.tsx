@@ -1,8 +1,11 @@
+'use client';
+
 import Image from 'next/image';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, MainInput } from './styled';
+import type { PasswordInputProps } from '@/lib/definitions';
 
 const Container = styled.div`
   position: relative;
@@ -21,7 +24,7 @@ const Container = styled.div`
   }
 `;
 
-function PasswordInput({ name, value, ...attributes }: { name: string; value: string }) {
+function PasswordInput({ name, value, ...attributes }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -33,7 +36,7 @@ function PasswordInput({ name, value, ...attributes }: { name: string; value: st
         value={value}
         {...attributes}
       />
-      <Button type="button" onClick={() => setShowPassword(!showPassword)}>
+      <Button onClick={() => setShowPassword(!showPassword)}>
         <Image
           src={showPassword ? '/visibility.svg' : '/visibility_off.svg'}
           height={16}

@@ -2,9 +2,45 @@
   "users": [
     {
       "id": "GOFTHdb",
+      "email": "limapaulobsb@gmail.com",
+      "name": "Paulo Lima",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$bdC3Q4OJMVgEYpXP6Cjc/A$3fgiexHAk75ITJzH3NrgzJi53qgTXPENMxKoGC1E+yo",
+      "role": "admin"
+    },
+    {
+      "id": "DP_V0dx",
+      "email": "kvictor1711@gmail.com",
+      "name": "Kaio",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$oLGY0JgB0hxgMo/LnXY9FA$u+V+LgGPkd8g2kfGNNlJLK0NNA90O26RqBVstVlLdYs",
+      "role": "admin"
+    },
+    {
+      "id": "HSMkWmM",
+      "email": "felipebalbino53@gmail.com",
+      "name": "Felipe",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$Hmh3l+M4KG7T4HYyPA0XQA$bEey0KKap3LBSl6ZpopbXmTcf9Aex+woyfwB1WvxRfU",
+      "role": "admin"
+    },
+    {
+      "id": "gA7v-EC",
       "email": "johndoe@gmail.com",
-      "name": "John Doe",
-      "password": "123123"
+      "name": "John",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$QvyrcVyn42efiA1zTDOeOg$Fd7JkFIE8VcUlITGJWDqemeQqv7aUKG0itdrx8ovL/0",
+      "role": "collaborator"
+    },
+    {
+      "email": "paulohenriqueaplima@gmail.com",
+      "name": "Paulo H",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$2OVPkIupeJ9bV6kFO5xrBw$0uj9h/FHPpYyp7GrmHoCkA13FwCpHAg0EI0jVzQGgyY",
+      "role": "user",
+      "id": "NtrdyRU"
+    },
+    {
+      "email": "paulohenriquea2plima@gmail.com",
+      "name": "Paulo H",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$/ge6VBQb5FUS0r5PhYzlZA$vsesQYD0EdbFLSxgr/CK7lzySmPK21tH2UqXBV/dZ5M",
+      "role": "user",
+      "id": "6K20OP2"
     }
   ],
   "conversations": [
@@ -20,9 +56,135 @@
           "role": "assistant",
           "content": "Verde, amarelo, azul e branco.",
           "time": 1699123799775
+        },
+        {
+          "role": "user",
+          "content": "E do México?",
+          "time": 1701120364924
+        },
+        {
+          "role": "assistant",
+          "content": "Verde, branco e vermelho.",
+          "time": 1701120371320
+        },
+        {
+          "role": "user",
+          "content": "E da Austrália?",
+          "time": 1701120378181
+        },
+        {
+          "role": "assistant",
+          "content": "Verde e dourado.",
+          "time": 1701120378994,
+          "feedback": "poor"
         }
       ],
+      "status": "accepted",
+      "support": {
+        "collaboratorId": "gA7v-EC",
+        "messages": [
+          {
+            "role": "collaborator",
+            "content": "Olá! A bandeira da Austrália é azul, vermelha e branca!",
+            "time": 1700596286254
+          }
+        ],
+        "lastSent": 1700698335998
+      },
       "userId": "GOFTHdb"
+    },
+    {
+      "id": "qfBFe0a",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Conte uma história emocionante!",
+          "time": 1700566183590
+        },
+        {
+          "role": "assistant",
+          "content": "Uma família encontrou um cachorrinho abandonado na rua. Eles o levaram para casa e o chamaram de Max. Max era um cachorro repleto de amor e gratidão. Ele sempre demonstrava sua alegria e carinho pela família, especialmente pelas crianças. O tempo passou e Max se tornou parte inseparável da família.\n\nUm dia, a família ouviu falar de um abrigo de animais que estava passando por dificuldades financeiras. Eles decidiram ajudar de alguma forma. A família organizou um bazar na vizinhança para arrecadar fundos para o abrigo. Max, com seu jeito encantador e bom humor, se tornou o centro das atenções. Todos se apaixonaram por ele e suas travessuras.\n\nNo final do dia, o bazar foi um sucesso e a família conseguiu arrecadar uma quantia significativa para o abrigo. Eles foram até lá para entregar a doação e ficaram emocionados ao verem todos os animais tão agradecidos. Max, com aquele olhar doce em seus olhos, entendeu o propósito de sua família e estava feliz em ter ajudado.\n\nEssa história emocionante mostra como um simples ato de amor e generosidade pode transformar vidas, tanto de seres humanos quanto de animais. Max ensinou a todos sobre o poder da compaixão e o valor de fazer o bem. E, desde então, a família e Max continuaram a ajudar outros animais em situação de abandono, espalhando alegria e amor por onde passavam.",
+          "time": 1700566226679,
+          "feedback": "poor"
+        }
+      ],
+      "status": "redirected",
+      "userId": "DP_V0dx"
+    },
+    {
+      "id": "IZmsBfm",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Qual o menor mamífero conhecido?",
+          "time": 1700596286254
+        },
+        {
+          "role": "assistant",
+          "content": "O menor mamífero conhecido é o musaranho-pigmeu africano, com um comprimento médio de 2,9 centímetros.",
+          "time": 1700596317998,
+          "feedback": "poor"
+        }
+      ],
+      "status": "redirected",
+      "userId": "HSMkWmM"
+    },
+    {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Tudo bem?",
+          "time": 1701462434997
+        },
+        {
+          "role": "assistant",
+          "content": "Tudo bem, obrigada por perguntar. E você?",
+          "time": 1701462437222,
+          "feedback": "poor"
+        }
+      ],
+      "status": "closed",
+      "userId": "gA7v-EC",
+      "id": "LleDVN5",
+      "support": {
+        "collaboratorId": "GOFTHdb",
+        "messages": [
+          {
+            "role": "collaborator",
+            "content": "Tudo bem??? Espero que sim!!",
+            "time": 1701462488254
+          }
+        ]
+      }
+    },
+    {
+      "messages": [
+        {
+          "role": "user",
+          "content": "123",
+          "time": 1701462556344
+        },
+        {
+          "role": "assistant",
+          "content": "Desculpe, mas não entendi o que você quer dizer com \"123\". Você poderia fornecer mais contexto ou elaborar sua pergunta? Estou aqui para ajudar!",
+          "time": 1701462558153,
+          "feedback": "poor"
+        }
+      ],
+      "status": "closed",
+      "userId": "NtrdyRU",
+      "id": "ngXOxRC",
+      "support": {
+        "collaboratorId": "GOFTHdb",
+        "messages": [
+          {
+            "role": "collaborator",
+            "content": "Acho que vc quis dizer bla",
+            "time": 1701462627273
+          }
+        ],
+        "lastSent": 1701462634344
+      }
     }
   ]
 }

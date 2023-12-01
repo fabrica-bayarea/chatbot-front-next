@@ -1,14 +1,19 @@
+'use client';
+
 import PasswordInput from './PasswordInput';
 import { MainInput, Label } from './styled';
-import type { InputGroupProps } from '@/types';
+import type { InputGroupProps } from '@/lib/definitions';
 
 function InputGroup({ name, scheme, type, ...attributes }: InputGroupProps) {
-  // Render functions
-  const renderInput = () => {
-    if (type === 'password') {
-      return <PasswordInput name={name} value={scheme.value} {...attributes} />;
-    } else {
-      return (
+  return (
+    <Label htmlFor={`${name}-input`}>
+      <span>
+        {scheme.label}
+        {scheme.isRequired && ' *'}
+      </span>
+      {type === 'password' ? (
+        <PasswordInput name={name} value={scheme.value} {...attributes} />
+      ) : (
         <MainInput
           type={type}
           id={`${name}-input`}
@@ -16,18 +21,7 @@ function InputGroup({ name, scheme, type, ...attributes }: InputGroupProps) {
           value={scheme.value}
           {...attributes}
         />
-      );
-    }
-  };
-
-  // Main render
-  return (
-    <Label htmlFor={`${name}-input`}>
-      <span>
-        {scheme.label}
-        {scheme.isRequired && ' *'}
-      </span>
-      {renderInput()}
+      )}
     </Label>
   );
 }

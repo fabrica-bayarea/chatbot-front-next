@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+'use client';
 
-import { mediaQueries } from '@/utils';
+import styled from 'styled-components';
 
 const Container = styled.div`
   align-items: center;
@@ -8,10 +8,6 @@ const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   scale: 1.2;
-
-  ${mediaQueries.laptopS} {
-    scale: 0.8;
-  }
 `;
 
 const LogoImage = styled.div`

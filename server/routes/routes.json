@@ -1,5 +1,5 @@
 {
-  "/conversations/user/:id": "/conversations?userId=:id",
+  "/conversations/support": "/conversations/support",
   "/login": "/login",
   "/reply": "/reply"
 }

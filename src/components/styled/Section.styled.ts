@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { mediaQueries } from '@/utils';
-
 const Section = styled.section`
   --r: 20px;
 
@@ -40,22 +38,6 @@ const Section = styled.section`
     justify-content: center;
     padding-bottom: 40px;
   }
-
-  ${mediaQueries.mobileL} {
-    width: 100%;
-
-    & > header {
-      padding: 0 30px 0 20px;
-    }
-  }
-
-  /* ${mediaQueries.mobileS} {
-    & > header {
-      & > span {
-        font-size: 1.2em;
-      }
-    }
-  } */
 `;
 
 export { Section };

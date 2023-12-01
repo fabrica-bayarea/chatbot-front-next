@@ -1,0 +1,22 @@
+.closed {
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+.closed > a {
+  text-decoration: underline;
+}
+
+.closed > span {
+  font-size: 1.25rem;
+}
+
+.main {
+  display: flex;
+}
+
+.main > section {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 10;
+}
