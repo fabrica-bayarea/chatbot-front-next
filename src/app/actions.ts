@@ -22,6 +22,7 @@ export async function register(formData: FormData): Promise<StatusMessage | neve
   const payload: CreateUserPayload = {
     body: {
       email: formData.get('email') as string,
+      imageUrl: formData.get('avatar') as string,
       name: formData.get('name') as string,
       password: formData.get('password') as string,
     },

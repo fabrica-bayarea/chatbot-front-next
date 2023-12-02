@@ -6,16 +6,18 @@ import { useFormState } from 'react-dom';
 
 import InputGroup from './InputGroup';
 import SubmitButton from './SubmitButton';
-import { ColumnForm } from './styled';
+import { ColumnForm, MainInput } from './styled';
 import { register } from '@/app/actions';
 import { useValidation } from '@/hooks';
 import type { InputScheme, StatusMessage } from '@/lib/definitions';
+import UploadButton from './UploadButton';
 
 const inputSchemes: { [key: string]: InputScheme } = {
   email: { isRequired: true, label: 'E-mail', value: '' },
   name: { isRequired: true, label: 'Nome', value: '' },
   password: { isRequired: true, label: 'Senha', value: '' },
   confirmation: { isRequired: true, label: 'Confirmação de senha', value: '' },
+  avatar: { isRequired: false, label: 'Avatar', value: '' },
 };
 
 function RegisterForm() {
@@ -27,6 +29,10 @@ function RegisterForm() {
     (prevState: StatusMessage, formData: FormData) => register(formData),
     { message: '' }
   );
+
+  const setAvatarUrl = (value: string) => {
+    setInputs({ ...inputs, avatar: { ...inputs.avatar, value } });
+  };
 
   // Input handler
   const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +84,17 @@ function RegisterForm() {
         placeholder="Confirme sua senha..."
         scheme={inputs.confirmation}
       />
-      <div>
+      <div className="upload">
+        <InputGroup
+          type="text"
+          name="avatar"
+          onChange={handleChange}
+          placeholder="Escolha uma imagem..."
+          scheme={inputs.avatar}
+        />
+        <UploadButton setFn={setAvatarUrl}>Upload</UploadButton>
+      </div>
+      <div className="status">
         {statusMessage && (
           <span>
             <Image

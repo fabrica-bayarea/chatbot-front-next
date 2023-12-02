@@ -8,6 +8,10 @@ const Input = styled.input`
   padding: 0 10px;
   width: 100%;
 
+  &:disabled {
+    color: var(--clr-gray);
+  }
+
   &::placeholder {
     color: var(--clr-light-gray);
     transition: opacity 200ms ease-in-out;

@@ -14,7 +14,14 @@ const ColumnForm = styled(Form)`
   padding: 40px 40px 0;
   width: 100%;
 
-  & > div {
+  & > .upload {
+    align-items: flex-end;
+    display: flex;
+    gap: 5px;
+    width: 100%;
+  }
+
+  & > .status {
     height: 50px;
 
     & > span {

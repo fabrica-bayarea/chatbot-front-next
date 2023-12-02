@@ -64,7 +64,7 @@ function LoginForm() {
         placeholder="Digite sua senha..."
         scheme={inputs.password}
       />
-      <div>
+      <div className='status'>
         {statusMessage && (
           <span>
             <Image
