@@ -132,6 +132,14 @@ export type MainContextProps = {
   user?: User;
 };
 
+export type ChatMessageProps = {
+  bgColor?: string;
+  children: ReactNode;
+  imageUrl?: string;
+  name?: string;
+  right?: boolean;
+};
+
 export type DropdownProps = { showFn: Dispatch<SetStateAction<boolean>> };
 
 export type ElapsedTimeProps = { time: number };

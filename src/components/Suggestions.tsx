@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 
-import { ChatMessage } from './styled';
+import { Suggestion } from './styled';
 import { useChatContext } from '@/hooks';
 
 const suggestions = [
@@ -23,15 +23,16 @@ function Suggestions() {
   return (
     <Container>
       {suggestions.map((suggestion, index) => (
-        <ChatMessage
+        <Suggestion
           key={index}
           onClick={() => getReply(suggestion)}
           role="button"
           tabIndex={0}
-          $role="suggestion"
+          $right={true}
+          $bgColor='var(--clr-light)'
         >
           {suggestion}
-        </ChatMessage>
+        </Suggestion>
       ))}
     </Container>
   );

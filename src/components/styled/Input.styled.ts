@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Input = styled.input`
+export const Input = styled.input`
   color: inherit;
   font-family: inherit;
   font-size: inherit;
@@ -22,7 +22,7 @@ const Input = styled.input`
   }
 `;
 
-const ChatInput = styled(Input)`
+export const ChatInput = styled(Input)`
   border: none;
   border-top: 1px solid var(--clr-lighter-gray);
   font-size: 1.2em;
@@ -30,12 +30,12 @@ const ChatInput = styled(Input)`
   margin: 0 40px;
 `;
 
-const MainInput = styled(Input)`
+export const MainInput = styled(Input)`
   border: 1px solid var(--clr-lighter-gray);
   font-size: 1em;
 `;
 
-const ChatTextArea = styled.textarea`
+export const ChatTextArea = styled.textarea`
   border: 1px solid var(--clr-light-gray);
   border-radius: 5px;
   color: inherit;
@@ -55,5 +55,3 @@ const ChatTextArea = styled.textarea`
     opacity: 0;
   }
 `;
-
-export { Input, ChatInput, MainInput, ChatTextArea };

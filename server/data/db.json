@@ -20,7 +20,7 @@
       "id": "OMLxwR7",
       "email": "kvictor1711@gmail.com",
       "imageUrl": "https://utfs.io/f/89132e81-4d89-4d77-b509-ac59318b57a0-8mklyo.jpg",
-      "name": "kaio",
+      "name": "Kaio Victor",
       "password": "$argon2id$v=19$m=65536,t=3,p=4$5qrQb00zI+3nnHJ7z47t1w$4ce2gMDEGU3ZPQwwE9gRr/c7V0xuprddzT4wxzPExCQ",
       "role": "admin"
     },
@@ -70,7 +70,7 @@
       ],
       "status": "accepted",
       "support": {
-        "collaboratorId": "gA7v-EC",
+        "collaboratorId": "mSxamPR",
         "messages": [
           {
             "role": "collaborator",
@@ -80,7 +80,7 @@
         ],
         "lastSent": 1700698335998
       },
-      "userId": "mSxamPR"
+      "userId": "_cSRo6z"
     },
     {
       "id": "qfBFe0a",
@@ -98,7 +98,7 @@
         }
       ],
       "status": "redirected",
-      "userId": "mSxamPR"
+      "userId": "OMLxwR7"
     },
     {
       "id": "IZmsBfm",
@@ -116,6 +116,70 @@
         }
       ],
       "status": "redirected",
+      "userId": "gA7v-EC"
+    },
+    {
+      "id": "rvcFN_q",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Bom dia!",
+          "time": 1701515267880
+        },
+        {
+          "role": "assistant",
+          "content": "Bom dia! Em que posso ajudar hoje?",
+          "time": 1701515270502
+        },
+        {
+          "role": "user",
+          "content": "Estou com fome!",
+          "time": 1701515275671
+        },
+        {
+          "role": "assistant",
+          "content": "Que tipo de comida você está com vontade de comer?",
+          "time": 1701515276779
+        },
+        {
+          "role": "user",
+          "content": "Algo saudável, por favor!",
+          "time": 1701515287668
+        },
+        {
+          "role": "assistant",
+          "content": "Que tal uma salada fresca com vegetais, proteína magra e uma opção de molho leve?",
+          "time": 1701515289526
+        },
+        {
+          "role": "user",
+          "content": "Pode ser! Qual sua sugestão?",
+          "time": 1701515300012
+        },
+        {
+          "role": "assistant",
+          "content": "Uma opção seria uma salada de folhas verdes, tomate cereja, pepino, cenoura ralada e peito de frango grelhado. Você pode temperar com um pouco de azeite de oliva, suco de limão e ervas frescas. Fica leve e saudável!",
+          "time": 1701515302415
+        }
+      ],
+      "status": "open",
+      "userId": "mSxamPR"
+    },
+    {
+      "id": "X2cuYlC",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Qual o tamanho do Brasil?",
+          "time": 1701515847231
+        },
+        {
+          "role": "assistant",
+          "content": "O Brasil é o quinto maior país do mundo em área, com aproximadamente 8,5 milhões de quilômetros quadrados.",
+          "time": 1701515849470
+        }
+      ],
+      "status": "open",
       "userId": "mSxamPR"
     }
   ]

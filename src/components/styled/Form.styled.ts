@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Form = styled.form<{ $padding?: string }>`
+export const Form = styled.form<{ $padding?: string }>`
   align-items: center;
   display: flex;
   gap: 100px;
@@ -8,7 +8,7 @@ const Form = styled.form<{ $padding?: string }>`
   width: 100%;
 `;
 
-const ColumnForm = styled(Form)`
+export const ColumnForm = styled(Form)`
   flex-direction: column;
   gap: 20px;
   padding: 40px 40px 0;
@@ -32,5 +32,3 @@ const ColumnForm = styled(Form)`
     }
   }
 `;
-
-export { Form, ColumnForm };

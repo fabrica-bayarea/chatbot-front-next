@@ -5,9 +5,10 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
+import ChatMessage from './ChatMessage';
 import Feedback from './Feedback';
 import Suggestions from './Suggestions';
-import { IconButton, Form, ChatInput, ChatMessage } from './styled';
+import { IconButton, Form, ChatInput } from './styled';
 import { useChatContext, useMainContext } from '@/hooks';
 import LineBreaks from './LineBreaks';
 
@@ -23,9 +24,9 @@ const Conversation = styled.div<{ $open: boolean }>`
   display: flex;
   flex-direction: column;
   flex-grow: 10;
-  gap: 20px;
+  gap: 40px;
   overflow-y: scroll;
-  padding: 40px 20px 0 40px;
+  padding: 40px 34px 0 40px;
 
   & > .redirect-status {
     font-size: 0.8rem;
@@ -118,14 +119,20 @@ function Chat() {
   return (
     <Container>
       <Conversation $open={isOpen}>
-        <ChatMessage $role="assistant">
+        <ChatMessage name="Eda">
           Eu sou <strong>Eda</strong>, assistente virtual.
           <br />
           Selecione uma das perguntas frequentes abaixo ou faça uma você mesmo! Estou aqui
           para ajudar da melhor forma possível!
         </ChatMessage>
         {conversation.messages.map(({ content, role }, index) => (
-          <ChatMessage key={index} $role={role}>
+          <ChatMessage
+            key={index}
+            bgColor={role === 'assistant' ? 'var(--clr-a)' : 'var(--clr-lighter-gray)'}
+            imageUrl={role === 'assistant' ? '' : user?.imageUrl}
+            name={role === 'assistant' ? 'Eda' : user?.name}
+            right={role === 'user'}
+          >
             <LineBreaks content={content} />
           </ChatMessage>
         ))}
