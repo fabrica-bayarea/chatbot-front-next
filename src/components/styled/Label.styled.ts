@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Label = styled.label`
+export const Label = styled.label`
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -12,5 +12,3 @@ const Label = styled.label`
     text-transform: uppercase;
   }
 `;
-
-export { Label };

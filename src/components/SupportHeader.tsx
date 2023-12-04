@@ -23,17 +23,17 @@ const Container = styled.header`
       font-size: 1.25rem;
     }
   }
+`;
 
-  & > nav {
-    display: flex;
-    gap: 20px;
-    position: relative;
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  position: relative;
 
-    & > span {
-      bottom: -25px;
-      font-size: 0.75rem;
-      position: absolute;
-    }
+  & > span {
+    bottom: -25px;
+    font-size: 0.75rem;
+    position: absolute;
   }
 `;
 
@@ -46,12 +46,14 @@ function SupportHeader() {
 
   return (
     <Container>
-      <Avatar>{conversation.user?.name.charAt(0)}</Avatar>
+      <Avatar $fontSize="2rem" $imageUrl={conversation.user?.imageUrl} $width="80px">
+        {conversation.user?.name.charAt(0)}
+      </Avatar>
       <div>
         <h1>{conversation.user?.name}</h1>
         <div>{conversation.user?.email}</div>
       </div>
-      <nav>
+      <ButtonContainer>
         {conversation.status === 'redirected' && (
           <RequestButton disabled={false} request={acceptConversation}>
             Iniciar atendimento
@@ -71,7 +73,7 @@ function SupportHeader() {
             {lastSent && <span>{`Último envio: ${lastSentString}`}</span>}
           </Fragment>
         )}
-      </nav>
+      </ButtonContainer>
     </Container>
   );
 }

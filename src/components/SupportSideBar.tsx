@@ -139,7 +139,7 @@ function SupportSideBar({ conversations }: SupportSideBarProps) {
                 role="button"
                 tabIndex={0}
               >
-                <Avatar $fontSize="1.25rem" $width="40px">
+                <Avatar $fontSize="1.25rem" $imageUrl={user?.imageUrl} $width="40px">
                   {user?.name.charAt(0)}
                 </Avatar>
                 <div>

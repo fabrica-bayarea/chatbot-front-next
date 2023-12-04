@@ -1,24 +1,27 @@
 {
   "users": [
     {
-      "id": "GOFTHdb",
+      "id": "mSxamPR",
       "email": "limapaulobsb@gmail.com",
+      "imageUrl": "https://utfs.io/f/23f2aa94-3280-47ed-bf95-51340097bcbd-swtmy9.jpeg",
       "name": "Paulo Lima",
-      "password": "$argon2id$v=19$m=65536,t=3,p=4$bdC3Q4OJMVgEYpXP6Cjc/A$3fgiexHAk75ITJzH3NrgzJi53qgTXPENMxKoGC1E+yo",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$vHL4SZO3Y7eaPh3ZFprOyg$7Slwt3usTLvv7ZtGRfKfPfcOIDIxmwp2Am1/6mVruek",
       "role": "admin"
     },
     {
-      "id": "DP_V0dx",
-      "email": "kvictor1711@gmail.com",
-      "name": "Kaio",
-      "password": "$argon2id$v=19$m=65536,t=3,p=4$oLGY0JgB0hxgMo/LnXY9FA$u+V+LgGPkd8g2kfGNNlJLK0NNA90O26RqBVstVlLdYs",
-      "role": "admin"
-    },
-    {
-      "id": "HSMkWmM",
+      "id": "_cSRo6z",
       "email": "felipebalbino53@gmail.com",
-      "name": "Felipe",
-      "password": "$argon2id$v=19$m=65536,t=3,p=4$Hmh3l+M4KG7T4HYyPA0XQA$bEey0KKap3LBSl6ZpopbXmTcf9Aex+woyfwB1WvxRfU",
+      "imageUrl": "https://utfs.io/f/cd6319d8-0dbe-44ab-8e6d-444fffe85ca3-s4f6w0.03.47.jpeg",
+      "name": "Felipe Carvalho",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$EBlqLQG/FP2nqxnBfnEZzQ$zZ1ex20yVqWqoZAhupydLVbebT+c7sS6BCm7GH2yzFs",
+      "role": "admin"
+    },
+    {
+      "id": "OMLxwR7",
+      "email": "kvictor1711@gmail.com",
+      "imageUrl": "https://utfs.io/f/89132e81-4d89-4d77-b509-ac59318b57a0-8mklyo.jpg",
+      "name": "Kaio Victor",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$5qrQb00zI+3nnHJ7z47t1w$4ce2gMDEGU3ZPQwwE9gRr/c7V0xuprddzT4wxzPExCQ",
       "role": "admin"
     },
     {
@@ -27,20 +30,6 @@
       "name": "John",
       "password": "$argon2id$v=19$m=65536,t=3,p=4$QvyrcVyn42efiA1zTDOeOg$Fd7JkFIE8VcUlITGJWDqemeQqv7aUKG0itdrx8ovL/0",
       "role": "collaborator"
-    },
-    {
-      "email": "paulohenriqueaplima@gmail.com",
-      "name": "Paulo H",
-      "password": "$argon2id$v=19$m=65536,t=3,p=4$2OVPkIupeJ9bV6kFO5xrBw$0uj9h/FHPpYyp7GrmHoCkA13FwCpHAg0EI0jVzQGgyY",
-      "role": "user",
-      "id": "NtrdyRU"
-    },
-    {
-      "email": "paulohenriquea2plima@gmail.com",
-      "name": "Paulo H",
-      "password": "$argon2id$v=19$m=65536,t=3,p=4$/ge6VBQb5FUS0r5PhYzlZA$vsesQYD0EdbFLSxgr/CK7lzySmPK21tH2UqXBV/dZ5M",
-      "role": "user",
-      "id": "6K20OP2"
     }
   ],
   "conversations": [
@@ -81,7 +70,7 @@
       ],
       "status": "accepted",
       "support": {
-        "collaboratorId": "gA7v-EC",
+        "collaboratorId": "mSxamPR",
         "messages": [
           {
             "role": "collaborator",
@@ -91,7 +80,7 @@
         ],
         "lastSent": 1700698335998
       },
-      "userId": "GOFTHdb"
+      "userId": "_cSRo6z"
     },
     {
       "id": "qfBFe0a",
@@ -109,7 +98,7 @@
         }
       ],
       "status": "redirected",
-      "userId": "DP_V0dx"
+      "userId": "OMLxwR7"
     },
     {
       "id": "IZmsBfm",
@@ -127,64 +116,71 @@
         }
       ],
       "status": "redirected",
-      "userId": "HSMkWmM"
+      "userId": "gA7v-EC"
     },
     {
+      "id": "rvcFN_q",
       "messages": [
         {
           "role": "user",
-          "content": "Tudo bem?",
-          "time": 1701462434997
+          "content": "Bom dia!",
+          "time": 1701515267880
         },
         {
           "role": "assistant",
-          "content": "Tudo bem, obrigada por perguntar. E você?",
-          "time": 1701462437222,
-          "feedback": "poor"
+          "content": "Bom dia! Em que posso ajudar hoje?",
+          "time": 1701515270502
+        },
+        {
+          "role": "user",
+          "content": "Estou com fome!",
+          "time": 1701515275671
+        },
+        {
+          "role": "assistant",
+          "content": "Que tipo de comida você está com vontade de comer?",
+          "time": 1701515276779
+        },
+        {
+          "role": "user",
+          "content": "Algo saudável, por favor!",
+          "time": 1701515287668
+        },
+        {
+          "role": "assistant",
+          "content": "Que tal uma salada fresca com vegetais, proteína magra e uma opção de molho leve?",
+          "time": 1701515289526
+        },
+        {
+          "role": "user",
+          "content": "Pode ser! Qual sua sugestão?",
+          "time": 1701515300012
+        },
+        {
+          "role": "assistant",
+          "content": "Uma opção seria uma salada de folhas verdes, tomate cereja, pepino, cenoura ralada e peito de frango grelhado. Você pode temperar com um pouco de azeite de oliva, suco de limão e ervas frescas. Fica leve e saudável!",
+          "time": 1701515302415
         }
       ],
-      "status": "closed",
-      "userId": "gA7v-EC",
-      "id": "LleDVN5",
-      "support": {
-        "collaboratorId": "GOFTHdb",
-        "messages": [
-          {
-            "role": "collaborator",
-            "content": "Tudo bem??? Espero que sim!!",
-            "time": 1701462488254
-          }
-        ]
-      }
+      "status": "open",
+      "userId": "mSxamPR"
     },
     {
+      "id": "X2cuYlC",
       "messages": [
         {
           "role": "user",
-          "content": "123",
-          "time": 1701462556344
+          "content": "Qual o tamanho do Brasil?",
+          "time": 1701515847231
         },
         {
           "role": "assistant",
-          "content": "Desculpe, mas não entendi o que você quer dizer com \"123\". Você poderia fornecer mais contexto ou elaborar sua pergunta? Estou aqui para ajudar!",
-          "time": 1701462558153,
-          "feedback": "poor"
+          "content": "O Brasil é o quinto maior país do mundo em área, com aproximadamente 8,5 milhões de quilômetros quadrados.",
+          "time": 1701515849470
         }
       ],
-      "status": "closed",
-      "userId": "NtrdyRU",
-      "id": "ngXOxRC",
-      "support": {
-        "collaboratorId": "GOFTHdb",
-        "messages": [
-          {
-            "role": "collaborator",
-            "content": "Acho que vc quis dizer bla",
-            "time": 1701462627273
-          }
-        ],
-        "lastSent": 1701462634344
-      }
+      "status": "open",
+      "userId": "mSxamPR"
     }
   ]
 }

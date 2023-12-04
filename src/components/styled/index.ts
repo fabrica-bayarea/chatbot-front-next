@@ -14,7 +14,7 @@ import { ChatInput, MainInput, ChatTextArea } from './Input.styled';
 import { Label } from './Label.styled';
 import { Main } from './Main.styled';
 import { Section } from './Section.styled';
-import { ChatMessage, InfoMessage } from './Span.styled';
+import { ChatMessage, InfoMessage, Suggestion } from './Span.styled';
 
 export {
   Avatar,
@@ -34,4 +34,26 @@ export {
   Section,
   ChatMessage,
   InfoMessage,
+  Suggestion,
+};
+
+export default {
+  Avatar,
+  Button,
+  AltButton,
+  DialogButton,
+  DropdownButton,
+  IconButton,
+  MainButton,
+  Form,
+  ColumnForm,
+  ChatInput,
+  MainInput,
+  ChatTextArea,
+  Label,
+  Main,
+  Section,
+  ChatMessage,
+  InfoMessage,
+  Suggestion,
 };

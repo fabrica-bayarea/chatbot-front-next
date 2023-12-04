@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Section = styled.section`
+export const Section = styled.section`
   --r: 20px;
 
   border-radius: var(--r);
@@ -39,5 +39,3 @@ const Section = styled.section`
     padding-bottom: 40px;
   }
 `;
-
-export { Section };

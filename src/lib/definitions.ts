@@ -7,6 +7,7 @@ export type User = {
   id: string;
   name: string;
   role: 'admin' | 'collaborator' | 'user';
+  imageUrl?: string;
 };
 
 export type Session = {
@@ -41,7 +42,7 @@ export type Conversation = {
 };
 
 export type CreateUserPayload = {
-  body: { email: string; name: string; password: string };
+  body: { email: string; imageUrl: string; name: string; password: string };
 };
 
 export type LoginPayload = {
@@ -131,6 +132,14 @@ export type MainContextProps = {
   user?: User;
 };
 
+export type ChatMessageProps = {
+  bgColor?: string;
+  children: ReactNode;
+  imageUrl?: string;
+  name?: string;
+  right?: boolean;
+};
+
 export type DropdownProps = { showFn: Dispatch<SetStateAction<boolean>> };
 
 export type ElapsedTimeProps = { time: number };
@@ -148,6 +157,7 @@ export type InputGroupProps = {
   name: string;
   scheme: InputScheme;
   type: string;
+  disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   value?: string;
@@ -173,3 +183,5 @@ export type SupportProps = { params: { id: string } };
 export type SupportSideBarProps = {
   conversations: Conversation[];
 };
+
+export type UploadButtonProps = { children: ReactNode; setFn: (value: string) => void };

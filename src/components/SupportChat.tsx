@@ -5,10 +5,10 @@ import { FormEvent, Fragment, useEffect, useRef } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
+import ChatMessage from './ChatMessage';
 import LineBreaks from './LineBreaks';
-import { IconButton, Form, ChatTextArea, InfoMessage, ChatMessage } from './styled';
+import { IconButton, Form, ChatTextArea, InfoMessage } from './styled';
 import { useChatContext, useMainContext } from '@/hooks';
-import { ConversationMessage } from '@/lib/definitions';
 
 const Container = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const Loading = styled.div`
 
 function SupportChat() {
   const { conversation, sendReply, supportLength } = useChatContext();
-  const { isLoading } = useMainContext();
+  const { isLoading, user } = useMainContext();
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
@@ -90,7 +90,13 @@ function SupportChat() {
           Início do atendimento virtual
         </InfoMessage>
         {conversation.messages.map(({ content, role }, index) => (
-          <ChatMessage key={index} $inverted={true} $role={role}>
+          <ChatMessage
+            key={index}
+            bgColor={role === 'assistant' ? 'var(--clr-a)' : 'var(--clr-lighter-gray)'}
+            imageUrl={role === 'assistant' ? '' : conversation.user?.imageUrl}
+            name={role === 'assistant' ? 'Eda' : conversation.user?.name}
+            right={role === 'assistant'}
+          >
             <LineBreaks content={content} />
           </ChatMessage>
         ))}
@@ -102,7 +108,12 @@ function SupportChat() {
           </Fragment>
         )}
         {(conversation.support?.messages ?? []).map(({ content, role }, index) => (
-          <ChatMessage key={index} $inverted={true} $role={role}>
+          <ChatMessage
+            key={index}
+            imageUrl={role === 'user' ? conversation.user?.imageUrl : user?.imageUrl}
+            name={user?.name}
+            right={role === 'collaborator'}
+          >
             <LineBreaks content={content} />
           </ChatMessage>
         ))}
