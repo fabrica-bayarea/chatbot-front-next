@@ -6,9 +6,13 @@
   --clr-b: #ed2241;
   --clr-c: #b41e3c;
   --clr-d: #961e1e;
+
+  --clr-green: #67bb67;
   --clr-blue: #8787bb;
+
   --clr-dark: #3c1e1e;
   --clr-light: #fff0f0;
+
   --clr-lighter-gray: #f0f0f0;
   --clr-light-gray: #d7d7d7;
   --clr-gray: #a1a1a1;
@@ -58,5 +62,15 @@ h6 {
   100% {
     box-shadow: 0 0 0 10px rgb(0 0 0 / 0%);
     transform: scale(0.95);
+  }
+}
+
+@keyframes timeout {
+  0% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0;
   }
 }

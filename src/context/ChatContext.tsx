@@ -26,7 +26,7 @@ import { revalidate } from '@/app/actions';
 const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 
 export function ChatProvider(props: ChatContextProps) {
-  const { makeRequest, user } = useMainContext();
+  const { makeRequest, setAndShow, user } = useMainContext();
   const [history, setHistory] = useState<Conversation[]>([]);
 
   const initialConversation: Conversation = {
@@ -102,6 +102,7 @@ export function ChatProvider(props: ChatContextProps) {
 
     const successFn = async () => {
       setConversation({ ...conversation, support: updatedSupport });
+      setAndShow('E-mail enviado!');
     };
 
     const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
@@ -142,6 +143,7 @@ export function ChatProvider(props: ChatContextProps) {
     async (id: string) => {
       const successFn = async () => {
         setHistory(history.filter((conversation) => conversation.id !== id));
+        setAndShow('Conversa removida!');
       };
 
       const params: MakeRequestParams<{ id: string }, {}> = {

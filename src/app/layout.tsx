@@ -6,9 +6,9 @@ import { extractRouterConfig } from 'uploadthing/server';
 import { getSession } from './actions';
 import { ourFileRouter } from './api/uploadthing/core';
 import StyledComponentsRegistry from './registry';
+import Toast from '@/components/Toast';
 import { MainProvider } from '@/context';
 
-// import '@uploadthing/react/styles.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -25,6 +25,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <MainProvider user={session?.user}>
           <StyledComponentsRegistry>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+            <Toast />
             {children}
           </StyledComponentsRegistry>
         </MainProvider>

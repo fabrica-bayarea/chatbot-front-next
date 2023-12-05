@@ -7,7 +7,7 @@ export type User = {
   id: string;
   name: string;
   role: 'admin' | 'collaborator' | 'user';
-  imageUrl?: string;
+  imageUrl: string;
 };
 
 export type Session = {
@@ -119,6 +119,10 @@ export type MainContextShared = {
     successFn,
     errorFn,
   }: MakeRequestParams<Payload, Data>) => Promise<ContextResult<Data>>;
+  message: string;
+  setAndShow: (content: string) => void;
+  setShowMessage: Dispatch<SetStateAction<boolean>>;
+  showMessage: boolean;
   user?: User;
 };
 

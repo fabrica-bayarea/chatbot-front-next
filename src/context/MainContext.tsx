@@ -14,6 +14,8 @@ const MainContext = createContext<MainContextShared | undefined>(undefined);
 
 export function MainProvider({ children, user }: MainContextProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [showMessage, setShowMessage] = useState(false);
 
   // Generic function that prepares a request.
   // If successful, execute the passed function, otherwise show an error message.
@@ -52,7 +54,20 @@ export function MainProvider({ children, user }: MainContextProps) {
     []
   );
 
-  const shared: MainContextShared = { isLoading, makeRequest, user };
+  const setAndShow = (content: string) => {
+    setMessage(content);
+    setShowMessage(true);
+  };
+
+  const shared: MainContextShared = {
+    isLoading,
+    makeRequest,
+    message,
+    setAndShow,
+    setShowMessage,
+    showMessage,
+    user,
+  };
 
   return <MainContext.Provider value={{ ...shared }}>{children}</MainContext.Provider>;
 }

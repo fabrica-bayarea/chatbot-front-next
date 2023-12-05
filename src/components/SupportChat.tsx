@@ -13,7 +13,7 @@ import { useChatContext, useMainContext } from '@/hooks';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 140px);
   padding: 0 0 40px;
 `;
 

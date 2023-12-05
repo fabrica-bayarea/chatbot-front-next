@@ -33,7 +33,9 @@ export const AltButton = styled(Button)`
   border: 1px solid var(--clr-b);
   border-radius: 4px;
   color: var(--clr-light);
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
   height: 40px;
   width: 200px;
 
@@ -70,7 +72,7 @@ export const IconButton = styled(Button)<IconButtonProps>`
   aspect-ratio: 1 / 1;
   background-color: ${({ $bgColor }) => $bgColor ?? 'transparent'};
   border-radius: 50%;
-  box-shadow: ${({ $bgColor }) => ($bgColor ? '0 4px 4px 0 rgb(0 0 0 / 20%)' : 'none')};
+  box-shadow: ${({ $bgColor }) => ($bgColor ? '0 2px 4px 0 rgb(0 0 0 / 20%)' : 'none')};
   font-size: 1.5em;
   min-width: ${({ $width }) => $width ?? '40px'};
 
