@@ -13,7 +13,7 @@ const Container = styled.header`
   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
   display: flex;
   gap: 20px;
-  height: 120px;
+  height: 140px;
   padding: 0 120px;
 
   & > div:nth-child(2) {
@@ -46,7 +46,7 @@ function SupportHeader() {
 
   return (
     <Container>
-      <Avatar $fontSize="2rem" $imageUrl={conversation.user?.imageUrl} $width="80px">
+      <Avatar $fontSize="2rem" $imageUrl={conversation.user?.imageUrl} $width="100px">
         {conversation.user?.name.charAt(0)}
       </Avatar>
       <div>

@@ -18,27 +18,19 @@ const ToggleButton = styled(IconButton)`
   z-index: 100;
 `;
 
-const Navigation = styled.nav<{ $visibility: boolean }>`
+const Navigation = styled.nav<{ $visible: boolean }>`
   border: 1px solid var(--clr-d);
-  box-shadow: 0 0 2px 0 rgb(0 0 0 / 20%);
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
   display: flex;
   flex-direction: column;
-  opacity: 0;
+  opacity: ${({ $visible }) => ($visible ? '1' : '0')};
   position: absolute;
   right: 0;
-  top: 30px;
+  top: ${({ $visible }) => ($visible ? '50px' : '30px')};
+  visibility: ${({ $visible }) => ($visible ? 'visible' : 'hidden')};
   transition: opacity 400ms ease, top 400ms ease, visibility 400ms ease;
-  visibility: hidden;
   width: 180px;
   z-index: 10;
-
-  ${(props) =>
-    props.$visibility &&
-    css`
-      opacity: 1;
-      top: 50px;
-      visibility: visible;
-    `}
 `;
 
 function Dropdown({ showFn }: DropdownProps) {
@@ -68,7 +60,7 @@ function Dropdown({ showFn }: DropdownProps) {
           alt="Menu icon"
         />
       </ToggleButton>
-      <Navigation $visibility={isVisible}>
+      <Navigation $visible={isVisible}>
         <DropdownButton
           onClick={() => {
             setConversation(initialConversation);

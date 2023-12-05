@@ -16,7 +16,7 @@ import { Main } from './Main.styled';
 import { Section } from './Section.styled';
 import { ChatMessage, InfoMessage, Suggestion } from './Span.styled';
 
-export {
+const Styled = {
   Avatar,
   Button,
   AltButton,
@@ -37,7 +37,9 @@ export {
   Suggestion,
 };
 
-export default {
+export default Styled;
+
+export {
   Avatar,
   Button,
   AltButton,

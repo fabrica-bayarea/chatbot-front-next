@@ -102,10 +102,10 @@ const Footer = styled.footer`
     rgba(255 255 255 / 0%) 40%
   );
   border-top: 2px solid var(--clr-b);
-  box-shadow: 0 -1px 4px 0 rgb(0 0 0 / 25%);
+  box-shadow: 0 -1px 4px 0 rgb(0 0 0 / 20%);
   color: var(--clr-light);
   display: flex;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   height: 80px;
   justify-content: space-around;
 `;

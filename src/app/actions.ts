@@ -17,24 +17,15 @@ import {
   User,
 } from '@/lib/definitions';
 
-// Makes a registration request and redirects to the login page
-export async function register(formData: FormData): Promise<StatusMessage | never> {
-  const payload: CreateUserPayload = {
-    body: {
-      email: formData.get('email') as string,
-      imageUrl: formData.get('avatar') as string,
-      name: formData.get('name') as string,
-      password: formData.get('password') as string,
-    },
-  };
+// Checks session cookies and returns
+export async function getSession(): Promise<Session | null> {
+  const session = cookies().get('session')?.value;
 
-  const { status, data } = await api.createUser(payload);
-
-  if (status !== statusCodes.CREATED) {
-    return data as StatusMessage;
+  if (!session) {
+    return null;
   }
 
-  return redirect('/login');
+  return JSON.parse(session);
 }
 
 export async function login(
@@ -74,22 +65,31 @@ export async function login(
   return redirect(path === '/login' ? '/' : path);
 }
 
-// Checks session cookies and returns
-export async function getSession(): Promise<Session | null> {
-  const session = cookies().get('session')?.value;
-
-  if (!session) {
-    return null;
-  }
-
-  return JSON.parse(session);
-}
-
 // Deletes session cookies and redirects to the login page
 export async function logout(): Promise<never> {
   cookies().delete('session');
 
   return redirect('/login');
+}
+
+// Makes a registration request and redirects to the login page
+export async function register(formData: FormData): Promise<StatusMessage | never> {
+  const payload: CreateUserPayload = {
+    body: {
+      email: formData.get('email') as string,
+      imageUrl: formData.get('avatar') as string,
+      name: formData.get('name') as string,
+      password: formData.get('password') as string,
+    },
+  };
+
+  const { status, data } = await api.createUser(payload);
+
+  if (status !== statusCodes.CREATED) {
+    return data as StatusMessage;
+  }
+
+  return login(formData, '/login');
 }
 
 // Revalidates a path or tag or both

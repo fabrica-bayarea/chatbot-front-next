@@ -49,7 +49,7 @@ function Home() {
         <Logo />
         <App>
           <header>
-            <span>Olá, {user?.name}! 👋</span>
+            <span>Olá, {(user?.name as string).split(' ')[0]}! 👋</span>
             <Dropdown showFn={setShowHistory} />
           </header>
           <div>{showHistory ? <History showFn={setShowHistory} /> : <Chat />}</div>
