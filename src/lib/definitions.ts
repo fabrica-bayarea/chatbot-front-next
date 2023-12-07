@@ -33,10 +33,10 @@ export type ConversationSupport = {
 };
 
 export type Conversation = {
+  id: string;
   messages: ConversationMessage[];
   status: ConversationStatus;
   userId: string;
-  id?: string;
   support?: ConversationSupport;
   user?: User;
 };
@@ -156,6 +156,8 @@ export type EmailTemplateProps = {
 };
 
 export type HistoryProps = { showFn: Dispatch<SetStateAction<boolean>> };
+
+export type HomeProps = { params: { id: string } };
 
 export type InputGroupProps = {
   name: string;

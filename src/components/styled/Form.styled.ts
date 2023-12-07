@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-export const Form = styled.form<{ $padding?: string }>`
+export const Form = styled.form<{ $gap?: string; $padding?: string }>`
   align-items: center;
   display: flex;
-  gap: 100px;
+  gap: ${(props) => props.$gap ?? '0'};
   padding: ${(props) => props.$padding ?? '0'};
   width: 100%;
 `;
