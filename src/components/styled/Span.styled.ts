@@ -17,14 +17,6 @@ export const ChatMessage = styled.span<{ $bgColor?: string; $right?: boolean }>`
   width: fit-content;
 `;
 
-export const Suggestion = styled(ChatMessage)`
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--clr-light-gray);
-  }
-`;
-
 export const InfoMessage = styled.span<{ $bgColor?: string }>`
   align-self: center;
   background-color: ${({ $bgColor }) => $bgColor ?? 'var(--clr-dark-gray)'};

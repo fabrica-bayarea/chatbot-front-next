@@ -1,34 +1,32 @@
 'use client';
 
-import Image from 'next/image';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
+import ChatForm from './ChatForm';
 import ChatMessage from './ChatMessage';
 import Feedback from './Feedback';
-import Suggestions from './Suggestions';
-import { IconButton, Form, ChatInput } from './styled';
-import { useChatContext, useMainContext } from '@/hooks';
 import LineBreaks from './LineBreaks';
+import { useChatContext, useMainContext } from '@/hooks';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 600px;
   position: relative;
-  width: 100%;
 `;
 
 const Conversation = styled.div<{ $open: boolean }>`
   display: flex;
   flex-direction: column;
   flex-grow: 10;
-  gap: 40px;
+  gap: 60px;
   overflow-y: scroll;
-  padding: 40px 34px 0 40px;
+  padding: 40px 32px 0 40px;
+  width: 100%;
 
-  & > .redirect-status {
+  & > .redirectStatus {
     font-size: 0.8rem;
     margin: 40px 40px 0;
     text-align: center;
@@ -44,12 +42,12 @@ const Conversation = styled.div<{ $open: boolean }>`
     }
   }
 
-  & > *:not(.redirect-status) {
+  & > *:not(.redirectStatus) {
     opacity: ${({ $open }) => ($open ? '1' : '0.6')};
   }
 
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -63,36 +61,14 @@ const Loading = styled.div`
   min-height: 40px;
 `;
 
-const SendButton = styled(IconButton)`
-  bottom: 20px;
-  height: 60px;
-  position: absolute;
-  right: -30px;
-`;
-
 function Chat() {
   const { user } = useMainContext();
-  const { conversation, conversationLength, getReply } = useChatContext();
+  const { conversation, conversationLength } = useChatContext();
   const { isLoading } = useMainContext();
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(true);
 
   const isOpen = conversation.status === 'open';
-
-  // Request an AI response to update the conversation
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    const inputElement = inputRef.current as HTMLInputElement;
-    const content = inputElement.value;
-
-    if (!content || isLoading) {
-      return;
-    }
-
-    inputElement.value = '';
-    await getReply(content);
-  };
 
   // Ensure that the control element is visible
   const scrollToBottom = () => {
@@ -107,7 +83,8 @@ function Chat() {
     }
   }, [conversationLength]);
 
-  // Shows feedback if the conversation is open and the last message is from the assistant
+  // Shows feedback if the conversation is open and the last message is from
+  // the assistant.
   useEffect(() => {
     setShowFeedback(
       conversation.status === 'open' &&
@@ -119,12 +96,6 @@ function Chat() {
   return (
     <Container>
       <Conversation $open={isOpen}>
-        <ChatMessage name="Eda">
-          Eu sou <strong>Eda</strong>, assistente virtual.
-          <br />
-          Selecione uma das perguntas frequentes abaixo ou faça uma você mesmo! Estou aqui
-          para ajudar da melhor forma possível!
-        </ChatMessage>
         {conversation.messages.map(({ content, role }, index) => (
           <ChatMessage
             key={index}
@@ -136,10 +107,9 @@ function Chat() {
             <LineBreaks content={content} />
           </ChatMessage>
         ))}
-        {conversationLength === 0 && <Suggestions />}
         {showFeedback && <Feedback scrollFn={scrollToBottom} />}
         {!isOpen && (
-          <div className="redirect-status">
+          <div className="redirectStatus">
             <p>
               Esta conversa foi direcionada para o nosso setor de suporte e assim que
               possível uma resposta será enviada para o e-mail:
@@ -151,14 +121,7 @@ function Chat() {
           {isLoading && <BeatLoader color="lightgray" size={8} />}
         </Loading>
       </Conversation>
-      {isOpen && (
-        <Form onSubmit={handleSubmit}>
-          <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
-          <SendButton type="submit" $bgColor="var(--clr-d)">
-            <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
-          </SendButton>
-        </Form>
-      )}
+      {isOpen && <ChatForm />}
     </Container>
   );
 }

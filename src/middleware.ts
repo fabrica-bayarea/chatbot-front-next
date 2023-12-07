@@ -4,6 +4,10 @@ export async function middleware(request: NextRequest) {
   const session = request.cookies.get('session')?.value;
 
   if (request.nextUrl.pathname === '/') {
+    return NextResponse.redirect(new URL('/chat', request.url));
+  }
+
+  if (request.nextUrl.pathname.startsWith('/chat')) {
     if (!session) {
       return NextResponse.rewrite(new URL('/login', request.url));
     }

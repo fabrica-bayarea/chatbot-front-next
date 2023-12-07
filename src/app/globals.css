@@ -31,8 +31,7 @@
 }
 
 a {
-  color: var(--clr-dark);
-  text-decoration: none;
+  color: var(--clr-b);
 }
 
 body {

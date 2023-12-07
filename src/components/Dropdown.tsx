@@ -1,13 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { DropdownButton, IconButton } from './styled';
 import { logout } from '@/app/actions';
 import { useChatContext } from '@/hooks';
-import type { DropdownProps } from '@/lib/definitions';
 
 const Container = styled.div`
   position: relative;
@@ -33,8 +33,9 @@ const Navigation = styled.nav<{ $visible: boolean }>`
   z-index: 10;
 `;
 
-function Dropdown({ showFn }: DropdownProps) {
+function Dropdown() {
   const { initialConversation, setConversation } = useChatContext();
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
   // Listen for click events to close the menu
@@ -63,17 +64,12 @@ function Dropdown({ showFn }: DropdownProps) {
       <Navigation $visible={isVisible}>
         <DropdownButton
           onClick={() => {
-            setConversation(initialConversation);
-            showFn(false);
+            router.push('/chat');
           }}
         >
           Nova conversa
         </DropdownButton>
-        <DropdownButton
-          onClick={() => {
-            showFn(true);
-          }}
-        >
+        <DropdownButton onClick={() => router.push('/historico')}>
           Histórico
         </DropdownButton>
         <DropdownButton onClick={() => logout()}>Sair</DropdownButton>

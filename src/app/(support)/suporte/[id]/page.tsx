@@ -5,23 +5,25 @@ import SupportChat from '@/components/SupportChat';
 import SupportHeader from '@/components/SupportHeader';
 import { ChatProvider } from '@/context';
 import api from '@/lib/data';
-import type { Conversation, SupportProps } from '@/lib/definitions';
+import type { Conversation, Session, SupportProps } from '@/lib/definitions';
 
-import styles from '../support.module.css';
+import styles from '../../support.module.css';
 
 async function Support({ params }: SupportProps) {
-  const session = await getSession();
+  const { user } = (await getSession()) as Session;
 
   const { data } = await api.fetchSupportConversations({
-    collaboratorId: session?.user.id as string,
+    collaboratorId: user.id,
   });
 
+  // TODO
+  // Check fetch status
   const conversations = data as Conversation[];
   const [conversation] = conversations.filter(({ id }) => id === params.id);
 
   if (!conversation) {
     return (
-      <section className={styles.closed}>
+      <section className={`${styles.section} ${styles.closed}`}>
         <span>Esta conversa não existe ou foi encerrada.</span>
         <Link href={'/suporte'}>Página inicial</Link>
       </section>
@@ -30,7 +32,7 @@ async function Support({ params }: SupportProps) {
 
   return (
     <ChatProvider conversation={conversation}>
-      <section>
+      <section className={styles.section}>
         <SupportHeader />
         <SupportChat />
       </section>

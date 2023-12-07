@@ -21,7 +21,7 @@ const Conversation = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 30px;
+  gap: 60px;
   overflow-y: scroll;
   padding: 0 240px;
 
@@ -47,13 +47,10 @@ const Loading = styled.div`
   min-height: 40px;
 `;
 
-function SupportChat() {
-  const { conversation, sendReply, supportLength } = useChatContext();
-  const { isLoading, user } = useMainContext();
+function SupportForm() {
+  const { sendReply } = useChatContext();
+  const { isLoading } = useMainContext();
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
-  const loadingRef = useRef<HTMLDivElement | null>(null);
-
-  const isAccepted = conversation.status === 'accepted';
 
   // Registers a message to be sent to the user
   const handleSubmit = async (event: FormEvent) => {
@@ -68,6 +65,23 @@ function SupportChat() {
     inputElement.value = '';
     await sendReply(content);
   };
+
+  return (
+    <Form onSubmit={handleSubmit} $gap='100px' $padding='0 240px'>
+      <ChatTextArea ref={inputRef} placeholder="Digite uma mensagem..." />
+      <IconButton type="submit" $bgColor="var(--clr-d)" $width="60px">
+        <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
+      </IconButton>
+    </Form>
+  );
+}
+
+function SupportChat() {
+  const { conversation, supportLength } = useChatContext();
+  const { isLoading, user } = useMainContext();
+  const loadingRef = useRef<HTMLDivElement | null>(null);
+
+  const isAccepted = conversation.status === 'accepted';
 
   // Ensure that the control element is visible
   const scrollToBottom = () => {
@@ -121,14 +135,7 @@ function SupportChat() {
           {isLoading && <BeatLoader color="lightgray" size={8} />}
         </Loading>
       </Conversation>
-      {isAccepted && (
-        <Form onSubmit={handleSubmit} $padding="0 240px">
-          <ChatTextArea ref={inputRef} placeholder="Digite uma mensagem..." />
-          <IconButton type="submit" $bgColor="var(--clr-d)" $width="60px">
-            <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
-          </IconButton>
-        </Form>
-      )}
+      {isAccepted && <SupportForm />}
     </Container>
   );
 }
