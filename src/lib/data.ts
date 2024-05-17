@@ -11,12 +11,13 @@ import type {
   User,
 } from './definitions';
 
-const apiUrl = 'http://localhost:3100';
+const jsonUrl = 'http://localhost:3100';
+const backUrl = 'http://localhost:3105';
 const localUrl = 'http://localhost:3000';
 
 const api = {
-  async createUser({ body }: CreateUserPayload): Promise<APIResult<User>> {
-    const response = await fetch(`${apiUrl}/users`, {
+  async createUser({ body }: CreateUserPayload): Promise<APIResult<Session>> {
+    const response = await fetch(`${backUrl}/auth/signup/usuario`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -28,7 +29,7 @@ const api = {
   },
 
   async deleteConversation({ id }: { id: string }): Promise<APIResult<{}>> {
-    const response = await fetch(`${apiUrl}/conversations/${id}`, {
+    const response = await fetch(`${jsonUrl}/conversations/${id}`, {
       method: 'DELETE',
     });
 
@@ -37,22 +38,22 @@ const api = {
     return { status: response.status, data };
   },
 
-  async fetchConversation({ id }: { id: string }): Promise<APIResult<Conversation>> {
-    const response = await fetch(`${apiUrl}/conversations/${id}?_expand=user`, {
-      next: { revalidate: 10, tags: ['support'] },
-    });
+  // async fetchConversation({ id }: { id: string }): Promise<APIResult<Conversation>> {
+  //   const response = await fetch(`${jsonUrl}/conversations/${id}?_expand=user`, {
+  //     next: { revalidate: 10, tags: ['support'] },
+  //   });
 
-    const data = await response.json();
+  //   const data = await response.json();
 
-    return { status: response.status, data };
-  },
+  //   return { status: response.status, data };
+  // },
 
   async fetchConversationsByUser({
     userId,
   }: {
     userId: string;
   }): Promise<APIResult<Conversation[]>> {
-    const response = await fetch(`${apiUrl}/conversations?userId=${userId}`);
+    const response = await fetch(`${jsonUrl}/conversations?userId=${userId}`);
     const data = await response.json();
 
     return { status: response.status, data };
@@ -64,7 +65,7 @@ const api = {
     collaboratorId: string;
   }): Promise<APIResult<Conversation[]>> {
     const response = await fetch(
-      `${apiUrl}/conversations/support?collaboratorId=${collaboratorId}&_expand=user`,
+      `${jsonUrl}/conversations/support?collaboratorId=${collaboratorId}&_expand=user`,
       { next: { revalidate: 10, tags: ['support'] } }
     );
 
@@ -74,7 +75,7 @@ const api = {
   },
 
   async login({ body }: LoginPayload): Promise<APIResult<Session>> {
-    const response = await fetch(`http://localhost:3100/login`, {
+    const response = await fetch(`${backUrl}/auth/signin/usuario`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -102,7 +103,7 @@ const api = {
     body,
     id,
   }: UpdateConversationPayload): Promise<APIResult<Conversation>> {
-    const response = await fetch(`${apiUrl}/conversations/${id}`, {
+    const response = await fetch(`${jsonUrl}/conversations/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -116,7 +117,7 @@ const api = {
   async updateWithCompletion({
     body,
   }: UpdateWithCompletionPayload): Promise<APIResult<Conversation>> {
-    const response = await fetch(`${apiUrl}/reply`, {
+    const response = await fetch(`${jsonUrl}/reply`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
