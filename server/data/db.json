@@ -14,7 +14,7 @@
       "imageUrl": "https://utfs.io/f/cd6319d8-0dbe-44ab-8e6d-444fffe85ca3-s4f6w0.03.47.jpeg",
       "name": "Felipe Carvalho",
       "password": "$argon2id$v=19$m=65536,t=3,p=4$EBlqLQG/FP2nqxnBfnEZzQ$zZ1ex20yVqWqoZAhupydLVbebT+c7sS6BCm7GH2yzFs",
-      "role": "admin"
+      "role": "user"
     },
     {
       "id": "OMLxwR7",
@@ -22,6 +22,13 @@
       "imageUrl": "https://utfs.io/f/89132e81-4d89-4d77-b509-ac59318b57a0-8mklyo.jpg",
       "name": "Kaio Victor",
       "password": "$argon2id$v=19$m=65536,t=3,p=4$5qrQb00zI+3nnHJ7z47t1w$4ce2gMDEGU3ZPQwwE9gRr/c7V0xuprddzT4wxzPExCQ",
+      "role": "user"
+    },
+    {
+      "id": "e22qeZn",
+      "email": "jubsalfa0978@gmail.com",
+      "name": "Julya",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$by805DFVBBkpe0mvPY8Cyw$li+mfL5D2iL+N8pXK6kRz1e3kVeOfvkYSZXAjBesY30",
       "role": "admin"
     },
     {
@@ -29,166 +36,37 @@
       "email": "johndoe@gmail.com",
       "name": "John",
       "password": "$argon2id$v=19$m=65536,t=3,p=4$QvyrcVyn42efiA1zTDOeOg$Fd7JkFIE8VcUlITGJWDqemeQqv7aUKG0itdrx8ovL/0",
-      "role": "collaborator"
-    },
-    {
-      "id": "e22qeZn",
-      "email": "jubsalfa0978@gmail.com",
-      "imageUrl": "https://utfs.io/f/7773afbd-2235-41da-b584-2a970a007803-1ody.jpg",
-      "name": "Julya",
-      "password": "$argon2id$v=19$m=65536,t=3,p=4$by805DFVBBkpe0mvPY8Cyw$li+mfL5D2iL+N8pXK6kRz1e3kVeOfvkYSZXAjBesY30",
-      "role": "admin"
+      "role": "user"
     }
   ],
   "conversations": [
     {
-      "id": "JOxCER6",
+      "id": "psb5XcR",
       "messages": [
         {
           "role": "user",
-          "content": "Quais as cores da bandeira do Brasil?",
-          "time": 1699123767736
+          "content": "O Iesb possui curso de Gastronomia?",
+          "time": 1715980614675
         },
         {
           "role": "assistant",
-          "content": "Verde, amarelo, azul e branco.",
-          "time": 1699123799775
+          "content": "Sim, o IESB oferece o curso de Gastronomia. Ele está disponível na modalidade presencial. Caso tenha mais alguma dúvida ou precise de mais informações, estou à disposição para ajudar!",
+          "time": 1715980615962
         },
         {
           "role": "user",
-          "content": "E do México?",
-          "time": 1701120364924
+          "content": "Quanto custa a mensalidade?",
+          "time": 1715980629949
         },
         {
           "role": "assistant",
-          "content": "Verde, branco e vermelho.",
-          "time": 1701120371320
-        },
-        {
-          "role": "user",
-          "content": "E da Austrália?",
-          "time": 1701120378181
-        },
-        {
-          "role": "assistant",
-          "content": "Verde e dourado.",
-          "time": 1701120378994,
-          "feedback": "poor"
-        }
-      ],
-      "status": "accepted",
-      "support": {
-        "collaboratorId": "mSxamPR",
-        "messages": [
-          {
-            "role": "collaborator",
-            "content": "Olá! A bandeira da Austrália é azul, vermelha e branca!",
-            "time": 1700596286254
-          }
-        ],
-        "lastSent": 1700698335998
-      },
-      "userId": "_cSRo6z"
-    },
-    {
-      "id": "qfBFe0a",
-      "messages": [
-        {
-          "role": "user",
-          "content": "Conte uma história emocionante!",
-          "time": 1700566183590
-        },
-        {
-          "role": "assistant",
-          "content": "Uma família encontrou um cachorrinho abandonado na rua. Eles o levaram para casa e o chamaram de Max. Max era um cachorro repleto de amor e gratidão. Ele sempre demonstrava sua alegria e carinho pela família, especialmente pelas crianças. O tempo passou e Max se tornou parte inseparável da família.\n\nUm dia, a família ouviu falar de um abrigo de animais que estava passando por dificuldades financeiras. Eles decidiram ajudar de alguma forma. A família organizou um bazar na vizinhança para arrecadar fundos para o abrigo. Max, com seu jeito encantador e bom humor, se tornou o centro das atenções. Todos se apaixonaram por ele e suas travessuras.\n\nNo final do dia, o bazar foi um sucesso e a família conseguiu arrecadar uma quantia significativa para o abrigo. Eles foram até lá para entregar a doação e ficaram emocionados ao verem todos os animais tão agradecidos. Max, com aquele olhar doce em seus olhos, entendeu o propósito de sua família e estava feliz em ter ajudado.\n\nEssa história emocionante mostra como um simples ato de amor e generosidade pode transformar vidas, tanto de seres humanos quanto de animais. Max ensinou a todos sobre o poder da compaixão e o valor de fazer o bem. E, desde então, a família e Max continuaram a ajudar outros animais em situação de abandono, espalhando alegria e amor por onde passavam.",
-          "time": 1700566226679,
+          "content": "Desculpe, mas não tenho acesso às informações atualizadas sobre os valores das mensalidades dos cursos. Para obter essa informação, recomendo que você entre em contato diretamente com o IESB através dos seguintes canais:\n\n- Telefone: 3340-3747 (Brasília) ou 0800-602-3747 (demais regiões)\n- WhatsApp: (61) 3340-3747\n- E-mail: atendimento@iesb.br\n\nEles poderão fornecer todos os detalhes sobre os custos e formas de pagamento. Como posso ajudar em mais alguma coisa?",
+          "time": 1715980632256,
           "feedback": "poor"
         }
       ],
       "status": "redirected",
       "userId": "OMLxwR7"
-    },
-    {
-      "id": "IZmsBfm",
-      "messages": [
-        {
-          "role": "user",
-          "content": "Qual o menor mamífero conhecido?",
-          "time": 1700596286254
-        },
-        {
-          "role": "assistant",
-          "content": "O menor mamífero conhecido é o musaranho-pigmeu africano, com um comprimento médio de 2,9 centímetros.",
-          "time": 1700596317998,
-          "feedback": "poor"
-        }
-      ],
-      "status": "redirected",
-      "userId": "gA7v-EC"
-    },
-    {
-      "id": "rvcFN_q",
-      "messages": [
-        {
-          "role": "user",
-          "content": "Bom dia!",
-          "time": 1701515267880
-        },
-        {
-          "role": "assistant",
-          "content": "Bom dia! Em que posso ajudar hoje?",
-          "time": 1701515270502
-        },
-        {
-          "role": "user",
-          "content": "Estou com fome!",
-          "time": 1701515275671
-        },
-        {
-          "role": "assistant",
-          "content": "Que tipo de comida você está com vontade de comer?",
-          "time": 1701515276779
-        },
-        {
-          "role": "user",
-          "content": "Algo saudável, por favor!",
-          "time": 1701515287668
-        },
-        {
-          "role": "assistant",
-          "content": "Que tal uma salada fresca com vegetais, proteína magra e uma opção de molho leve?",
-          "time": 1701515289526
-        },
-        {
-          "role": "user",
-          "content": "Pode ser! Qual sua sugestão?",
-          "time": 1701515300012
-        },
-        {
-          "role": "assistant",
-          "content": "Uma opção seria uma salada de folhas verdes, tomate cereja, pepino, cenoura ralada e peito de frango grelhado. Você pode temperar com um pouco de azeite de oliva, suco de limão e ervas frescas. Fica leve e saudável!",
-          "time": 1701515302415
-        }
-      ],
-      "status": "open",
-      "userId": "mSxamPR"
-    },
-    {
-      "id": "X2cuYlC",
-      "messages": [
-        {
-          "role": "user",
-          "content": "Qual o tamanho do Brasil?",
-          "time": 1701515847231
-        },
-        {
-          "role": "assistant",
-          "content": "O Brasil é o quinto maior país do mundo em área, com aproximadamente 8,5 milhões de quilômetros quadrados.",
-          "time": 1701515849470
-        }
-      ],
-      "status": "open",
-      "userId": "mSxamPR"
     }
   ]
 }

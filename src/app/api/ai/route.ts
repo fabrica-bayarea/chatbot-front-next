@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   // Request for OpenAI API completions
   const params = {
     messages: reducedMessages,
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o',
     temperature: 0.1,
   } as OpenAI.Chat.ChatCompletionCreateParamsNonStreaming;
 
