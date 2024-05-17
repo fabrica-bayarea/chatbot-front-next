@@ -37,7 +37,7 @@ export const MainInput = styled(Input)`
 
 export const ChatTextArea = styled.textarea`
   border: 1px solid var(--clr-light-gray);
-  border-radius: 5px;
+  border-radius: 4px;
   color: inherit;
   font-family: inherit;
   font-size: 1.2rem;

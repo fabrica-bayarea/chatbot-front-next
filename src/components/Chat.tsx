@@ -147,7 +147,7 @@ function Chat() {
     <Container>
       <Conversation $open={isOpen}>
         <div>
-          <Image src="/eda.png" height={160} width={96} alt="Support link" />
+          <Image src="/eda.png" height={160} width={96} alt="Ilustração da Eda" />
           <ChatMessage name="Eda">
             Eu sou <strong>Eda</strong>, assistente virtual.
             <br />

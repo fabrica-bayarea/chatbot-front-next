@@ -46,7 +46,7 @@ export const AltButton = styled(Button)`
 
 export const DialogButton = styled(Button)`
   border: 1px solid var(--clr-a);
-  border-radius: 5px;
+  border-radius: 4px;
   height: 40px;
   transition: background-color 200ms ease;
   width: 60px;

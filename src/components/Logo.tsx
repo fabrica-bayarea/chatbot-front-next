@@ -1,13 +1,19 @@
 'use client';
 
+import Image from 'next/image';
 import styled from 'styled-components';
 
 const Container = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  scale: 1.2;
+  gap: 40px;
+
+  & > div {
+    align-items: center;
+    display: flex;
+    gap: 40px;
+  }
 `;
 
 const LogoImage = styled.div`
@@ -59,7 +65,16 @@ function Logo() {
       <LogoImage>
         <div></div>
       </LogoImage>
-      <LogoText>Chatbot</LogoText>
+      <div>
+        <LogoText>Chatbot</LogoText>
+        <Image
+          src="/logoIesb.png"
+          height={72}
+          width={72}
+          alt="Logo IESB"
+          style={{ backgroundColor: 'white', padding: '2px' }}
+        />
+      </div>
     </Container>
   );
 }
