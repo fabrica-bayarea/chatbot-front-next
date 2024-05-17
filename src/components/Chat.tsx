@@ -26,7 +26,34 @@ const Conversation = styled.div<{ $open: boolean }>`
   flex-grow: 10;
   gap: 40px;
   overflow-y: scroll;
-  padding: 40px 34px 0 40px;
+  padding: 30px 24px 0 40px;
+
+  & > div:first-of-type {
+    align-items: center;
+    display: flex;
+    position: relative;
+
+    & > img {
+      left: -20px;
+      opacity: 0.9;
+      position: relative;
+      top: 30px;
+      z-index: 10;
+    }
+
+    &::after {
+      background-color: black;
+      border-radius: 50%;
+      bottom: -35px;
+      content: '';
+      filter: blur(3px);
+      height: 15px;
+      left: 0;
+      opacity: 0.4;
+      position: absolute;
+      width: 56px;
+    }
+  }
 
   & > .redirect-status {
     font-size: 0.8rem;
@@ -119,12 +146,15 @@ function Chat() {
   return (
     <Container>
       <Conversation $open={isOpen}>
-        <ChatMessage name="Eda">
-          Eu sou <strong>Eda</strong>, assistente virtual.
-          <br />
-          Selecione uma das perguntas frequentes abaixo ou faça uma você mesmo! Estou aqui
-          para ajudar da melhor forma possível!
-        </ChatMessage>
+        <div>
+          <Image src="/eda.png" height={160} width={96} alt="Support link" />
+          <ChatMessage name="Eda">
+            Eu sou <strong>Eda</strong>, assistente virtual.
+            <br />
+            Selecione uma das perguntas frequentes abaixo ou faça uma você mesmo! Estou
+            aqui para ajudar da melhor forma possível!
+          </ChatMessage>
+        </div>
         {conversation.messages.map(({ content, role }, index) => (
           <ChatMessage
             key={index}
