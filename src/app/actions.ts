@@ -14,10 +14,25 @@ import {
   RevalidateParams,
   Session,
   StatusMessage,
-  User,
 } from '@/lib/definitions';
 
-// Checks session cookies and returns
+// Creates a session with user data using cookies
+export async function createSession(token: string): Promise<void> {
+  const session: Session = {
+    token,
+    user: verifyToken(token),
+  };
+
+  const ONE_HOUR = 60 * 60 * 1000;
+
+  console.log(session);
+
+  cookies().set('session', JSON.stringify(session), {
+    expires: Date.now() + ONE_HOUR,
+  });
+}
+
+// Check cookies and return the session
 export async function getSession(): Promise<Session | null> {
   const session = cookies().get('session')?.value;
 
@@ -32,7 +47,7 @@ export async function login(
   formData: FormData,
   path: string
 ): Promise<StatusMessage | never> {
-  // Makes a login request
+  // Make a login request
   const payload: LoginPayload = {
     body: {
       email: formData.get('email') as string,
@@ -46,26 +61,16 @@ export async function login(
     return data as StatusMessage;
   }
 
-  // Creates a session with user data using cookies
   const token = (data as Session).token;
 
-  const session: Session = {
-    token,
-    user: verifyToken(token),
-  };
+  createSession(token);
 
-  const oneHour = 60 * 60 * 1000;
-
-  cookies().set('session', JSON.stringify(session), {
-    expires: Date.now() + oneHour,
-  });
-
-  // If the previous path is ‘login’ then redirect to the main page otherwise
-  // redirect to that path.
+  // If the previous path is 'login', redirect to the main page.
+  // Otherwise, redirect to that path.
   return redirect(path === '/login' ? '/' : path);
 }
 
-// Deletes session cookies and redirects to the login page
+// Deletes session cookies and redirects to login page
 export async function logout(): Promise<never> {
   cookies().delete('session');
 
@@ -89,10 +94,13 @@ export async function register(formData: FormData): Promise<StatusMessage | neve
     return data as StatusMessage;
   }
 
-  return login(formData, '/login');
+  const token = (data as Session).token;
+  createSession(token);
+
+  return redirect('/');
 }
 
-// Revalidates a path or tag or both
+// Revalidates a path, tag, or both
 export async function revalidate({ path, tag }: RevalidateParams): Promise<void> {
   path && revalidatePath(path);
   tag && revalidateTag(tag);

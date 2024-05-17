@@ -36,7 +36,7 @@ function PasswordInput({ name, value, ...attributes }: PasswordInputProps) {
         value={value}
         {...attributes}
       />
-      <Button onClick={() => setShowPassword(!showPassword)}>
+      <Button type='button' onClick={() => setShowPassword(!showPassword)}>
         <Image
           src={showPassword ? '/visibility.svg' : '/visibility_off.svg'}
           height={16}

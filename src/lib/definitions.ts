@@ -12,14 +12,14 @@ export type User = {
 
 export type Session = {
   token: string;
-  user: User;
+  user?: User;
 };
 
 export type MessageFeedback = 'good' | 'poor';
 
 export type ConversationMessage = {
   content: string;
-  role: 'assistant' | 'collaborator' | 'user';
+  role: 'assistant' | 'admin' | 'collaborator' | 'user';
   time: number;
   feedback?: MessageFeedback;
 };
