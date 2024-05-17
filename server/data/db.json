@@ -30,6 +30,14 @@
       "name": "John",
       "password": "$argon2id$v=19$m=65536,t=3,p=4$QvyrcVyn42efiA1zTDOeOg$Fd7JkFIE8VcUlITGJWDqemeQqv7aUKG0itdrx8ovL/0",
       "role": "collaborator"
+    },
+    {
+      "id": "e22qeZn",
+      "email": "jubsalfa0978@gmail.com",
+      "imageUrl": "https://utfs.io/f/7773afbd-2235-41da-b584-2a970a007803-1ody.jpg",
+      "name": "Julya",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$by805DFVBBkpe0mvPY8Cyw$li+mfL5D2iL+N8pXK6kRz1e3kVeOfvkYSZXAjBesY30",
+      "role": "admin"
     }
   ],
   "conversations": [

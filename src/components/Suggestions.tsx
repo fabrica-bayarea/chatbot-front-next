@@ -6,9 +6,9 @@ import { Suggestion } from './styled';
 import { useChatContext } from '@/hooks';
 
 const suggestions = [
-  'Quais as cores da bandeira do Brasil?',
-  'Como trocar uma lâmpada?',
-  'Conte uma história emocionante!',
+  'Qual o telefone de atendimento?',
+  'Qual o endereço do Campus Sul?',
+  'Quais cursos o IESB oferece?',
 ];
 
 const Container = styled.div`

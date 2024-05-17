@@ -1,19 +1,13 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
+import instruction from '@/lib/instruction';
 import type { Conversation } from '@/lib/definitions';
 
 const openai = new OpenAI();
 
 export async function POST(req: NextRequest) {
   const body: Pick<Conversation, 'messages'> = await req.json();
-
-  // Simple instruction for AI
-  const instruction = {
-    role: 'system',
-    content:
-      'Você é Eda, uma assistente virtual altamente experiente que mantém suas repostas curtas.',
-  };
 
   // Reduces the object to pass only the relevant information
   const reducedMessages = body.messages.reduce(
@@ -25,6 +19,7 @@ export async function POST(req: NextRequest) {
   const params = {
     messages: reducedMessages,
     model: 'gpt-3.5-turbo',
+    temperature: 0.1,
   } as OpenAI.Chat.ChatCompletionCreateParamsNonStreaming;
 
   const chatCompletion = await openai.chat.completions.create(params);

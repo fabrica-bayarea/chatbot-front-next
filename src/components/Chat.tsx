@@ -120,7 +120,7 @@ function Chat() {
     <Container>
       <Conversation $open={isOpen}>
         <ChatMessage name="Eda">
-          Eu sou <strong>Eda</strong>, assistente virtual.
+          Eu sou <strong>Eda</strong>, assistente virtual do IESB.
           <br />
           Selecione uma das perguntas frequentes abaixo ou faça uma você mesmo! Estou aqui
           para ajudar da melhor forma possível!
