@@ -22,14 +22,18 @@ function useValidation(inputs: { [key: string]: InputScheme }): boolean | string
 
         switch (key) {
           case 'email':
-            const REGEX = /\S+@\S+\.\S+/;
-            if (!REGEX.test(value)) return 'Formato de e-mail inválido.';
+            const emailPattern = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(value)) return 'Formato de e-mail inválido.';
             break;
           case 'name':
             if (value.length < 3) return 'O nome deve conter no mínimo 3 caracteres.';
             break;
           case 'password':
-            if (value.length < 6) return 'A senha deve conter no mínimo 6 caracteres.';
+            const passwordPattern =
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordPattern.test(value)) {
+              return 'A senha deve conter no mínimo 8 caracteres, sendo 1 carácter especial, 1 maiúsculo, 1 minúsculo, e 1 número.';
+            }
             break;
           case 'confirmation':
             const password = inputs.password.value;
