@@ -5,7 +5,7 @@ module.exports = async function ({ body, method, path }, res, next) {
 
   if (path === '/reply' && method === 'POST') {
     // Send the conversation with the user's last message to an OpenAI API
-    let response = await fetch('http://localhost:3000/api/ai', {
+    let response = await fetch('http://localhost:3000/api/ai/retrieval', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: body.messages }),
@@ -16,7 +16,7 @@ module.exports = async function ({ body, method, path }, res, next) {
     // Add the message time and make the appropriate request to the server
     const messagesWithReply = [
       ...body.messages,
-      { ...reply, time: Date.now() },
+      { role: 'assistant', content: reply, time: Date.now() },
     ];
 
     const newConversation = {
