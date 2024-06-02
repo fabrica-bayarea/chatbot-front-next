@@ -99,10 +99,10 @@ const SendButton = styled(IconButton)`
 
 function Chat() {
   const { user } = useMainContext();
-  const { conversation, conversationLength, getReply } = useChatContext();
+  const { conversation, conversationLength, getAnswer, isStreaming } = useChatContext();
   const { isLoading } = useMainContext();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const loadingRef = useRef<HTMLDivElement | null>(null);
+  const conversationRef = useRef<HTMLDivElement | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
 
   const isOpen = conversation.status === 'open';
@@ -111,41 +111,40 @@ function Chat() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const inputElement = inputRef.current as HTMLInputElement;
-    const content = inputElement.value;
+    const question = inputElement.value;
 
-    if (!content || isLoading) {
+    if (!question || isLoading) {
       return;
     }
 
     inputElement.value = '';
-    await getReply(content);
-  };
-
-  // Ensure that the control element is visible
-  const scrollToBottom = () => {
-    const controlElement = loadingRef.current as HTMLDivElement;
-    controlElement.scrollIntoView();
+    await getAnswer(question);
   };
 
   // Keeps the chat always scrolled down
   useEffect(() => {
-    if (conversationLength !== 0) {
-      scrollToBottom();
-    }
-  }, [conversationLength]);
+    const conversationElement = conversationRef.current as HTMLDivElement;
+
+    const ro = new ResizeObserver(() => {
+      conversationElement.scrollTop = conversationElement.scrollHeight;
+    });
+
+    ro.observe(conversationElement);
+  });
 
   // Shows feedback if the conversation is open and the last message is from the assistant
   useEffect(() => {
     setShowFeedback(
       conversation.status === 'open' &&
         conversationLength % 2 === 0 &&
-        conversationLength !== 0
+        conversationLength !== 0 &&
+        !isStreaming
     );
-  }, [conversation.status, conversationLength]);
+  }, [conversation.status, conversationLength, isStreaming]);
 
   return (
     <Container>
-      <Conversation $open={isOpen}>
+      <Conversation $open={isOpen} ref={conversationRef}>
         <div>
           <Image src="/eda.png" height={160} width={96} alt="Ilustração da Eda" />
           <ChatMessage name="Eda">
@@ -167,7 +166,7 @@ function Chat() {
           </ChatMessage>
         ))}
         {conversationLength === 0 && <Suggestions />}
-        {showFeedback && <Feedback scrollFn={scrollToBottom} />}
+        {showFeedback && <Feedback />}
         {!isOpen && (
           <div className="redirect-status">
             <p>
@@ -177,7 +176,7 @@ function Chat() {
             <span>{user?.email}</span>
           </div>
         )}
-        <Loading ref={loadingRef}>
+        <Loading>
           {isLoading && <BeatLoader color="lightgray" size={8} />}
         </Loading>
       </Conversation>

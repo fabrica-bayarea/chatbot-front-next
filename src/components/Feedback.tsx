@@ -39,7 +39,7 @@ const Dialog = styled.div`
   }
 `;
 
-function Feedback({ scrollFn }: { scrollFn: () => void }) {
+function Feedback() {
   const { isLoading } = useMainContext();
   const { changeFeedback, changeStatus } = useChatContext();
   const [feedback, setFeedback] = useState<MessageFeedback | undefined>(undefined);
@@ -56,11 +56,6 @@ function Feedback({ scrollFn }: { scrollFn: () => void }) {
 
     setShowDialog(true);
   };
-
-  // Keeps the chat always scrolled down
-  useEffect(() => {
-    scrollFn();
-  }, [feedback, showDialog, scrollFn]);
 
   return (
     <div>

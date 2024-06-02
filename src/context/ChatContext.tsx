@@ -1,9 +1,11 @@
 'use client';
 
-import { createContext, useCallback, useState } from 'react';
+import { useImmer } from 'use-immer';
+import { createContext, useCallback, useEffect, useState } from 'react';
 
 import { useMainContext } from '@/hooks';
 import api from '@/lib/data';
+import { produce } from 'immer';
 
 import {
   ChatContextProps,
@@ -12,12 +14,12 @@ import {
   ConversationMessage,
   ConversationStatus,
   ConversationSupport,
+  FetchAnswerPayload,
   MakeRequestParams,
   MessageFeedback,
   SendEmailPayload,
   SendEmailResponse,
   UpdateConversationPayload,
-  UpdateWithCompletionPayload,
 } from '@/lib/definitions';
 
 import statusCodes from '@/lib/statusCodes';
@@ -28,6 +30,7 @@ const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 export function ChatProvider(props: ChatContextProps) {
   const { makeRequest, setAndShow, user } = useMainContext();
   const [history, setHistory] = useState<Conversation[]>([]);
+  const [isStreaming, setIsStreaming] = useState(false);
 
   const initialConversation: Conversation = {
     messages: [],
@@ -35,7 +38,7 @@ export function ChatProvider(props: ChatContextProps) {
     userId: user?.id as string,
   };
 
-  const [conversation, setConversation] = useState<Conversation>(
+  const [conversation, setConversation] = useImmer<Conversation>(
     props.conversation ?? initialConversation
   );
 
@@ -71,12 +74,13 @@ export function ChatProvider(props: ChatContextProps) {
 
   const changeFeedback = useCallback(
     async (feedback: MessageFeedback) => {
-      const updatedMessages = [...conversation.messages];
-      const lastIndex = updatedMessages.length - 1;
-      updatedMessages[lastIndex].feedback = feedback;
+      const newState = produce(conversation, (draft) => {
+        draft.messages[draft.messages.length - 1].feedback = feedback;
+      });
+      setConversation(newState);
 
       const payload: UpdateConversationPayload = {
-        body: { messages: updatedMessages },
+        body: { messages: newState.messages },
         id: conversation.id as string,
       };
 
@@ -158,6 +162,60 @@ export function ChatProvider(props: ChatContextProps) {
     [history, makeRequest]
   );
 
+  const getAnswer = async (question: string) => {
+    const messages = conversation.messages.concat({
+      role: 'user',
+      content: question,
+      time: Date.now(),
+    });
+
+    setConversation((draft) => {
+      draft.messages = messages;
+    });
+
+    const successFn = async (reader: ReadableStreamDefaultReader) => {
+      try {
+        setIsStreaming(true);
+
+        setConversation((draft) => {
+          draft.messages.push({
+            role: 'assistant',
+            content: '',
+            time: Date.now(),
+          });
+        });
+
+        while (true) {
+          const { done, value } = await reader.read();
+
+          if (done) {
+            break;
+          }
+
+          const decodedValue = new TextDecoder().decode(value);
+
+          setConversation((draft) => {
+            draft.messages[draft.messages.length - 1].content += decodedValue;
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        reader.releaseLock();
+        setIsStreaming(false);
+      }
+    };
+
+    const params: MakeRequestParams<FetchAnswerPayload, ReadableStreamDefaultReader> = {
+      apiRequest: api.fetchAnswer,
+      payload: { body: { messages } },
+      successCode: statusCodes.OK,
+      successFn,
+    };
+
+    return makeRequest(params);
+  };
+
   const getHistory = useCallback(async () => {
     const successFn = async (data: Conversation[]) => {
       const sortedConversations = data.sort((a, b) => {
@@ -178,40 +236,6 @@ export function ChatProvider(props: ChatContextProps) {
 
     return makeRequest(params);
   }, [makeRequest, user]);
-
-  const getReply = useCallback(
-    async (content: string) => {
-      const previousConversation = { ...conversation };
-
-      const updatedMessages = conversation.messages.concat({
-        role: 'user',
-        content,
-        time: Date.now(),
-      });
-
-      const updatedConversation = { ...conversation, messages: updatedMessages };
-      setConversation({ ...updatedConversation });
-
-      const errorFn = async () => {
-        setConversation({ ...previousConversation });
-      };
-
-      const successFn = async (data: Conversation) => {
-        setConversation({ ...data });
-      };
-
-      const params: MakeRequestParams<UpdateWithCompletionPayload, Conversation> = {
-        apiRequest: api.updateWithCompletion,
-        errorFn,
-        payload: { body: updatedConversation },
-        successCode: statusCodes.OK,
-        successFn,
-      };
-
-      return makeRequest(params);
-    },
-    [conversation, makeRequest]
-  );
 
   const sendEmail = useCallback(async () => {
     const payload: SendEmailPayload = {
@@ -277,6 +301,27 @@ export function ChatProvider(props: ChatContextProps) {
     [conversation, makeRequest]
   );
 
+  const updateMessages = async () => {
+    if (!conversation.id) {
+      const { data } = await api.createConversation({ body: conversation });
+
+      setConversation((draft) => {
+        draft.id = (data as Conversation).id;
+      });
+    } else {
+      await api.updateConversation({
+        body: { messages: conversation.messages },
+        id: conversation.id,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!isStreaming && conversation.messages.length !== 0) {
+      updateMessages();
+    }
+  }, [isStreaming]);
+
   const shared: ChatContextShared = {
     acceptConversation,
     changeStatus,
@@ -284,10 +329,11 @@ export function ChatProvider(props: ChatContextProps) {
     conversation,
     conversationLength: conversation.messages.length,
     deleteConversation,
+    getAnswer,
     getHistory,
-    getReply,
     history,
     initialConversation,
+    isStreaming,
     sendEmail,
     sendReply,
     setConversation,
