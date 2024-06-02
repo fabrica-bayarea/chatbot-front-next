@@ -2,11 +2,11 @@
 // https://v02.api.js.langchain.com/
 
 import { NextRequest, NextResponse } from 'next/server';
-import { Message as VercelChatMessage } from 'ai';
+import { Message as VercelChatMessage, StreamingTextResponse } from 'ai';
 
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase';
 import { Document } from '@langchain/core/documents';
-import { StringOutputParser } from '@langchain/core/output_parsers';
+import { BytesOutputParser, StringOutputParser } from '@langchain/core/output_parsers';
 import { PromptTemplate } from '@langchain/core/prompts';
 import { RunnableSequence } from '@langchain/core/runnables';
 import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai';
@@ -53,7 +53,22 @@ export async function POST(req: NextRequest) {
       queryName: 'match_documents',
     });
 
-    const retriever = vectorstore.asRetriever();
+    let resolveWithDocuments: (value: Document[]) => void;
+
+    const documentPromise = new Promise<Document[]>((resolve) => {
+      resolveWithDocuments = resolve;
+    });
+
+    const retriever = vectorstore.asRetriever({
+      callbacks: [
+        {
+          handleRetrieverEnd(documents) {
+            resolveWithDocuments(documents);
+          },
+        },
+      ],
+    });
+
     const retrievalChain = retriever.pipe(combineDocumentsFn);
 
     const questionPrompt = PromptTemplate.fromTemplate(QUESTION_TEMPLATE);
@@ -78,7 +93,6 @@ export async function POST(req: NextRequest) {
       },
       answerPrompt,
       model,
-      new StringOutputParser(),
     ]);
 
     const conversationalRetrievalQAChain = RunnableSequence.from([
@@ -87,14 +101,33 @@ export async function POST(req: NextRequest) {
         question: standaloneQuestionChain,
       },
       answerChain,
+      new BytesOutputParser(),
     ]);
 
-    const message = await conversationalRetrievalQAChain.invoke({
-      chat_history: formatVercelMessages(previousMessages),
+    const stream = await conversationalRetrievalQAChain.stream({
       question: currentMessageContent,
+      chat_history: formatVercelMessages(previousMessages),
     });
 
-    return NextResponse.json({ message }, { status: 200 });
+    const documents = await documentPromise;
+  
+    const serializedSources = Buffer.from(
+      JSON.stringify(
+        documents.map((doc) => {
+          return {
+            pageContent: doc.pageContent.slice(0, 50) + "...",
+            metadata: doc.metadata,
+          };
+        }),
+      ),
+    ).toString("base64");
+
+    return new StreamingTextResponse(stream, {
+      headers: {
+        "x-message-index": (previousMessages.length + 1).toString(),
+        "x-sources": serializedSources,
+      },
+    });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: e.status ?? 500 });
   }

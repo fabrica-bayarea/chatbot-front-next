@@ -100,10 +100,11 @@ export type ChatContextShared = {
   conversation: Conversation;
   conversationLength: number;
   deleteConversation: (id: string) => Promise<ContextResult<{}>>;
+  getAnswer: (question: string) => Promise<ContextResult<ReadableStreamDefaultReader>>;
   getHistory: () => Promise<ContextResult<Conversation[]>>;
-  getReply: (content: string) => Promise<ContextResult<Conversation>>;
   history: Conversation[];
   initialConversation: Conversation;
+  isStreaming: boolean;
   sendEmail: () => Promise<ContextResult<SendEmailResponse>>;
   sendReply: (content: string) => Promise<ContextResult<Conversation>>;
   setConversation: Dispatch<SetStateAction<Conversation>>;
@@ -189,3 +190,7 @@ export type SupportSideBarProps = {
 };
 
 export type UploadButtonProps = { children: ReactNode; setFn: (value: string) => void };
+
+export type CreateConversationPayload = { body: Conversation };
+
+export type FetchAnswerPayload = { body: { messages: ConversationMessage[] } };
