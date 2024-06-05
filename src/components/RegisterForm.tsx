@@ -7,7 +7,7 @@ import { useFormState } from 'react-dom';
 import InputGroup from './InputGroup';
 import SubmitButton from './SubmitButton';
 import { ColumnForm, MainInput } from './styled';
-import { register } from '@/app/actions';
+import { signup } from '@/app/actions';
 import { useValidation } from '@/hooks';
 import type { InputScheme, StatusMessage } from '@/lib/definitions';
 import UploadButton from './UploadButton';
@@ -26,7 +26,7 @@ function RegisterForm() {
   const validation = useValidation(inputs);
 
   const [formState, formAction] = useFormState(
-    (prevState: StatusMessage, formData: FormData) => register(formData),
+    (prevState: StatusMessage, formData: FormData) => signup(formData),
     { message: '' }
   );
 

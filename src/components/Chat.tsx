@@ -158,7 +158,7 @@ function Chat() {
           <ChatMessage
             key={index}
             bgColor={role === 'assistant' ? 'var(--clr-a)' : 'var(--clr-lighter-gray)'}
-            imageUrl={role === 'assistant' ? '' : user?.imageUrl}
+            imageUrl={role === 'assistant' ? '' : user?.image_url}
             name={role === 'assistant' ? 'Eda' : user?.name}
             right={role === 'user'}
           >

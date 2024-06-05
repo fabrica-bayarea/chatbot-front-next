@@ -23,7 +23,7 @@ import {
 } from '@/lib/definitions';
 
 import statusCodes from '@/lib/statusCodes';
-import { revalidate } from '@/app/actions';
+// import { revalidate } from '@/app/actions';
 
 const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 
@@ -59,7 +59,7 @@ export function ChatProvider(props: ChatContextProps) {
 
     const successFn = async () => {
       setConversation({ ...conversation, ...body });
-      await revalidate({ tag: 'support' });
+      // await revalidate({ tag: 'support' });
     };
 
     const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
@@ -128,7 +128,7 @@ export function ChatProvider(props: ChatContextProps) {
 
       const successFn = async () => {
         setConversation({ ...conversation, status });
-        await revalidate({ tag: 'support' });
+        // await revalidate({ tag: 'support' });
       };
 
       const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {

@@ -1,4 +1,5 @@
 import type { ChangeEvent, Dispatch, ReactNode, SetStateAction } from 'react';
+import type { UserMetadata } from '@supabase/supabase-js';
 
 export type InputScheme = { isRequired: boolean; label: string; value: string };
 
@@ -124,7 +125,7 @@ export type MainContextShared = {
   setAndShow: (content: string) => void;
   setShowMessage: Dispatch<SetStateAction<boolean>>;
   showMessage: boolean;
-  user?: User;
+  user?: UserMetadata;
 };
 
 export type ChatContextProps = {
@@ -134,7 +135,7 @@ export type ChatContextProps = {
 
 export type MainContextProps = {
   children: ReactNode;
-  user?: User;
+  user?: UserMetadata;
 };
 
 export type ChatMessageProps = {
