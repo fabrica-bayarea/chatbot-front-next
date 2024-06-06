@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { DropdownButton, IconButton } from './styled';
-import { logout } from '@/app/actions';
+import { signOut } from '@/app/actions';
 import { useChatContext } from '@/hooks';
 import type { DropdownProps } from '@/lib/definitions';
 
@@ -76,7 +76,7 @@ function Dropdown({ showFn }: DropdownProps) {
         >
           Histórico
         </DropdownButton>
-        <DropdownButton onClick={() => logout()}>Sair</DropdownButton>
+        <DropdownButton onClick={() => signOut()}>Sair</DropdownButton>
       </Navigation>
     </Container>
   );

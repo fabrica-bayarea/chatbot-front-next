@@ -29,13 +29,16 @@ export const Section = styled.section`
   }
 
   & > div {
-    align-items: center;
     background-color: white;
     border-radius: 0 0 var(--r) var(--r);
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    justify-content: center;
-    padding-bottom: 40px;
+    height: 600px;
+
+    &.form-container {
+      gap: 10px;
+      justify-content: center;
+      padding: 0 60px;
+    }
   }
 `;

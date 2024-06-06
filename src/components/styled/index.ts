@@ -7,6 +7,7 @@ import {
   DropdownButton,
   IconButton,
   MainButton,
+  SocialButton,
 } from './Button.styled';
 
 import { Form, ColumnForm } from './Form.styled';
@@ -24,6 +25,7 @@ const Styled = {
   DropdownButton,
   IconButton,
   MainButton,
+  SocialButton,
   Form,
   ColumnForm,
   ChatInput,
@@ -47,6 +49,7 @@ export {
   DropdownButton,
   IconButton,
   MainButton,
+  SocialButton,
   Form,
   ColumnForm,
   ChatInput,

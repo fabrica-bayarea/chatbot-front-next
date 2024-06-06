@@ -16,6 +16,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding-bottom: 40px;
   position: relative;
   width: 100%;
 `;
@@ -57,12 +58,12 @@ const Conversation = styled.div<{ $open: boolean }>`
 
   & > .redirect-status {
     font-size: 0.8rem;
-    margin: 40px 40px 0;
+    /* margin: 40px 40px 0; */
     text-align: center;
 
     & > p {
       font-style: italic;
-      margin-bottom: 20px;
+      /* margin-bottom: 20px; */
     }
 
     & > span {
@@ -91,7 +92,7 @@ const Loading = styled.div`
 `;
 
 const SendButton = styled(IconButton)`
-  bottom: 20px;
+  bottom: 60px;
   height: 60px;
   position: absolute;
   right: -30px;

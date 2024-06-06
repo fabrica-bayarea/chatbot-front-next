@@ -7,7 +7,7 @@ import { useFormState } from 'react-dom';
 import InputGroup from './InputGroup';
 import SubmitButton from './SubmitButton';
 import { ColumnForm, MainInput } from './styled';
-import { signup } from '@/app/actions';
+import { signUp } from '@/app/actions';
 import { useValidation } from '@/hooks';
 import type { InputScheme, StatusMessage } from '@/lib/definitions';
 import UploadButton from './UploadButton';
@@ -17,7 +17,7 @@ const inputSchemes: { [key: string]: InputScheme } = {
   name: { isRequired: true, label: 'Nome', value: '' },
   password: { isRequired: true, label: 'Senha', value: '' },
   confirmation: { isRequired: true, label: 'Confirmação de senha', value: '' },
-  avatar: { isRequired: false, label: 'Avatar', value: '' },
+  picture: { isRequired: false, label: 'Imagem', value: '' },
 };
 
 function RegisterForm() {
@@ -26,12 +26,12 @@ function RegisterForm() {
   const validation = useValidation(inputs);
 
   const [formState, formAction] = useFormState(
-    (prevState: StatusMessage, formData: FormData) => signup(formData),
+    (prevState: StatusMessage, formData: FormData) => signUp(formData),
     { message: '' }
   );
 
-  const setAvatarUrl = (value: string) => {
-    setInputs({ ...inputs, avatar: { ...inputs.avatar, value } });
+  const setPictureUrl = (value: string) => {
+    setInputs({ ...inputs, picture: { ...inputs.picture, value } });
   };
 
   // Input handler
@@ -87,12 +87,12 @@ function RegisterForm() {
       <div className="upload">
         <InputGroup
           type="text"
-          name="avatar"
+          name="picture"
           onChange={handleChange}
-          placeholder="Escolha uma imagem..."
-          scheme={inputs.avatar}
+          placeholder="Digite o endereço..."
+          scheme={inputs.picture}
         />
-        <UploadButton setFn={setAvatarUrl}>Upload</UploadButton>
+        <UploadButton setFn={setPictureUrl}>Upload</UploadButton>
       </div>
       <div className="status">
         {statusMessage && (

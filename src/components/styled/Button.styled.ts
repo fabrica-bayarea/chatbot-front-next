@@ -94,9 +94,22 @@ export const MainButton = styled(Button)`
   color: var(--clr-b);
   font-size: 1.2em;
   height: 50px;
-  width: 250px;
+  width: 100%;
 
   &:disabled {
     opacity: 0.4;
+  }
+`;
+
+export const SocialButton = styled(Button)`
+  border: 2px solid var(--clr-light-gray);
+  border-radius: 25px;
+  color: var(--clr-dark);
+  height: 50px;
+  padding: 0 10px;
+  width: 100%;
+
+  & > span {
+    flex-grow: 10;
   }
 `;

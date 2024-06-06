@@ -8,7 +8,7 @@ import { useFormState } from 'react-dom';
 import InputGroup from './InputGroup';
 import SubmitButton from './SubmitButton';
 import { ColumnForm } from './styled';
-import { login } from '@/app/actions';
+import { signIn } from '@/app/actions';
 import { useValidation } from '@/hooks';
 import type { InputScheme, StatusMessage } from '@/lib/definitions';
 
@@ -24,7 +24,7 @@ function LoginForm() {
   const validation = useValidation(inputs);
 
   const [formState, formAction] = useFormState(
-    (prevState: StatusMessage, formData: FormData) => login(formData, path),
+    (prevState: StatusMessage, formData: FormData) => signIn(formData, path),
     { message: '' }
   );
 

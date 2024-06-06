@@ -24,12 +24,6 @@ const Container = styled(Main)`
   }
 `;
 
-const App = styled(Section)`
-  & > div {
-    height: 600px;
-  }
-`;
-
 function Home() {
   const { user } = useMainContext();
   const [showHistory, setShowHistory] = useState(false);
@@ -48,13 +42,13 @@ function Home() {
           </Link>
         )}
         <Logo />
-        <App>
+        <Section>
           <header>
             <span>Olá, {user?.name?.split(' ')[0]}! 👋</span>
             <Dropdown showFn={setShowHistory} />
           </header>
           <div>{showHistory ? <History showFn={setShowHistory} /> : <Chat />}</div>
-        </App>
+        </Section>
       </Container>
     </ChatProvider>
   );

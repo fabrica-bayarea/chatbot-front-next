@@ -25,7 +25,7 @@ function Register() {
             />
           </IconButton>
         </header>
-        <div>
+        <div className='form-container'>
           <RegisterForm />
         </div>
       </Section>
