@@ -58,12 +58,12 @@ const Conversation = styled.div<{ $open: boolean }>`
 
   & > .redirect-status {
     font-size: 0.8rem;
-    /* margin: 40px 40px 0; */
+    margin: 40px 40px 0;
     text-align: center;
 
     & > p {
       font-style: italic;
-      /* margin-bottom: 20px; */
+      margin-bottom: 20px;
     }
 
     & > span {
@@ -171,7 +171,7 @@ function Chat() {
         {!isOpen && (
           <div className="redirect-status">
             <p>
-              Esta conversa foi direcionada para o nosso setor de suporte e assim que
+              Esta conversa foi direcionada para nosso setor de suporte. Assim que
               possível uma resposta será enviada para o e-mail:
             </p>
             <span>{user?.email}</span>

@@ -111,7 +111,7 @@ export async function createHumanMessage(
     .insert([{ role, content, time, conversation_id: conversationId, user_id: userId }])
     .select();
 
-  return data;
+  return data[0];
 }
 
 export async function createAIMessage(conversationId, { content, time }) {
@@ -122,7 +122,7 @@ export async function createAIMessage(conversationId, { content, time }) {
     .insert([{ content, time, conversation_id: conversationId }])
     .select();
 
-  return data;
+  return data[0];
 }
 
 export async function updateAIConversation(conversationId, newMessages) {
@@ -133,12 +133,15 @@ export async function updateAIConversation(conversationId, newMessages) {
   } = await supabase.auth.getUser();
 
   const id = conversationId ? conversationId : await createConversation(user?.id);
-  const humanMessage = newMessages[0];
-  const aiMessage = newMessages[1];
-  createHumanMessage(id, user?.id, humanMessage);
-  createAIMessage(id, aiMessage);
+  let humanMessage = newMessages[0];
+  let aiMessage = newMessages[1];
+  humanMessage = await createHumanMessage(id, user?.id, humanMessage);
+  aiMessage = await createAIMessage(id, aiMessage);
 
-  return id;
+  return {
+    id,
+    messages: [humanMessage, { ...aiMessage, role: 'assistant' }],
+  };
 }
 
 export async function fetchHistory() {
@@ -173,4 +176,33 @@ export async function fetchHistory() {
   });
 
   return history;
+}
+
+export async function deleteConversation(id) {
+  const supabase = createClient();
+  await supabase.from('conversations').delete().eq('id', id);
+}
+
+export async function updateFeedback({ id, feedback }) {
+  const supabase = createClient();
+
+  const response = await supabase
+    .from('ai_messages')
+    .update({ feedback })
+    .eq('id', id)
+    .select();
+
+  return response;
+}
+
+export async function updateStatus({ id, status }) {
+  const supabase = createClient();
+
+  const response = await supabase
+    .from('conversations')
+    .update({ status })
+    .eq('id', id)
+    .select();
+
+  return response;
 }

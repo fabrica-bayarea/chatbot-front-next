@@ -22,7 +22,7 @@ import {
   UpdateConversationPayload,
 } from '@/lib/definitions';
 
-import { updateAIConversation } from '@/app/actions';
+import * as actions from '@/app/actions';
 import statusCodes from '@/lib/statusCodes';
 // import { revalidate } from '@/app/actions';
 
@@ -78,15 +78,18 @@ export function ChatProvider(props: ChatContextProps) {
       const newState = produce(conversation, (draft) => {
         draft.messages[draft.messages.length - 1].feedback = feedback;
       });
+
       setConversation(newState);
 
+      const [{ id }] = conversation.messages.slice(-1);
+
       const payload: UpdateConversationPayload = {
-        body: { messages: newState.messages },
-        id: conversation.id as string,
+        id,
+        feedback,
       };
 
       const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-        apiRequest: api.updateConversation,
+        apiRequest: actions.updateFeedback,
         payload,
         successCode: statusCodes.OK,
       };
@@ -123,8 +126,8 @@ export function ChatProvider(props: ChatContextProps) {
   const changeStatus = useCallback(
     async (status: ConversationStatus) => {
       const payload: UpdateConversationPayload = {
-        body: { status },
-        id: conversation.id as string,
+        id: conversation.id,
+        status,
       };
 
       const successFn = async () => {
@@ -133,7 +136,7 @@ export function ChatProvider(props: ChatContextProps) {
       };
 
       const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-        apiRequest: api.updateConversation,
+        apiRequest: actions.updateStatus,
         payload,
         successCode: statusCodes.OK,
         successFn,
@@ -142,25 +145,6 @@ export function ChatProvider(props: ChatContextProps) {
       return makeRequest(params);
     },
     [conversation, makeRequest]
-  );
-
-  const deleteConversation = useCallback(
-    async (id: string) => {
-      const successFn = async () => {
-        setHistory(history.filter((conversation) => conversation.id !== id));
-        setAndShow('Conversa removida!');
-      };
-
-      const params: MakeRequestParams<{ id: string }, {}> = {
-        apiRequest: api.deleteConversation,
-        payload: { id },
-        successCode: statusCodes.OK,
-        successFn,
-      };
-
-      return makeRequest(params);
-    },
-    [history, makeRequest]
   );
 
   const getAnswer = async (question: string) => {
@@ -277,10 +261,14 @@ export function ChatProvider(props: ChatContextProps) {
   );
 
   const updateMessages = async () => {
-    const id = await updateAIConversation(
+    const { id, messages } = await actions.updateAIConversation(
       conversation.id,
       conversation.messages.slice(-2)
     );
+
+    setConversation((draft) => {
+      draft.messages.splice(-2, 2, ...messages);
+    });
 
     if (!conversation.id) {
       setConversation((draft) => {
@@ -301,9 +289,7 @@ export function ChatProvider(props: ChatContextProps) {
     changeFeedback,
     conversation,
     conversationLength: conversation.messages.length,
-    deleteConversation,
     getAnswer,
-    // getHistory,
     history,
     initialConversation,
     isStreaming,

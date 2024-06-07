@@ -5,7 +5,7 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
 import TrashButton from './TrashButton';
-import { fetchHistory } from '@/app/actions';
+import { deleteConversation, fetchHistory } from '@/app/actions';
 import { useChatContext, useMainContext } from '@/hooks';
 import type { Conversation, HistoryProps } from '@/lib/definitions';
 
@@ -70,7 +70,18 @@ function History({ showFn }: HistoryProps) {
       setHistory(data);
     } catch (error) {
       console.log(error);
-      
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const trashConversation = async (id) => {
+    try {
+      setIsLoading(true);
+      await deleteConversation(id);
+      setHistory(history.filter((c) => c.id !== id));
+    } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -110,7 +121,7 @@ function History({ showFn }: HistoryProps) {
               <span>({messages.length} mensagens)</span>
               <span>{messages[0].content}</span>
             </ItemDetails>
-            <TrashButton id={id as string} />
+            <TrashButton callback={() => trashConversation(id)} />
           </ListItem>
         );
       })}
