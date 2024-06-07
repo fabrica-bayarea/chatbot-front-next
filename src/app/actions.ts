@@ -73,3 +73,70 @@ export async function signOut() {
   redirect('/login');
 }
 
+export async function getProfile() {
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
+
+  if (data.user) {
+    const id = data.user.id;
+
+    const profile = await supabase.from('profiles').select('*').eq('id', id);
+
+    return profile.data[0];
+  }
+
+  return undefined;
+}
+
+export async function createConversation(userId) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('conversations')
+    .insert([{ user_id: userId }])
+    .select();
+
+  return data[0].id;
+}
+
+export async function createHumanMessage(
+  conversationId,
+  userId,
+  { role, content, time }
+) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('human_messages')
+    .insert([{ role, content, time, conversation_id: conversationId, user_id: userId }])
+    .select();
+
+  return data;
+}
+
+export async function createAIMessage(conversationId, { content, time }) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('ai_messages')
+    .insert([{ content, time, conversation_id: conversationId }])
+    .select();
+
+  return data;
+}
+
+export async function updateAIConversation(conversationId, newMessages) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const id = conversationId ? conversationId : await createConversation(user?.id);
+  const humanMessage = newMessages[0];
+  const aiMessage = newMessages[1];
+  createHumanMessage(id, user?.id, humanMessage);
+  createAIMessage(id, aiMessage);
+
+  return id;
+}

@@ -22,6 +22,7 @@ import {
   UpdateConversationPayload,
 } from '@/lib/definitions';
 
+import { updateAIConversation } from '@/app/actions';
 import statusCodes from '@/lib/statusCodes';
 // import { revalidate } from '@/app/actions';
 
@@ -30,7 +31,7 @@ const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 export function ChatProvider(props: ChatContextProps) {
   const { makeRequest, setAndShow, user } = useMainContext();
   const [history, setHistory] = useState<Conversation[]>([]);
-  const [isStreaming, setIsStreaming] = useState(false);
+  const [isStreaming, setIsStreaming] = useState<boolean | undefined>(undefined);
 
   const initialConversation: Conversation = {
     messages: [],
@@ -176,7 +177,6 @@ export function ChatProvider(props: ChatContextProps) {
     const successFn = async (reader: ReadableStreamDefaultReader) => {
       try {
         setIsStreaming(true);
-
         setConversation((draft) => {
           draft.messages.push({
             role: 'assistant',
@@ -184,16 +184,12 @@ export function ChatProvider(props: ChatContextProps) {
             time: Date.now(),
           });
         });
-
         while (true) {
           const { done, value } = await reader.read();
-
           if (done) {
             break;
           }
-
           const decodedValue = new TextDecoder().decode(value);
-
           setConversation((draft) => {
             draft.messages[draft.messages.length - 1].content += decodedValue;
           });
@@ -302,22 +298,20 @@ export function ChatProvider(props: ChatContextProps) {
   );
 
   const updateMessages = async () => {
-    if (!conversation.id) {
-      const { data } = await api.createConversation({ body: conversation });
+    const id = await updateAIConversation(
+      conversation.id,
+      conversation.messages.slice(-2)
+    );
 
+    if (!conversation.id) {
       setConversation((draft) => {
-        draft.id = (data as Conversation).id;
-      });
-    } else {
-      await api.updateConversation({
-        body: { messages: conversation.messages },
-        id: conversation.id,
+        draft.id = id;
       });
     }
   };
 
   useEffect(() => {
-    if (!isStreaming && conversation.messages.length !== 0) {
+    if (isStreaming === false) {
       updateMessages();
     }
   }, [isStreaming]);
