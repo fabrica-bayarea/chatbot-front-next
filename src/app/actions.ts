@@ -31,7 +31,7 @@ export async function signInWithGoogle() {
   });
 
   if (error) {
-    console.log(error);
+    console.log(error.message);
   }
 
   if (data.url) {
@@ -139,4 +139,38 @@ export async function updateAIConversation(conversationId, newMessages) {
   createAIMessage(id, aiMessage);
 
   return id;
+}
+
+export async function fetchHistory() {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data, error } = await supabase
+    .from('conversations')
+    .select(
+      `
+      *,
+      human_messages (*),
+      ai_messages (*)
+    `
+    )
+    .eq('user_id', user?.id);
+
+  const history = data?.map((c) => {
+    const aiMessages = c.ai_messages.map((m) => ({ ...m, role: 'assistant' }));
+    const messages = [...c.human_messages, ...aiMessages];
+    const sortedMessages = messages.sort((a, b) => a.time - b.time);
+
+    return {
+      id: c.id,
+      status: c.status,
+      created_at: c.created_at,
+      messages: sortedMessages,
+    };
+  });
+
+  return history;
 }

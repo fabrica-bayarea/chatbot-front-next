@@ -29,15 +29,17 @@ export const Section = styled.section`
   }
 
   & > div {
+    align-items: center;
     background-color: white;
     border-radius: 0 0 var(--r) var(--r);
     display: flex;
     flex-direction: column;
     height: 600px;
+    justify-content: center;
 
     &.form-container {
+      align-items: unset;
       gap: 10px;
-      justify-content: center;
       padding: 0 60px;
     }
   }

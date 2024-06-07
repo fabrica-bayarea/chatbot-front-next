@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
 import TrashButton from './TrashButton';
+import { fetchHistory } from '@/app/actions';
 import { useChatContext, useMainContext } from '@/hooks';
-import type { HistoryProps } from '@/lib/definitions';
+import type { Conversation, HistoryProps } from '@/lib/definitions';
 
 const List = styled.ul`
   display: flex;
@@ -58,8 +59,22 @@ const ItemDetails = styled.div`
 `;
 
 function History({ showFn }: HistoryProps) {
-  const { history, setConversation, getHistory } = useChatContext();
-  const { isLoading } = useMainContext();
+  const { setConversation } = useChatContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const [history, setHistory] = useState<Conversation[]>([]);
+
+  const getHistory = async () => {
+    try {
+      setIsLoading(true);
+      const data = await fetchHistory();
+      setHistory(data);
+    } catch (error) {
+      console.log(error);
+      
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Make the request when the component has been mounted
   useEffect(() => {

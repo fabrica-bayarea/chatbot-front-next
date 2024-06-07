@@ -212,27 +212,6 @@ export function ChatProvider(props: ChatContextProps) {
     return makeRequest(params);
   };
 
-  const getHistory = useCallback(async () => {
-    const successFn = async (data: Conversation[]) => {
-      const sortedConversations = data.sort((a, b) => {
-        const timeA = a.messages[a.messages.length - 1].time;
-        const timeB = b.messages[b.messages.length - 1].time;
-        return timeB - timeA;
-      });
-
-      setHistory(sortedConversations);
-    };
-
-    const params: MakeRequestParams<{ userId: string }, Conversation[]> = {
-      apiRequest: api.fetchConversationsByUser,
-      payload: { userId: user?.id as string },
-      successCode: statusCodes.OK,
-      successFn,
-    };
-
-    return makeRequest(params);
-  }, [makeRequest, user]);
-
   const sendEmail = useCallback(async () => {
     const payload: SendEmailPayload = {
       body: {
@@ -324,7 +303,7 @@ export function ChatProvider(props: ChatContextProps) {
     conversationLength: conversation.messages.length,
     deleteConversation,
     getAnswer,
-    getHistory,
+    // getHistory,
     history,
     initialConversation,
     isStreaming,
