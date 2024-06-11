@@ -22,8 +22,8 @@ export const ColumnForm = styled(Form)`
     }
 
     &.status {
-      height: 60px;
       align-items: flex-end;
+      height: 60px;
 
       & > span {
         align-items: center;

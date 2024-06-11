@@ -19,9 +19,10 @@ export type Session = {
 export type MessageFeedback = 'good' | 'poor';
 
 export type ConversationMessage = {
-  content: string;
   role: 'assistant' | 'collaborator' | 'user';
+  content: string;
   time: number;
+  id?: string;
   feedback?: MessageFeedback;
 };
 
@@ -96,16 +97,11 @@ export type RevalidateParams = {
 
 export type ChatContextShared = {
   acceptConversation: () => Promise<ContextResult<Conversation>>;
-  changeStatus: (status: ConversationStatus) => Promise<ContextResult<Conversation>>;
-  changeFeedback: (feedback: MessageFeedback) => Promise<ContextResult<Conversation>>;
   conversation: Conversation;
   conversationLength: number;
-  deleteConversation: (id: string) => Promise<ContextResult<{}>>;
   getAnswer: (question: string) => Promise<ContextResult<ReadableStreamDefaultReader>>;
-  getHistory: () => Promise<ContextResult<Conversation[]>>;
-  history: Conversation[];
   initialConversation: Conversation;
-  isStreaming: boolean;
+  isStreaming?: boolean;
   sendEmail: () => Promise<ContextResult<SendEmailResponse>>;
   sendReply: (content: string) => Promise<ContextResult<Conversation>>;
   setConversation: Dispatch<SetStateAction<Conversation>>;
@@ -123,6 +119,7 @@ export type MainContextShared = {
   }: MakeRequestParams<Payload, Data>) => Promise<ContextResult<Data>>;
   message: string;
   setAndShow: (content: string) => void;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
   setShowMessage: Dispatch<SetStateAction<boolean>>;
   showMessage: boolean;
   user?: UserMetadata;
@@ -195,3 +192,14 @@ export type UploadButtonProps = { children: ReactNode; setFn: (value: string) =>
 export type CreateConversationPayload = { body: Conversation };
 
 export type FetchAnswerPayload = { body: { messages: ConversationMessage[] } };
+
+export type UpdateFeedbackPayload = {
+  id: string;
+  feedback: MessageFeedback;
+};
+
+export type UpdateStatusPayload = {
+  table: string;
+  id: string;
+  status: ConversationStatus;
+};

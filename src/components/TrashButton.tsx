@@ -13,7 +13,7 @@ const Container = styled.div`
   min-width: 90px;
 `;
 
-function TrashButton({ callback }) {
+function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   if (showConfirmation) {
@@ -22,7 +22,7 @@ function TrashButton({ callback }) {
         <IconButton
           onClick={async (event) => {
             event.stopPropagation();
-            await callback();
+            await handleClick();
           }}
           $hover={true}
         >

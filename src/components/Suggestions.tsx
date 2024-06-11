@@ -18,18 +18,18 @@ const Container = styled.div`
 `;
 
 function Suggestions() {
-  const { getReply } = useChatContext();
+  const { getAnswer } = useChatContext();
 
   return (
     <Container>
       {suggestions.map((suggestion, index) => (
         <Suggestion
           key={index}
-          onClick={() => getReply(suggestion)}
+          onClick={() => getAnswer(suggestion)}
           role="button"
           tabIndex={0}
           $right={true}
-          $bgColor='var(--clr-light)'
+          $bgColor="var(--clr-light)"
         >
           {suggestion}
         </Suggestion>

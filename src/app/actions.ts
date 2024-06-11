@@ -4,6 +4,11 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 import { createClient } from '@/utils/supabase/server';
+import {
+  ConversationMessage,
+  UpdateFeedbackPayload,
+  UpdateStatusPayload,
+} from '@/lib/definitions';
 
 export async function signIn(formData: FormData, path: string) {
   const supabase = createClient();
@@ -79,64 +84,73 @@ export async function getProfile() {
 
   if (data.user) {
     const id = data.user.id;
+    const profile = await supabase.from('profiles').select('*').eq('id', id).single();
 
-    const profile = await supabase.from('profiles').select('*').eq('id', id);
-
-    return profile.data[0];
+    return profile.data;
   }
 
   return undefined;
 }
 
-export async function createConversation(userId) {
+export async function createConversation(userId: string) {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from('conversations')
     .insert([{ user_id: userId }])
-    .select();
+    .select()
+    .single();
 
-  return data[0].id;
+  return data.id;
 }
 
 export async function createHumanMessage(
-  conversationId,
-  userId,
-  { role, content, time }
+  conversationId: string,
+  userId: string,
+  { role, content, time }: ConversationMessage
 ) {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from('human_messages')
     .insert([{ role, content, time, conversation_id: conversationId, user_id: userId }])
-    .select();
+    .select()
+    .single();
 
-  return data[0];
+  return data;
 }
 
-export async function createAIMessage(conversationId, { content, time }) {
+export async function createAIMessage(
+  conversationId: string,
+  { content, time }: ConversationMessage
+) {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from('ai_messages')
     .insert([{ content, time, conversation_id: conversationId }])
-    .select();
+    .select()
+    .single();
 
-  return data[0];
+  return data;
 }
 
-export async function updateAIConversation(conversationId, newMessages) {
+export async function updateAIConversation(
+  conversationId: string,
+  newMessages: ConversationMessage[]
+) {
   const supabase = createClient();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const id = conversationId ? conversationId : await createConversation(user?.id);
-  let humanMessage = newMessages[0];
-  let aiMessage = newMessages[1];
-  humanMessage = await createHumanMessage(id, user?.id, humanMessage);
-  aiMessage = await createAIMessage(id, aiMessage);
+  const id = conversationId
+    ? conversationId
+    : await createConversation(user?.id as string);
+
+  const humanMessage = await createHumanMessage(id, user?.id as string, newMessages[0]);
+  const aiMessage = await createAIMessage(id, newMessages[1]);
 
   return {
     id,
@@ -151,39 +165,21 @@ export async function fetchHistory() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data, error } = await supabase
-    .from('conversations')
-    .select(
-      `
-      *,
-      human_messages (*),
-      ai_messages (*)
-    `
-    )
-    .eq('user_id', user?.id);
-
-  const history = data?.map((c) => {
-    const aiMessages = c.ai_messages.map((m) => ({ ...m, role: 'assistant' }));
-    const messages = [...c.human_messages, ...aiMessages];
-    const sortedMessages = messages.sort((a, b) => a.time - b.time);
-
-    return {
-      id: c.id,
-      status: c.status,
-      created_at: c.created_at,
-      messages: sortedMessages,
-    };
+  const response = await supabase.rpc('get_conversations', {
+    user_id: user?.id,
   });
 
-  return history;
+  return response;
 }
 
-export async function deleteConversation(id) {
+export async function deleteConversation(id: string) {
   const supabase = createClient();
-  await supabase.from('conversations').delete().eq('id', id);
+  const response = await supabase.from('conversations').delete().eq('id', id);
+
+  return response;
 }
 
-export async function updateFeedback({ id, feedback }) {
+export async function updateFeedback({ id, feedback }: UpdateFeedbackPayload) {
   const supabase = createClient();
 
   const response = await supabase
@@ -195,14 +191,9 @@ export async function updateFeedback({ id, feedback }) {
   return response;
 }
 
-export async function updateStatus({ id, status }) {
+export async function updateStatus({ table, id, status }: UpdateStatusPayload) {
   const supabase = createClient();
-
-  const response = await supabase
-    .from('conversations')
-    .update({ status })
-    .eq('id', id)
-    .select();
+  const response = await supabase.from(table).update({ status }).eq('id', id).select();
 
   return response;
 }

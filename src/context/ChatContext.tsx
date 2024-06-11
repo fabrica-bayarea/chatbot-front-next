@@ -12,11 +12,9 @@ import {
   ChatContextShared,
   Conversation,
   ConversationMessage,
-  ConversationStatus,
   ConversationSupport,
   FetchAnswerPayload,
   MakeRequestParams,
-  MessageFeedback,
   SendEmailPayload,
   SendEmailResponse,
   UpdateConversationPayload,
@@ -30,7 +28,6 @@ const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 
 export function ChatProvider(props: ChatContextProps) {
   const { makeRequest, setAndShow, user } = useMainContext();
-  const [history, setHistory] = useState<Conversation[]>([]);
   const [isStreaming, setIsStreaming] = useState<boolean | undefined>(undefined);
 
   const initialConversation: Conversation = {
@@ -73,32 +70,6 @@ export function ChatProvider(props: ChatContextProps) {
     return makeRequest(params);
   }, [conversation, makeRequest, user?.id]);
 
-  const changeFeedback = useCallback(
-    async (feedback: MessageFeedback) => {
-      const newState = produce(conversation, (draft) => {
-        draft.messages[draft.messages.length - 1].feedback = feedback;
-      });
-
-      setConversation(newState);
-
-      const [{ id }] = conversation.messages.slice(-1);
-
-      const payload: UpdateConversationPayload = {
-        id,
-        feedback,
-      };
-
-      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-        apiRequest: actions.updateFeedback,
-        payload,
-        successCode: statusCodes.OK,
-      };
-
-      return makeRequest(params);
-    },
-    [conversation, makeRequest]
-  );
-
   const changeLastSent = useCallback(async () => {
     const support = conversation.support as ConversationSupport;
     const updatedSupport = { ...support, lastSent: Date.now() };
@@ -122,30 +93,6 @@ export function ChatProvider(props: ChatContextProps) {
 
     return makeRequest(params);
   }, [conversation, makeRequest]);
-
-  const changeStatus = useCallback(
-    async (status: ConversationStatus) => {
-      const payload: UpdateConversationPayload = {
-        id: conversation.id,
-        status,
-      };
-
-      const successFn = async () => {
-        setConversation({ ...conversation, status });
-        // await revalidate({ tag: 'support' });
-      };
-
-      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-        apiRequest: actions.updateStatus,
-        payload,
-        successCode: statusCodes.OK,
-        successFn,
-      };
-
-      return makeRequest(params);
-    },
-    [conversation, makeRequest]
-  );
 
   const getAnswer = async (question: string) => {
     const messages = conversation.messages.concat({
@@ -262,7 +209,7 @@ export function ChatProvider(props: ChatContextProps) {
 
   const updateMessages = async () => {
     const { id, messages } = await actions.updateAIConversation(
-      conversation.id,
+      conversation.id as string,
       conversation.messages.slice(-2)
     );
 
@@ -285,12 +232,9 @@ export function ChatProvider(props: ChatContextProps) {
 
   const shared: ChatContextShared = {
     acceptConversation,
-    changeStatus,
-    changeFeedback,
     conversation,
     conversationLength: conversation.messages.length,
     getAnswer,
-    history,
     initialConversation,
     isStreaming,
     sendEmail,

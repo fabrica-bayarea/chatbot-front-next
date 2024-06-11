@@ -64,6 +64,7 @@ export function MainProvider({ children, user }: MainContextProps) {
     makeRequest,
     message,
     setAndShow,
+    setIsLoading,
     setShowMessage,
     showMessage,
     user,

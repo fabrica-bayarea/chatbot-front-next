@@ -167,7 +167,9 @@ function Chat() {
           </ChatMessage>
         ))}
         {conversationLength === 0 && <Suggestions />}
-        {showFeedback && <Feedback />}
+        {showFeedback && (
+          <Feedback id={conversation.messages[conversationLength - 1]?.id as string} />
+        )}
         {!isOpen && (
           <div className="redirect-status">
             <p>
@@ -177,9 +179,7 @@ function Chat() {
             <span>{user?.email}</span>
           </div>
         )}
-        <Loading>
-          {isLoading && <BeatLoader color="lightgray" size={8} />}
-        </Loading>
+        <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
       </Conversation>
       {isOpen && (
         <Form onSubmit={handleSubmit}>

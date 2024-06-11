@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { DialogButton, IconButton } from './styled';
 import { useChatContext, useMainContext } from '@/hooks';
 import type { MessageFeedback } from '@/lib/definitions';
+import { updateFeedback, updateStatus } from '@/app/actions';
 
 const Question = styled.div`
   align-items: center;
@@ -39,22 +40,44 @@ const Dialog = styled.div`
   }
 `;
 
-function Feedback() {
-  const { isLoading } = useMainContext();
-  const { changeFeedback, changeStatus } = useChatContext();
+function Feedback({ id }: { id: string }) {
+  const { conversation, setConversation } = useChatContext();
+  const { isLoading, setIsLoading } = useMainContext();
   const [feedback, setFeedback] = useState<MessageFeedback | undefined>(undefined);
   const [showDialog, setShowDialog] = useState(false);
 
   const handleFeedback = async (value: MessageFeedback) => {
     if (feedback !== value) {
-      const [success] = await changeFeedback(value);
-
-      if (success) {
+      try {
+        setIsLoading(true);
+        await updateFeedback({ id, feedback: value });
         setFeedback(value);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
     setShowDialog(true);
+  };
+
+  const handleStatus = async () => {
+    try {
+      setIsLoading(true);
+
+      await updateStatus({
+        table: 'conversations',
+        id: conversation.id as string,
+        status: 'redirected',
+      });
+
+      setConversation({ ...conversation, status: 'redirected' });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -86,10 +109,7 @@ function Feedback() {
             <Fragment>
               <span>Gostaria de ser direcionado para um de nossos colaboradores?</span>
               <div>
-                <DialogButton
-                  onClick={() => changeStatus('redirected')}
-                  disabled={isLoading}
-                >
+                <DialogButton onClick={() => handleStatus()} disabled={isLoading}>
                   Sim
                 </DialogButton>
                 <DialogButton onClick={() => setShowDialog(false)} disabled={isLoading}>

@@ -60,13 +60,13 @@ const ItemDetails = styled.div`
 
 function History({ showFn }: HistoryProps) {
   const { setConversation } = useChatContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useMainContext();
   const [history, setHistory] = useState<Conversation[]>([]);
 
   const getHistory = async () => {
     try {
       setIsLoading(true);
-      const data = await fetchHistory();
+      const { data } = await fetchHistory();
       setHistory(data);
     } catch (error) {
       console.log(error);
@@ -75,7 +75,7 @@ function History({ showFn }: HistoryProps) {
     }
   };
 
-  const trashConversation = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       setIsLoading(true);
       await deleteConversation(id);
@@ -121,7 +121,7 @@ function History({ showFn }: HistoryProps) {
               <span>({messages.length} mensagens)</span>
               <span>{messages[0].content}</span>
             </ItemDetails>
-            <TrashButton callback={() => trashConversation(id)} />
+            <TrashButton handleClick={() => handleDelete(id as string)} />
           </ListItem>
         );
       })}
