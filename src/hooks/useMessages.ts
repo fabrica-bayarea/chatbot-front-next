@@ -1,24 +1,29 @@
-import { fetchProfile } from '@/app/actions';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-function useMessages(initialMessages) {
+import { createHumanMessage, fetchProfile } from '@/app/actions';
+import useMainContext from './useMainContext';
+
+function useMessages(data) {
+  const { user } = useMainContext();
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState([...initialMessages]);
+  const [messages, setMessages] = useState([...data.messages]);
 
   const addNewMessage = async (content) => {
     try {
       setIsLoading(true);
+      const newMessage = {
+        id: uuidv4(),
+        role: 'collaborator',
+        content,
+        user_profile: user,
+        time: Date.now(),
+      };
 
-      const user_profile = await fetchProfile();
+      setMessages(messages.concat(newMessage));
+      console.log(newMessage);
 
-      setMessages(
-        messages.concat({
-          role: user_profile.role,
-          content,
-          user_profile,
-          time: Date.now(),
-        })
-      );
+      await createHumanMessage(data.conversation_id, newMessage);
     } catch (error) {
       setMessages(messages.slice(0, -1));
     } finally {

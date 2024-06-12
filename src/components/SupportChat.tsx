@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { type FormEvent, useRef } from 'react';
+import { type FormEvent, useEffect, useRef } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
@@ -21,7 +21,7 @@ const Conversation = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 40px;
+  gap: 80px;
   padding: 60px 40px 0 20px;
   overflow-y: scroll;
 
@@ -57,9 +57,10 @@ const SendButton = styled(IconButton)`
 
 function SupportChat({ data }) {
   const { user } = useMainContext();
+  const conversationRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
-  const { isLoading, messages, addNewMessage } = useMessages(data.messages);
+  const { isLoading, messages, addNewMessage } = useMessages(data);
 
   const isAccepted = data.status === 'accepted';
 
@@ -77,18 +78,24 @@ function SupportChat({ data }) {
     await addNewMessage(content);
   };
 
+  // Keeps the chat always scrolled down
+  useEffect(() => {
+    const conversationElement = conversationRef.current as HTMLDivElement;
+
+    const ro = new ResizeObserver(() => {
+      conversationElement.scrollTop = conversationElement.scrollHeight;
+    });
+
+    ro.observe(conversationElement);
+  });
+
   // Main render
   return (
     <Container>
-      <Conversation>
+      <Conversation ref={conversationRef}>
         {messages.map(({ content, role, user_profile }, index) => {
-
           return (
-            <ChatMessage
-              key={index}
-              role={role}
-              user_profile={user_profile}
-            >
+            <ChatMessage key={index} role={role} user_profile={user_profile}>
               <LineBreaks content={content} />
             </ChatMessage>
           );

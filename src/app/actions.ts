@@ -112,14 +112,13 @@ export async function createConversation(userId: string) {
 
 export async function createHumanMessage(
   conversationId: string,
-  userId: string,
-  { role, content, time }: ConversationMessage
+  { id, role, content, time }: ConversationMessage
 ) {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from('human_messages')
-    .insert([{ role, content, time, conversation_id: conversationId, user_id: userId }])
+    .insert([{ id, role, content, time, conversation_id: conversationId }])
     .select()
     .single();
 
@@ -155,7 +154,7 @@ export async function updateAIConversation(
     ? conversationId
     : await createConversation(user?.id as string);
 
-  const humanMessage = await createHumanMessage(id, user?.id as string, newMessages[0]);
+  const humanMessage = await createHumanMessage(id, newMessages[0]);
   const aiMessage = await createAIMessage(id, newMessages[1]);
 
   return {
