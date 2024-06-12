@@ -10,11 +10,8 @@ import {
   ChatContextProps,
   ChatContextShared,
   Conversation,
-  ConversationMessage,
   FetchAnswerPayload,
   MakeRequestParams,
-  SendEmailPayload,
-  SendEmailResponse,
 } from '@/lib/definitions';
 
 import * as actions from '@/app/actions';
@@ -86,31 +83,6 @@ export function ChatProvider(props: ChatContextProps) {
     return makeRequest(params);
   };
 
-  const sendEmail = useCallback(async () => {
-    const payload: SendEmailPayload = {
-      body: {
-        collaboratorName: user?.name as string,
-        email: conversation.user?.email as string,
-        id: conversation.id as string,
-        messages: conversation.support?.messages as ConversationMessage[],
-        name: conversation.user?.name as string,
-      },
-    };
-
-    const successFn = async () => {
-      await changeLastSent();
-    };
-
-    const params: MakeRequestParams<SendEmailPayload, SendEmailResponse> = {
-      apiRequest: api.sendEmail,
-      payload,
-      successCode: statusCodes.OK,
-      successFn,
-    };
-
-    return makeRequest(params);
-  }, [changeLastSent, conversation, makeRequest, user?.name]);
-
   const updateMessages = async () => {
     const { id } = await actions.updateAIConversation(
       conversation.id as string,
@@ -140,7 +112,6 @@ export function ChatProvider(props: ChatContextProps) {
     getAnswer,
     initialConversation,
     isStreaming,
-    sendEmail,
     setConversation,
     supportLength: conversation.support?.messages.length ?? 0,
   };

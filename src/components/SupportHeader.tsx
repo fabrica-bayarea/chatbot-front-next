@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 import RequestButton from './RequestButton';
 import { Avatar } from './styled';
-import { updateStatus } from '@/app/actions';
+import { sendSupport, updateStatus } from '@/app/actions';
+import { useState } from 'react';
 
 const Container = styled.header`
   align-items: center;
@@ -37,10 +38,13 @@ const ButtonContainer = styled.div`
 `;
 
 function SupportHeader({ data }) {
+  const [lastEmail, setLastEmail] = useState(data.last_email);
   const user = data.user_profile;
 
-  const lastSent = data.last_email;
-  const lastSentString = new Date(lastSent).toLocaleString('pt-BR');
+  const handleEmail = async () => {
+    const time = await sendSupport(data.id);
+    setLastEmail(time);
+  };
 
   return (
     <Container>
@@ -64,7 +68,7 @@ function SupportHeader({ data }) {
         )}
         {data.status === 'accepted' && (
           <>
-            <RequestButton disabled={data.messages.length === 0} request={async () => {}}>
+            <RequestButton disabled={data.messages.length === 0} request={handleEmail}>
               Enviar por e-mail
             </RequestButton>
             <RequestButton
@@ -75,7 +79,11 @@ function SupportHeader({ data }) {
             >
               Encerrar atendimento
             </RequestButton>
-            {lastSent && <span>{`Último envio: ${lastSentString}`}</span>}
+            {lastEmail && (
+              <span>{`Último envio: ${new Date(lastEmail).toLocaleString(
+                'pt-BR'
+              )}`}</span>
+            )}
           </>
         )}
       </ButtonContainer>

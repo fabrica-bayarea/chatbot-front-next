@@ -1,9 +1,4 @@
-import type {
-  APIResult,
-  FetchAnswerPayload,
-  SendEmailPayload,
-  SendEmailResponse,
-} from './definitions';
+import type { FetchAnswerPayload } from './definitions';
 
 const localUrl = 'http://localhost:3000';
 
@@ -19,18 +14,6 @@ const api = {
     const reader = stream.getReader();
 
     return { status: response.status, data: reader };
-  },
-
-  async sendEmail({ body }: SendEmailPayload): Promise<APIResult<SendEmailResponse>> {
-    const response = await fetch(`${localUrl}/api/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-
-    const data = await response.json();
-
-    return { status: response.status, data };
   },
 };
 

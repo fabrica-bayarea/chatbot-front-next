@@ -233,3 +233,35 @@ export async function fetchSupportById(id: string) {
 
   return response;
 }
+
+export async function sendSupport(id: string) {
+  const supabase = createClient();
+  const profile = await fetchProfile();
+
+  const { data: support } = await supabase
+    .from('support_view')
+    .select()
+    .match({ id })
+    .single();
+
+  const body = {
+    collaboratorName: profile?.name as string,
+    email: support.user_profile?.email as string,
+    id: support.id as string,
+    messages: support?.messages as ConversationMessage[],
+    name: support.user_profile?.name as string,
+  };
+
+  const response = await fetch('http://localhost:3000/api/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (response.status === 200) {
+    const time = new Date().toISOString();
+    await supabase.from('support').update({ last_email: time }).eq('id', id).select();
+
+    return time;
+  }
+}
