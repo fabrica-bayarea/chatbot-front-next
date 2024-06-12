@@ -44,7 +44,7 @@ function SupportHeader({ data }) {
 
   return (
     <Container>
-      <Avatar $fontSize="2rem" $imageUrl={user?.picture} $width="100px">
+      <Avatar $fontSize="2rem" $picture={user?.picture} $width="100px">
         {user?.name.charAt(0)}
       </Avatar>
       <div>

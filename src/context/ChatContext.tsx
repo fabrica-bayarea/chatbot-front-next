@@ -99,6 +99,7 @@ export function ChatProvider(props: ChatContextProps) {
       role: 'user',
       content: question,
       time: Date.now(),
+      user_profile: user,
     });
 
     setConversation((draft) => {
@@ -208,14 +209,14 @@ export function ChatProvider(props: ChatContextProps) {
   );
 
   const updateMessages = async () => {
-    const { id, messages } = await actions.updateAIConversation(
+    const { id } = await actions.updateAIConversation(
       conversation.id as string,
       conversation.messages.slice(-2)
     );
 
-    setConversation((draft) => {
-      draft.messages.splice(-2, 2, ...messages);
-    });
+    // setConversation((draft) => {
+    //   draft.messages.splice(-2, 2, ...messages);
+    // });
 
     if (!conversation.id) {
       setConversation((draft) => {

@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
-export const Form = styled.form<{ $padding?: string }>`
+export const Form = styled.form`
   align-items: center;
   display: flex;
-  /* gap: 100px; */
-  /* padding: ${(props) => props.$padding ?? '0'}; */
+  position: relative;
   width: 100%;
 `;
 

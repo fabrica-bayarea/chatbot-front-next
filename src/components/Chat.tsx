@@ -17,7 +17,6 @@ const Container = styled.div`
   flex-direction: column;
   height: 100%;
   padding-bottom: 40px;
-  position: relative;
   width: 100%;
 `;
 
@@ -92,7 +91,8 @@ const Loading = styled.div`
 `;
 
 const SendButton = styled(IconButton)`
-  bottom: 60px;
+  background-color: var(--clr-d);
+  bottom: 20px;
   height: 60px;
   position: absolute;
   right: -30px;
@@ -148,24 +148,24 @@ function Chat() {
       <Conversation $open={isOpen} ref={conversationRef}>
         <div>
           <Image src="/eda.png" height={160} width={96} alt="Ilustração da Eda" />
-          <ChatMessage name="Eda">
-            Eu sou <strong>Eda</strong>, assistente virtual.
+          <ChatMessage role={'assistant'}>
+            Eu sou <strong>Eda</strong>, assistente virtual do IESB.
             <br />
-            Selecione uma das perguntas frequentes abaixo ou faça uma você mesmo! Estou
-            aqui para ajudar da melhor forma possível!
+            Em que posso ajudar?
           </ChatMessage>
         </div>
-        {conversation.messages.map(({ content, role }, index) => (
-          <ChatMessage
-            key={index}
-            bgColor={role === 'assistant' ? 'var(--clr-a)' : 'var(--clr-lighter-gray)'}
-            imageUrl={role === 'assistant' ? '' : user?.picture}
-            name={role === 'assistant' ? 'Eda' : user?.name}
-            right={role === 'user'}
-          >
-            <LineBreaks content={content} />
-          </ChatMessage>
-        ))}
+        {conversation.messages.map(({ content, role, user_profile }, index) => {
+
+          return (
+            <ChatMessage
+              key={index}
+              role={role}
+              user_profile={user_profile}
+            >
+              <LineBreaks content={content} />
+            </ChatMessage>
+          );
+        })}
         {conversationLength === 0 && <Suggestions />}
         {showFeedback && (
           <Feedback id={conversation.messages[conversationLength - 1]?.id as string} />
@@ -179,12 +179,12 @@ function Chat() {
             <span>{user?.email}</span>
           </div>
         )}
-        <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
+      <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
       </Conversation>
       {isOpen && (
         <Form onSubmit={handleSubmit}>
           <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
-          <SendButton type="submit" $bgColor="var(--clr-d)">
+          <SendButton type="submit">
             <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
           </SendButton>
         </Form>

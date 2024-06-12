@@ -171,9 +171,14 @@ export async function fetchHistory() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const response = await supabase.rpc('get_conversations', {
-    user_id: user?.id,
-  });
+  // const response = await supabase.rpc('fetch_conversations', {
+  //   user_id: user?.id,
+  // });
+
+  const response = await supabase
+    .from('conversations_view')
+    .select()
+    .match({ user_id: user?.id });
 
   return response;
 }

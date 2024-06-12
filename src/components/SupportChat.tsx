@@ -1,29 +1,29 @@
 'use client';
 
 import Image from 'next/image';
-import { FormEvent, Fragment, useEffect, useRef } from 'react';
+import { type FormEvent, useRef } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
 import ChatMessage from './ChatMessage';
 import LineBreaks from './LineBreaks';
-import { IconButton, Form, ChatTextArea, InfoMessage } from './styled';
-import { useMainContext } from '@/hooks';
+import { IconButton, Form, ChatTextArea } from './styled';
+import { useMainContext, useMessages } from '@/hooks';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100vh - 140px);
-  padding: 0 0 40px;
+  padding: 0 20% 40px;
 `;
 
 const Conversation = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 30px;
+  gap: 40px;
+  padding: 60px 40px 0 20px;
   overflow-y: scroll;
-  padding: 0 240px;
 
   & > hr {
     background-color: var(--clr-light);
@@ -47,50 +47,62 @@ const Loading = styled.div`
   min-height: 40px;
 `;
 
+const SendButton = styled(IconButton)`
+  background-color: var(--clr-d);
+  bottom: 30px;
+  height: 60px;
+  position: absolute;
+  right: -80px;
+`;
+
 function SupportChat({ data }) {
-  const { isLoading, user } = useMainContext();
+  const { user } = useMainContext();
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
+  const { isLoading, messages, addNewMessage } = useMessages(data.messages);
 
   const isAccepted = data.status === 'accepted';
 
   // Registers a message to be sent to the user
   const handleSubmit = async (event: FormEvent) => {
-    // event.preventDefault();
-    // const inputElement = inputRef.current as HTMLTextAreaElement;
-    // const content = inputElement.value;
-    // if (!content || isLoading) {
-    //   return;
-    // }
-    // inputElement.value = '';
-    // await sendReply(content);
+    event.preventDefault();
+    const inputElement = inputRef.current as HTMLTextAreaElement;
+    const content = inputElement.value;
+
+    if (!content || isLoading) {
+      return;
+    }
+
+    inputElement.value = '';
+    await addNewMessage(content);
   };
 
   // Main render
   return (
     <Container>
       <Conversation>
-        {data.messages.map(({ content, role }, index) => (
-          <ChatMessage
-            key={index}
-            bgColor={role === 'assistant' ? 'var(--clr-a)' : 'var(--clr-lighter-gray)'}
-            imageUrl={role === 'assistant' ? '' : data.user_profile?.picture}
-            name={role === 'assistant' ? 'Eda' : data.user_profile?.name}
-            right={role === 'assistant'}
-          >
-            <LineBreaks content={content} />
-          </ChatMessage>
-        ))}
-        <Loading ref={loadingRef}>
-          {isLoading && <BeatLoader color="lightgray" size={8} />}
-        </Loading>
+        {messages.map(({ content, role, user_profile }, index) => {
+
+          return (
+            <ChatMessage
+              key={index}
+              role={role}
+              user_profile={user_profile}
+            >
+              <LineBreaks content={content} />
+            </ChatMessage>
+          );
+        })}
       </Conversation>
+      <Loading ref={loadingRef}>
+        {isLoading && <BeatLoader color="lightgray" size={8} />}
+      </Loading>
       {isAccepted && (
-        <Form onSubmit={handleSubmit} $padding="0 240px">
+        <Form onSubmit={handleSubmit}>
           <ChatTextArea ref={inputRef} placeholder="Digite uma mensagem..." />
-          <IconButton type="submit" $bgColor="var(--clr-d)" $width="60px">
+          <SendButton type="submit">
             <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
-          </IconButton>
+          </SendButton>
         </Form>
       )}
     </Container>

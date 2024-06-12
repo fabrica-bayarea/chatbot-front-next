@@ -137,7 +137,7 @@ function SupportSideBar({ data }: SupportSideBarProps) {
               role="button"
               tabIndex={0}
             >
-              <Avatar $fontSize="1.25rem" $imageUrl={user_profile?.picture} $width="40px">
+              <Avatar $fontSize="1.25rem" $picture={user_profile?.picture} $width="40px">
                 {user_profile?.name.charAt(0)}
               </Avatar>
               <div>
