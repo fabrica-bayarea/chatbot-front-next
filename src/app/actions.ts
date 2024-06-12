@@ -3,12 +3,13 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-import { createClient } from '@/utils/supabase/server';
 import {
   ConversationMessage,
   UpdateFeedbackPayload,
   UpdateStatusPayload,
 } from '@/lib/definitions';
+
+import { createClient } from '@/utils/supabase/server';
 
 export async function signIn(formData: FormData, path: string) {
   const supabase = createClient();
@@ -78,18 +79,23 @@ export async function signOut() {
   redirect('/login');
 }
 
-export async function getProfile() {
+export async function fetchProfile() {
   const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
+  const userResponse = await supabase.auth.getUser();
 
-  if (data.user) {
-    const id = data.user.id;
-    const profile = await supabase.from('profiles').select('*').eq('id', id).single();
+  const { user } = userResponse.data;
 
-    return profile.data;
+  if (user) {
+    const profileResponse = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    return profileResponse.data;
   }
 
-  return undefined;
+  return null;
 }
 
 export async function createConversation(userId: string) {
@@ -194,6 +200,32 @@ export async function updateFeedback({ id, feedback }: UpdateFeedbackPayload) {
 export async function updateStatus({ table, id, status }: UpdateStatusPayload) {
   const supabase = createClient();
   const response = await supabase.from(table).update({ status }).eq('id', id).select();
+
+  return response;
+}
+
+export async function fetchSupport() {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const response = await supabase.rpc('fetch_support', {
+    collaborator_id: user?.id,
+  });
+
+  return response;
+}
+
+export async function fetchSupportById(id: string) {
+  const supabase = createClient();
+
+  // const response = await supabase.rpc('fetch_support_by_id', {
+  //   support_id: id,
+  // });
+
+  const response = await supabase.from('support_view').select().match({ id }).single();
 
   return response;
 }

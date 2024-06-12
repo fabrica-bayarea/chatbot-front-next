@@ -1,26 +1,23 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
+import { fetchProfile } from '@/app/actions';
 import { updateSession } from '@/utils/supabase/middleware';
-import { createClient } from '@/utils/supabase/server';
 
 export async function middleware(request: NextRequest) {
-  const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
+  const data = await fetchProfile();
 
   if (request.nextUrl.pathname === '/') {
-    if (!data.user) {
+    if (!data) {
       return NextResponse.rewrite(new URL('/login', request.url));
     }
   }
 
   if (request.nextUrl.pathname.startsWith('/suporte')) {
-    if (!data.user) {
+    if (!data) {
       return NextResponse.rewrite(new URL('/login', request.url));
     }
 
-    const { role } = data.user.user_metadata;
-
-    if (role !== 'admin' && role !== 'collaborator') {
+    if (data.role !== 'admin' && data.role !== 'collaborator') {
       return NextResponse.rewrite(new URL('/unauthorized', request.url));
     }
   }

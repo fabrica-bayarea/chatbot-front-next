@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import ChatMessage from './ChatMessage';
 import LineBreaks from './LineBreaks';
 import { IconButton, Form, ChatTextArea, InfoMessage } from './styled';
-import { useChatContext, useMainContext } from '@/hooks';
+import { useMainContext } from '@/hooks';
 
 const Container = styled.div`
   display: flex;
@@ -47,72 +47,36 @@ const Loading = styled.div`
   min-height: 40px;
 `;
 
-function SupportChat() {
-  const { conversation, sendReply, supportLength } = useChatContext();
+function SupportChat({ data }) {
   const { isLoading, user } = useMainContext();
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
-  const isAccepted = conversation.status === 'accepted';
+  const isAccepted = data.status === 'accepted';
 
   // Registers a message to be sent to the user
   const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    const inputElement = inputRef.current as HTMLTextAreaElement;
-    const content = inputElement.value;
-
-    if (!content || isLoading) {
-      return;
-    }
-
-    inputElement.value = '';
-    await sendReply(content);
+    // event.preventDefault();
+    // const inputElement = inputRef.current as HTMLTextAreaElement;
+    // const content = inputElement.value;
+    // if (!content || isLoading) {
+    //   return;
+    // }
+    // inputElement.value = '';
+    // await sendReply(content);
   };
-
-  // Ensure that the control element is visible
-  const scrollToBottom = () => {
-    const controlElement = loadingRef.current as HTMLDivElement;
-    controlElement.scrollIntoView();
-  };
-
-  // Keeps the chat always scrolled down
-  useEffect(() => {
-    if (supportLength !== 0) {
-      scrollToBottom();
-    }
-  }, [supportLength]);
 
   // Main render
   return (
     <Container>
       <Conversation>
-        <InfoMessage $bgColor="var(--clr-blue)">
-          Início do atendimento virtual
-        </InfoMessage>
-        {conversation.messages.map(({ content, role }, index) => (
+        {data.messages.map(({ content, role }, index) => (
           <ChatMessage
             key={index}
             bgColor={role === 'assistant' ? 'var(--clr-a)' : 'var(--clr-lighter-gray)'}
-            imageUrl={role === 'assistant' ? '' : conversation.user?.imageUrl}
-            name={role === 'assistant' ? 'Eda' : conversation.user?.name}
+            imageUrl={role === 'assistant' ? '' : data.user_profile?.picture}
+            name={role === 'assistant' ? 'Eda' : data.user_profile?.name}
             right={role === 'assistant'}
-          >
-            <LineBreaks content={content} />
-          </ChatMessage>
-        ))}
-        <InfoMessage $bgColor="var(--clr-blue)">Fim do atendimento virtual</InfoMessage>
-        {isAccepted && (
-          <Fragment>
-            <hr />
-            <InfoMessage>Início do atendimento humano</InfoMessage>
-          </Fragment>
-        )}
-        {(conversation.support?.messages ?? []).map(({ content, role }, index) => (
-          <ChatMessage
-            key={index}
-            imageUrl={role === 'user' ? conversation.user?.imageUrl : user?.imageUrl}
-            name={user?.name}
-            right={role === 'collaborator'}
           >
             <LineBreaks content={content} />
           </ChatMessage>

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { extractRouterConfig } from 'uploadthing/server';
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 
-import { getProfile } from './actions';
+import { fetchProfile } from './actions';
 import { ourFileRouter } from './api/uploadthing/core';
 import StyledComponentsRegistry from './registry';
 import Toast from '@/components/Toast';
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const user = await getProfile();
+  const user = await fetchProfile();
 
   return (
     <html lang="en">

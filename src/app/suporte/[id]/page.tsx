@@ -1,25 +1,16 @@
 import Link from 'next/link';
 
-import { getSession } from '@/app/actions';
+import { fetchSupportById } from '@/app/actions';
 import SupportChat from '@/components/SupportChat';
 import SupportHeader from '@/components/SupportHeader';
-import { ChatProvider } from '@/context';
-import api from '@/lib/data';
-import type { Conversation, SupportProps } from '@/lib/definitions';
+import type { SupportProps } from '@/lib/definitions';
 
 import styles from '../support.module.css';
 
 async function Support({ params }: SupportProps) {
-  const session = await getSession();
+  const { data } = await fetchSupportById(params.id);
 
-  const { data } = await api.fetchSupportConversations({
-    collaboratorId: session?.user.id as string,
-  });
-
-  const conversations = data as Conversation[];
-  const [conversation] = conversations.filter(({ id }) => id === params.id);
-
-  if (!conversation) {
+  if (!data) {
     return (
       <section className={styles.closed}>
         <span>Esta conversa não existe ou foi encerrada.</span>
@@ -29,12 +20,10 @@ async function Support({ params }: SupportProps) {
   }
 
   return (
-    <ChatProvider conversation={conversation}>
-      <section>
-        <SupportHeader />
-        <SupportChat />
-      </section>
-    </ChatProvider>
+    <section>
+      <SupportHeader data={data} />
+      <SupportChat data={data} />
+    </section>
   );
 }
 

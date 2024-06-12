@@ -1,11 +1,10 @@
 'use client';
 
-import { Fragment } from 'react';
 import styled from 'styled-components';
 
 import RequestButton from './RequestButton';
 import { Avatar } from './styled';
-import { useChatContext } from '@/hooks';
+import { updateStatus } from '@/app/actions';
 
 const Container = styled.header`
   align-items: center;
@@ -37,41 +36,47 @@ const ButtonContainer = styled.div`
   }
 `;
 
-function SupportHeader() {
-  const { acceptConversation, changeStatus, conversation, sendEmail, supportLength } =
-    useChatContext();
+function SupportHeader({ data }) {
+  const user = data.user_profile;
 
-  const lastSent = conversation.support?.lastSent as number;
+  const lastSent = data.last_email;
   const lastSentString = new Date(lastSent).toLocaleString('pt-BR');
 
   return (
     <Container>
-      <Avatar $fontSize="2rem" $imageUrl={conversation.user?.imageUrl} $width="100px">
-        {conversation.user?.name.charAt(0)}
+      <Avatar $fontSize="2rem" $imageUrl={user?.picture} $width="100px">
+        {user?.name.charAt(0)}
       </Avatar>
       <div>
-        <h1>{conversation.user?.name}</h1>
-        <div>{conversation.user?.email}</div>
+        <h1>{user?.name}</h1>
+        <div>{user?.email}</div>
       </div>
       <ButtonContainer>
-        {conversation.status === 'redirected' && (
-          <RequestButton disabled={false} request={acceptConversation}>
+        {data.status === 'open' && (
+          <RequestButton
+            disabled={false}
+            request={() =>
+              updateStatus({ table: 'support', id: data.id, status: 'accepted' })
+            }
+          >
             Iniciar atendimento
           </RequestButton>
         )}
-        {conversation.status === 'accepted' && (
-          <Fragment>
-            <RequestButton disabled={supportLength === 0} request={sendEmail}>
+        {data.status === 'accepted' && (
+          <>
+            <RequestButton disabled={data.messages.length === 0} request={async () => {}}>
               Enviar por e-mail
             </RequestButton>
             <RequestButton
-              disabled={supportLength === 0}
-              request={async () => changeStatus('closed')}
+              disabled={data.messages.length === 0}
+              request={() =>
+                updateStatus({ table: 'support', id: data.id, status: 'closed' })
+              }
             >
               Encerrar atendimento
             </RequestButton>
             {lastSent && <span>{`Último envio: ${lastSentString}`}</span>}
-          </Fragment>
+          </>
         )}
       </ButtonContainer>
     </Container>

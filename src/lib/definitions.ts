@@ -184,7 +184,7 @@ export type SubmitButtonProps = {
 export type SupportProps = { params: { id: string } };
 
 export type SupportSideBarProps = {
-  conversations: Conversation[];
+  data: Conversation[];
 };
 
 export type UploadButtonProps = { children: ReactNode; setFn: (value: string) => void };
