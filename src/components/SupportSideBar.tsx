@@ -1,6 +1,5 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -11,6 +10,7 @@ import { signOut } from '@/app/actions';
 import { useMainContext } from '@/hooks';
 import type { ConversationStatus, SupportSideBarProps } from '@/lib/definitions';
 import elapsedTime from '@/utils/elapsedTime';
+import useSupport from '@/hooks/useSupport';
 
 const Container = styled.aside`
   background-color: var(--clr-light);
@@ -111,9 +111,10 @@ const Footer = styled.footer`
   justify-content: space-around;
 `;
 
-function SupportSideBar({ data }: SupportSideBarProps) {
+function SupportSideBar() {
   const { user: collaborator } = useMainContext();
   const router = useRouter();
+  const { data } = useSupport();
 
   return (
     <Container>
@@ -121,9 +122,9 @@ function SupportSideBar({ data }: SupportSideBarProps) {
         <Image src="/home.svg" height={24} width={24} alt="Home link" />
       </Link>
       <h1>Atendimentos</h1>
-      {data.length === 0 && <span>Não há nada aqui!</span>}
+      {data?.length === 0 && <span>Não há nada aqui!</span>}
       <List>
-        {data.map(({ id, messages, status, user_profile }, index) => {
+        {data?.map(({ id, messages, status, user_profile, created_at }, index) => {
           const lastMessage = messages[messages.length - 1];
 
           return (
@@ -138,7 +139,7 @@ function SupportSideBar({ data }: SupportSideBarProps) {
               </Avatar>
               <div>
                 <div>{user_profile?.name.split(' ')[0]}</div>
-                <span>{elapsedTime(lastMessage.created_at)}</span>
+                <span>{elapsedTime(created_at)}</span>
               </div>
               <Status $status={status} />
             </ListItem>
