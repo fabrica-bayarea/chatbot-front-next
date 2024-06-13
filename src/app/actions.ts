@@ -3,6 +3,8 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
+import api from '@/lib/data';
+
 import {
   ConversationMessage,
   UpdateFeedbackPayload,
@@ -112,13 +114,13 @@ export async function createConversation(userId: string) {
 
 export async function createHumanMessage(
   conversationId: string,
-  { id, role, content, time }: ConversationMessage
+  { id, role, content, created_at }: ConversationMessage
 ) {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from('human_messages')
-    .insert([{ id, role, content, time, conversation_id: conversationId }])
+    .insert([{ id, role, content, created_at, conversation_id: conversationId }])
     .select()
     .single();
 
@@ -127,13 +129,13 @@ export async function createHumanMessage(
 
 export async function createAIMessage(
   conversationId: string,
-  { content, time }: ConversationMessage
+  { id, content, created_at }: ConversationMessage
 ) {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from('ai_messages')
-    .insert([{ content, time, conversation_id: conversationId }])
+    .insert([{ id, content, created_at, conversation_id: conversationId }])
     .select()
     .single();
 
@@ -252,13 +254,9 @@ export async function sendSupport(id: string) {
     name: support.user_profile?.name as string,
   };
 
-  const response = await fetch('http://localhost:3000/api/send', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
+  const { status } = await api.sendEmail({ body });
 
-  if (response.status === 200) {
+  if (status === 200) {
     const time = new Date().toISOString();
     await supabase.from('support').update({ last_email: time }).eq('id', id).select();
 

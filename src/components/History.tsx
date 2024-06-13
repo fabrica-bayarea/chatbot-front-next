@@ -67,7 +67,10 @@ function History({ showFn }: HistoryProps) {
     try {
       setIsLoading(true);
       const { data } = await fetchHistory();
-      setHistory(data);
+
+      if (data) {
+        setHistory(data);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -104,7 +107,7 @@ function History({ showFn }: HistoryProps) {
     <List>
       {history.map((conversation) => {
         const { id, messages } = conversation;
-        const firstTime = new Date(messages[0].time).toLocaleString('pt-BR');
+        const firstTime = new Date(messages[0].created_at).toLocaleString('pt-BR');
 
         return (
           <ListItem

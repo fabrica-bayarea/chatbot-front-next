@@ -10,11 +10,7 @@ import { Avatar, IconButton } from './styled';
 import { signOut } from '@/app/actions';
 import { useMainContext } from '@/hooks';
 import type { ConversationStatus, SupportSideBarProps } from '@/lib/definitions';
-
-const ElapsedTime = dynamic(() => import('./ElapsedTime'), {
-  ssr: false,
-  loading: () => <></>,
-});
+import elapsedTime from '@/utils/elapsedTime';
 
 const Container = styled.aside`
   background-color: var(--clr-light);
@@ -142,7 +138,7 @@ function SupportSideBar({ data }: SupportSideBarProps) {
               </Avatar>
               <div>
                 <div>{user_profile?.name.split(' ')[0]}</div>
-                <ElapsedTime time={lastMessage.time} />
+                <span>{elapsedTime(lastMessage.created_at)}</span>
               </div>
               <Status $status={status} />
             </ListItem>

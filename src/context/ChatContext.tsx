@@ -2,7 +2,7 @@
 
 import { useImmer } from 'use-immer';
 import { createContext, useCallback, useEffect, useState } from 'react';
-
+import { v4 as uuidv4 } from 'uuid';
 import { useMainContext } from '@/hooks';
 import api from '@/lib/data';
 
@@ -35,9 +35,10 @@ export function ChatProvider(props: ChatContextProps) {
 
   const getAnswer = async (question: string) => {
     const messages = conversation.messages.concat({
+      id: uuidv4(),
       role: 'user',
       content: question,
-      time: Date.now(),
+      created_at: new Date().toISOString(),
       user_profile: user,
     });
 
@@ -50,9 +51,11 @@ export function ChatProvider(props: ChatContextProps) {
         setIsStreaming(true);
         setConversation((draft) => {
           draft.messages.push({
+            id: uuidv4(),
             role: 'assistant',
             content: '',
-            time: Date.now(),
+            created_at: new Date().toISOString(),
+            user_profile: null,
           });
         });
         while (true) {
@@ -74,7 +77,7 @@ export function ChatProvider(props: ChatContextProps) {
     };
 
     const params: MakeRequestParams<FetchAnswerPayload, ReadableStreamDefaultReader> = {
-      apiRequest: api.fetchAnswer,
+      apiRequest: api.fetchStream,
       payload: { body: { messages } },
       successCode: statusCodes.OK,
       successFn,

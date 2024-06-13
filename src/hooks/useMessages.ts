@@ -17,7 +17,7 @@ function useMessages(data) {
         role: 'collaborator',
         content,
         user_profile: user,
-        time: Date.now(),
+        created_at: new Date().toISOString(),
       };
 
       setMessages(messages.concat(newMessage));

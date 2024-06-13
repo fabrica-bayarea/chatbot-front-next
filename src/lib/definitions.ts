@@ -21,7 +21,7 @@ export type MessageFeedback = 'good' | 'poor';
 export type ConversationMessage = {
   role: 'assistant' | 'collaborator' | 'user';
   content: string;
-  time: number;
+  created_at: string;
   id?: string;
   feedback?: MessageFeedback;
 };
@@ -144,8 +144,6 @@ export type ChatMessageProps = {
 };
 
 export type DropdownProps = { showFn: Dispatch<SetStateAction<boolean>> };
-
-export type ElapsedTimeProps = { time: number };
 
 export type EmailTemplateProps = {
   collaboratorName: string;
