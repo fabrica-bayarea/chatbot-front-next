@@ -37,7 +37,7 @@ const ButtonContainer = styled.div`
   }
 `;
 
-function SupportHeader({ data }) {
+function SupportHeader({ data, setSupport }) {
   const [lastEmail, setLastEmail] = useState(data.last_email);
   const user = data.user_profile;
 
@@ -59,9 +59,12 @@ function SupportHeader({ data }) {
         {data.status === 'open' && (
           <RequestButton
             disabled={false}
-            request={() =>
-              updateStatus({ table: 'support', id: data.id, status: 'accepted' })
-            }
+            request={async () => {
+              await updateStatus({ table: 'support', id: data.id, status: 'accepted' });
+              setSupport((draft) => {
+                draft.status = 'accepted';
+              });
+            }}
           >
             Iniciar atendimento
           </RequestButton>
@@ -73,9 +76,12 @@ function SupportHeader({ data }) {
             </RequestButton>
             <RequestButton
               disabled={data.messages.length === 0}
-              request={() =>
-                updateStatus({ table: 'support', id: data.id, status: 'closed' })
-              }
+              request={async () => {
+                await updateStatus({ table: 'support', id: data.id, status: 'closed' });
+                setSupport((draft) => {
+                  draft.status = 'closed';
+                });
+              }}
             >
               Encerrar atendimento
             </RequestButton>

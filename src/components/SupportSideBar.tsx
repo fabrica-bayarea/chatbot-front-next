@@ -7,10 +7,9 @@ import styled, { css } from 'styled-components';
 
 import { Avatar, IconButton } from './styled';
 import { signOut } from '@/app/actions';
-import { useMainContext } from '@/hooks';
-import type { ConversationStatus, SupportSideBarProps } from '@/lib/definitions';
+import { useMainContext, useSupportList } from '@/hooks';
+import type { ConversationStatus } from '@/lib/definitions';
 import elapsedTime from '@/utils/elapsedTime';
-import useSupport from '@/hooks/useSupport';
 
 const Container = styled.aside`
   background-color: var(--clr-light);
@@ -87,7 +86,7 @@ const Status = styled.div<{ $status: ConversationStatus }>`
   width: 20px;
 
   ${({ $status }) =>
-    $status !== 'accepted' &&
+    $status === 'accepted' &&
     css`
       animation: pulse 1500ms infinite;
       background-color: var(--clr-b);
@@ -111,10 +110,46 @@ const Footer = styled.footer`
   justify-content: space-around;
 `;
 
+function SupportList() {
+  const router = useRouter();
+  const { supportList } = useSupportList();
+
+  if (supportList === undefined) {
+    return <List>Loading</List>;
+  }
+  
+  if (supportList?.length === 0) {
+    return <List>Não há nada aqui!</List>;
+  }
+
+  return (
+    <List>
+      {supportList?.map(({ id, status, user_profile, created_at }, index) => {
+
+        return (
+          <ListItem
+            key={index}
+            onClick={() => router.push(`/suporte/${id}`)}
+            role="button"
+            tabIndex={0}
+          >
+            <Avatar $fontSize="1.25rem" $picture={user_profile?.picture} $width="40px">
+              {user_profile?.name.charAt(0)}
+            </Avatar>
+            <div>
+              <div>{user_profile?.name.split(' ')[0]}</div>
+              <span>{elapsedTime(created_at)}</span>
+            </div>
+            <Status $status={status} />
+          </ListItem>
+        );
+      })}
+    </List>
+  );
+}
+
 function SupportSideBar() {
   const { user: collaborator } = useMainContext();
-  const router = useRouter();
-  const { data } = useSupport();
 
   return (
     <Container>
@@ -122,30 +157,7 @@ function SupportSideBar() {
         <Image src="/home.svg" height={24} width={24} alt="Home link" />
       </Link>
       <h1>Atendimentos</h1>
-      {data?.length === 0 && <span>Não há nada aqui!</span>}
-      <List>
-        {data?.map(({ id, messages, status, user_profile, created_at }, index) => {
-          const lastMessage = messages[messages.length - 1];
-
-          return (
-            <ListItem
-              key={index}
-              onClick={() => router.push(`/suporte/${id}`)}
-              role="button"
-              tabIndex={0}
-            >
-              <Avatar $fontSize="1.25rem" $picture={user_profile?.picture} $width="40px">
-                {user_profile?.name.charAt(0)}
-              </Avatar>
-              <div>
-                <div>{user_profile?.name.split(' ')[0]}</div>
-                <span>{elapsedTime(created_at)}</span>
-              </div>
-              <Status $status={status} />
-            </ListItem>
-          );
-        })}
-      </List>
+      <SupportList />
       <Footer>
         <div>
           <div>{collaborator?.name.split(' ')[0]}</div>

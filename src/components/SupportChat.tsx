@@ -8,13 +8,17 @@ import styled from 'styled-components';
 import ChatMessage from './ChatMessage';
 import LineBreaks from './LineBreaks';
 import { IconButton, Form, ChatTextArea } from './styled';
-import { useMainContext, useMessages } from '@/hooks';
+import { useMessages } from '@/hooks';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100vh - 140px);
-  padding: 0 20% 40px;
+
+  & form {
+    margin-bottom: 40px;
+    padding: 0 320px;
+  }
 `;
 
 const Conversation = styled.div`
@@ -22,7 +26,7 @@ const Conversation = styled.div`
   flex-direction: column;
   height: 100%;
   gap: 80px;
-  padding: 60px 40px 0 20px;
+  padding: 40px 312px 0 320px;
   overflow-y: scroll;
 
   & > hr {
@@ -33,11 +37,11 @@ const Conversation = styled.div`
   }
 
   &::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--clr-c);
+    background-color: var(--clr-b);
   }
 `;
 
@@ -45,6 +49,7 @@ const Loading = styled.div`
   align-items: center;
   display: flex;
   min-height: 40px;
+  padding: 0 20%;
 `;
 
 const SendButton = styled(IconButton)`
@@ -52,11 +57,10 @@ const SendButton = styled(IconButton)`
   bottom: 30px;
   height: 60px;
   position: absolute;
-  right: -80px;
+  right: calc(20% - 80px);
 `;
 
 function SupportChat({ data }) {
-  const { user } = useMainContext();
   const conversationRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);

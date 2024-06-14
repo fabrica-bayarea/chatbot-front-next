@@ -1,46 +1,50 @@
 'use client';
 
-import type { RealtimeChannel } from '@supabase/supabase-js';
-
-import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
-import { fetchSupport } from '@/app/actions';
 
-function useSupport() {
-  const [data, setData] = useState([]);
+import { fetchSupportById } from '@/app/actions';
+import { createClient } from '@/utils/supabase/client';
+import { useImmer } from 'use-immer';
+
+function useSupport(supportId: string) {
+  const [support, setSupport] = useImmer(undefined);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getSupport = async () => {
-    const response = await fetchSupport();
-
-    setData(response.data);
-  };
-
-  const subscribeToSupport = () => {
-    const supabase = createClient();
-
-    return supabase
-      .channel('support-list')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'support' }, () => {
-        getSupport();
-      })
-      .subscribe();
-  };
-
-  const unsubscribeFromSupport = (channel: RealtimeChannel) => {
-    const supabase = createClient();
-    return supabase.removeChannel(channel);
+    setIsLoading(true);
+    const { data } = await fetchSupportById(supportId);
+    setSupport(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     getSupport();
-    const subscribedChannel = subscribeToSupport();
+    const supabase = createClient();
+
+    const channel = supabase
+      .channel(supportId)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'support',
+          filter: `id=eq.${supportId}`,
+        },
+        async (payload) => {
+          console.log('Change received!', payload);
+          const { data } = await fetchSupportById(supportId);
+          setSupport(data);
+        }
+      )
+      .subscribe();
 
     return () => {
-      unsubscribeFromSupport(subscribedChannel);
+      supabase.removeChannel(channel);
     };
   }, []);
 
-  return { data };
+  return { support, isLoading, setSupport };
 }
 
 export default useSupport;

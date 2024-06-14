@@ -155,13 +155,8 @@ function Chat() {
           </ChatMessage>
         </div>
         {conversation.messages.map(({ content, role, user_profile }, index) => {
-
           return (
-            <ChatMessage
-              key={index}
-              role={role}
-              user_profile={user_profile}
-            >
+            <ChatMessage key={index} role={role} user_profile={user_profile}>
               <LineBreaks content={content} />
             </ChatMessage>
           );
@@ -179,7 +174,7 @@ function Chat() {
             <span>{user?.email}</span>
           </div>
         )}
-      <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
+        <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
       </Conversation>
       {isOpen && (
         <Form onSubmit={handleSubmit}>

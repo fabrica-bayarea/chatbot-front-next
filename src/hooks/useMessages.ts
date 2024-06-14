@@ -21,8 +21,6 @@ function useMessages(data) {
       };
 
       setMessages(messages.concat(newMessage));
-      console.log(newMessage);
-
       await createHumanMessage(data.conversation_id, newMessage);
     } catch (error) {
       setMessages(messages.slice(0, -1));

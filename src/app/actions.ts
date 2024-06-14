@@ -210,28 +210,20 @@ export async function updateStatus({ table, id, status }: UpdateStatusPayload) {
   return response;
 }
 
-export async function fetchSupport() {
+export async function fetchSupportList() {
   const supabase = createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const response = await supabase.rpc('fetch_support', {
-    collaborator_id: user?.id,
-  });
+  const response = await supabase.rpc('fetch_support_list');
 
   return response;
 }
 
-export async function fetchSupportById(id: string) {
+export async function fetchSupportById(supportId: string) {
   const supabase = createClient();
 
-  // const response = await supabase.rpc('fetch_support_by_id', {
-  //   support_id: id,
-  // });
-
-  const response = await supabase.from('support_view').select().match({ id }).single();
+  const response = await supabase.rpc('fetch_support_by_id', {
+    support_id: supportId,
+  }).single();
 
   return response;
 }
