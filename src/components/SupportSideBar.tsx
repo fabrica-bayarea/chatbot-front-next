@@ -19,27 +19,18 @@ const Container = styled.aside`
   flex-direction: column;
   height: 100vh;
   min-width: 360px;
+`;
 
-  & > a {
-    aspect-ratio: 1;
-    display: flex;
-    left: 20px;
-    position: absolute;
-    top: 20px;
-    width: 30px;
-  }
+const Header = styled.header`
+  display: flex;
+  flex-direction: column;
+  height: 160px;
+  justify-content: space-between;
+  margin-bottom: 80px;
+  padding: 20px 20px 0;
 
   & > h1 {
     color: var(--clr-b);
-    font-size: 2rem;
-    height: 240px;
-    line-height: 240px;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  & > span {
-    text-align: center;
   }
 `;
 
@@ -98,16 +89,16 @@ const Footer = styled.footer`
   background-color: var(--clr-b);
   background-image: linear-gradient(
     to bottom right,
-    rgba(255 255 255 / 20%) -20%,
-    rgba(255 255 255 / 0%) 40%
+    rgba(255 255 255 / 10%),
+    rgba(255 255 255 / 0%) 50%
   );
   border-top: 2px solid var(--clr-b);
   box-shadow: 0 -1px 4px 0 rgb(0 0 0 / 20%);
   color: var(--clr-light);
   display: flex;
   font-size: 0.9rem;
-  height: 80px;
-  justify-content: space-around;
+  height: 60px;
+  justify-content: space-evenly;
 `;
 
 function SupportList() {
@@ -117,7 +108,7 @@ function SupportList() {
   if (supportList === undefined) {
     return <List>Loading</List>;
   }
-  
+
   if (supportList?.length === 0) {
     return <List>Não há nada aqui!</List>;
   }
@@ -125,7 +116,6 @@ function SupportList() {
   return (
     <List>
       {supportList?.map(({ id, status, user_profile, created_at }, index) => {
-
         return (
           <ListItem
             key={index}
@@ -153,10 +143,17 @@ function SupportSideBar() {
 
   return (
     <Container>
-      <Link href={'/'}>
-        <Image src="/home.svg" height={24} width={24} alt="Home link" />
-      </Link>
-      <h1>Atendimentos</h1>
+      <Header>
+        <Link href={'/'}>
+          <Image
+            src="/home.svg"
+            height={24}
+            width={24}
+            alt="Link para a página principal"
+          />
+        </Link>
+        <h1>Atendimentos</h1>
+      </Header>
       <SupportList />
       <Footer>
         <div>
@@ -164,7 +161,7 @@ function SupportSideBar() {
           <div>{collaborator?.email}</div>
         </div>
         <IconButton onClick={() => signOut()}>
-          <Image src="/logout-white.svg" height={18} width={18} alt="Logout icon" />
+          <Image src="/logout-white.svg" height={18} width={18} alt="Botão de deslogar" />
         </IconButton>
       </Footer>
     </Container>

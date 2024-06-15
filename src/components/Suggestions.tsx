@@ -20,7 +20,7 @@ const Container = styled.div`
 
   & > span {
     background-color: var(--clr-light);
-    border-radius: 4px;
+    border-radius: 12px;
     padding: 16px;
 
     &:hover {

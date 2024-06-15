@@ -24,23 +24,14 @@ export const Button = styled.button`
 `;
 
 export const AltButton = styled(Button)`
-  background-color: var(--clr-b);
-  background-image: linear-gradient(
-    to bottom right,
-    rgba(255 255 255 / 40%),
-    rgba(255 255 255 / 0%) 25%
-  );
-  border: 1px solid var(--clr-b);
-  border-radius: 4px;
+  border: 1px solid var(--clr-light);
+  border-radius: 50px;
   color: var(--clr-light);
-  font-size: 0.75rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  height: 40px;
-  width: 200px;
+  height: 50px;
+  width: 250px;
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.4;
   }
 `;
 

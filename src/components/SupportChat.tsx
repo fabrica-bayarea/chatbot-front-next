@@ -11,9 +11,10 @@ import { IconButton, Form, ChatTextArea } from './styled';
 import { useMessages } from '@/hooks';
 
 const Container = styled.div`
+  background-image: url('/chatBg.jpg');
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 140px);
+  height: calc(100vh - 160px);
 
   & form {
     margin-bottom: 40px;
@@ -26,8 +27,9 @@ const Conversation = styled.div`
   flex-direction: column;
   height: 100%;
   gap: 80px;
-  padding: 40px 312px 0 320px;
   overflow-y: scroll;
+  padding: 40px 312px 0 320px;
+  scroll-behavior: smooth;
 
   & > hr {
     background-color: var(--clr-light);
@@ -41,15 +43,13 @@ const Conversation = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--clr-b);
+    background-color: var(--clr-d);
   }
 `;
 
 const Loading = styled.div`
-  align-items: center;
   display: flex;
   min-height: 40px;
-  padding: 0 20%;
 `;
 
 const SendButton = styled(IconButton)`
@@ -104,10 +104,10 @@ function SupportChat({ data }) {
             </ChatMessage>
           );
         })}
+        <Loading ref={loadingRef}>
+          {isLoading && <BeatLoader color="gray" size={12} />}
+        </Loading>
       </Conversation>
-      <Loading ref={loadingRef}>
-        {isLoading && <BeatLoader color="lightgray" size={8} />}
-      </Loading>
       {isAccepted && (
         <Form onSubmit={handleSubmit}>
           <ChatTextArea ref={inputRef} placeholder="Digite uma mensagem..." />

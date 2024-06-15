@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { IconButton } from './styled';
 import { useMainContext } from '@/hooks';
 
-const delay = 4000;
+const DELAY = 2000;
 
 const Container = styled.div<{ $visible: boolean }>`
   background-color: var(--clr-c);
@@ -27,7 +27,7 @@ const Container = styled.div<{ $visible: boolean }>`
   }
 
   & > div {
-    animation: ${({ $visible }) => ($visible ? `timeout ${delay}ms linear` : 'none')};
+    animation: ${({ $visible }) => ($visible ? `timeout ${DELAY}ms linear` : 'none')};
     background-color: var(--clr-a);
     height: 4px;
     width: 0;
@@ -37,7 +37,6 @@ const Container = styled.div<{ $visible: boolean }>`
     align-items: center;
     color: var(--clr-light);
     display: flex;
-    font-size: 1.2rem;
     height: 56px;
     justify-content: center;
   }
@@ -53,7 +52,7 @@ function Toast() {
     if (showMessage) {
       timeoutRef.current = setTimeout(() => {
         setShowMessage(false);
-      }, delay);
+      }, DELAY);
     }
 
     return () => clearTimeout(timeoutRef.current);

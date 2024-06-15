@@ -27,7 +27,7 @@ export const Message = styled.span<{
   $alignment?: 'start' | 'end';
   $bgColor?: string;
 }>`
-  --r: 8px;
+  --r: 12px;
   --radius: 0 var(--r) var(--r) 0;
   --radius-inverted: var(--r) 0 0 var(--r);
 
