@@ -1,10 +1,24 @@
 'use client';
 
+import { InputScheme } from '@/utils/definitions';
 import PasswordInput from './PasswordInput';
 import { MainInput, Label } from './styled';
-import type { InputGroupProps } from '@/lib/definitions';
+import { ChangeEvent } from 'react';
 
-function InputGroup({ name, scheme, type, ...attributes }: InputGroupProps) {
+function InputGroup({
+  name,
+  scheme,
+  type,
+  ...attributes
+}: {
+  name: string;
+  scheme: InputScheme;
+  type: string;
+  disabled?: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  value?: string;
+}) {
   return (
     <Label htmlFor={`${name}-input`}>
       <span>

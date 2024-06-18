@@ -2,7 +2,6 @@
 
 import styled from 'styled-components';
 
-import { Suggestion } from './styled';
 import { useChatContext } from '@/hooks';
 
 const suggestions = [
@@ -12,27 +11,39 @@ const suggestions = [
 ];
 
 const Container = styled.div`
+  align-items: flex-end;
   display: flex;
   flex-direction: column;
+  flex-grow: 10;
   gap: 10px;
+  justify-content: flex-end;
+
+  & > span {
+    background-color: var(--clr-light);
+    border-radius: 12px;
+    padding: 16px;
+
+    &:hover {
+      background-color: var(--clr-a);
+      cursor: pointer;
+    }
+  }
 `;
 
 function Suggestions() {
-  const { getReply } = useChatContext();
+  const { getStream } = useChatContext();
 
   return (
     <Container>
       {suggestions.map((suggestion, index) => (
-        <Suggestion
+        <span
           key={index}
-          onClick={() => getReply(suggestion)}
+          onClick={() => getStream(suggestion)}
           role="button"
           tabIndex={0}
-          $right={true}
-          $bgColor='var(--clr-light)'
         >
           {suggestion}
-        </Suggestion>
+        </span>
       ))}
     </Container>
   );

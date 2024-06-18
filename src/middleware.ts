@@ -1,23 +1,32 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
+import { fetchProfile } from '@/actions/auth';
+import { updateSession } from '@/utils/supabase/middleware';
+
 export async function middleware(request: NextRequest) {
-  const session = request.cookies.get('session')?.value;
+  const data = await fetchProfile();
 
   if (request.nextUrl.pathname === '/') {
-    if (!session) {
+    if (!data) {
       return NextResponse.rewrite(new URL('/login', request.url));
     }
   }
 
   if (request.nextUrl.pathname.startsWith('/suporte')) {
-    if (!session) {
+    if (!data) {
       return NextResponse.rewrite(new URL('/login', request.url));
     }
 
-    const { user } = JSON.parse(session);
-
-    if (user.role !== 'admin' && user.role !== 'collaborator') {
+    if (data.role !== 'admin' && data.role !== 'collaborator') {
       return NextResponse.rewrite(new URL('/unauthorized', request.url));
     }
   }
+
+  return await updateSession(request);
 }
+
+export const config = {
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
+};

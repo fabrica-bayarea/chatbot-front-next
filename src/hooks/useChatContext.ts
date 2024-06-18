@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import { ChatContext } from '@/context';
-import { ChatContextShared } from '@/lib/definitions';
+import { ChatContextShared } from '@/utils/definitions';
 
 // This hook is necessary to ensure that the Context will not be undefined (TS)
 function useChatContext(): ChatContextShared {

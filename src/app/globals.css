@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
 
 :root {
   --clr-a: #f0d4d4;
@@ -18,8 +19,9 @@
   --clr-gray: #a1a1a1;
   --clr-dark-gray: #717171;
 
-  --font-a: 'Lato', sans-serif;
+  --font-a: 'Public Sans', sans-serif;
   --font-b: 'Ubuntu', sans-serif;
+  --font-c: 'Sixtyfour', monospace;
 }
 
 *,
@@ -41,12 +43,20 @@ body {
 }
 
 h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2 {
   font-family: var(--font-b);
+}
+
+hr {
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--clr-lighter-gray),
+    transparent
+  );
+  border: none;
+  height: 2px;
+  margin: 20px 0;
 }
 
 @keyframes pulse {

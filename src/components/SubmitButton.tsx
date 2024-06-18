@@ -4,9 +4,15 @@ import { useFormStatus } from 'react-dom';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 import { MainButton } from './styled';
-import type { SubmitButtonProps } from '@/lib/definitions';
+import { ReactNode } from 'react';
 
-function SubmitButton({ children, validation }: SubmitButtonProps) {
+function SubmitButton({
+  children,
+  validation,
+}: {
+  children: ReactNode;
+  validation: boolean | string;
+}) {
   const { pending } = useFormStatus();
 
   return (

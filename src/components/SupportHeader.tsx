@@ -1,27 +1,40 @@
 'use client';
 
-import { Fragment } from 'react';
 import styled from 'styled-components';
+import type { Updater } from 'use-immer';
 
-import RequestButton from './RequestButton';
 import { Avatar } from './styled';
-import { useChatContext } from '@/hooks';
+import RequestButton from './RequestButton';
+import { sendSupport, updateSupportStatus } from '@/actions/support';
+import { useMainContext } from '@/hooks';
+import { Support } from '@/utils/definitions';
 
 const Container = styled.header`
   align-items: center;
+  background-color: var(--clr-b);
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255 255 255 / 10%),
+    rgba(255 255 255 / 0%) 50%
+  );
   border-bottom: 1px solid var(--clr-a);
-  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
+  color: var(--clr-light);
   display: flex;
   gap: 20px;
-  height: 140px;
+  height: 150px;
   padding: 0 120px;
+`;
 
-  & > div:nth-child(2) {
-    flex-grow: 10;
+const UserContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 10;
+  gap: 10px;
 
-    & > div {
-      font-size: 1.25rem;
-    }
+  & > span:first-child {
+    font-size: 2rem;
+    left: -2px;
+    position: relative;
   }
 `;
 
@@ -33,45 +46,72 @@ const ButtonContainer = styled.div`
   & > span {
     bottom: -25px;
     font-size: 0.75rem;
+    left: 25px;
     position: absolute;
   }
 `;
 
-function SupportHeader() {
-  const { acceptConversation, changeStatus, conversation, sendEmail, supportLength } =
-    useChatContext();
+function SupportHeader({
+  data,
+  setSupport,
+}: {
+  data: Support;
+  setSupport: Updater<Support>;
+}) {
+  const { setAndShow } = useMainContext();
+  const user = data.owner_profile;
 
-  const lastSent = conversation.support?.lastSent as number;
-  const lastSentString = new Date(lastSent).toLocaleString('pt-BR');
+  const handleAccept = async () => {
+    await updateSupportStatus(data.id, 'accepted');
+
+    setSupport((draft) => {
+      draft.status = 'accepted';
+    });
+
+    setAndShow('Atendimento iniciado!');
+  };
+
+  const handleEmail = async () => {
+    const response = await sendSupport(data.id);
+
+    if (response === 'ok') {
+      setAndShow('E-mail enviado!');
+    }
+  };
+
+  const handleClose = async () => {
+    await updateSupportStatus(data.id, 'closed');
+    setSupport((draft) => {
+      draft.status = 'closed';
+    });
+    setAndShow('Atendimento encerrado!');
+  };
 
   return (
     <Container>
-      <Avatar $fontSize="2rem" $imageUrl={conversation.user?.imageUrl} $width="100px">
-        {conversation.user?.name.charAt(0)}
+      <Avatar $border={true} $fontSize="2rem" $picture={user?.picture} $width="100px">
+        {user?.name.charAt(0)}
       </Avatar>
-      <div>
-        <h1>{conversation.user?.name}</h1>
-        <div>{conversation.user?.email}</div>
-      </div>
+      <UserContainer>
+        <span>{user?.name}</span>
+        <span>{user?.email}</span>
+      </UserContainer>
       <ButtonContainer>
-        {conversation.status === 'redirected' && (
-          <RequestButton disabled={false} request={acceptConversation}>
+        {data.status === 'open' && (
+          <RequestButton disabled={false} request={handleAccept}>
             Iniciar atendimento
           </RequestButton>
         )}
-        {conversation.status === 'accepted' && (
-          <Fragment>
-            <RequestButton disabled={supportLength === 0} request={sendEmail}>
-              Enviar por e-mail
-            </RequestButton>
-            <RequestButton
-              disabled={supportLength === 0}
-              request={async () => changeStatus('closed')}
-            >
-              Encerrar atendimento
-            </RequestButton>
-            {lastSent && <span>{`Último envio: ${lastSentString}`}</span>}
-          </Fragment>
+        {data.status === 'accepted' && (
+          <>
+            <RequestButton request={handleEmail}>Enviar por e-mail</RequestButton>
+            <RequestButton request={handleClose}>Encerrar atendimento</RequestButton>
+            {data.last_sent_at && (
+              <span>{`Último envio: ${new Date(data.last_sent_at).toLocaleString(
+                'pt-BR'
+              )}`}</span>
+            )}
+          </>
         )}
       </ButtonContainer>
     </Container>

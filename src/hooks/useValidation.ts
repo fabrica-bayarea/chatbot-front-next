@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { InputScheme } from '@/lib/definitions';
+import { InputScheme } from '@/utils/definitions';
 
 function useValidation(inputs: { [key: string]: InputScheme }): boolean | string {
   const [validation, setValidation] = useState<boolean | string>(false);

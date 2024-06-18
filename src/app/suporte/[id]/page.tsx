@@ -1,41 +1,35 @@
+'use client';
+
 import Link from 'next/link';
 
-import { getSession } from '@/app/actions';
 import SupportChat from '@/components/SupportChat';
 import SupportHeader from '@/components/SupportHeader';
-import { ChatProvider } from '@/context';
-import api from '@/lib/data';
-import type { Conversation, SupportProps } from '@/lib/definitions';
+import { useSupport } from '@/hooks';
+import { Updater } from 'use-immer';
+import { Support } from '@/utils/definitions';
 
-import styles from '../support.module.css';
+function SupportPage({ params }: { params: { id: string } }) {
+  const { support, setSupport } = useSupport(params.id);
 
-async function Support({ params }: SupportProps) {
-  const session = await getSession();
+  if (support === undefined) {
+    return <section>Loading</section>;
+  }
 
-  const { data } = await api.fetchSupportConversations({
-    collaboratorId: session?.user.id as string,
-  });
-
-  const conversations = data as Conversation[];
-  const [conversation] = conversations.filter(({ id }) => id === params.id);
-
-  if (!conversation) {
+  if (support === null) {
     return (
-      <section className={styles.closed}>
-        <span>Esta conversa não existe ou foi encerrada.</span>
+      <section>
+        <span>Esta conversa não existe ou foi movida.</span>
         <Link href={'/suporte'}>Página inicial</Link>
       </section>
     );
   }
 
   return (
-    <ChatProvider conversation={conversation}>
-      <section>
-        <SupportHeader />
-        <SupportChat />
-      </section>
-    </ChatProvider>
+    <section>
+      <SupportHeader data={support} setSupport={setSupport as Updater<Support>} />
+      <SupportChat data={support} />
+    </section>
   );
 }
 
-export default Support;
+export default SupportPage;

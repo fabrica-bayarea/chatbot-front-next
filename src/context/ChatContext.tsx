@@ -1,172 +1,51 @@
 'use client';
 
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useImmer } from 'use-immer';
-import { createContext, useCallback, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
+import { createAIMessage, createHumanMessage } from '@/actions/messages';
 import { useMainContext } from '@/hooks';
-import api from '@/lib/data';
-import { produce } from 'immer';
+import api from '@/utils/data';
+import statusCodes from '@/utils/statusCodes';
 
-import {
-  ChatContextProps,
+import type {
   ChatContextShared,
   Conversation,
-  ConversationMessage,
-  ConversationStatus,
-  ConversationSupport,
-  FetchAnswerPayload,
+  FetchStreamPayload,
   MakeRequestParams,
-  MessageFeedback,
-  SendEmailPayload,
-  SendEmailResponse,
-  UpdateConversationPayload,
-} from '@/lib/definitions';
-
-import statusCodes from '@/lib/statusCodes';
-import { revalidate } from '@/app/actions';
+} from '@/utils/definitions';
 
 const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 
-export function ChatProvider(props: ChatContextProps) {
-  const { makeRequest, setAndShow, user } = useMainContext();
-  const [history, setHistory] = useState<Conversation[]>([]);
-  const [isStreaming, setIsStreaming] = useState(false);
+export function ChatProvider(props: {
+  children: ReactNode;
+  conversation?: Conversation;
+}) {
+  const { makeRequest, user } = useMainContext();
 
-  const initialConversation: Conversation = {
-    messages: [],
+  const newConversation: Conversation = {
+    id: uuidv4(),
+    owner_id: user.id,
+    created_at: new Date().toISOString(),
     status: 'open',
-    userId: user?.id as string,
+    messages: [],
   };
 
   const [conversation, setConversation] = useImmer<Conversation>(
-    props.conversation ?? initialConversation
+    props.conversation ?? newConversation
   );
+  
+  const [isStreaming, setIsStreaming] = useState<boolean | undefined>(undefined);
 
-  // Request functions
-  const acceptConversation = useCallback(async () => {
-    const body: Partial<Conversation> = {
-      status: 'accepted',
-      support: {
-        collaboratorId: user?.id as string,
-        messages: [],
-      },
-    };
-
-    const payload: UpdateConversationPayload = {
-      body,
-      id: conversation.id as string,
-    };
-
-    const successFn = async () => {
-      setConversation({ ...conversation, ...body });
-      await revalidate({ tag: 'support' });
-    };
-
-    const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-      apiRequest: api.updateConversation,
-      payload,
-      successCode: statusCodes.OK,
-      successFn,
-    };
-
-    return makeRequest(params);
-  }, [conversation, makeRequest, user?.id]);
-
-  const changeFeedback = useCallback(
-    async (feedback: MessageFeedback) => {
-      const newState = produce(conversation, (draft) => {
-        draft.messages[draft.messages.length - 1].feedback = feedback;
-      });
-      setConversation(newState);
-
-      const payload: UpdateConversationPayload = {
-        body: { messages: newState.messages },
-        id: conversation.id as string,
-      };
-
-      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-        apiRequest: api.updateConversation,
-        payload,
-        successCode: statusCodes.OK,
-      };
-
-      return makeRequest(params);
-    },
-    [conversation, makeRequest]
-  );
-
-  const changeLastSent = useCallback(async () => {
-    const support = conversation.support as ConversationSupport;
-    const updatedSupport = { ...support, lastSent: Date.now() };
-
-    const payload: UpdateConversationPayload = {
-      body: { support: updatedSupport },
-      id: conversation.id as string,
-    };
-
-    const successFn = async () => {
-      setConversation({ ...conversation, support: updatedSupport });
-      setAndShow('E-mail enviado!');
-    };
-
-    const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-      apiRequest: api.updateConversation,
-      payload,
-      successCode: statusCodes.OK,
-      successFn,
-    };
-
-    return makeRequest(params);
-  }, [conversation, makeRequest]);
-
-  const changeStatus = useCallback(
-    async (status: ConversationStatus) => {
-      const payload: UpdateConversationPayload = {
-        body: { status },
-        id: conversation.id as string,
-      };
-
-      const successFn = async () => {
-        setConversation({ ...conversation, status });
-        await revalidate({ tag: 'support' });
-      };
-
-      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-        apiRequest: api.updateConversation,
-        payload,
-        successCode: statusCodes.OK,
-        successFn,
-      };
-
-      return makeRequest(params);
-    },
-    [conversation, makeRequest]
-  );
-
-  const deleteConversation = useCallback(
-    async (id: string) => {
-      const successFn = async () => {
-        setHistory(history.filter((conversation) => conversation.id !== id));
-        setAndShow('Conversa removida!');
-      };
-
-      const params: MakeRequestParams<{ id: string }, {}> = {
-        apiRequest: api.deleteConversation,
-        payload: { id },
-        successCode: statusCodes.OK,
-        successFn,
-      };
-
-      return makeRequest(params);
-    },
-    [history, makeRequest]
-  );
-
-  const getAnswer = async (question: string) => {
+  const getStream = async (question: string) => {
     const messages = conversation.messages.concat({
-      role: 'user',
+      id: uuidv4(),
+      conversation_id: conversation.id,
       content: question,
-      time: Date.now(),
+      created_at: new Date().toISOString(),
+      role: 'user',
+      owner_profile: user,
     });
 
     setConversation((draft) => {
@@ -176,24 +55,22 @@ export function ChatProvider(props: ChatContextProps) {
     const successFn = async (reader: ReadableStreamDefaultReader) => {
       try {
         setIsStreaming(true);
-
         setConversation((draft) => {
           draft.messages.push({
-            role: 'assistant',
+            id: uuidv4(),
+            conversation_id: conversation.id,
             content: '',
-            time: Date.now(),
+            created_at: new Date().toISOString(),
+            role: 'assistant',
+            owner_profile: null,
           });
         });
-
         while (true) {
           const { done, value } = await reader.read();
-
           if (done) {
             break;
           }
-
           const decodedValue = new TextDecoder().decode(value);
-
           setConversation((draft) => {
             draft.messages[draft.messages.length - 1].content += decodedValue;
           });
@@ -206,8 +83,8 @@ export function ChatProvider(props: ChatContextProps) {
       }
     };
 
-    const params: MakeRequestParams<FetchAnswerPayload, ReadableStreamDefaultReader> = {
-      apiRequest: api.fetchAnswer,
+    const params: MakeRequestParams<FetchStreamPayload, ReadableStreamDefaultReader> = {
+      apiRequest: api.fetchStream,
       payload: { body: { messages } },
       successCode: statusCodes.OK,
       successFn,
@@ -216,128 +93,23 @@ export function ChatProvider(props: ChatContextProps) {
     return makeRequest(params);
   };
 
-  const getHistory = useCallback(async () => {
-    const successFn = async (data: Conversation[]) => {
-      const sortedConversations = data.sort((a, b) => {
-        const timeA = a.messages[a.messages.length - 1].time;
-        const timeB = b.messages[b.messages.length - 1].time;
-        return timeB - timeA;
-      });
-
-      setHistory(sortedConversations);
-    };
-
-    const params: MakeRequestParams<{ userId: string }, Conversation[]> = {
-      apiRequest: api.fetchConversationsByUser,
-      payload: { userId: user?.id as string },
-      successCode: statusCodes.OK,
-      successFn,
-    };
-
-    return makeRequest(params);
-  }, [makeRequest, user]);
-
-  const sendEmail = useCallback(async () => {
-    const payload: SendEmailPayload = {
-      body: {
-        collaboratorName: user?.name as string,
-        email: conversation.user?.email as string,
-        id: conversation.id as string,
-        messages: conversation.support?.messages as ConversationMessage[],
-        name: conversation.user?.name as string,
-      },
-    };
-
-    const successFn = async () => {
-      await changeLastSent();
-    };
-
-    const params: MakeRequestParams<SendEmailPayload, SendEmailResponse> = {
-      apiRequest: api.sendEmail,
-      payload,
-      successCode: statusCodes.OK,
-      successFn,
-    };
-
-    return makeRequest(params);
-  }, [changeLastSent, conversation, makeRequest, user?.name]);
-
-  const sendReply = useCallback(
-    async (content: string) => {
-      const previousConversation = { ...conversation };
-      const support = conversation.support as ConversationSupport;
-
-      const updatedMessages = support.messages.concat({
-        role: 'collaborator',
-        content,
-        time: Date.now(),
-      });
-
-      const updatedSupport = { ...support, messages: updatedMessages };
-
-      setConversation({
-        ...conversation,
-        support: { ...updatedSupport },
-      });
-
-      const errorFn = async () => {
-        setConversation({ ...previousConversation });
-      };
-
-      const payload: UpdateConversationPayload = {
-        body: { support: updatedSupport },
-        id: conversation.id as string,
-      };
-
-      const params: MakeRequestParams<UpdateConversationPayload, Conversation> = {
-        apiRequest: api.updateConversation,
-        errorFn,
-        payload,
-        successCode: statusCodes.OK,
-      };
-
-      return makeRequest(params);
-    },
-    [conversation, makeRequest]
-  );
-
-  const updateMessages = async () => {
-    if (!conversation.id) {
-      const { data } = await api.createConversation({ body: conversation });
-
-      setConversation((draft) => {
-        draft.id = (data as Conversation).id;
-      });
-    } else {
-      await api.updateConversation({
-        body: { messages: conversation.messages },
-        id: conversation.id,
-      });
-    }
-  };
-
   useEffect(() => {
-    if (!isStreaming && conversation.messages.length !== 0) {
+    const updateMessages = async () => {
+      await createAIMessage(conversation.messages.slice(-1)[0]);
+      await createHumanMessage(conversation.messages.slice(-2)[0]);
+    };
+
+    if (isStreaming === false) {
       updateMessages();
     }
   }, [isStreaming]);
 
   const shared: ChatContextShared = {
-    acceptConversation,
-    changeStatus,
-    changeFeedback,
     conversation,
-    conversationLength: conversation.messages.length,
-    deleteConversation,
-    getAnswer,
-    getHistory,
-    history,
-    initialConversation,
+    getStream,
     isStreaming,
-    sendEmail,
-    sendReply,
+    newConversation,
     setConversation,
-    supportLength: conversation.support?.messages.length ?? 0,
   };
 
   return (

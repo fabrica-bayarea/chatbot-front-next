@@ -1,8 +1,8 @@
 // LangChain API Reference
 // https://v02.api.js.langchain.com/
 
+import { type Message as VercelChatMessage, StreamingTextResponse } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
-import { Message as VercelChatMessage, StreamingTextResponse } from 'ai';
 
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase';
 import { Document } from '@langchain/core/documents';
@@ -10,9 +10,9 @@ import { BytesOutputParser, StringOutputParser } from '@langchain/core/output_pa
 import { PromptTemplate } from '@langchain/core/prompts';
 import { RunnableSequence } from '@langchain/core/runnables';
 import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai';
-import { createClient } from '@supabase/supabase-js';
 
-import { ANSWER_TEMPLATE, QUESTION_TEMPLATE } from '@/lib/promptTemplates';
+import { ANSWER_TEMPLATE, QUESTION_TEMPLATE } from '@/utils/promptTemplates';
+import { createClient } from '@/utils/supabase/server';
 
 export const runtime = 'edge';
 
@@ -42,10 +42,7 @@ export async function POST(req: NextRequest) {
     const previousMessages = messages.slice(0, -1);
     const currentMessageContent = messages[messages.length - 1].content;
 
-    const client = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_PRIVATE_KEY!
-    );
+    const client = createClient();
 
     const vectorstore = new SupabaseVectorStore(new OpenAIEmbeddings(), {
       client,
@@ -110,22 +107,22 @@ export async function POST(req: NextRequest) {
     });
 
     const documents = await documentPromise;
-  
+
     const serializedSources = Buffer.from(
       JSON.stringify(
         documents.map((doc) => {
           return {
-            pageContent: doc.pageContent.slice(0, 50) + "...",
+            pageContent: doc.pageContent.slice(0, 50) + '...',
             metadata: doc.metadata,
           };
-        }),
-      ),
-    ).toString("base64");
+        })
+      )
+    ).toString('base64');
 
     return new StreamingTextResponse(stream, {
       headers: {
-        "x-message-index": (previousMessages.length + 1).toString(),
-        "x-sources": serializedSources,
+        'x-message-index': (previousMessages.length + 1).toString(),
+        'x-sources': serializedSources,
       },
     });
   } catch (e: any) {

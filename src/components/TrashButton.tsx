@@ -5,7 +5,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { IconButton } from './styled';
-import { useChatContext } from '@/hooks';
 
 const Container = styled.div`
   display: flex;
@@ -14,8 +13,7 @@ const Container = styled.div`
   min-width: 90px;
 `;
 
-function TrashButton({ id }: { id: string }) {
-  const { deleteConversation } = useChatContext();
+function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   if (showConfirmation) {
@@ -24,7 +22,7 @@ function TrashButton({ id }: { id: string }) {
         <IconButton
           onClick={async (event) => {
             event.stopPropagation();
-            await deleteConversation(id);
+            await handleClick();
           }}
           $hover={true}
         >

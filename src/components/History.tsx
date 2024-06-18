@@ -1,17 +1,19 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
 import TrashButton from './TrashButton';
+import { deleteConversation, fetchHistory } from '@/actions/conversations';
 import { useChatContext, useMainContext } from '@/hooks';
-import type { HistoryProps } from '@/lib/definitions';
+import type { Conversation } from '@/utils/definitions';
 
 const List = styled.ul`
   display: flex;
   flex-direction: column;
   height: 100%;
+  margin-bottom: 16px;
   overflow-y: scroll;
   width: 100%;
 
@@ -26,12 +28,13 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   align-items: center;
-  border-bottom: 1px solid var(--clr-light);
+  border-top: 1px solid var(--clr-light);
   cursor: pointer;
   display: flex;
   gap: 20px;
   justify-content: space-between;
   padding: 20px 10px 20px 40px;
+  transition: background-color ease-in 200ms;
 
   &:hover {
     background-color: var(--clr-light);
@@ -57,9 +60,37 @@ const ItemDetails = styled.div`
   }
 `;
 
-function History({ showFn }: HistoryProps) {
-  const { history, setConversation, getHistory } = useChatContext();
-  const { isLoading } = useMainContext();
+function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
+  const { setConversation } = useChatContext();
+  const { isLoading, setIsLoading } = useMainContext();
+  const [history, setHistory] = useState<Conversation[]>([]);
+
+  const getHistory = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await fetchHistory();
+
+      if (data) {
+        setHistory(data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      setIsLoading(true);
+      await deleteConversation(id);
+      setHistory(history.filter((c) => c.id !== id));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Make the request when the component has been mounted
   useEffect(() => {
@@ -78,7 +109,7 @@ function History({ showFn }: HistoryProps) {
     <List>
       {history.map((conversation) => {
         const { id, messages } = conversation;
-        const firstTime = new Date(messages[0].time).toLocaleString('pt-BR');
+        const firstTime = new Date(messages[0].created_at).toLocaleString('pt-BR');
 
         return (
           <ListItem
@@ -95,7 +126,7 @@ function History({ showFn }: HistoryProps) {
               <span>({messages.length} mensagens)</span>
               <span>{messages[0].content}</span>
             </ItemDetails>
-            <TrashButton id={id as string} />
+            <TrashButton handleClick={() => handleDelete(id as string)} />
           </ListItem>
         );
       })}

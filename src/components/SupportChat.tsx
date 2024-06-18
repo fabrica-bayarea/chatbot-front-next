@@ -1,29 +1,36 @@
 'use client';
 
 import Image from 'next/image';
-import { FormEvent, Fragment, useEffect, useRef } from 'react';
+import { type FormEvent, useEffect, useRef } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
 import ChatMessage from './ChatMessage';
 import LineBreaks from './LineBreaks';
-import { IconButton, Form, ChatTextArea, InfoMessage } from './styled';
-import { useChatContext, useMainContext } from '@/hooks';
+import { IconButton, Form, ChatTextArea } from './styled';
+import { useMessages } from '@/hooks';
+import { Support } from '@/utils/definitions';
 
 const Container = styled.div`
+  background-image: url('/chatBg.jpg');
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 140px);
-  padding: 0 0 40px;
+  height: calc(100vh - 160px);
+
+  & form {
+    margin-bottom: 40px;
+    padding: 0 320px;
+  }
 `;
 
 const Conversation = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 30px;
+  gap: 80px;
   overflow-y: scroll;
-  padding: 0 240px;
+  padding: 40px 312px 0 320px;
+  scroll-behavior: smooth;
 
   & > hr {
     background-color: var(--clr-light);
@@ -33,27 +40,34 @@ const Conversation = styled.div`
   }
 
   &::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--clr-c);
+    background-color: var(--clr-d);
   }
 `;
 
 const Loading = styled.div`
-  align-items: center;
   display: flex;
   min-height: 40px;
 `;
 
-function SupportChat() {
-  const { conversation, sendReply, supportLength } = useChatContext();
-  const { isLoading, user } = useMainContext();
+const SendButton = styled(IconButton)`
+  background-color: var(--clr-d);
+  bottom: 30px;
+  height: 60px;
+  position: absolute;
+  right: calc(20% - 80px);
+`;
+
+function SupportChat({ data }: { data: Support }) {
+  const conversationRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
+  const { isLoading, messages, addNewMessage } = useMessages(data);
 
-  const isAccepted = conversation.status === 'accepted';
+  const isAccepted = data.status === 'accepted';
 
   // Registers a message to be sent to the user
   const handleSubmit = async (event: FormEvent) => {
@@ -66,67 +80,41 @@ function SupportChat() {
     }
 
     inputElement.value = '';
-    await sendReply(content);
-  };
-
-  // Ensure that the control element is visible
-  const scrollToBottom = () => {
-    const controlElement = loadingRef.current as HTMLDivElement;
-    controlElement.scrollIntoView();
+    await addNewMessage(content);
   };
 
   // Keeps the chat always scrolled down
   useEffect(() => {
-    if (supportLength !== 0) {
-      scrollToBottom();
-    }
-  }, [supportLength]);
+    const conversationElement = conversationRef.current as HTMLDivElement;
+
+    const ro = new ResizeObserver(() => {
+      conversationElement.scrollTop = conversationElement.scrollHeight;
+    });
+
+    ro.observe(conversationElement);
+  });
 
   // Main render
   return (
     <Container>
-      <Conversation>
-        <InfoMessage $bgColor="var(--clr-blue)">
-          Início do atendimento virtual
-        </InfoMessage>
-        {conversation.messages.map(({ content, role }, index) => (
-          <ChatMessage
-            key={index}
-            bgColor={role === 'assistant' ? 'var(--clr-a)' : 'var(--clr-lighter-gray)'}
-            imageUrl={role === 'assistant' ? '' : conversation.user?.imageUrl}
-            name={role === 'assistant' ? 'Eda' : conversation.user?.name}
-            right={role === 'assistant'}
-          >
-            <LineBreaks content={content} />
-          </ChatMessage>
-        ))}
-        <InfoMessage $bgColor="var(--clr-blue)">Fim do atendimento virtual</InfoMessage>
-        {isAccepted && (
-          <Fragment>
-            <hr />
-            <InfoMessage>Início do atendimento humano</InfoMessage>
-          </Fragment>
-        )}
-        {(conversation.support?.messages ?? []).map(({ content, role }, index) => (
-          <ChatMessage
-            key={index}
-            imageUrl={role === 'user' ? conversation.user?.imageUrl : user?.imageUrl}
-            name={user?.name}
-            right={role === 'collaborator'}
-          >
-            <LineBreaks content={content} />
-          </ChatMessage>
-        ))}
+      <Conversation ref={conversationRef}>
+        {messages.map(({ content, role, owner_profile }, index) => {
+          return (
+            <ChatMessage key={index} role={role} ownerProfile={owner_profile}>
+              <LineBreaks content={content} />
+            </ChatMessage>
+          );
+        })}
         <Loading ref={loadingRef}>
-          {isLoading && <BeatLoader color="lightgray" size={8} />}
+          {isLoading && <BeatLoader color="gray" size={12} />}
         </Loading>
       </Conversation>
       {isAccepted && (
-        <Form onSubmit={handleSubmit} $padding="0 240px">
+        <Form onSubmit={handleSubmit}>
           <ChatTextArea ref={inputRef} placeholder="Digite uma mensagem..." />
-          <IconButton type="submit" $bgColor="var(--clr-d)" $width="60px">
+          <SendButton type="submit">
             <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
-          </IconButton>
+          </SendButton>
         </Form>
       )}
     </Container>

@@ -1,12 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 import { AltButton } from './styled';
-import { RequestButtonProps } from '@/lib/definitions';
 
-function RequestButton({ children, disabled, request }: RequestButtonProps) {
+function RequestButton({
+  children,
+  disabled,
+  request,
+}: {
+  children: ReactNode;
+  disabled?: boolean;
+  request: () => Promise<any>;
+}) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async () => {

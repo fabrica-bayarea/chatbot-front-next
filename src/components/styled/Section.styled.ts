@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Section = styled.section`
-  --r: 20px;
+  --r: 16px;
 
   border-radius: var(--r);
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
@@ -34,8 +34,13 @@ export const Section = styled.section`
     border-radius: 0 0 var(--r) var(--r);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    height: 600px;
     justify-content: center;
-    padding-bottom: 40px;
+
+    &.form-container {
+      align-items: unset;
+      gap: 10px;
+      padding: 0 60px;
+    }
   }
 `;

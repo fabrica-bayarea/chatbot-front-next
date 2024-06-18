@@ -1,30 +1,77 @@
 import styled, { css } from 'styled-components';
 
-import Styled from './styled';
-import type { ChatMessageProps } from '@/lib/definitions';
+import { Avatar } from './styled';
+import { useMainContext } from '@/hooks';
+import type { MessageRole, Profile } from '@/utils/definitions';
+import { ReactNode } from 'react';
 
-const Container = styled.div<{ $right?: boolean }>`
+const Container = styled.div<{ $alignment?: 'start' | 'end' }>`
   display: flex;
   flex-direction: column;
   position: relative;
 
   & > div:first-of-type {
-    left: ${({ $right }) => ($right ? 'unset' : '-20px')};
+    left: -20px;
     position: absolute;
-    right: ${({ $right }) => ($right ? '-20px' : 'unset')};
     top: -20px;
+
+    ${({ $alignment }) =>
+      $alignment === 'end' &&
+      css`
+        left: unset;
+        right: -20px;
+      `}
   }
 `;
 
-function ChatMessage({ bgColor, children, imageUrl, name, right }: ChatMessageProps) {
+export const Message = styled.span<{
+  $alignment?: 'start' | 'end';
+  $bgColor?: string;
+}>`
+  --r: 12px;
+  --radius: 0 var(--r) var(--r) 0;
+  --radius-inverted: var(--r) 0 0 var(--r);
+
+  align-self: flex-start;
+  background-color: ${({ $bgColor }) => ($bgColor ? $bgColor : 'var(--clr-a)')};
+  border-radius: var(--radius);
+  line-height: 1.25rem;
+  margin: 0 20px 0 0;
+  padding: 18px;
+
+  ${({ $alignment }) =>
+    $alignment === 'end' &&
+    css`
+      align-self: flex-end;
+      border-radius: var(--radius-inverted);
+      margin: 0 0 0 20px;
+    `}
+`;
+
+function ChatMessage({
+  children,
+  role,
+  ownerProfile,
+}: {
+  children: ReactNode;
+  role: MessageRole;
+  ownerProfile?: Profile | null;
+}) {
+  const { user } = useMainContext();
+
+  const alignment = ownerProfile?.id === user?.id ? 'end' : 'start';
+  const picture = ownerProfile?.picture;
+  const name = ownerProfile ? ownerProfile.name : 'Eda';
+  const bgColor = role === 'user' ? 'var(--clr-lighter-gray)' : 'var(--clr-a)';
+
   return (
-    <Container $right={right}>
-      <Styled.Avatar $border={true} $fontSize="0.9rem" $imageUrl={imageUrl} $width="40px">
+    <Container $alignment={alignment}>
+      <Avatar $border={true} $fontSize="0.9rem" $picture={picture} $width="36px">
         {name?.charAt(0)}
-      </Styled.Avatar>
-      <Styled.ChatMessage $bgColor={bgColor} $right={right}>
+      </Avatar>
+      <Message $alignment={alignment} $bgColor={bgColor}>
         {children}
-      </Styled.ChatMessage>
+      </Message>
     </Container>
   );
 }

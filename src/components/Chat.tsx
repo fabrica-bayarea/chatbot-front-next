@@ -16,7 +16,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  position: relative;
+  padding-bottom: 40px;
   width: 100%;
 `;
 
@@ -91,6 +91,7 @@ const Loading = styled.div`
 `;
 
 const SendButton = styled(IconButton)`
+  background-color: var(--clr-d);
   bottom: 20px;
   height: 60px;
   position: absolute;
@@ -99,12 +100,12 @@ const SendButton = styled(IconButton)`
 
 function Chat() {
   const { user } = useMainContext();
-  const { conversation, conversationLength, getAnswer, isStreaming } = useChatContext();
+  const { conversation, getStream, isStreaming } = useChatContext();
   const { isLoading } = useMainContext();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const conversationRef = useRef<HTMLDivElement | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
-
+  const conversationLength = conversation.messages.length;
   const isOpen = conversation.status === 'open';
 
   // Request an AI response to update the conversation
@@ -118,7 +119,7 @@ function Chat() {
     }
 
     inputElement.value = '';
-    await getAnswer(question);
+    await getStream(question);
   };
 
   // Keeps the chat always scrolled down
@@ -147,43 +148,38 @@ function Chat() {
       <Conversation $open={isOpen} ref={conversationRef}>
         <div>
           <Image src="/eda.png" height={160} width={96} alt="Ilustração da Eda" />
-          <ChatMessage name="Eda">
-            Eu sou <strong>Eda</strong>, assistente virtual.
+          <ChatMessage role={'assistant'}>
+            Eu sou <strong>Eda</strong>, assistente virtual do IESB.
             <br />
-            Selecione uma das perguntas frequentes abaixo ou faça uma você mesmo! Estou
-            aqui para ajudar da melhor forma possível!
+            Em que posso ajudar?
           </ChatMessage>
         </div>
-        {conversation.messages.map(({ content, role }, index) => (
-          <ChatMessage
-            key={index}
-            bgColor={role === 'assistant' ? 'var(--clr-a)' : 'var(--clr-lighter-gray)'}
-            imageUrl={role === 'assistant' ? '' : user?.imageUrl}
-            name={role === 'assistant' ? 'Eda' : user?.name}
-            right={role === 'user'}
-          >
-            <LineBreaks content={content} />
-          </ChatMessage>
-        ))}
+        {conversation.messages.map(({ content, role, owner_profile }, index) => {
+          return (
+            <ChatMessage key={index} role={role} ownerProfile={owner_profile}>
+              <LineBreaks content={content} />
+            </ChatMessage>
+          );
+        })}
         {conversationLength === 0 && <Suggestions />}
-        {showFeedback && <Feedback />}
+        {showFeedback && (
+          <Feedback id={conversation.messages[conversationLength - 1]?.id as string} />
+        )}
         {!isOpen && (
           <div className="redirect-status">
             <p>
-              Esta conversa foi direcionada para o nosso setor de suporte e assim que
+              Esta conversa foi direcionada para nosso setor de suporte. Assim que
               possível uma resposta será enviada para o e-mail:
             </p>
             <span>{user?.email}</span>
           </div>
         )}
-        <Loading>
-          {isLoading && <BeatLoader color="lightgray" size={8} />}
-        </Loading>
+        <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
       </Conversation>
       {isOpen && (
         <Form onSubmit={handleSubmit}>
           <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
-          <SendButton type="submit" $bgColor="var(--clr-d)">
+          <SendButton type="submit">
             <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
           </SendButton>
         </Form>

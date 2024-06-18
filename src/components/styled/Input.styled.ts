@@ -27,7 +27,7 @@ export const ChatInput = styled(Input)`
   border-top: 1px solid var(--clr-lighter-gray);
   font-size: 1.2em;
   height: 50px;
-  margin: 0 40px;
+  padding: 0 40px;
 `;
 
 export const MainInput = styled(Input)`

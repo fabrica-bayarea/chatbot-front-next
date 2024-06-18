@@ -7,13 +7,15 @@ const Container = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
+  position: relative;
+  top: -20px;
+`;
 
-  & > div {
-    align-items: center;
-    display: flex;
-    gap: 40px;
-  }
+const TextContainer = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 40px;
 `;
 
 const LogoImage = styled.div`
@@ -22,16 +24,16 @@ const LogoImage = styled.div`
   border-radius: 50px;
   border-bottom-left-radius: 0;
   display: flex;
-  height: 100px;
+  height: 80px;
   justify-content: center;
-  width: 180px;
+  width: 160px;
 
   & > div {
     background-color: var(--clr-b);
-    border-radius: 30px;
-    height: 60px;
+    border-radius: 50px;
+    height: 48px;
     position: relative;
-    width: 140px;
+    width: 128px;
 
     &::before,
     &::after {
@@ -40,23 +42,24 @@ const LogoImage = styled.div`
       background-color: var(--clr-d);
       border-radius: 50%;
       position: absolute;
-      top: 20px;
-      width: 20px;
+      top: 16px;
+      width: 16px;
     }
 
     &::before {
-      left: 30px;
+      left: 32px;
     }
 
     &::after {
-      right: 30px;
+      right: 32px;
     }
   }
 `;
 
 const LogoText = styled.h1`
   color: white;
-  font-size: 5em;
+  font-family: var(--font-b);
+  font-size: 5rem;
 `;
 
 function Logo() {
@@ -65,16 +68,16 @@ function Logo() {
       <LogoImage>
         <div></div>
       </LogoImage>
-      <div>
+      <TextContainer>
         <LogoText>Chatbot</LogoText>
         <Image
           src="/logoIesb.png"
-          height={72}
-          width={72}
+          height={60}
+          width={60}
           alt="Logo IESB"
           style={{ backgroundColor: 'white', padding: '2px' }}
         />
-      </div>
+      </TextContainer>
     </Container>
   );
 }
