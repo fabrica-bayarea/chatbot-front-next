@@ -19,6 +19,10 @@ export async function signUp(formData: FormData) {
   });
 
   if (error) {
+    if (error.name === 'AuthApiError') {
+      return { message: 'E-mail já cadastrado.' };
+    }
+
     return { message: error.message };
   }
 
@@ -33,6 +37,10 @@ export async function signIn(formData: FormData, path: string) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
+    if (error.name === 'AuthApiError') {
+      return { message: 'Credenciais inválidas.' };
+    }
+
     return { message: error.message };
   }
 
@@ -40,13 +48,13 @@ export async function signIn(formData: FormData, path: string) {
   redirect(path === '/login' ? '/' : path);
 }
 
-export async function signInWithGoogle() {
+export async function signInWithGoogle(path: string) {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'http://localhost:3000/auth/callback',
+      redirectTo: `http://localhost:3000/auth/callback?next=${path}`,
     },
   });
 
