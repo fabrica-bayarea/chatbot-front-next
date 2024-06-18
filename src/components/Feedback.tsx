@@ -5,9 +5,10 @@ import { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { DialogButton, IconButton } from './styled';
+import { updateConversationStatus } from '@/actions/conversations';
+import { updateMessageFeedback } from '@/actions/messages';
 import { useChatContext, useMainContext } from '@/hooks';
 import type { MessageFeedback } from '@/utils/definitions';
-import { updateFeedback, updateConversationStatus } from '@/app/actions';
 
 const Question = styled.div`
   align-items: center;
@@ -50,7 +51,7 @@ function Feedback({ id }: { id: string }) {
     if (feedback !== value) {
       try {
         setIsLoading(true);
-        await updateFeedback(id, value);
+        await updateMessageFeedback(id, value);
         setFeedback(value);
       } catch (error) {
         console.log(error);

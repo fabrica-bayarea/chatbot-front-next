@@ -1,14 +1,13 @@
 'use client';
 
 import styled from 'styled-components';
+import type { Updater } from 'use-immer';
 
-import RequestButton from './RequestButton';
 import { Avatar } from './styled';
-import { sendSupport, updateSupportStatus } from '@/app/actions';
-import { Dispatch, SetStateAction, useState } from 'react';
+import RequestButton from './RequestButton';
+import { sendSupport, updateSupportStatus } from '@/actions/support';
 import { useMainContext } from '@/hooks';
 import { Support } from '@/utils/definitions';
-import { Updater } from 'use-immer';
 
 const Container = styled.header`
   align-items: center;
@@ -60,7 +59,6 @@ function SupportHeader({
   setSupport: Updater<Support>;
 }) {
   const { setAndShow } = useMainContext();
-  const [lastSentAt, setLastSentAt] = useState(data.last_sent_at);
   const user = data.owner_profile;
 
   const handleAccept = async () => {
@@ -74,13 +72,11 @@ function SupportHeader({
   };
 
   const handleEmail = async () => {
-    const time = await sendSupport(data.id);
+    const response = await sendSupport(data.id);
 
-    if (time) {
-      setLastSentAt(time);
+    if (response === 'ok') {
+      setAndShow('E-mail enviado!');
     }
-
-    setAndShow('E-mail enviado!');
   };
 
   const handleClose = async () => {
@@ -110,8 +106,8 @@ function SupportHeader({
           <>
             <RequestButton request={handleEmail}>Enviar por e-mail</RequestButton>
             <RequestButton request={handleClose}>Encerrar atendimento</RequestButton>
-            {lastSentAt && (
-              <span>{`Último envio: ${new Date(lastSentAt).toLocaleString(
+            {data.last_sent_at && (
+              <span>{`Último envio: ${new Date(data.last_sent_at).toLocaleString(
                 'pt-BR'
               )}`}</span>
             )}

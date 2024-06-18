@@ -20,6 +20,7 @@ export interface Profile {
 
 export interface Message {
   id: string;
+  conversation_id: string;
   content: string;
   created_at: string;
   role: MessageRole;
@@ -28,7 +29,7 @@ export interface Message {
 
 export interface Conversation {
   id: string;
-  ownerId: string;
+  owner_id: string;
   created_at: string;
   status: ConversationStatus;
   messages: Message[];
@@ -103,7 +104,7 @@ export type MainContextShared = {
 
 export type ChatContextShared = {
   conversation: Conversation;
-  getAnswer: (question: string) => Promise<ContextResult<ReadableStreamDefaultReader>>;
+  getStream: (question: string) => Promise<ContextResult<ReadableStreamDefaultReader>>;
   isStreaming?: boolean;
   newConversation: Conversation;
   setConversation: Dispatch<SetStateAction<Conversation>>;

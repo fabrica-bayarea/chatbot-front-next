@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-import { fetchSupportList } from '@/app/actions';
-import { createClient } from '@/utils/supabase/client';
+import { fetchSupportList } from '@/actions/support';
 import { Support } from '@/utils/definitions';
+import { createClient } from '@/utils/supabase/client';
 
 function useSupportList() {
   const [supportList, setSupportList] = useState<Support[] | undefined>(undefined);

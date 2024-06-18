@@ -3,9 +3,9 @@ import type { ReactNode } from 'react';
 import { extractRouterConfig } from 'uploadthing/server';
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 
-import { fetchProfile } from './actions';
 import { ourFileRouter } from './api/uploadthing/core';
 import StyledComponentsRegistry from './registry';
+import { fetchProfile } from '@/actions/auth';
 import Toast from '@/components/Toast';
 import { MainProvider } from '@/context';
 

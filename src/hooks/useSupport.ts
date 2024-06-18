@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-import { fetchSupportById } from '@/app/actions';
-import { createClient } from '@/utils/supabase/client';
 import { useImmer } from 'use-immer';
+
+import { fetchSupportById } from '@/actions/support';
 import { Support } from '@/utils/definitions';
+import { createClient } from '@/utils/supabase/client';
 
 function useSupport(supportId: string) {
   const [support, setSupport] = useImmer<Support | null | undefined>(undefined);

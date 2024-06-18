@@ -5,7 +5,7 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
 import TrashButton from './TrashButton';
-import { deleteConversation, fetchHistory } from '@/app/actions';
+import { deleteConversation, fetchHistory } from '@/actions/conversations';
 import { useChatContext, useMainContext } from '@/hooks';
 import type { Conversation } from '@/utils/definitions';
 

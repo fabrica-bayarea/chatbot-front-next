@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import styled, { css } from 'styled-components';
 
 import { Avatar, IconButton } from './styled';
-import { signOut } from '@/app/actions';
+import { signOut } from '@/actions/auth';
 import { useMainContext, useSupportList } from '@/hooks';
 import type { SupportStatus } from '@/utils/definitions';
 import elapsedTime from '@/utils/elapsedTime';

@@ -1,20 +1,20 @@
 'use client';
 
-import { useImmer } from 'use-immer';
 import { createContext, ReactNode, useEffect, useState } from 'react';
+import { useImmer } from 'use-immer';
 import { v4 as uuidv4 } from 'uuid';
+
+import { createAIMessage, createHumanMessage } from '@/actions/messages';
 import { useMainContext } from '@/hooks';
 import api from '@/utils/data';
+import statusCodes from '@/utils/statusCodes';
 
-import {
+import type {
   ChatContextShared,
   Conversation,
   FetchStreamPayload,
   MakeRequestParams,
 } from '@/utils/definitions';
-
-import * as actions from '@/app/actions';
-import statusCodes from '@/utils/statusCodes';
 
 const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 
@@ -23,11 +23,10 @@ export function ChatProvider(props: {
   conversation?: Conversation;
 }) {
   const { makeRequest, user } = useMainContext();
-  const [isStreaming, setIsStreaming] = useState<boolean | undefined>(undefined);
 
   const newConversation: Conversation = {
-    id: '',
-    ownerId: user?.id,
+    id: uuidv4(),
+    owner_id: user.id,
     created_at: new Date().toISOString(),
     status: 'open',
     messages: [],
@@ -36,10 +35,13 @@ export function ChatProvider(props: {
   const [conversation, setConversation] = useImmer<Conversation>(
     props.conversation ?? newConversation
   );
+  
+  const [isStreaming, setIsStreaming] = useState<boolean | undefined>(undefined);
 
-  const getAnswer = async (question: string) => {
+  const getStream = async (question: string) => {
     const messages = conversation.messages.concat({
       id: uuidv4(),
+      conversation_id: conversation.id,
       content: question,
       created_at: new Date().toISOString(),
       role: 'user',
@@ -56,6 +58,7 @@ export function ChatProvider(props: {
         setConversation((draft) => {
           draft.messages.push({
             id: uuidv4(),
+            conversation_id: conversation.id,
             content: '',
             created_at: new Date().toISOString(),
             role: 'assistant',
@@ -90,20 +93,12 @@ export function ChatProvider(props: {
     return makeRequest(params);
   };
 
-  const updateMessages = async () => {
-    const { id } = await actions.updateAIConversation(
-      conversation.id as string,
-      conversation.messages.slice(-2)
-    );
-
-    if (!conversation.id) {
-      setConversation((draft) => {
-        draft.id = id;
-      });
-    }
-  };
-
   useEffect(() => {
+    const updateMessages = async () => {
+      await createAIMessage(conversation.messages.slice(-1)[0]);
+      await createHumanMessage(conversation.messages.slice(-2)[0]);
+    };
+
     if (isStreaming === false) {
       updateMessages();
     }
@@ -111,7 +106,7 @@ export function ChatProvider(props: {
 
   const shared: ChatContextShared = {
     conversation,
-    getAnswer,
+    getStream,
     isStreaming,
     newConversation,
     setConversation,

@@ -7,9 +7,9 @@ const Container = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
   position: relative;
-  top: -40px;
+  top: -20px;
 `;
 
 const TextContainer = styled.div`
@@ -60,7 +60,6 @@ const LogoText = styled.h1`
   color: white;
   font-family: var(--font-b);
   font-size: 5rem;
-  /* letter-spacing: -2px; */
 `;
 
 function Logo() {

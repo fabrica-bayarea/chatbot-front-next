@@ -100,7 +100,7 @@ const SendButton = styled(IconButton)`
 
 function Chat() {
   const { user } = useMainContext();
-  const { conversation, getAnswer, isStreaming } = useChatContext();
+  const { conversation, getStream, isStreaming } = useChatContext();
   const { isLoading } = useMainContext();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const conversationRef = useRef<HTMLDivElement | null>(null);
@@ -119,7 +119,7 @@ function Chat() {
     }
 
     inputElement.value = '';
-    await getAnswer(question);
+    await getStream(question);
   };
 
   // Keeps the chat always scrolled down

@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { DropdownButton, IconButton } from './styled';
-import { signOut } from '@/app/actions';
+import { signOut } from '@/actions/auth';
 import { useChatContext } from '@/hooks';
 
 const Container = styled.div`

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { signInWithGoogle } from '@/app/actions';
+import { signInWithGoogle } from '@/actions/auth';
 import LoginForm from '@/components/LoginForm';
 import Logo from '@/components/Logo';
 import { MainButton, SocialButton, Main, Section } from '@/components/styled';

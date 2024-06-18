@@ -8,7 +8,7 @@ import { useFormState } from 'react-dom';
 import InputGroup from './InputGroup';
 import SubmitButton from './SubmitButton';
 import { ColumnForm } from './styled';
-import { signIn } from '@/app/actions';
+import { signIn } from '@/actions/auth';
 import { useValidation } from '@/hooks';
 import type { InputScheme, StatusMessage } from '@/utils/definitions';
 

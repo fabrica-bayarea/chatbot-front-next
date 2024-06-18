@@ -31,14 +31,14 @@ const Container = styled.div`
 `;
 
 function Suggestions() {
-  const { getAnswer } = useChatContext();
+  const { getStream } = useChatContext();
 
   return (
     <Container>
       {suggestions.map((suggestion, index) => (
         <span
           key={index}
-          onClick={() => getAnswer(suggestion)}
+          onClick={() => getStream(suggestion)}
           role="button"
           tabIndex={0}
         >

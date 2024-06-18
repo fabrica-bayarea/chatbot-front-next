@@ -7,7 +7,7 @@ import { useFormState } from 'react-dom';
 import InputGroup from './InputGroup';
 import SubmitButton from './SubmitButton';
 import { ColumnForm, MainInput } from './styled';
-import { signUp } from '@/app/actions';
+import { signUp } from '@/actions/auth';
 import { useValidation } from '@/hooks';
 import type { InputScheme, StatusMessage } from '@/utils/definitions';
 import UploadButton from './UploadButton';
