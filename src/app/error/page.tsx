@@ -1,3 +1,3 @@
 export default function ErrorPage() {
-  return <p>Descupe, mas algo deu errado.</p>;
+  return <p>Algo deu errado.</p>;
 }

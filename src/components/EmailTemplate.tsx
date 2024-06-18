@@ -1,7 +1,17 @@
-import { EmailTemplateProps } from '@/lib/definitions';
+import { Message } from '@/utils/definitions';
 import LineBreaks from './LineBreaks';
 
-function EmailTemplate({ collaboratorName, id, messages, name }: EmailTemplateProps) {
+function EmailTemplate({
+  id,
+  collaboratorName,
+  messages,
+  name,
+}: {
+  id: string;
+  collaboratorName: string;
+  messages: Message[];
+  name: string;
+}) {
   const style = {
     hr: {
       backgroundColor: 'gray',

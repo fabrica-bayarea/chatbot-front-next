@@ -3,13 +3,15 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-import api from '@/lib/data';
+import api from '@/utils/data';
 
 import {
-  ConversationMessage,
-  UpdateFeedbackPayload,
-  UpdateStatusPayload,
-} from '@/lib/definitions';
+  ConversationStatus,
+  Message,
+  MessageFeedback,
+  Support,
+  SupportStatus,
+} from '@/utils/definitions';
 
 import { createClient } from '@/utils/supabase/server';
 
@@ -100,12 +102,12 @@ export async function fetchProfile() {
   return null;
 }
 
-export async function createConversation(userId: string) {
+export async function createConversation(ownerId: string) {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from('conversations')
-    .insert([{ user_id: userId }])
+    .insert([{ owner_id: ownerId }])
     .select()
     .single();
 
@@ -114,7 +116,7 @@ export async function createConversation(userId: string) {
 
 export async function createHumanMessage(
   conversationId: string,
-  { id, role, content, created_at }: ConversationMessage
+  { id, role, content, created_at }: Message
 ) {
   const supabase = createClient();
 
@@ -129,7 +131,7 @@ export async function createHumanMessage(
 
 export async function createAIMessage(
   conversationId: string,
-  { id, content, created_at }: ConversationMessage
+  { id, content, created_at }: Message
 ) {
   const supabase = createClient();
 
@@ -144,7 +146,7 @@ export async function createAIMessage(
 
 export async function updateAIConversation(
   conversationId: string,
-  newMessages: ConversationMessage[]
+  newMessages: Message[]
 ) {
   const supabase = createClient();
 
@@ -179,7 +181,7 @@ export async function fetchHistory() {
   const response = await supabase
     .from('conversations_view')
     .select()
-    .match({ user_id: user?.id });
+    .match({ owner_id: user?.id });
 
   return response;
 }
@@ -191,7 +193,7 @@ export async function deleteConversation(id: string) {
   return response;
 }
 
-export async function updateFeedback({ id, feedback }: UpdateFeedbackPayload) {
+export async function updateFeedback(id: string, feedback: MessageFeedback) {
   const supabase = createClient();
 
   const response = await supabase
@@ -203,9 +205,26 @@ export async function updateFeedback({ id, feedback }: UpdateFeedbackPayload) {
   return response;
 }
 
-export async function updateStatus({ table, id, status }: UpdateStatusPayload) {
+export async function updateConversationStatus(id: string, status: ConversationStatus) {
   const supabase = createClient();
-  const response = await supabase.from(table).update({ status }).eq('id', id).select();
+
+  const response = await supabase
+    .from('conversations')
+    .update({ status })
+    .eq('id', id)
+    .select();
+
+  return response;
+}
+
+export async function updateSupportStatus(id: string, status: SupportStatus) {
+  const supabase = createClient();
+
+  const response = await supabase
+    .from('support')
+    .update({ status })
+    .eq('id', id)
+    .select();
 
   return response;
 }
@@ -221,11 +240,16 @@ export async function fetchSupportList() {
 export async function fetchSupportById(supportId: string) {
   const supabase = createClient();
 
-  const response = await supabase.rpc('fetch_support_by_id', {
-    support_id: supportId,
-  }).single();
+  const { data, error } = await supabase
+    .rpc('fetch_support_by_id', {
+      support_id: supportId,
+    })
+    .single();
 
-  return response;
+  if (error) {
+  }
+
+  return data as Support | null;
 }
 
 export async function sendSupport(id: string) {
@@ -240,17 +264,17 @@ export async function sendSupport(id: string) {
 
   const body = {
     collaboratorName: profile?.name as string,
-    email: support.user_profile?.email as string,
+    email: support.owner_profile?.email as string,
     id: support.id as string,
-    messages: support?.messages as ConversationMessage[],
-    name: support.user_profile?.name as string,
+    messages: support?.messages as Message[],
+    name: support.owner_profile?.name as string,
   };
 
   const { status } = await api.sendEmail({ body });
 
   if (status === 200) {
     const time = new Date().toISOString();
-    await supabase.from('support').update({ last_email: time }).eq('id', id).select();
+    await supabase.from('support').update({ last_sent_at: time }).eq('id', id).select();
 
     return time;
   }

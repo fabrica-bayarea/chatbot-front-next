@@ -100,12 +100,12 @@ const SendButton = styled(IconButton)`
 
 function Chat() {
   const { user } = useMainContext();
-  const { conversation, conversationLength, getAnswer, isStreaming } = useChatContext();
+  const { conversation, getAnswer, isStreaming } = useChatContext();
   const { isLoading } = useMainContext();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const conversationRef = useRef<HTMLDivElement | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
-
+  const conversationLength = conversation.messages.length;
   const isOpen = conversation.status === 'open';
 
   // Request an AI response to update the conversation
@@ -154,9 +154,9 @@ function Chat() {
             Em que posso ajudar?
           </ChatMessage>
         </div>
-        {conversation.messages.map(({ content, role, user_profile }, index) => {
+        {conversation.messages.map(({ content, role, owner_profile }, index) => {
           return (
-            <ChatMessage key={index} role={role} user_profile={user_profile}>
+            <ChatMessage key={index} role={role} ownerProfile={owner_profile}>
               <LineBreaks content={content} />
             </ChatMessage>
           );

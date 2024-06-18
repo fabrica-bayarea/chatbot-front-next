@@ -4,9 +4,11 @@ import styled from 'styled-components';
 
 import RequestButton from './RequestButton';
 import { Avatar } from './styled';
-import { sendSupport, updateStatus } from '@/app/actions';
-import { useState } from 'react';
+import { sendSupport, updateSupportStatus } from '@/app/actions';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useMainContext } from '@/hooks';
+import { Support } from '@/utils/definitions';
+import { Updater } from 'use-immer';
 
 const Container = styled.header`
   align-items: center;
@@ -50,27 +52,39 @@ const ButtonContainer = styled.div`
   }
 `;
 
-function SupportHeader({ data, setSupport }) {
+function SupportHeader({
+  data,
+  setSupport,
+}: {
+  data: Support;
+  setSupport: Updater<Support>;
+}) {
   const { setAndShow } = useMainContext();
-  const [lastEmail, setLastEmail] = useState(data.last_email);
-  const user = data.user_profile;
+  const [lastSentAt, setLastSentAt] = useState(data.last_sent_at);
+  const user = data.owner_profile;
 
   const handleAccept = async () => {
-    await updateStatus({ table: 'support', id: data.id, status: 'accepted' });
+    await updateSupportStatus(data.id, 'accepted');
+
     setSupport((draft) => {
       draft.status = 'accepted';
     });
+
     setAndShow('Atendimento iniciado!');
   };
 
   const handleEmail = async () => {
     const time = await sendSupport(data.id);
-    setLastEmail(time);
+
+    if (time) {
+      setLastSentAt(time);
+    }
+
     setAndShow('E-mail enviado!');
   };
 
   const handleClose = async () => {
-    await updateStatus({ table: 'support', id: data.id, status: 'closed' });
+    await updateSupportStatus(data.id, 'closed');
     setSupport((draft) => {
       draft.status = 'closed';
     });
@@ -96,8 +110,8 @@ function SupportHeader({ data, setSupport }) {
           <>
             <RequestButton request={handleEmail}>Enviar por e-mail</RequestButton>
             <RequestButton request={handleClose}>Encerrar atendimento</RequestButton>
-            {lastEmail && (
-              <span>{`Último envio: ${new Date(lastEmail).toLocaleString(
+            {lastSentAt && (
+              <span>{`Último envio: ${new Date(lastSentAt).toLocaleString(
                 'pt-BR'
               )}`}</span>
             )}

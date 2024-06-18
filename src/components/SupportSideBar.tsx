@@ -8,7 +8,7 @@ import styled, { css } from 'styled-components';
 import { Avatar, IconButton } from './styled';
 import { signOut } from '@/app/actions';
 import { useMainContext, useSupportList } from '@/hooks';
-import type { ConversationStatus } from '@/lib/definitions';
+import type { SupportStatus } from '@/utils/definitions';
 import elapsedTime from '@/utils/elapsedTime';
 
 const Container = styled.aside`
@@ -69,7 +69,7 @@ const ListItem = styled.li`
   }
 `;
 
-const Status = styled.div<{ $status: ConversationStatus }>`
+const Status = styled.div<{ $status: SupportStatus }>`
   aspect-ratio: 1;
   background-color: var(--clr-a);
   border-radius: 50%;
@@ -104,7 +104,7 @@ const Footer = styled.footer`
 function SupportList() {
   const router = useRouter();
   const { supportList } = useSupportList();
-
+  
   if (supportList === undefined) {
     return <List>Loading</List>;
   }
@@ -115,7 +115,7 @@ function SupportList() {
 
   return (
     <List>
-      {supportList?.map(({ id, status, user_profile, created_at }, index) => {
+      {supportList?.map(({ id, status, owner_profile, created_at }, index) => {
         return (
           <ListItem
             key={index}
@@ -123,11 +123,11 @@ function SupportList() {
             role="button"
             tabIndex={0}
           >
-            <Avatar $fontSize="1.25rem" $picture={user_profile?.picture} $width="40px">
-              {user_profile?.name.charAt(0)}
+            <Avatar $fontSize="1.25rem" $picture={owner_profile?.picture} $width="40px">
+              {owner_profile?.name.charAt(0)}
             </Avatar>
             <div>
-              <div>{user_profile?.name.split(' ')[0]}</div>
+              <div>{owner_profile?.name.split(' ')[0]}</div>
               <span>{elapsedTime(created_at)}</span>
             </div>
             <Status $status={status} />

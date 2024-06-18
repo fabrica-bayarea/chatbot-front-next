@@ -1,4 +1,3 @@
 export default function UnauthorizedPage() {
-    return <p>Não autorizado.</p>;
-  }
-  
+  return <p>Não autorizado.</p>;
+}

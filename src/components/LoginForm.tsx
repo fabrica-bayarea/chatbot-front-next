@@ -10,7 +10,7 @@ import SubmitButton from './SubmitButton';
 import { ColumnForm } from './styled';
 import { signIn } from '@/app/actions';
 import { useValidation } from '@/hooks';
-import type { InputScheme, StatusMessage } from '@/lib/definitions';
+import type { InputScheme, StatusMessage } from '@/utils/definitions';
 
 const inputSchemes: { [key: string]: InputScheme } = {
   email: { isRequired: true, label: 'E-mail', value: '' },

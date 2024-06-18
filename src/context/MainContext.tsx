@@ -1,18 +1,18 @@
 'use client';
 
-import { createContext, useCallback, useState } from 'react';
+import { createContext, ReactNode, useCallback, useState } from 'react';
 
 import {
   ContextResult,
-  MainContextProps,
   MainContextShared,
   MakeRequestParams,
+  Profile,
   StatusMessage,
-} from '@/lib/definitions';
+} from '@/utils/definitions';
 
 const MainContext = createContext<MainContextShared | undefined>(undefined);
 
-export function MainProvider({ children, user }: MainContextProps) {
+export function MainProvider({ children, user }: { children: ReactNode; user: Profile }) {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showMessage, setShowMessage] = useState(false);

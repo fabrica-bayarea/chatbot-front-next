@@ -5,7 +5,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, MainInput } from './styled';
-import type { PasswordInputProps } from '@/lib/definitions';
 
 const Container = styled.div`
   position: relative;
@@ -24,7 +23,7 @@ const Container = styled.div`
   }
 `;
 
-function PasswordInput({ name, value, ...attributes }: PasswordInputProps) {
+function PasswordInput({ name, value, ...attributes }: { name: string; value: string }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -36,7 +35,7 @@ function PasswordInput({ name, value, ...attributes }: PasswordInputProps) {
         value={value}
         {...attributes}
       />
-      <Button type='button' onClick={() => setShowPassword(!showPassword)}>
+      <Button type="button" onClick={() => setShowPassword(!showPassword)}>
         <Image
           src={showPassword ? '/visibility.svg' : '/visibility_off.svg'}
           height={16}

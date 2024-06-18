@@ -1,13 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { DropdownButton, IconButton } from './styled';
 import { signOut } from '@/app/actions';
 import { useChatContext } from '@/hooks';
-import type { DropdownProps } from '@/lib/definitions';
 
 const Container = styled.div`
   position: relative;
@@ -33,8 +32,8 @@ const Navigation = styled.nav<{ $visible: boolean }>`
   z-index: 10;
 `;
 
-function Dropdown({ showFn }: DropdownProps) {
-  const { initialConversation, setConversation } = useChatContext();
+function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
+  const { newConversation, setConversation } = useChatContext();
   const [isVisible, setIsVisible] = useState(false);
 
   // Listen for click events to close the menu
@@ -63,7 +62,7 @@ function Dropdown({ showFn }: DropdownProps) {
       <Navigation $visible={isVisible}>
         <DropdownButton
           onClick={() => {
-            setConversation(initialConversation);
+            setConversation(newConversation);
             showFn(false);
           }}
         >

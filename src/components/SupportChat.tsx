@@ -9,6 +9,7 @@ import ChatMessage from './ChatMessage';
 import LineBreaks from './LineBreaks';
 import { IconButton, Form, ChatTextArea } from './styled';
 import { useMessages } from '@/hooks';
+import { Support } from '@/utils/definitions';
 
 const Container = styled.div`
   background-image: url('/chatBg.jpg');
@@ -60,7 +61,7 @@ const SendButton = styled(IconButton)`
   right: calc(20% - 80px);
 `;
 
-function SupportChat({ data }) {
+function SupportChat({ data }: { data: Support }) {
   const conversationRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
@@ -97,9 +98,9 @@ function SupportChat({ data }) {
   return (
     <Container>
       <Conversation ref={conversationRef}>
-        {messages.map(({ content, role, user_profile }, index) => {
+        {messages.map(({ content, role, owner_profile }, index) => {
           return (
-            <ChatMessage key={index} role={role} user_profile={user_profile}>
+            <ChatMessage key={index} role={role} ownerProfile={owner_profile}>
               <LineBreaks content={content} />
             </ChatMessage>
           );

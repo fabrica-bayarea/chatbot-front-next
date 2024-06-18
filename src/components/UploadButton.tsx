@@ -1,11 +1,10 @@
 'use client';
 
-import { type ChangeEvent } from 'react';
-import { useUploadThing } from '@/lib/uploadthing';
+import { ReactNode, type ChangeEvent } from 'react';
+import { useUploadThing } from '@/utils/uploadthing';
 
 import styled from 'styled-components';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { UploadButtonProps } from '@/lib/definitions';
 
 const Container = styled.div`
   display: flex;
@@ -25,7 +24,13 @@ const Label = styled.label`
   width: 80px;
 `;
 
-function UploadButton({ children, setFn }: UploadButtonProps) {
+function UploadButton({
+  children,
+  setFn,
+}: {
+  children: ReactNode;
+  setFn: (value: string) => void;
+}) {
   const { isUploading, permittedFileInfo, startUpload } = useUploadThing(
     'imageUploader',
     {

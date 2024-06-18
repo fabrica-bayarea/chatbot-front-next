@@ -1,45 +1,49 @@
 'use client';
 
 import { useImmer } from 'use-immer';
-import { createContext, useCallback, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useMainContext } from '@/hooks';
-import api from '@/lib/data';
+import api from '@/utils/data';
 
 import {
-  ChatContextProps,
   ChatContextShared,
   Conversation,
-  FetchAnswerPayload,
+  FetchStreamPayload,
   MakeRequestParams,
-} from '@/lib/definitions';
+} from '@/utils/definitions';
 
 import * as actions from '@/app/actions';
-import statusCodes from '@/lib/statusCodes';
+import statusCodes from '@/utils/statusCodes';
 
 const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 
-export function ChatProvider(props: ChatContextProps) {
-  const { makeRequest, setAndShow, user } = useMainContext();
+export function ChatProvider(props: {
+  children: ReactNode;
+  conversation?: Conversation;
+}) {
+  const { makeRequest, user } = useMainContext();
   const [isStreaming, setIsStreaming] = useState<boolean | undefined>(undefined);
 
-  const initialConversation: Conversation = {
-    messages: [],
+  const newConversation: Conversation = {
+    id: '',
+    ownerId: user?.id,
+    created_at: new Date().toISOString(),
     status: 'open',
-    userId: user?.id as string,
+    messages: [],
   };
 
   const [conversation, setConversation] = useImmer<Conversation>(
-    props.conversation ?? initialConversation
+    props.conversation ?? newConversation
   );
 
   const getAnswer = async (question: string) => {
     const messages = conversation.messages.concat({
       id: uuidv4(),
-      role: 'user',
       content: question,
       created_at: new Date().toISOString(),
-      user_profile: user,
+      role: 'user',
+      owner_profile: user,
     });
 
     setConversation((draft) => {
@@ -52,10 +56,10 @@ export function ChatProvider(props: ChatContextProps) {
         setConversation((draft) => {
           draft.messages.push({
             id: uuidv4(),
-            role: 'assistant',
             content: '',
             created_at: new Date().toISOString(),
-            user_profile: null,
+            role: 'assistant',
+            owner_profile: null,
           });
         });
         while (true) {
@@ -76,7 +80,7 @@ export function ChatProvider(props: ChatContextProps) {
       }
     };
 
-    const params: MakeRequestParams<FetchAnswerPayload, ReadableStreamDefaultReader> = {
+    const params: MakeRequestParams<FetchStreamPayload, ReadableStreamDefaultReader> = {
       apiRequest: api.fetchStream,
       payload: { body: { messages } },
       successCode: statusCodes.OK,
@@ -91,10 +95,6 @@ export function ChatProvider(props: ChatContextProps) {
       conversation.id as string,
       conversation.messages.slice(-2)
     );
-
-    // setConversation((draft) => {
-    //   draft.messages.splice(-2, 2, ...messages);
-    // });
 
     if (!conversation.id) {
       setConversation((draft) => {
@@ -111,12 +111,10 @@ export function ChatProvider(props: ChatContextProps) {
 
   const shared: ChatContextShared = {
     conversation,
-    conversationLength: conversation.messages.length,
     getAnswer,
-    initialConversation,
     isStreaming,
+    newConversation,
     setConversation,
-    supportLength: conversation.support?.messages.length ?? 0,
   };
 
   return (

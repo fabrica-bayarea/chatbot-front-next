@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import { MainContext } from '@/context';
-import { MainContextShared } from '@/lib/definitions';
+import { MainContextShared } from '@/utils/definitions';
 
 // This hook is necessary to ensure that the Context will not be undefined (TS)
 function useMainContext(): MainContextShared {

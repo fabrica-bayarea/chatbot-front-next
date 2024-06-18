@@ -9,7 +9,7 @@ import SubmitButton from './SubmitButton';
 import { ColumnForm, MainInput } from './styled';
 import { signUp } from '@/app/actions';
 import { useValidation } from '@/hooks';
-import type { InputScheme, StatusMessage } from '@/lib/definitions';
+import type { InputScheme, StatusMessage } from '@/utils/definitions';
 import UploadButton from './UploadButton';
 
 const inputSchemes: { [key: string]: InputScheme } = {

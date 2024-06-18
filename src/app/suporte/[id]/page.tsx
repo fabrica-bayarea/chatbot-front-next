@@ -5,10 +5,10 @@ import Link from 'next/link';
 import SupportChat from '@/components/SupportChat';
 import SupportHeader from '@/components/SupportHeader';
 import { useSupport } from '@/hooks';
-import type { SupportProps } from '@/lib/definitions';
+import { Updater } from 'use-immer';
+import { Support } from '@/utils/definitions';
 
-
-function Support({ params }: SupportProps) {
+function SupportPage({ params }: { params: { id: string } }) {
   const { support, setSupport } = useSupport(params.id);
 
   if (support === undefined) {
@@ -26,10 +26,10 @@ function Support({ params }: SupportProps) {
 
   return (
     <section>
-      <SupportHeader data={support} setSupport={setSupport} />
+      <SupportHeader data={support} setSupport={setSupport as Updater<Support>} />
       <SupportChat data={support} />
     </section>
   );
 }
 
-export default Support;
+export default SupportPage;

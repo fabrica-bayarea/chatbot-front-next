@@ -5,14 +5,15 @@ import { useEffect, useState } from 'react';
 import { fetchSupportById } from '@/app/actions';
 import { createClient } from '@/utils/supabase/client';
 import { useImmer } from 'use-immer';
+import { Support } from '@/utils/definitions';
 
 function useSupport(supportId: string) {
-  const [support, setSupport] = useImmer(undefined);
+  const [support, setSupport] = useImmer<Support | null | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
   const getSupport = async () => {
     setIsLoading(true);
-    const { data } = await fetchSupportById(supportId);
+    const data = await fetchSupportById(supportId);
     setSupport(data);
     setIsLoading(false);
   };
@@ -33,7 +34,7 @@ function useSupport(supportId: string) {
         },
         async (payload) => {
           console.log('Change received!', payload);
-          const { data } = await fetchSupportById(supportId);
+          const data = await fetchSupportById(supportId);
           setSupport(data);
         }
       )

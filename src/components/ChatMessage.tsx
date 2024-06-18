@@ -2,7 +2,8 @@ import styled, { css } from 'styled-components';
 
 import { Avatar } from './styled';
 import { useMainContext } from '@/hooks';
-import type { ChatMessageProps } from '@/lib/definitions';
+import type { MessageRole, Profile } from '@/utils/definitions';
+import { ReactNode } from 'react';
 
 const Container = styled.div<{ $alignment?: 'start' | 'end' }>`
   display: flex;
@@ -47,20 +48,28 @@ export const Message = styled.span<{
     `}
 `;
 
-function ChatMessage({ children, role, user_profile }: ChatMessageProps) {
+function ChatMessage({
+  children,
+  role,
+  ownerProfile,
+}: {
+  children: ReactNode;
+  role: MessageRole;
+  ownerProfile?: Profile | null;
+}) {
   const { user } = useMainContext();
 
+  const alignment = ownerProfile?.id === user?.id ? 'end' : 'start';
+  const picture = ownerProfile?.picture;
+  const name = ownerProfile ? ownerProfile.name : 'Eda';
   const bgColor = role === 'user' ? 'var(--clr-lighter-gray)' : 'var(--clr-a)';
-  const picture = user_profile?.picture;
-  const name = role === 'assistant' ? 'Eda' : user_profile?.name;
-  const alignment = user?.id === user_profile?.id ? 'end' : 'start';
 
   return (
     <Container $alignment={alignment}>
       <Avatar $border={true} $fontSize="0.9rem" $picture={picture} $width="36px">
         {name?.charAt(0)}
       </Avatar>
-      <Message $bgColor={bgColor} $alignment={alignment}>
+      <Message $alignment={alignment} $bgColor={bgColor}>
         {children}
       </Message>
     </Container>

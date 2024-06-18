@@ -6,8 +6,8 @@ import styled from 'styled-components';
 
 import { DialogButton, IconButton } from './styled';
 import { useChatContext, useMainContext } from '@/hooks';
-import type { MessageFeedback } from '@/lib/definitions';
-import { updateFeedback, updateStatus } from '@/app/actions';
+import type { MessageFeedback } from '@/utils/definitions';
+import { updateFeedback, updateConversationStatus } from '@/app/actions';
 
 const Question = styled.div`
   align-items: center;
@@ -50,7 +50,7 @@ function Feedback({ id }: { id: string }) {
     if (feedback !== value) {
       try {
         setIsLoading(true);
-        await updateFeedback({ id, feedback: value });
+        await updateFeedback(id, value);
         setFeedback(value);
       } catch (error) {
         console.log(error);
@@ -66,11 +66,7 @@ function Feedback({ id }: { id: string }) {
     try {
       setIsLoading(true);
 
-      await updateStatus({
-        table: 'conversations',
-        id: conversation.id as string,
-        status: 'redirected',
-      });
+      await updateConversationStatus(conversation.id, 'redirected');
 
       setConversation({ ...conversation, status: 'redirected' });
     } catch (error) {

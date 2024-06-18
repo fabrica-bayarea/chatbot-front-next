@@ -1,6 +1,6 @@
 import type {
   APIResult,
-  FetchAnswerPayload,
+  FetchStreamPayload,
   SendEmailPayload,
   SendEmailResponse,
 } from './definitions';
@@ -8,14 +8,16 @@ import type {
 const localUrl = 'http://localhost:3000';
 
 const api = {
-  async fetchStream({ body }: FetchAnswerPayload) {
+  async fetchStream({
+    body,
+  }: FetchStreamPayload): Promise<APIResult<ReadableStreamDefaultReader>> {
     const response = await fetch(`${localUrl}/api/ai/retrieval`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: body.messages }),
     });
 
-    const stream = response.body as ReadableStream<Uint8Array>;
+    const stream = response.body as ReadableStream;
     const reader = stream.getReader();
 
     return { status: response.status, data: reader };

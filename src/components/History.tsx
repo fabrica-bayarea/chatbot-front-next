@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import styled from 'styled-components';
 
 import TrashButton from './TrashButton';
 import { deleteConversation, fetchHistory } from '@/app/actions';
 import { useChatContext, useMainContext } from '@/hooks';
-import type { Conversation, HistoryProps } from '@/lib/definitions';
+import type { Conversation } from '@/utils/definitions';
 
 const List = styled.ul`
   display: flex;
@@ -58,7 +58,7 @@ const ItemDetails = styled.div`
   }
 `;
 
-function History({ showFn }: HistoryProps) {
+function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   const { setConversation } = useChatContext();
   const { isLoading, setIsLoading } = useMainContext();
   const [history, setHistory] = useState<Conversation[]>([]);

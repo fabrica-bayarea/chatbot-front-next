@@ -1,22 +1,23 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { createHumanMessage, fetchProfile } from '@/app/actions';
+import { createHumanMessage } from '@/app/actions';
 import useMainContext from './useMainContext';
+import { Message, Support } from '@/utils/definitions';
 
-function useMessages(data) {
+function useMessages(data: Support) {
   const { user } = useMainContext();
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([...data.messages]);
 
-  const addNewMessage = async (content) => {
+  const addNewMessage = async (content: string) => {
     try {
       setIsLoading(true);
-      const newMessage = {
+      const newMessage: Message = {
         id: uuidv4(),
         role: 'collaborator',
         content,
-        user_profile: user,
+        owner_profile: user,
         created_at: new Date().toISOString(),
       };
 

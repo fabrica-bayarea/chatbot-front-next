@@ -1,8 +1,6 @@
 import { Fragment } from 'react';
 
-import { LineBreaksProps } from '@/lib/definitions';
-
-function LineBreaks({ content }: LineBreaksProps) {
+function LineBreaks({ content }: { content: string }) {
   const lines = content.split('\n');
 
   return lines.map((line, index) => {
