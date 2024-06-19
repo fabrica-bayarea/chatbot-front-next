@@ -20,7 +20,6 @@ const Container = styled.div`
       var(--clr-lighter-gray),
       transparent
     );
-
     border: none;
     height: 2px;
     margin: 20px 0;

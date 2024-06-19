@@ -7,6 +7,10 @@ export const Container = styled.div`
   gap: 20px;
   position: relative;
   top: -20px;
+
+  @media screen and (width <= 1024px) {
+    display: none;
+  }
 `;
 
 export const LogoImage = styled.div`

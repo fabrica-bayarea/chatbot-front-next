@@ -6,8 +6,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
   width: 100%;
+
+  @media screen and (width <= 500px) {
+    padding-bottom: 25px;
+  }
 `;
 
 export const Conversation = styled.div<{ $open: boolean }>`
@@ -19,15 +23,13 @@ export const Conversation = styled.div<{ $open: boolean }>`
   padding: 40px 30px 0;
 
   & > div:first-of-type {
-    align-items: center;
     display: flex;
-    position: relative;
+    gap: 10px;
 
     & > img {
-      left: -10px;
       opacity: 0.9;
       position: relative;
-      top: 30px;
+      top: 20px;
     }
   }
 
@@ -72,4 +74,9 @@ export const SendButton = styled(IconButton)`
   height: 60px;
   position: absolute;
   right: -30px;
+
+  @media screen and (width <= 500px) {
+    bottom: 30px;
+    right: 10px;
+  }
 `;
