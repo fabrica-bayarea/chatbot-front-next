@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react';
 
-import SupportSideBar from '@/components/SupportSideBar';
-
 import styles from './support.module.css';
+import { SupportSideBar } from '@/components/Support';
 
 async function Layout({ children }: { children: ReactNode }) {
-
   return (
     <main className={styles.main}>
       <SupportSideBar />

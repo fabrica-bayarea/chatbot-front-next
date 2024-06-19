@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 import { signInWithGoogle } from '@/actions/auth';
-import LoginForm from '@/components/LoginForm';
+import { LoginForm } from '@/components/Forms';
 import { MainButton, SocialButton } from '@/components/styled';
 
 const Container = styled.div`

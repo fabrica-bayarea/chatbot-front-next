@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
-import RegisterForm from '@/components/RegisterForm';
+import { RegistrationForm } from '@/components/Forms';
 import { IconButton } from '@/components/styled';
 
 const Container = styled.div`
@@ -25,7 +25,7 @@ function Register() {
         </IconButton>
       </header>
       <Container>
-        <RegisterForm />
+        <RegistrationForm />
       </Container>
     </>
   );
