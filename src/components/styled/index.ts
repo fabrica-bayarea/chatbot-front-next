@@ -13,8 +13,6 @@ import {
 import { Form, ColumnForm } from './Form.styled';
 import { ChatInput, MainInput, ChatTextArea } from './Input.styled';
 import { Label } from './Label.styled';
-import { Main } from './Main.styled';
-import { Section } from './Section.styled';
 
 export {
   Avatar,
@@ -31,6 +29,4 @@ export {
   MainInput,
   ChatTextArea,
   Label,
-  Main,
-  Section,
 };
