@@ -5,7 +5,7 @@ import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 
 import { ourFileRouter } from './api/uploadthing/core';
 import StyledComponentsRegistry from './registry';
-import { fetchProfile } from '@/actions/auth';
+import { fetchUserProfile } from '@/actions/auth';
 import Toast from '@/components/Toast';
 import { MainProvider } from '@/context';
 
@@ -17,12 +17,12 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const user = await fetchProfile();
+  const userProfile = await fetchUserProfile();
 
   return (
     <html lang="en">
       <body>
-        <MainProvider user={user}>
+        <MainProvider user={userProfile}>
           <StyledComponentsRegistry>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
             <Toast />

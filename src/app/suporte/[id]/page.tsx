@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 
-import SupportChat from '@/components/SupportChat';
-import SupportHeader from '@/components/SupportHeader';
+import { SupportChat, SupportHeader } from '@/components/Support';
 import { useSupport } from '@/hooks';
 import { Updater } from 'use-immer';
 import { Support } from '@/utils/definitions';

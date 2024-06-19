@@ -54,7 +54,9 @@ export async function signInWithGoogle(path: string) {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `http://localhost:3000/auth/callback?next=${path}`,
+      redirectTo: `http://localhost:3000/auth/callback?next=${
+        path === '/login' ? '/' : path
+      }`,
     },
   });
 
@@ -76,7 +78,7 @@ export async function signOut() {
   redirect('/login');
 }
 
-export async function fetchProfile() {
+export async function fetchUserProfile() {
   const supabase = createClient();
 
   const {

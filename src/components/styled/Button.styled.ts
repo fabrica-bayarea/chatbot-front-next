@@ -1,12 +1,5 @@
 import styled, { css } from 'styled-components';
 
-type IconButtonProps = {
-  $bgColor?: string;
-  $hover?: boolean;
-  $selected?: boolean;
-  $width?: string;
-};
-
 export const Button = styled.button`
   align-items: center;
   background-color: transparent;
@@ -59,7 +52,12 @@ export const DropdownButton = styled(Button)`
   }
 `;
 
-export const IconButton = styled(Button)<IconButtonProps>`
+export const IconButton = styled(Button)<{
+  $bgColor?: string;
+  $hover?: boolean;
+  $selected?: boolean;
+  $width?: string;
+}>`
   aspect-ratio: 1 / 1;
   background-color: ${({ $bgColor }) => $bgColor ?? 'transparent'};
   border-radius: 50%;

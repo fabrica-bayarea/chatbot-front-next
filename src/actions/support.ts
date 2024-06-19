@@ -1,6 +1,6 @@
 'use server';
 
-import { fetchProfile } from './auth';
+import { fetchUserProfile } from './auth';
 import api from '@/utils/data';
 import { Message, SendEmailPayload, Support, SupportStatus } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/server';
@@ -30,13 +30,13 @@ export async function fetchSupportList() {
 
 export async function sendSupport(id: string) {
   const supabase = createClient();
-  const profile = await fetchProfile();
+  const userProfile = await fetchUserProfile();
   const support = await fetchSupportById(id);
 
   if (support) {
     const payload: SendEmailPayload = {
       body: {
-        collaboratorName: profile.name as string,
+        collaboratorName: userProfile.name as string,
         email: support.owner_profile.email as string,
         id: support.id as string,
         messages: support.messages as Message[],
