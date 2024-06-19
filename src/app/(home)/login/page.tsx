@@ -12,6 +12,20 @@ const Container = styled.div`
   align-items: unset;
   gap: 10px;
   padding: 0 60px;
+
+  & > hr {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--clr-lighter-gray),
+      transparent
+    );
+
+    border: none;
+    height: 2px;
+    margin: 20px 0;
+    width: 100%;
+  }
 `;
 
 function Login() {

@@ -14,9 +14,9 @@ export const Conversation = styled.div<{ $open: boolean }>`
   display: flex;
   flex-direction: column;
   flex-grow: 10;
-  gap: 40px;
+  gap: 60px;
   overflow-y: scroll;
-  padding: 30px 24px 0 40px;
+  padding: 40px 30px 0;
 
   & > div:first-of-type {
     align-items: center;
@@ -24,24 +24,10 @@ export const Conversation = styled.div<{ $open: boolean }>`
     position: relative;
 
     & > img {
-      left: -20px;
+      left: -10px;
       opacity: 0.9;
       position: relative;
       top: 30px;
-      z-index: 10;
-    }
-
-    &::after {
-      background-color: black;
-      border-radius: 50%;
-      bottom: -35px;
-      content: '';
-      filter: blur(3px);
-      height: 15px;
-      left: 0;
-      opacity: 0.4;
-      position: absolute;
-      width: 56px;
     }
   }
 

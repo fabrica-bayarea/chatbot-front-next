@@ -23,13 +23,6 @@ export const Conversation = styled.div`
   padding: 40px 312px 0 320px;
   scroll-behavior: smooth;
 
-  & > hr {
-    background-color: var(--clr-light);
-    background-image: linear-gradient(to right, white, transparent, white);
-    border: none;
-    min-height: 2px;
-  }
-
   &::-webkit-scrollbar {
     width: 8px;
   }

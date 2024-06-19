@@ -31,7 +31,7 @@
   border-radius: 0 0 var(--r) var(--r);
   display: flex;
   flex-direction: column;
-  height: 600px;
+  height: 640px;
   justify-content: center;
 }
 

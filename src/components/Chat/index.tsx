@@ -60,7 +60,7 @@ function Chat() {
     <Container>
       <Conversation $open={isOpen} ref={conversationRef}>
         <div>
-          <Image src="/eda.png" height={160} width={96} alt="Ilustração da Eda" />
+          <Image src="/eda.png" height={135} width={105} alt="Ilustração da Eda" />
           <ChatMessage role={'assistant'}>
             Eu sou <strong>Eda</strong>, assistente virtual do IESB.
             <br />

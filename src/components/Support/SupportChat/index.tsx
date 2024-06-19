@@ -13,7 +13,6 @@ import type { Support } from '@/utils/definitions';
 function SupportChat({ data }: { data: Support }) {
   const conversationRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
-  const loadingRef = useRef<HTMLDivElement | null>(null);
   const { isLoading, messages, addNewMessage } = useMessages(data);
 
   const isAccepted = data.status === 'accepted';
@@ -54,7 +53,7 @@ function SupportChat({ data }: { data: Support }) {
             </ChatMessage>
           );
         })}
-        <Loading ref={loadingRef}>
+        <Loading>
           {isLoading && <BeatLoader color="gray" size={12} />}
         </Loading>
       </Conversation>

@@ -31,7 +31,7 @@ export const Message = styled.span<{
   background-color: ${({ $bgColor }) => ($bgColor ? $bgColor : 'var(--clr-a)')};
   border-radius: var(--radius);
   line-height: 1.25rem;
-  margin: 0 20px 0 0;
+  margin: 0 10px 0 0;
   padding: 18px;
   white-space: pre-line;
 
@@ -40,6 +40,6 @@ export const Message = styled.span<{
     css`
       align-self: flex-end;
       border-radius: var(--radius-inverted);
-      margin: 0 0 0 20px;
+      margin: 0 0 0 10px;
     `}
 `;
