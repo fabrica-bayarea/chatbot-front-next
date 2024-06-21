@@ -26,7 +26,10 @@ function UploadButton({
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const result = await startUpload(Array.from(event.target.files as FileList));
-    setFn(result[0].url);
+
+    if (result) {
+      setFn(result[0].url);
+    }
   };
 
   return (

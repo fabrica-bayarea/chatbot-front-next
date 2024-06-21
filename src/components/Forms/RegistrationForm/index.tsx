@@ -7,7 +7,7 @@ import { useFormState } from 'react-dom';
 import { signUp } from '@/actions/auth';
 import { SubmitButton, UploadButton } from '@/components/Buttons';
 import InputGroup from '@/components/Forms/InputGroup';
-import { ColumnForm } from '@/components/styled';
+import { MainForm, StatusContainer, UploadContainer } from '@/components/styled';
 import { useValidation } from '@/hooks';
 import type { InputScheme, StatusMessage } from '@/utils/definitions';
 
@@ -54,7 +54,7 @@ function RegistrationForm() {
   }, [formState]);
 
   return (
-    <ColumnForm action={formAction}>
+    <MainForm action={formAction}>
       <InputGroup
         type="text"
         name="email"
@@ -83,7 +83,7 @@ function RegistrationForm() {
         placeholder="Confirme sua senha..."
         scheme={inputs.confirmation}
       />
-      <div className="upload">
+      <UploadContainer>
         <InputGroup
           type="text"
           name="picture"
@@ -92,22 +92,17 @@ function RegistrationForm() {
           scheme={inputs.picture}
         />
         <UploadButton setFn={setPictureUrl}>Upload</UploadButton>
-      </div>
-      <div className="status">
+      </UploadContainer>
+      <StatusContainer>
         {statusMessage && (
           <span>
-            <Image
-              src="/circle_exclamation.svg"
-              height={16}
-              width={16}
-              alt="Exclamation icon"
-            />
+            <Image src="/error.svg" height={18} width={18} alt="Atenção" />
             {statusMessage}
           </span>
         )}
-      </div>
+      </StatusContainer>
       <SubmitButton validation={validation}>Registrar</SubmitButton>
-    </ColumnForm>
+    </MainForm>
   );
 }
 

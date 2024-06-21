@@ -93,7 +93,7 @@ function Chat() {
         <Form onSubmit={handleSubmit}>
           <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
           <SendButton type="submit">
-            <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
+            <Image src="/send-white.svg" height={24} width={24} alt="Send icon" />
           </SendButton>
         </Form>
       )}

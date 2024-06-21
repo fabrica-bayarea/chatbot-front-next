@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 
-import { Container, Navigation, ToggleButton } from './Dropdown.styled';
+import { Container, DropdownButton, Navigation } from './Dropdown.styled';
 import { signOut } from '@/actions/auth';
-import { DropdownButton } from '@/components/styled';
+import { IconButton } from '@/components/styled';
 import { useChatContext } from '@/hooks';
 
 function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
@@ -27,15 +27,15 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
 
   return (
     <Container>
-      <ToggleButton onClick={() => setIsVisible(!isVisible)}>
+      <IconButton onClick={() => setIsVisible(!isVisible)}>
         <Image
           src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
           height={30}
           width={30}
           alt="Menu icon"
         />
-      </ToggleButton>
-      <Navigation $visible={isVisible}>
+      </IconButton>
+      <Navigation $isVisible={isVisible}>
         <DropdownButton
           onClick={() => {
             setConversation(newConversation);

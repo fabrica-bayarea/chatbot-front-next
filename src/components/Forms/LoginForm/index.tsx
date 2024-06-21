@@ -8,7 +8,7 @@ import { useFormState } from 'react-dom';
 import { signIn } from '@/actions/auth';
 import { SubmitButton } from '@/components/Buttons';
 import InputGroup from '@/components/Forms/InputGroup';
-import { ColumnForm } from '@/components/styled';
+import { MainForm, StatusContainer } from '@/components/styled';
 import { useValidation } from '@/hooks';
 import type { InputScheme, StatusMessage } from '@/utils/definitions';
 
@@ -49,7 +49,7 @@ function LoginForm() {
   }, [formState]);
 
   return (
-    <ColumnForm action={formAction}>
+    <MainForm action={formAction}>
       <InputGroup
         type="text"
         name="email"
@@ -64,21 +64,16 @@ function LoginForm() {
         placeholder="Digite sua senha..."
         scheme={inputs.password}
       />
-      <div className="status">
+      <StatusContainer>
         {statusMessage && (
           <span>
-            <Image
-              src="/circle_exclamation.svg"
-              height={16}
-              width={16}
-              alt="Exclamation icon"
-            />
+            <Image src="/error.svg" height={18} width={18} alt="Atenção" />
             {statusMessage}
           </span>
         )}
-      </div>
+      </StatusContainer>
       <SubmitButton validation={validation}>Entrar</SubmitButton>
-    </ColumnForm>
+    </MainForm>
   );
 }
 

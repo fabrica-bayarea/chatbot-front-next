@@ -20,11 +20,31 @@ export const AltButton = styled(Button)`
   border: 1px solid var(--clr-light);
   border-radius: 50px;
   color: var(--clr-light);
+  font-size: 1rem;
   height: 50px;
+  position: relative;
   width: 250px;
 
   &:disabled {
-    opacity: 0.4;
+    opacity: 0.75;
+  }
+
+  & > div {
+    position: absolute;
+    right: 20px;
+  }
+
+  @media screen and (width <= 1440px) {
+    border: unset;
+    border-radius: unset;
+    height: 40px;
+    justify-content: flex-start;
+    padding-left: 20px;
+    width: 240px;
+
+    &:hover {
+      background-color: var(--clr-c);
+    }
   }
 `;
 
@@ -37,18 +57,6 @@ export const DialogButton = styled(Button)`
 
   &:hover:not(:disabled) {
     background-color: var(--clr-a);
-  }
-`;
-
-export const DropdownButton = styled(Button)`
-  background-color: var(--clr-c);
-  color: var(--clr-light);
-  justify-content: flex-start;
-  letter-spacing: 1px;
-  padding: 10px 20px;
-
-  &:hover {
-    background-color: var(--clr-b);
   }
 `;
 

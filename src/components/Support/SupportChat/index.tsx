@@ -4,9 +4,16 @@ import Image from 'next/image';
 import { type FormEvent, useEffect, useRef } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
-import { Container, Conversation, Loading, SendButton } from './SupportChat.styled';
+import {
+  ChatForm,
+  Container,
+  Conversation,
+  Loading,
+  SendButton,
+} from './SupportChat.styled';
+
 import ChatMessage from '@/components/ChatMessage';
-import { Form, ChatTextArea } from '@/components/styled';
+import { ChatTextArea } from '@/components/styled';
 import { useMessages } from '@/hooks';
 import type { Support } from '@/utils/definitions';
 
@@ -53,17 +60,17 @@ function SupportChat({ data }: { data: Support }) {
             </ChatMessage>
           );
         })}
-        <Loading>
-          {isLoading && <BeatLoader color="gray" size={12} />}
-        </Loading>
+        <Loading>{isLoading && <BeatLoader color="gray" size={12} />}</Loading>
       </Conversation>
       {isAccepted && (
-        <Form onSubmit={handleSubmit}>
-          <ChatTextArea ref={inputRef} placeholder="Digite uma mensagem..." />
-          <SendButton type="submit">
-            <Image src="/paper_plane-white.svg" height={24} width={24} alt="Send icon" />
-          </SendButton>
-        </Form>
+        <ChatForm onSubmit={handleSubmit}>
+          <div>
+            <ChatTextArea ref={inputRef} placeholder="Digite uma mensagem..." />
+            <SendButton type="submit">
+              <Image src="/send-white.svg" height={24} width={24} alt="Send icon" />
+            </SendButton>
+          </div>
+        </ChatForm>
       )}
     </Container>
   );

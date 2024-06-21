@@ -34,7 +34,7 @@ export const Conversation = styled.div<{ $open: boolean }>`
   }
 
   & > .redirect-status {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     margin: 40px 40px 0;
     text-align: center;
 
@@ -44,7 +44,6 @@ export const Conversation = styled.div<{ $open: boolean }>`
     }
 
     & > span {
-      font-size: 0.9rem;
       font-weight: bold;
     }
   }

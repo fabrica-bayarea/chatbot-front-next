@@ -15,10 +15,10 @@ async function Layout({ children }: { children: ReactNode }) {
       {userProfile && userProfile.role !== 'user' && (
         <Link href={'/suporte'}>
           <Image
-            src="/users_rectangle-white.svg"
+            src="/support_agent-white.svg"
             height={24}
             width={24}
-            alt="Support link"
+            alt="Link para a página de suporte"
           />
         </Link>
       )}

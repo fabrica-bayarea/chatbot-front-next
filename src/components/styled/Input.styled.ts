@@ -14,7 +14,7 @@ export const Input = styled.input`
 
   &::placeholder {
     color: var(--clr-light-gray);
-    transition: opacity 200ms ease-in-out;
+    transition: opacity 200ms ease;
   }
 
   &:focus::placeholder {
@@ -48,7 +48,7 @@ export const ChatTextArea = styled.textarea`
 
   &::placeholder {
     color: var(--clr-light-gray);
-    transition: opacity 200ms ease-in-out;
+    transition: opacity 200ms ease;
   }
 
   &:focus::placeholder {

@@ -44,7 +44,7 @@ export const ListItem = styled.li`
   gap: 20px;
   justify-content: space-between;
   padding: 20px 10px 20px 40px;
-  transition: background-color ease-in 200ms;
+  transition: background-color 200ms ease;
 
   &:hover {
     background-color: var(--clr-light);

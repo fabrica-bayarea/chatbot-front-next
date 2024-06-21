@@ -1,35 +1,33 @@
 import styled from 'styled-components';
 
 export const Form = styled.form`
-  align-items: center;
-  display: flex;
   position: relative;
   width: 100%;
 `;
 
-export const ColumnForm = styled(Form)`
+export const MainForm = styled(Form)`
+  display: flex;
   flex-direction: column;
   gap: 20px;
+`;
 
-  & > div {
+export const StatusContainer = styled.div`
+  align-items: flex-end;
+  display: flex;
+  height: 50px;
+  justify-content: center;
+
+  & > span {
+    align-items: center;
+    color: var(--clr-b);
     display: flex;
-
-    &.upload {
-      align-items: flex-end;
-      gap: 10px;
-      width: 100%;
-    }
-
-    &.status {
-      align-items: flex-end;
-      height: 60px;
-
-      & > span {
-        align-items: center;
-        color: var(--clr-b);
-        display: flex;
-        gap: 10px;
-      }
-    }
+    gap: 10px;
   }
+`;
+
+export const UploadContainer = styled.div`
+  align-items: flex-end;
+  display: flex;
+  gap: 10px;
+  width: 100%;
 `;

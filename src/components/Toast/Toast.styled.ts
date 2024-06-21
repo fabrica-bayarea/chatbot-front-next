@@ -7,7 +7,7 @@ export const Container = styled.div<{ $delay: number; $visible: boolean }>`
   opacity: ${({ $visible }) => ($visible ? '1' : '0')};
   position: absolute;
   top: ${({ $visible }) => ($visible ? '10px' : '-80px')};
-  transition: opacity 500ms ease, top 500ms ease;
+  transition: opacity 400ms ease, top 400ms ease;
   width: 320px;
   z-index: 10;
 

@@ -2,14 +2,41 @@ import styled, { css } from 'styled-components';
 
 import type { SupportStatus } from '@/utils/definitions';
 
-export const Container = styled.aside`
+export const Container = styled.aside<{ $isVisible: boolean }>`
   background-color: var(--clr-light);
-  border-right: 1px solid var(--clr-a);
-  box-shadow: 1px 0 4px 0 rgb(0 0 0 / 10%);
+  box-shadow: 1px 0 4px 0 rgb(0 0 0 / 20%);
   display: flex;
   flex-direction: column;
+  gap: 40px;
   height: 100vh;
   min-width: 360px;
+  position: relative;
+
+  & > h1 {
+    color: var(--clr-b);
+    font-size: 1.8rem;
+    padding: 0 20px;
+  }
+
+  @media screen and (width <= 1024px) {
+    left: ${({ $isVisible }) => ($isVisible ? 0 : '-280px')};
+    position: absolute;
+    z-index: 100;
+    transition: left 400ms ease;
+    min-width: 280px;
+  }
+`;
+
+export const OpenCloseContainer = styled.div`
+  background-color: var(--clr-c);
+  bottom: 0;
+  position: absolute;
+  right: -40px;
+  visibility: hidden;
+
+  @media screen and (width <= 1024px) {
+    visibility: visible;
+  }
 `;
 
 export const Footer = styled.footer`
@@ -25,20 +52,23 @@ export const Footer = styled.footer`
   color: var(--clr-light);
   display: flex;
   font-size: 0.9rem;
-  height: 60px;
-  justify-content: space-evenly;
+  height: 40px;
 `;
 
 export const Header = styled.header`
-  display: flex;
-  flex-direction: column;
-  height: 160px;
-  justify-content: space-between;
-  margin-bottom: 80px;
-  padding: 20px 20px 0;
+  height: 150px;
 
-  & > h1 {
-    color: var(--clr-b);
+  & > nav {
+    background-color: var(--clr-c);
+    background-image: linear-gradient(
+      to bottom right,
+      rgba(255 255 255 / 10%),
+      rgba(255 255 255 / 0%) 50%
+    );
+    height: 50px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 20%);
+    display: flex;
+    justify-content: space-around;
   }
 `;
 
@@ -62,7 +92,7 @@ export const ListItem = styled.li`
   display: flex;
   gap: 10px;
   padding: 20px;
-  transition: background-color ease-in 200ms;
+  transition: background-color 200ms ease;
 
   &:hover {
     background-color: var(--clr-light-gray);

@@ -1,17 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const ButtonContainer = styled.div`
-  display: flex;
-  gap: 20px;
-  position: relative;
-
-  & > span {
-    bottom: -25px;
-    font-size: 0.75rem;
-    left: 25px;
-    position: absolute;
-  }
-`;
+import { IconButton } from '@/components/styled';
 
 export const Container = styled.header`
   align-items: center;
@@ -26,7 +15,69 @@ export const Container = styled.header`
   display: flex;
   gap: 20px;
   height: 150px;
-  padding: 0 120px;
+  padding: 0 60px;
+
+  @media screen and (width <= 1024px) {
+    font-size: 14px;
+    height: 120px;
+    padding: 0 20px;
+  }
+
+  @media screen and (width <= 480px) {
+    font-size: 10px;
+    gap: 10px;
+  }
+`;
+
+export const MoreButton = styled(IconButton)`
+  display: none;
+
+  @media screen and (width <= 1440px) {
+    display: flex;
+  }
+`;
+
+export const Options = styled.div<{ $isVisible: boolean }>`
+  position: relative;
+
+  & > nav {
+    background-color: var(--clr-b);
+
+    display: flex;
+    gap: 20px;
+
+    & > span {
+      bottom: -25px;
+      font-size: 0.75rem;
+      left: 25px;
+      position: absolute;
+    }
+  }
+
+  @media screen and (width <= 1440px) {
+    & > nav {
+      border: 1px solid var(--clr-c);
+      box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+      flex-direction: column;
+      gap: unset;
+      opacity: 0;
+      padding: 10px 0;
+      position: absolute;
+      right: 20px;
+      top: 40px;
+      transition: opacity 400ms ease, top 400ms ease;
+      visibility: hidden;
+      z-index: 10;
+
+      ${({ $isVisible }) =>
+        $isVisible &&
+        css`
+          opacity: 1;
+          top: 50px;
+          visibility: visible;
+        `}
+    }
+  }
 `;
 
 export const UserContainer = styled.div`
@@ -36,7 +87,7 @@ export const UserContainer = styled.div`
   gap: 10px;
 
   & > span:first-child {
-    font-size: 2rem;
+    font-size: 1.8em;
     left: -2px;
     position: relative;
   }

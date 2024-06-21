@@ -1,15 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import {
   Container,
-  Footer,
   Header,
   List,
   ListItem,
+  OpenCloseContainer,
   Status,
 } from './SupportSideBar.styled';
 
@@ -56,31 +56,46 @@ function SupportList() {
 }
 
 function SupportSideBar() {
-  const { user: collaborator } = useMainContext();
+  const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
 
   return (
-    <Container>
+    <Container $isVisible={isVisible}>
       <Header>
-        <Link href={'/'}>
+        <nav>
+          <IconButton onClick={() => router.push('/')}>
+            <Image
+              src="/home-white.svg"
+              height={18}
+              width={18}
+              alt="Link para a página principal"
+            />
+          </IconButton>
+          <IconButton onClick={() => router.push('/suporte')}>
+            <Image
+              src="/bar_chart-white.svg"
+              height={18}
+              width={18}
+              alt="Link para o painel"
+            />
+          </IconButton>
+          <IconButton onClick={() => signOut()}>
+            <Image src="/logout-white.svg" height={18} width={18} alt="Logout" />
+          </IconButton>
+        </nav>
+      </Header>
+      <h1>Atendimentos</h1>
+      <SupportList />
+      <OpenCloseContainer>
+        <IconButton onClick={() => setIsVisible(!isVisible)}>
           <Image
-            src="/home.svg"
+            src="/menu_open-white.svg"
             height={24}
             width={24}
-            alt="Link para a página principal"
+            alt="Alternar menu lateral"
           />
-        </Link>
-        <h1>Atendimentos</h1>
-      </Header>
-      <SupportList />
-      <Footer>
-        <div>
-          <div>{collaborator?.name.split(' ')[0]}</div>
-          <div>{collaborator?.email}</div>
-        </div>
-        <IconButton onClick={() => signOut()}>
-          <Image src="/logout-white.svg" height={18} width={18} alt="Botão de deslogar" />
         </IconButton>
-      </Footer>
+      </OpenCloseContainer>
     </Container>
   );
 }

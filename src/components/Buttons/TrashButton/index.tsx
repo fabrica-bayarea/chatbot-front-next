@@ -19,7 +19,7 @@ function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
           }}
           $hover={true}
         >
-          <Image src="/check.svg" height={20} width={20} alt="Confirm icon" />
+          <Image src="/check.svg" height={24} width={24} alt="Confirmar" />
         </IconButton>
         <IconButton
           onClick={(event) => {
@@ -28,7 +28,7 @@ function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
           }}
           $hover={true}
         >
-          <Image src="/xmark.svg" height={20} width={20} alt="Cancel icon" />
+          <Image src="/xmark.svg" height={24} width={24} alt="Cancelar" />
         </IconButton>
       </Container>
     );
@@ -43,7 +43,7 @@ function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
         }}
         $hover={true}
       >
-        <Image src="/trash.svg" height={16} width={16} alt="Trash icon" />
+        <Image src="/trash.svg" height={24} width={24} alt="Apagar conversa" />
       </IconButton>
     </Container>
   );

@@ -5,13 +5,11 @@ import type {
   SendEmailResponse,
 } from './definitions';
 
-const localUrl = 'http://localhost:3000';
-
 const api = {
   async fetchStream({
     body,
   }: FetchStreamPayload): Promise<APIResult<ReadableStreamDefaultReader>> {
-    const response = await fetch(`${localUrl}/api/ai/retrieval`, {
+    const response = await fetch(`/api/ai/retrieval`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: body.messages }),
@@ -24,7 +22,7 @@ const api = {
   },
 
   async sendEmail({ body }: SendEmailPayload): Promise<APIResult<SendEmailResponse>> {
-    const response = await fetch(`${localUrl}/api/send`, {
+    const response = await fetch(`/api/send`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

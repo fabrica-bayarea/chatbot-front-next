@@ -7,12 +7,10 @@
 }
 
 .main > a {
-  aspect-ratio: 1;
   display: flex;
-  left: 20px;
+  left: 10px;
   position: absolute;
-  top: 20px;
-  width: 30px;
+  top: 10px;
 }
 
 .section {
