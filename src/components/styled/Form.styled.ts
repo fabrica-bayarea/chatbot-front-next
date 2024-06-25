@@ -21,6 +21,7 @@ export const StatusContainer = styled.div`
     align-items: center;
     color: var(--clr-b);
     display: flex;
+    font-size: 0.9rem;
     gap: 10px;
   }
 `;

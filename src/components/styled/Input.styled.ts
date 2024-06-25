@@ -36,7 +36,7 @@ export const TextArea = styled.textarea`
 
 export const AdaptiveTextArea = styled(TextArea)`
   border: none;
-  border-radius: 12px;
+  border-radius: 4px;
   flex-grow: 10;
   min-height: 50px;
   outline: none;

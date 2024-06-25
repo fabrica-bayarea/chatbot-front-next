@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IconButton } from '@/components/styled';
 
 export const Container = styled.div`
-  background-image: url('/chatBg.jpg');
+  background-image: url('/chat_background.jpg');
   display: flex;
   flex-direction: column;
   flex-grow: 10;

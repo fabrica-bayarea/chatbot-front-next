@@ -16,7 +16,7 @@ function Chat() {
   const { conversation, getStream, isStreaming } = useChatContext();
   const conversationRef = useRef<HTMLDivElement | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  
+
   const conversationLength = conversation.messages.length;
   const isOpen = conversation.status === 'open';
 
@@ -45,7 +45,13 @@ function Chat() {
     <Container>
       <Conversation $open={isOpen} ref={conversationRef}>
         <div>
-          <Image src="/eda.png" height={135} width={105} alt="Ilustração da Eda" />
+          <Image
+            src="/eda.png"
+            height={135}
+            width={105}
+            quality={100}
+            alt="Ilustração da Eda"
+          />
           <ChatMessage role={'assistant'}>
             Eu sou <strong>Eda</strong>, assistente virtual do IESB.
             <br />
@@ -74,7 +80,7 @@ function Chat() {
         )}
         <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
       </Conversation>
-      {isOpen && <ChatForm action={(content) => getStream(content)} maxHeight={120}/>}
+      {isOpen && <ChatForm action={(content) => getStream(content)} maxHeight={120} />}
     </Container>
   );
 }

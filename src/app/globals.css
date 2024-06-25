@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
 
 :root {
   --clr-a: #f0d4d4;
@@ -21,7 +20,6 @@
 
   --font-a: 'Public Sans', sans-serif;
   --font-b: 'Ubuntu', sans-serif;
-  --font-c: 'Sixtyfour', monospace;
 }
 
 *,

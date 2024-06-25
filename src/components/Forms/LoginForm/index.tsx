@@ -54,14 +54,14 @@ function LoginForm() {
         type="text"
         name="email"
         onChange={handleChange}
-        placeholder="Digite seu e-mail..."
+        placeholder="Digite seu e-mail"
         scheme={inputs.email}
       />
       <InputGroup
         type="password"
         name="password"
         onChange={handleChange}
-        placeholder="Digite sua senha..."
+        placeholder="Digite sua senha"
         scheme={inputs.password}
       />
       <StatusContainer>

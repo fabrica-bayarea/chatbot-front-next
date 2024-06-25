@@ -59,28 +59,28 @@ function RegistrationForm() {
         type="text"
         name="email"
         onChange={handleChange}
-        placeholder="Digite seu e-mail..."
+        placeholder="Digite seu e-mail"
         scheme={inputs.email}
       />
       <InputGroup
         type="text"
         name="name"
         onChange={handleChange}
-        placeholder="Digite seu nome..."
+        placeholder="Digite seu nome"
         scheme={inputs.name}
       />
       <InputGroup
         type="password"
         name="password"
         onChange={handleChange}
-        placeholder="Digite uma senha..."
+        placeholder="Digite uma senha"
         scheme={inputs.password}
       />
       <InputGroup
         type="password"
         name="confirmation"
         onChange={handleChange}
-        placeholder="Confirme sua senha..."
+        placeholder="Confirme sua senha"
         scheme={inputs.confirmation}
       />
       <UploadContainer>
@@ -88,7 +88,7 @@ function RegistrationForm() {
           type="text"
           name="picture"
           onChange={handleChange}
-          placeholder="Digite o endereço..."
+          placeholder="Digite um endereço"
           scheme={inputs.picture}
         />
         <UploadButton setFn={setPictureUrl}>Upload</UploadButton>

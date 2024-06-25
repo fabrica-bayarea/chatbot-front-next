@@ -2,10 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
-import { fetchUserProfile } from '@/actions/auth';
-import Logo from '@/components/Logo';
-
 import styles from './home.module.css';
+import { fetchUserProfile } from '@/actions/auth';
 
 async function Layout({ children }: { children: ReactNode }) {
   const userProfile = await fetchUserProfile();
@@ -22,7 +20,16 @@ async function Layout({ children }: { children: ReactNode }) {
           />
         </Link>
       )}
-      <Logo />
+      <div className={styles.logo}>
+        <h1>Chatbot</h1>
+        <Image
+          src="/iesb_logo.png"
+          height={102}
+          width={102}
+          quality={100}
+          alt="Logo IESB"
+        />
+      </div>
       <section className={styles.section}>{children}</section>
     </main>
   );

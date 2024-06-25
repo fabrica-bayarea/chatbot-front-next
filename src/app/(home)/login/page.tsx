@@ -41,7 +41,7 @@ function Login() {
         <MainButton onClick={() => router.push('/registro')}>Registro</MainButton>
         <hr />
         <SocialButton onClick={() => signInWithGoogle(path)}>
-          <Image src={'/logoGoogle.png'} width={30} height={30} alt="Logo Google" />
+          <Image src={'/google_g.png'} width={30} height={30} alt="Logo Google" />
           <span>Continuar com Google</span>
         </SocialButton>
       </Container>

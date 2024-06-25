@@ -1,6 +1,27 @@
+.logo {
+  align-items: center;
+  display: flex;
+  gap: 40px;
+  position: relative;
+  top: -20px;
+
+  @media screen and (width <= 1024px) {
+    display: none;
+  }
+}
+
+.logo > h1 {
+  color: white;
+  font-family: var(--font-b);
+  font-size: 5.2rem;
+  letter-spacing: 4px;
+  position: relative;
+  top: 4px;
+}
+
 .main {
   align-items: center;
-  background-color: var(--clr-b);
+  background: linear-gradient(to bottom right, var(--clr-b), var(--clr-c));
   display: flex;
   justify-content: space-evenly;
   min-height: 100vh;
@@ -20,7 +41,7 @@
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
   display: flex;
   flex-direction: column;
-  width: 420px;
+  width: 400px;
 }
 
 .section > div {
@@ -29,7 +50,7 @@
   border-radius: 0 0 var(--r) var(--r);
   display: flex;
   flex-direction: column;
-  height: 640px;
+  height: 600px;
   justify-content: center;
   padding-bottom: 16px;
 }
@@ -40,29 +61,31 @@
   border-radius: var(--r) var(--r) 0 0;
   color: white;
   display: flex;
-  height: 120px;
+  height: 100px;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 0 30px;
 }
 
 .section > header > h2 {
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .section > header > span {
   font-size: 1.5rem;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 480px) {
   .section {
     border-radius: 0;
     min-height: 100vh;
+    width: 100%;
   }
 
   .section > div {
     border-radius: 0;
     flex-grow: 10;
   }
+
   .section > header {
     border-radius: 0;
   }
