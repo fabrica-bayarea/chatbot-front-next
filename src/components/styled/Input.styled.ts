@@ -22,29 +22,25 @@ export const Input = styled.input`
   }
 `;
 
-export const ChatInput = styled(Input)`
-  border: none;
-  border-top: 1px solid var(--clr-lighter-gray);
-  font-size: 1.2em;
-  height: 50px;
-  padding: 0 40px;
-`;
-
 export const MainInput = styled(Input)`
   border: 1px solid var(--clr-lighter-gray);
   font-size: 1em;
 `;
 
-export const ChatTextArea = styled.textarea`
-  border: 1px solid var(--clr-light-gray);
-  border-radius: 4px;
+export const TextArea = styled.textarea`
   color: inherit;
   font-family: inherit;
-  font-size: 1.2rem;
-  height: 120px;
-  padding: 10px;
+  font-size: inherit;
   resize: none;
-  width: 100%;
+`;
+
+export const AdaptiveTextArea = styled(TextArea)`
+  border: none;
+  border-radius: 12px;
+  flex-grow: 10;
+  min-height: 50px;
+  outline: none;
+  padding: 10px;
 
   &::placeholder {
     color: var(--clr-light-gray);
@@ -53,5 +49,13 @@ export const ChatTextArea = styled.textarea`
 
   &:focus::placeholder {
     opacity: 0;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--clr-a);
   }
 `;

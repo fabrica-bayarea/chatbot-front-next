@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const Form = styled.form`
+  display: flex;
   position: relative;
   width: 100%;
 `;
 
 export const MainForm = styled(Form)`
-  display: flex;
   flex-direction: column;
   gap: 20px;
 `;

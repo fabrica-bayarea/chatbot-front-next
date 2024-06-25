@@ -31,11 +31,12 @@
   flex-direction: column;
   height: 640px;
   justify-content: center;
+  padding-bottom: 16px;
 }
 
 .section > header {
   align-items: center;
-  background-color: var(--clr-d);
+  background-color: var(--clr-c);
   border-radius: var(--r) var(--r) 0 0;
   color: white;
   display: flex;

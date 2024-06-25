@@ -1,42 +1,19 @@
 'use client';
 
-import Image from 'next/image';
 import { type FormEvent, useEffect, useRef } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
-import {
-  ChatForm,
-  Container,
-  Conversation,
-  Loading,
-  SendButton,
-} from './SupportChat.styled';
-
+import { Container, Conversation, LoadingContainer } from './SupportChat.styled';
 import ChatMessage from '@/components/ChatMessage';
-import { ChatTextArea } from '@/components/styled';
+import { ChatForm } from '@/components/Forms';
 import { useMessages } from '@/hooks';
 import type { Support } from '@/utils/definitions';
 
 function SupportChat({ data }: { data: Support }) {
   const conversationRef = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const { isLoading, messages, addNewMessage } = useMessages(data);
 
   const isAccepted = data.status === 'accepted';
-
-  // Registers a message to be sent to the user
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    const inputElement = inputRef.current as HTMLTextAreaElement;
-    const content = inputElement.value;
-
-    if (!content || isLoading) {
-      return;
-    }
-
-    inputElement.value = '';
-    await addNewMessage(content);
-  };
 
   // Keeps the chat always scrolled down
   useEffect(() => {
@@ -49,7 +26,6 @@ function SupportChat({ data }: { data: Support }) {
     ro.observe(conversationElement);
   });
 
-  // Main render
   return (
     <Container>
       <Conversation ref={conversationRef}>
@@ -60,17 +36,16 @@ function SupportChat({ data }: { data: Support }) {
             </ChatMessage>
           );
         })}
-        <Loading>{isLoading && <BeatLoader color="gray" size={12} />}</Loading>
+        <LoadingContainer>
+          {isLoading && <BeatLoader color="gray" size={8} />}
+        </LoadingContainer>
       </Conversation>
       {isAccepted && (
-        <ChatForm onSubmit={handleSubmit}>
-          <div>
-            <ChatTextArea ref={inputRef} placeholder="Digite uma mensagem..." />
-            <SendButton type="submit">
-              <Image src="/send-white.svg" height={24} width={24} alt="Send icon" />
-            </SendButton>
-          </div>
-        </ChatForm>
+        <ChatForm
+          background={true}
+          action={(content) => addNewMessage(content)}
+          maxHeight={200}
+        />
       )}
     </Container>
   );

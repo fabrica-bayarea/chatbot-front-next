@@ -87,7 +87,7 @@ export const IconButton = styled(Button)<{
 
 export const MainButton = styled(Button)`
   border: 2px solid var(--clr-b);
-  border-radius: 25px;
+  border-radius: 50px;
   color: var(--clr-b);
   font-size: 1.2em;
   height: 50px;
@@ -98,9 +98,25 @@ export const MainButton = styled(Button)`
   }
 `;
 
+export const SendButton = styled(IconButton)`
+  background-color: var(--clr-b);
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255 255 255 / 50%),
+    rgba(255 255 255 / 0%) 40%
+  );
+  box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+  width: 50px;
+
+  & > img {
+    left: 2px;
+    position: relative;
+  }
+`;
+
 export const SocialButton = styled(Button)`
   border: 2px solid var(--clr-light-gray);
-  border-radius: 25px;
+  border-radius: 50px;
   color: var(--clr-dark);
   height: 50px;
   padding: 0 10px;

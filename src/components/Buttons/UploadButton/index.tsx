@@ -3,7 +3,7 @@
 import type { ReactNode, ChangeEvent } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
-import { Container, Label } from './UploadButton.styled';
+import { ButtonContainer, Label } from './UploadButton.styled';
 import { useUploadThing } from '@/utils/uploadthing';
 
 function UploadButton({
@@ -33,12 +33,12 @@ function UploadButton({
   };
 
   return (
-    <Container>
+    <ButtonContainer>
       <Label htmlFor="image-input">
         {isUploading ? <BeatLoader color="gray" size={6} /> : children}
       </Label>
       <input type="file" id="image-input" onChange={handleChange} />
-    </Container>
+    </ButtonContainer>
   );
 }
 

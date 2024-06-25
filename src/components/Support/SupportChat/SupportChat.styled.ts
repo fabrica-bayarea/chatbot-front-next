@@ -1,23 +1,6 @@
 import styled from 'styled-components';
 
-import { Form, IconButton } from '@/components/styled';
-
-export const ChatForm = styled(Form)`
-  height: 160px;
-  padding: 0 280px 40px;
-
-  & > div {
-    position: relative;
-  }
-
-  @media screen and (width <= 1440px) {
-    padding: 0 120px 40px;
-  }
-
-  @media screen and (width <= 1024px) {
-    padding: 0 40px 40px;
-  }
-`;
+import { IconButton } from '@/components/styled';
 
 export const Container = styled.div`
   background-image: url('/chatBg.jpg');
@@ -25,6 +8,8 @@ export const Container = styled.div`
   flex-direction: column;
   flex-grow: 10;
   height: calc(100vh - 150px);
+  padding-bottom: 80px;
+  position: relative;
 `;
 
 export const Conversation = styled.div`
@@ -33,7 +18,7 @@ export const Conversation = styled.div`
   flex-grow: 10;
   gap: 80px;
   overflow-y: scroll;
-  padding: 40px 274px 0 280px;
+  padding: 40px 234px 0 280px;
   scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
@@ -49,12 +34,13 @@ export const Conversation = styled.div`
   }
 
   @media screen and (width <= 1024px) {
-    padding: 40px 36px 0;
+    padding: 40px 34px 0;
   }
 `;
 
-export const Loading = styled.div`
+export const LoadingContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
   min-height: 40px;
 `;
 

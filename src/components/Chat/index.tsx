@@ -6,34 +6,19 @@ import BeatLoader from 'react-spinners/BeatLoader';
 
 import Feedback from './Feedback';
 import Suggestions from './Suggestions';
-import { Container, Conversation, Loading, SendButton } from './Chat.styled';
+import { Container, Conversation, Loading } from './Chat.styled';
 import ChatMessage from '@/components/ChatMessage';
-import { Form, ChatInput } from '@/components/styled';
+import { ChatForm } from '@/components/Forms';
 import { useChatContext, useMainContext } from '@/hooks';
 
 function Chat() {
-  const { user } = useMainContext();
+  const { isLoading, user } = useMainContext();
   const { conversation, getStream, isStreaming } = useChatContext();
-  const { isLoading } = useMainContext();
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const conversationRef = useRef<HTMLDivElement | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
+  
   const conversationLength = conversation.messages.length;
   const isOpen = conversation.status === 'open';
-
-  // Request an AI response to update the conversation
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    const inputElement = inputRef.current as HTMLInputElement;
-    const question = inputElement.value;
-
-    if (!question || isLoading) {
-      return;
-    }
-
-    inputElement.value = '';
-    await getStream(question);
-  };
 
   // Keeps the chat always scrolled down
   useEffect(() => {
@@ -82,21 +67,14 @@ function Chat() {
           <div className="redirect-status">
             <p>
               Esta conversa foi direcionada para nosso setor de suporte. Assim que
-              possível uma resposta será enviada para o e-mail:
+              possível, uma resposta será enviada para o e-mail:
             </p>
             <span>{user?.email}</span>
           </div>
         )}
         <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
       </Conversation>
-      {isOpen && (
-        <Form onSubmit={handleSubmit}>
-          <ChatInput type="text" ref={inputRef} placeholder="Digite uma mensagem..." />
-          <SendButton type="submit">
-            <Image src="/send-white.svg" height={24} width={24} alt="Send icon" />
-          </SendButton>
-        </Form>
-      )}
+      {isOpen && <ChatForm action={(content) => getStream(content)} maxHeight={120}/>}
     </Container>
   );
 }

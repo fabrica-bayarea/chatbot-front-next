@@ -10,12 +10,13 @@ export const Container = styled.header`
     rgba(255 255 255 / 10%),
     rgba(255 255 255 / 0%) 50%
   );
-  border-bottom: 1px solid var(--clr-a);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
   color: var(--clr-light);
   display: flex;
   gap: 20px;
   height: 150px;
   padding: 0 60px;
+  z-index: 10;
 
   @media screen and (width <= 1024px) {
     font-size: 14px;
@@ -42,7 +43,6 @@ export const Options = styled.div<{ $isVisible: boolean }>`
 
   & > nav {
     background-color: var(--clr-b);
-
     display: flex;
     gap: 20px;
 

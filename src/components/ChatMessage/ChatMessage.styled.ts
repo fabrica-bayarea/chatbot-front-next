@@ -31,7 +31,7 @@ export const Message = styled.span<{
   background-color: ${({ $bgColor }) => ($bgColor ? $bgColor : 'var(--clr-a)')};
   border-radius: var(--radius);
   line-height: 1.25rem;
-  padding: 18px;
+  padding: 12px 18px;
   white-space: pre-line;
 
   ${({ $alignment }) =>

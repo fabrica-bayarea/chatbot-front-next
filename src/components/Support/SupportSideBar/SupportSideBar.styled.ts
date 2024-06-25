@@ -11,6 +11,7 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   height: 100vh;
   min-width: 360px;
   position: relative;
+  z-index: 100;
 
   & > h1 {
     color: var(--clr-b);
@@ -27,34 +28,6 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   }
 `;
 
-export const OpenCloseContainer = styled.div`
-  background-color: var(--clr-c);
-  bottom: 0;
-  position: absolute;
-  right: -40px;
-  visibility: hidden;
-
-  @media screen and (width <= 1024px) {
-    visibility: visible;
-  }
-`;
-
-export const Footer = styled.footer`
-  align-items: center;
-  background-color: var(--clr-b);
-  background-image: linear-gradient(
-    to bottom right,
-    rgba(255 255 255 / 10%),
-    rgba(255 255 255 / 0%) 50%
-  );
-  border-top: 2px solid var(--clr-b);
-  box-shadow: 0 -1px 4px 0 rgb(0 0 0 / 20%);
-  color: var(--clr-light);
-  display: flex;
-  font-size: 0.9rem;
-  height: 40px;
-`;
-
 export const Header = styled.header`
   height: 150px;
 
@@ -66,7 +39,6 @@ export const Header = styled.header`
       rgba(255 255 255 / 0%) 50%
     );
     height: 50px;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 20%);
     display: flex;
     justify-content: space-around;
   }
@@ -104,6 +76,18 @@ export const ListItem = styled.li`
     & > span {
       font-size: 0.75rem;
     }
+  }
+`;
+
+export const OpenCloseContainer = styled.div`
+  background-color: var(--clr-c);
+  bottom: 80px;
+  position: absolute;
+  right: -40px;
+  visibility: hidden;
+
+  @media screen and (width <= 1024px) {
+    visibility: visible;
   }
 `;
 

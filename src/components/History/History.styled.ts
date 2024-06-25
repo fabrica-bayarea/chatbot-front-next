@@ -23,7 +23,6 @@ export const List = styled.ul`
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-bottom: 16px;
   overflow-y: scroll;
   width: 100%;
 
