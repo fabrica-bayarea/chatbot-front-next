@@ -24,10 +24,11 @@ async function Layout({ children }: { children: ReactNode }) {
         <h1>Chatbot</h1>
         <Image
           src="/iesb_logo.png"
-          height={102}
-          width={102}
+          height={100}
+          width={100}
           quality={100}
           alt="Logo IESB"
+          style={{ border: '3px solid white', boxSizing: 'content-box' }}
         />
       </div>
       <section className={styles.section}>{children}</section>

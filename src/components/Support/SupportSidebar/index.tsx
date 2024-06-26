@@ -2,23 +2,25 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { type Dispatch, type SetStateAction, useState } from 'react';
 
 import {
   Container,
-  Header,
   List,
   ListItem,
   OpenCloseContainer,
   Status,
-} from './SupportSideBar.styled';
+} from './SupportSidebar.styled';
 
-import { signOut } from '@/actions/auth';
 import { Avatar, IconButton } from '@/components/styled';
-import { useMainContext, useSupportList } from '@/hooks';
+import { useSupportList } from '@/hooks';
 import elapsedTime from '@/utils/elapsedTime';
 
-function SupportList() {
+function SupportList({
+  setIsVisible,
+}: {
+  setIsVisible: Dispatch<SetStateAction<boolean>>;
+}) {
   const router = useRouter();
   const { supportList } = useSupportList();
 
@@ -36,7 +38,10 @@ function SupportList() {
         return (
           <ListItem
             key={index}
-            onClick={() => router.push(`/suporte/${id}`)}
+            onClick={() => {
+              setIsVisible(false);
+              router.push(`/suporte/${id}`);
+            }}
             role="button"
             tabIndex={0}
           >
@@ -55,49 +60,37 @@ function SupportList() {
   );
 }
 
-function SupportSideBar() {
+function SupportSidebar() {
   const [isVisible, setIsVisible] = useState(false);
-  const router = useRouter();
 
   return (
-    <Container $isVisible={isVisible}>
-      <Header>
-        <nav>
-          <IconButton onClick={() => router.push('/')}>
-            <Image
-              src="/home-white.svg"
-              height={18}
-              width={18}
-              alt="Link para a página principal"
-            />
-          </IconButton>
-          <IconButton onClick={() => router.push('/suporte')}>
-            <Image
-              src="/bar_chart-white.svg"
-              height={18}
-              width={18}
-              alt="Link para o painel"
-            />
-          </IconButton>
-          <IconButton onClick={() => signOut()}>
-            <Image src="/logout-white.svg" height={18} width={18} alt="Logout" />
-          </IconButton>
-        </nav>
-      </Header>
-      <h1>Atendimentos</h1>
-      <SupportList />
+    <>
       <OpenCloseContainer>
         <IconButton onClick={() => setIsVisible(!isVisible)}>
           <Image
-            src="/menu_open-white.svg"
+            src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
             height={24}
             width={24}
             alt="Alternar menu lateral"
           />
         </IconButton>
       </OpenCloseContainer>
-    </Container>
+      <Container $isVisible={isVisible}>
+        <h1>Atendimentos</h1>
+        <SupportList setIsVisible={setIsVisible} />
+        <footer>
+          <Image
+            src="/iesb_logo.png"
+            height={90}
+            width={90}
+            quality={100}
+            alt="Logo IESB"
+            // style={{ border: '12px solid white', boxSizing: 'content-box' }}
+          />
+        </footer>
+      </Container>
+    </>
   );
 }
 
-export default SupportSideBar;
+export default SupportSidebar;

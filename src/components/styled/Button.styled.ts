@@ -106,7 +106,7 @@ export const SendButton = styled(IconButton)`
     rgba(255 255 255 / 0%) 40%
   );
   box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
-  width: 50px;
+  min-width: 50px;
 
   & > img {
     left: 2px;

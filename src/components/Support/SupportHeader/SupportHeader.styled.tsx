@@ -14,19 +14,20 @@ export const Container = styled.header`
   color: var(--clr-light);
   display: flex;
   gap: 20px;
-  height: 150px;
+  height: 120px;
   padding: 0 60px;
   z-index: 10;
 
   @media screen and (width <= 1024px) {
     font-size: 14px;
-    height: 120px;
+    height: 100px;
     padding: 0 20px;
   }
 
   @media screen and (width <= 480px) {
     font-size: 10px;
     gap: 10px;
+    height: 80px;
   }
 `;
 
@@ -42,7 +43,6 @@ export const Options = styled.div<{ $isVisible: boolean }>`
   position: relative;
 
   & > nav {
-    background-color: var(--clr-b);
     display: flex;
     gap: 20px;
 
@@ -56,6 +56,7 @@ export const Options = styled.div<{ $isVisible: boolean }>`
 
   @media screen and (width <= 1440px) {
     & > nav {
+      background-color: var(--clr-b);
       border: 1px solid var(--clr-c);
       box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
       flex-direction: column;
@@ -90,5 +91,11 @@ export const UserContainer = styled.div`
     font-size: 1.8em;
     left: -2px;
     position: relative;
+  }
+
+  @media screen and (width <= 480px) {
+    & > span:last-child {
+      display: none;
+    }
   }
 `;

@@ -61,7 +61,7 @@
   border-radius: var(--r) var(--r) 0 0;
   color: white;
   display: flex;
-  height: 100px;
+  height: 120px;
   justify-content: space-between;
   padding: 0 30px;
 }

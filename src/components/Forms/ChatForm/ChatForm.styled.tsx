@@ -19,7 +19,6 @@ export const Container = styled(Form)<{ $background?: boolean }>`
     css`
       background-color: var(--clr-light);
       border-top: none;
-      box-shadow: 0 -1px 2px 0 rgb(0 0 0 / 10%);
       font-size: 1rem;
       padding: 15px 240px;
 

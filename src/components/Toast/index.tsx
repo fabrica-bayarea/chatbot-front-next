@@ -30,7 +30,7 @@ function Toast() {
       <div></div>
       <span>{message}</span>
       <IconButton onClick={() => setShowMessage(false)} $hover={true}>
-        <Image src="/xmark-white.svg" height={16} width={16} alt="Close icon" />
+        <Image src="/xmark.svg" height={16} width={16} alt="Close icon" />
       </IconButton>
     </Container>
   );

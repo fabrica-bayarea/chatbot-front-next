@@ -3,15 +3,22 @@ import styled, { css } from 'styled-components';
 import type { SupportStatus } from '@/utils/definitions';
 
 export const Container = styled.aside<{ $isVisible: boolean }>`
-  background-color: var(--clr-light);
+  background-color: white;
   box-shadow: 1px 0 4px 0 rgb(0 0 0 / 20%);
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  height: 100vh;
-  min-width: 360px;
+  gap: 20px;
+  height: calc(100vh - 40px);
+  min-width: 280px;
+  padding-top: 120px;
   position: relative;
   z-index: 100;
+
+  & > footer {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
 
   & > h1 {
     color: var(--clr-b);
@@ -21,26 +28,9 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
 
   @media screen and (width <= 1024px) {
     left: ${({ $isVisible }) => ($isVisible ? 0 : '-280px')};
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     position: absolute;
-    z-index: 100;
-    transition: left 400ms ease;
-    min-width: 280px;
-  }
-`;
-
-export const Header = styled.header`
-  height: 150px;
-
-  & > nav {
-    background-color: var(--clr-c);
-    background-image: linear-gradient(
-      to bottom right,
-      rgba(255 255 255 / 10%),
-      rgba(255 255 255 / 0%) 50%
-    );
-    height: 50px;
-    display: flex;
-    justify-content: space-around;
+    transition: left 400ms ease, opacity 400ms ease;
   }
 `;
 
@@ -53,21 +43,24 @@ export const List = styled.ul`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--clr-c);
+    background-color: var(--clr-a);
   }
 `;
 
 export const ListItem = styled.li`
   align-items: center;
-  border-bottom: 1px solid var(--clr-light-gray);
   cursor: pointer;
   display: flex;
   gap: 10px;
   padding: 20px;
   transition: background-color 200ms ease;
 
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--clr-light);
+  }
+
   &:hover {
-    background-color: var(--clr-light-gray);
+    background-color: var(--clr-light);
   }
 
   & > div:nth-child(2) {
@@ -80,11 +73,11 @@ export const ListItem = styled.li`
 `;
 
 export const OpenCloseContainer = styled.div`
-  background-color: var(--clr-c);
-  bottom: 80px;
+  left: 0;
   position: absolute;
-  right: -40px;
+  top: 0;
   visibility: hidden;
+  z-index: 100;
 
   @media screen and (width <= 1024px) {
     visibility: visible;
