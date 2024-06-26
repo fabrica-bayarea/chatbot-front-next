@@ -7,7 +7,8 @@ export const Label = styled.label`
   width: 100%;
 
   & > span {
-    font-size: 0.9em;
+    font-size: 0.75em;
     font-weight: bold;
+    text-transform: uppercase;
   }
 `;

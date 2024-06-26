@@ -3,51 +3,56 @@ import styled from 'styled-components';
 import { IconButton } from '@/components/styled';
 
 export const Container = styled.div`
-  background-image: url('/chatBg.jpg');
+  background-image: url('/chat_background.jpg');
   display: flex;
   flex-direction: column;
+  flex-grow: 10;
   height: calc(100vh - 160px);
-
-  & form {
-    margin-bottom: 40px;
-    padding: 0 320px;
-  }
+  padding-bottom: 80px;
+  position: relative;
 `;
 
 export const Conversation = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex-grow: 10;
   gap: 80px;
   overflow-y: scroll;
-  padding: 40px 312px 0 320px;
+  padding: 40px 234px 0 240px;
   scroll-behavior: smooth;
 
-  & > hr {
-    background-color: var(--clr-light);
-    background-image: linear-gradient(to right, white, transparent, white);
-    border: none;
-    min-height: 2px;
-  }
-
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--clr-d);
+    background-color: var(--clr-b);
+  }
+
+  @media screen and (width <= 1440px) {
+    padding: 40px 114px 0 120px;
+  }
+
+  @media screen and (width <= 1024px) {
+    padding: 40px 34px 0 40px;
   }
 `;
 
-export const Loading = styled.div`
+export const LoadingContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
   min-height: 40px;
 `;
 
 export const SendButton = styled(IconButton)`
-  background-color: var(--clr-d);
-  bottom: 30px;
+  background-color: var(--clr-c);
   height: 60px;
   position: absolute;
-  right: calc(20% - 80px);
+  right: -90px;
+  top: 30px;
+
+  @media screen and (width <= 1024px) {
+    right: -30px;
+    top: -30px;
+  }
 `;

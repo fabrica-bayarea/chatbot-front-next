@@ -20,11 +20,31 @@ export const AltButton = styled(Button)`
   border: 1px solid var(--clr-light);
   border-radius: 50px;
   color: var(--clr-light);
+  font-size: 1rem;
   height: 50px;
+  position: relative;
   width: 250px;
 
   &:disabled {
-    opacity: 0.4;
+    opacity: 0.75;
+  }
+
+  & > div {
+    position: absolute;
+    right: 20px;
+  }
+
+  @media screen and (width <= 1440px) {
+    border: unset;
+    border-radius: unset;
+    height: 40px;
+    justify-content: flex-start;
+    padding-left: 20px;
+    width: 240px;
+
+    &:hover {
+      background-color: var(--clr-c);
+    }
   }
 `;
 
@@ -37,18 +57,6 @@ export const DialogButton = styled(Button)`
 
   &:hover:not(:disabled) {
     background-color: var(--clr-a);
-  }
-`;
-
-export const DropdownButton = styled(Button)`
-  background-color: var(--clr-c);
-  color: var(--clr-light);
-  justify-content: flex-start;
-  letter-spacing: 1px;
-  padding: 10px 20px;
-
-  &:hover {
-    background-color: var(--clr-b);
   }
 `;
 
@@ -79,7 +87,7 @@ export const IconButton = styled(Button)<{
 
 export const MainButton = styled(Button)`
   border: 2px solid var(--clr-b);
-  border-radius: 25px;
+  border-radius: 50px;
   color: var(--clr-b);
   font-size: 1.2em;
   height: 50px;
@@ -90,9 +98,25 @@ export const MainButton = styled(Button)`
   }
 `;
 
+export const SendButton = styled(IconButton)`
+  background-color: var(--clr-b);
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255 255 255 / 50%),
+    rgba(255 255 255 / 0%) 40%
+  );
+  box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+  min-width: 50px;
+
+  & > img {
+    left: 2px;
+    position: relative;
+  }
+`;
+
 export const SocialButton = styled(Button)`
   border: 2px solid var(--clr-light-gray);
-  border-radius: 25px;
+  border-radius: 50px;
   color: var(--clr-dark);
   height: 50px;
   padding: 0 10px;

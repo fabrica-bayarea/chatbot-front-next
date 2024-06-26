@@ -23,7 +23,7 @@ export const Message = styled.span<{
   $alignment?: 'start' | 'end';
   $bgColor?: string;
 }>`
-  --r: 12px;
+  --r: 4px;
   --radius: 0 var(--r) var(--r) 0;
   --radius-inverted: var(--r) 0 0 var(--r);
 
@@ -31,8 +31,7 @@ export const Message = styled.span<{
   background-color: ${({ $bgColor }) => ($bgColor ? $bgColor : 'var(--clr-a)')};
   border-radius: var(--radius);
   line-height: 1.25rem;
-  margin: 0 20px 0 0;
-  padding: 18px;
+  padding: 12px 18px;
   white-space: pre-line;
 
   ${({ $alignment }) =>
@@ -40,6 +39,5 @@ export const Message = styled.span<{
     css`
       align-self: flex-end;
       border-radius: var(--radius-inverted);
-      margin: 0 0 0 20px;
     `}
 `;

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { Container } from './TrashButton.styled';
+import { ButtonContainer } from './TrashButton.styled';
 import { IconButton } from '@/components/styled';
 
 function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
@@ -11,7 +11,7 @@ function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
 
   if (showConfirmation) {
     return (
-      <Container>
+      <ButtonContainer>
         <IconButton
           onClick={async (event) => {
             event.stopPropagation();
@@ -19,7 +19,7 @@ function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
           }}
           $hover={true}
         >
-          <Image src="/check.svg" height={20} width={20} alt="Confirm icon" />
+          <Image src="/check.svg" height={24} width={24} alt="Confirmar" />
         </IconButton>
         <IconButton
           onClick={(event) => {
@@ -28,14 +28,14 @@ function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
           }}
           $hover={true}
         >
-          <Image src="/xmark.svg" height={20} width={20} alt="Cancel icon" />
+          <Image src="/xmark.svg" height={24} width={24} alt="Cancelar" />
         </IconButton>
-      </Container>
+      </ButtonContainer>
     );
   }
 
   return (
-    <Container>
+    <ButtonContainer>
       <IconButton
         onClick={(event) => {
           event.stopPropagation();
@@ -43,9 +43,9 @@ function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
         }}
         $hover={true}
       >
-        <Image src="/trash.svg" height={16} width={16} alt="Trash icon" />
+        <Image src="/trash.svg" height={24} width={24} alt="Apagar conversa" />
       </IconButton>
-    </Container>
+    </ButtonContainer>
   );
 }
 

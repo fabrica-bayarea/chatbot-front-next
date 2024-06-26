@@ -23,7 +23,6 @@ export const List = styled.ul`
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-bottom: 16px;
   overflow-y: scroll;
   width: 100%;
 
@@ -44,7 +43,7 @@ export const ListItem = styled.li`
   gap: 20px;
   justify-content: space-between;
   padding: 20px 10px 20px 40px;
-  transition: background-color ease-in 200ms;
+  transition: background-color 200ms ease;
 
   &:hover {
     background-color: var(--clr-light);

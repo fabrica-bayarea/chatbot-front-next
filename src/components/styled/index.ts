@@ -4,14 +4,14 @@ import {
   Button,
   AltButton,
   DialogButton,
-  DropdownButton,
   IconButton,
   MainButton,
+  SendButton,
   SocialButton,
 } from './Button.styled';
 
-import { Form, ColumnForm } from './Form.styled';
-import { ChatInput, MainInput, ChatTextArea } from './Input.styled';
+import { Form, MainForm, StatusContainer, UploadContainer } from './Form.styled';
+import { MainInput, AdaptiveTextArea } from './Input.styled';
 import { Label } from './Label.styled';
 
 export {
@@ -19,14 +19,15 @@ export {
   Button,
   AltButton,
   DialogButton,
-  DropdownButton,
   IconButton,
   MainButton,
+  SendButton,
   SocialButton,
   Form,
-  ColumnForm,
-  ChatInput,
+  MainForm,
+  StatusContainer,
+  UploadContainer,
   MainInput,
-  ChatTextArea,
+  AdaptiveTextArea,
   Label,
 };

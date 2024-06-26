@@ -13,7 +13,7 @@ const Container = styled.div`
   padding: 0 60px;
 `;
 
-function Register() {
+function Registration() {
   const router = useRouter();
 
   return (
@@ -21,7 +21,7 @@ function Register() {
       <header>
         <h2>Registro</h2>
         <IconButton onClick={() => router.push('/login')} $bgColor="white">
-          <Image src="/chevron_left.svg" height={24} width={24} alt="Chevron left icon" />
+          <Image src="/chevron_backward.svg" height={24} width={24} alt="Chevron left icon" />
         </IconButton>
       </header>
       <Container>
@@ -31,4 +31,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Registration;

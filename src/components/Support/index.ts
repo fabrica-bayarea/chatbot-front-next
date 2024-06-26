@@ -1,5 +1,5 @@
 import SupportChat from './SupportChat';
 import SupportHeader from './SupportHeader';
-import SupportSideBar from './SupportSideBar';
+import SupportSidebar from './SupportSidebar';
 
-export { SupportChat, SupportHeader, SupportSideBar };
+export { SupportChat, SupportHeader, SupportSidebar };

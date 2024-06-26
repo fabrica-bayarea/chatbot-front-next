@@ -1,24 +1,26 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { type Dispatch, type SetStateAction, useState } from 'react';
 
 import {
   Container,
-  Footer,
-  Header,
   List,
   ListItem,
+  OpenCloseContainer,
   Status,
-} from './SupportSideBar.styled';
+} from './SupportSidebar.styled';
 
-import { signOut } from '@/actions/auth';
 import { Avatar, IconButton } from '@/components/styled';
-import { useMainContext, useSupportList } from '@/hooks';
+import { useSupportList } from '@/hooks';
 import elapsedTime from '@/utils/elapsedTime';
 
-function SupportList() {
+function SupportList({
+  setIsVisible,
+}: {
+  setIsVisible: Dispatch<SetStateAction<boolean>>;
+}) {
   const router = useRouter();
   const { supportList } = useSupportList();
 
@@ -36,7 +38,10 @@ function SupportList() {
         return (
           <ListItem
             key={index}
-            onClick={() => router.push(`/suporte/${id}`)}
+            onClick={() => {
+              setIsVisible(false);
+              router.push(`/suporte/${id}`);
+            }}
             role="button"
             tabIndex={0}
           >
@@ -55,34 +60,37 @@ function SupportList() {
   );
 }
 
-function SupportSideBar() {
-  const { user: collaborator } = useMainContext();
+function SupportSidebar() {
+  const [isVisible, setIsVisible] = useState(false);
 
   return (
-    <Container>
-      <Header>
-        <Link href={'/'}>
+    <>
+      <OpenCloseContainer>
+        <IconButton onClick={() => setIsVisible(!isVisible)}>
           <Image
-            src="/home.svg"
+            src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
             height={24}
             width={24}
-            alt="Link para a página principal"
+            alt="Alternar menu lateral"
           />
-        </Link>
-        <h1>Atendimentos</h1>
-      </Header>
-      <SupportList />
-      <Footer>
-        <div>
-          <div>{collaborator?.name.split(' ')[0]}</div>
-          <div>{collaborator?.email}</div>
-        </div>
-        <IconButton onClick={() => signOut()}>
-          <Image src="/logout-white.svg" height={18} width={18} alt="Botão de deslogar" />
         </IconButton>
-      </Footer>
-    </Container>
+      </OpenCloseContainer>
+      <Container $isVisible={isVisible}>
+        <h1>Atendimentos</h1>
+        <SupportList setIsVisible={setIsVisible} />
+        <footer>
+          <Image
+            src="/iesb_logo.png"
+            height={90}
+            width={90}
+            quality={100}
+            alt="Logo IESB"
+            // style={{ border: '12px solid white', boxSizing: 'content-box' }}
+          />
+        </footer>
+      </Container>
+    </>
   );
 }
 
-export default SupportSideBar;
+export default SupportSidebar;

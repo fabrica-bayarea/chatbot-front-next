@@ -1,7 +1,7 @@
 'use client';
 
 import { type ReactNode, useState } from 'react';
-import BeatLoader from 'react-spinners/BeatLoader';
+import { ClipLoader } from 'react-spinners';
 
 import { AltButton } from '@/components/styled';
 
@@ -24,7 +24,12 @@ function RequestButton({
 
   return (
     <AltButton onClick={handleClick} disabled={disabled || isLoading}>
-      {isLoading ? <BeatLoader color="white" size={8} /> : children}
+      {children}
+      {isLoading && (
+        <div>
+          <ClipLoader color="white" size={12} />
+        </div>
+      )}
     </AltButton>
   );
 }

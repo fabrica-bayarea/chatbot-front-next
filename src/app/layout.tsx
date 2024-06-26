@@ -1,15 +1,15 @@
+import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { extractRouterConfig } from 'uploadthing/server';
-import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 
+import './globals.css';
 import { ourFileRouter } from './api/uploadthing/core';
 import StyledComponentsRegistry from './registry';
 import { fetchUserProfile } from '@/actions/auth';
 import Toast from '@/components/Toast';
 import { MainProvider } from '@/context';
 
-import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Chatbot IESB',

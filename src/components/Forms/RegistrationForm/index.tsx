@@ -7,7 +7,7 @@ import { useFormState } from 'react-dom';
 import { signUp } from '@/actions/auth';
 import { SubmitButton, UploadButton } from '@/components/Buttons';
 import InputGroup from '@/components/Forms/InputGroup';
-import { ColumnForm } from '@/components/styled';
+import { MainForm, StatusContainer, UploadContainer } from '@/components/styled';
 import { useValidation } from '@/hooks';
 import type { InputScheme, StatusMessage } from '@/utils/definitions';
 
@@ -54,60 +54,55 @@ function RegistrationForm() {
   }, [formState]);
 
   return (
-    <ColumnForm action={formAction}>
+    <MainForm action={formAction}>
       <InputGroup
         type="text"
         name="email"
         onChange={handleChange}
-        placeholder="Digite seu e-mail..."
+        placeholder="Digite seu e-mail"
         scheme={inputs.email}
       />
       <InputGroup
         type="text"
         name="name"
         onChange={handleChange}
-        placeholder="Digite seu nome..."
+        placeholder="Digite seu nome"
         scheme={inputs.name}
       />
       <InputGroup
         type="password"
         name="password"
         onChange={handleChange}
-        placeholder="Digite uma senha..."
+        placeholder="Digite uma senha"
         scheme={inputs.password}
       />
       <InputGroup
         type="password"
         name="confirmation"
         onChange={handleChange}
-        placeholder="Confirme sua senha..."
+        placeholder="Confirme sua senha"
         scheme={inputs.confirmation}
       />
-      <div className="upload">
+      <UploadContainer>
         <InputGroup
           type="text"
           name="picture"
           onChange={handleChange}
-          placeholder="Digite o endereço..."
+          placeholder="Digite um endereço"
           scheme={inputs.picture}
         />
         <UploadButton setFn={setPictureUrl}>Upload</UploadButton>
-      </div>
-      <div className="status">
+      </UploadContainer>
+      <StatusContainer>
         {statusMessage && (
           <span>
-            <Image
-              src="/circle_exclamation.svg"
-              height={16}
-              width={16}
-              alt="Exclamation icon"
-            />
+            <Image src="/error.svg" height={18} width={18} alt="Atenção" />
             {statusMessage}
           </span>
         )}
-      </div>
+      </StatusContainer>
       <SubmitButton validation={validation}>Registrar</SubmitButton>
-    </ColumnForm>
+    </MainForm>
   );
 }
 
