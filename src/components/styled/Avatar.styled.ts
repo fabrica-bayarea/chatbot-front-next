@@ -16,7 +16,7 @@ export const Avatar = styled.div<AvatarProps>`
   box-shadow: ${({ $border }) => ($border ? 'none' : '0 2px 4px rgb(0 0 0 / 20%)')};
   color: white;
   display: flex;
-  font-size: ${(props) => props.$fontSize ?? '1.5rem'};
+  font-size: ${(props) => props.$fontSize ?? '1rem'};
   justify-content: center;
   width: ${(props) => props.$width ?? '60px'};
   user-select: none;

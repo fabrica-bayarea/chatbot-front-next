@@ -23,7 +23,7 @@ function PasswordInput({ name, value, ...attributes }: { name: string; value: st
           src={showPassword ? '/visibility.svg' : '/visibility_off.svg'}
           height={16}
           width={16}
-          alt="Visibility icon"
+          alt="Alternar visibilidade"
         />
       </Button>
     </Container>

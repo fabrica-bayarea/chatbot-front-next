@@ -1,41 +1,39 @@
 'use client';
 
 import Image from 'next/image';
-import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
+import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
 
 import { Container, DropdownButton, Navigation } from './Dropdown.styled';
 import { signOut } from '@/actions/auth';
 import { IconButton } from '@/components/styled';
-import { useChatContext } from '@/hooks';
+import { useChatContext, useMainContext, useOutsideClick } from '@/hooks';
+import { useRouter } from 'next/navigation';
 
 function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
+  const { user } = useMainContext();
   const { newConversation, setConversation } = useChatContext();
+  const navRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
 
-  // Listen for click events to close the menu
-  useEffect(() => {
-    const handleOutsideClick = () => {
-      if (isVisible) {
-        setIsVisible(false);
-      }
-    };
-
-    document.addEventListener('click', handleOutsideClick);
-
-    return () => document.removeEventListener('click', handleOutsideClick);
-  }, [isVisible]);
+  useOutsideClick(navRef, () => setIsVisible(false), true);
 
   return (
-    <Container>
-      <IconButton onClick={() => setIsVisible(!isVisible)}>
+    <Container ref={navRef}>
+      <IconButton onMouseDown={() => setIsVisible(!isVisible)}>
         <Image
           src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
           height={30}
           width={30}
-          alt="Menu icon"
+          alt="Alternar visibilidade"
         />
       </IconButton>
       <Navigation $isVisible={isVisible}>
+        {user.role !== 'user' && (
+          <DropdownButton onClick={() => router.push('/suporte')}>
+            Atendimentos
+          </DropdownButton>
+        )}
         <DropdownButton
           onClick={() => {
             setConversation(newConversation);

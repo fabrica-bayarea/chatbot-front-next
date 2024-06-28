@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { type Dispatch, type SetStateAction, useState } from 'react';
+import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
 
 import {
   Container,
@@ -13,7 +13,7 @@ import {
 } from './SupportSidebar.styled';
 
 import { Avatar, IconButton } from '@/components/styled';
-import { useSupportList } from '@/hooks';
+import { useOutsideClick, useSupportList } from '@/hooks';
 import elapsedTime from '@/utils/elapsedTime';
 
 function SupportList({
@@ -45,7 +45,7 @@ function SupportList({
             role="button"
             tabIndex={0}
           >
-            <Avatar $fontSize="1.25rem" $picture={owner_profile?.picture} $width="40px">
+            <Avatar $picture={owner_profile?.picture} $width="40px">
               {owner_profile?.name.charAt(0)}
             </Avatar>
             <div>
@@ -61,12 +61,15 @@ function SupportList({
 }
 
 function SupportSidebar() {
-  const [isVisible, setIsVisible] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useOutsideClick(sidebarRef, () => setIsVisible(false));
 
   return (
-    <>
+    <div ref={sidebarRef}>
       <OpenCloseContainer>
-        <IconButton onClick={() => setIsVisible(!isVisible)}>
+        <IconButton onMouseDown={() => setIsVisible(!isVisible)}>
           <Image
             src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
             height={24}
@@ -81,15 +84,15 @@ function SupportSidebar() {
         <footer>
           <Image
             src="/iesb_logo.png"
-            height={90}
-            width={90}
+            height={75}
+            width={75}
             quality={100}
             alt="Logo IESB"
-            // style={{ border: '12px solid white', boxSizing: 'content-box' }}
+            style={{ border: '1px solid white', boxSizing: 'content-box' }}
           />
         </footer>
       </Container>
-    </>
+    </div>
   );
 }
 

@@ -3,11 +3,11 @@ import styled, { css } from 'styled-components';
 import type { SupportStatus } from '@/utils/definitions';
 
 export const Container = styled.aside<{ $isVisible: boolean }>`
-  background-color: white;
+  background-color: var(--clr-lighter);
   box-shadow: 1px 0 4px 0 rgb(0 0 0 / 20%);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 40px;
   height: calc(100vh - 40px);
   min-width: 280px;
   padding-top: 120px;
@@ -21,9 +21,7 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   }
 
   & > h1 {
-    color: var(--clr-b);
-    font-size: 1.8rem;
-    padding: 0 20px;
+    text-align: center;
   }
 
   @media screen and (width <= 1024px) {
@@ -73,7 +71,7 @@ export const ListItem = styled.li`
 `;
 
 export const OpenCloseContainer = styled.div`
-  left: 0;
+  left: 12px;
   position: absolute;
   top: 0;
   visibility: hidden;

@@ -10,7 +10,6 @@ export const DropdownButton = styled(Button)`
   background-color: var(--clr-c);
   color: var(--clr-light);
   justify-content: flex-start;
-  letter-spacing: 1px;
   padding: 10px 20px;
 
   &:hover {
