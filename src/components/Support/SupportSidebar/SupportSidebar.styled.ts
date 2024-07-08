@@ -8,7 +8,7 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 40px;
-  height: calc(100vh - 40px);
+  height: calc(100dvh - 40px);
   min-width: 280px;
   padding-top: 120px;
   position: relative;
@@ -21,7 +21,7 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   }
 
   & > h1 {
-    text-align: center;
+    padding: 0 20px;
   }
 
   @media screen and (width <= 1024px) {
@@ -33,6 +33,9 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
 `;
 
 export const List = styled.ul`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
   flex-grow: 10;
   overflow-y: scroll;
 
@@ -52,6 +55,7 @@ export const ListItem = styled.li`
   gap: 10px;
   padding: 20px;
   transition: background-color 200ms ease;
+  width: 100%;
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--clr-light);
@@ -70,6 +74,10 @@ export const ListItem = styled.li`
   }
 `;
 
+export const LoadingItem = styled(ListItem)`
+  cursor: default;
+`;
+
 export const OpenCloseContainer = styled.div`
   left: 12px;
   position: absolute;
@@ -82,7 +90,33 @@ export const OpenCloseContainer = styled.div`
   }
 `;
 
-export const Status = styled.div<{ $status: SupportStatus }>`
+export const Skeleton = styled.div`
+  animation: loading 1.2s infinite;
+  background: linear-gradient(
+    90deg,
+    var(--clr-light) 25%,
+    var(--clr-a) 50%,
+    var(--clr-light) 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  height: 20px;
+  opacity: 0.4;
+  width: 140px;
+
+  &:nth-child(2) {
+    height: 15px;
+    width: 80px;
+  }
+`;
+
+export const SkeletonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+export const Status = styled.div<{ $status?: SupportStatus }>`
   aspect-ratio: 1;
   background-color: var(--clr-a);
   border-radius: 50%;

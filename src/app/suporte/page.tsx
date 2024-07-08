@@ -6,8 +6,8 @@ const Container = styled.section`
   align-items: center;
   background: linear-gradient(to bottom, var(--clr-light) 80%, var(--clr-a) 120%);
   gap: 20px;
-  padding: 80px 40px 20px;
-  height: calc(100vh - 40px);
+  padding: 120px 40px 20px;
+  height: calc(100dvh - 40px);
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

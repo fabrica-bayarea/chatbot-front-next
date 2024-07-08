@@ -9,7 +9,7 @@ const Container = styled.main`
   background: linear-gradient(to bottom right, var(--clr-b), var(--clr-c));
   display: flex;
   justify-content: space-evenly;
-  min-height: 100vh;
+  min-height: 100dvh;
 
   & > a {
     display: flex;
@@ -86,7 +86,7 @@ const Section = styled.section`
 
   @media screen and (max-width: 480px) {
     border-radius: 0;
-    min-height: 100vh;
+    min-height: 100dvh;
     width: 100%;
 
     & > div {

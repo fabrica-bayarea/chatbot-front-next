@@ -8,13 +8,35 @@ import {
   Container,
   List,
   ListItem,
+  LoadingItem,
   OpenCloseContainer,
+  Skeleton,
+  SkeletonContainer,
   Status,
 } from './SupportSidebar.styled';
 
 import { Avatar, IconButton } from '@/components/styled';
 import { useOutsideClick, useSupportList } from '@/hooks';
 import elapsedTime from '@/utils/elapsedTime';
+
+function Loading({ n }: { n: number }) {
+  return (
+    <List>
+      {new Array(n).fill(0).map((_, i) => {
+        return (
+          <LoadingItem key={i}>
+            <Avatar $width="40px"></Avatar>
+            <SkeletonContainer>
+              <Skeleton />
+              <Skeleton />
+            </SkeletonContainer>
+            <Status />
+          </LoadingItem>
+        );
+      })}
+    </List>
+  );
+}
 
 function SupportList({
   setIsVisible,
@@ -25,7 +47,7 @@ function SupportList({
   const { supportList } = useSupportList();
 
   if (supportList === undefined) {
-    return <List>Loading</List>;
+    return <Loading n={5} />;
   }
 
   if (supportList?.length === 0) {
@@ -84,8 +106,8 @@ function SupportSidebar() {
         <footer>
           <Image
             src="/iesb_logo.png"
-            height={75}
-            width={75}
+            height={60}
+            width={60}
             quality={100}
             alt="Logo IESB"
             style={{ border: '1px solid white', boxSizing: 'content-box' }}

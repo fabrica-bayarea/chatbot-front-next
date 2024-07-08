@@ -35,7 +35,7 @@ const Header = styled.header`
 
 const Container = styled.main`
   display: flex;
-  min-height: calc(100vh - 40px);
+  min-height: calc(100dvh - 40px);
 
   & h1 {
     color: var(--clr-b);
