@@ -46,6 +46,15 @@ h2 {
   font-family: var(--font-b);
 }
 
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 @keyframes pulse {
   0% {
     transform: scale(0.95);

@@ -21,7 +21,7 @@ function Registration() {
       <header>
         <h2>Registro</h2>
         <IconButton onClick={() => router.push('/login')} $bgColor="white">
-          <Image src="/chevron_backward.svg" height={24} width={24} alt="Chevron left icon" />
+          <Image src="/chevron_backward.svg" height={24} width={24} alt="Página de login" />
         </IconButton>
       </header>
       <Container>

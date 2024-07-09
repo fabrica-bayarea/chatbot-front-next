@@ -7,8 +7,8 @@ export const Container = styled.header`
   background-color: var(--clr-b);
   background-image: linear-gradient(
     to bottom right,
-    rgba(255 255 255 / 10%),
-    rgba(255 255 255 / 0%) 50%
+    rgba(255 255 255 / 8%),
+    rgba(255 255 255 / 0%) 80%
   );
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
   color: var(--clr-light);
@@ -21,7 +21,7 @@ export const Container = styled.header`
   @media screen and (width <= 1024px) {
     font-size: 14px;
     height: 100px;
-    padding: 0 20px;
+    padding: 0 12px 0 20px;
   }
 
   @media screen and (width <= 480px) {

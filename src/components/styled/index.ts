@@ -1,4 +1,4 @@
-import { Avatar } from './Avatar.styled';
+import { Avatar, LoadingAvatar } from './Avatar.styled';
 
 import {
   Button,
@@ -16,6 +16,7 @@ import { Label } from './Label.styled';
 
 export {
   Avatar,
+  LoadingAvatar,
   Button,
   AltButton,
   DialogButton,

@@ -2,19 +2,40 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { type Dispatch, type SetStateAction, useState } from 'react';
+import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
 
 import {
   Container,
   List,
   ListItem,
+  LoadingItem,
   OpenCloseContainer,
-  Status,
 } from './SupportSidebar.styled';
 
-import { Avatar, IconButton } from '@/components/styled';
-import { useSupportList } from '@/hooks';
+import { Avatar, LoadingAvatar, IconButton } from '@/components/styled';
+import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
+import { LoadingStatus, Status } from '@/components/styled/Status.styled';
+import { useOutsideClick, useSupportList } from '@/hooks';
 import elapsedTime from '@/utils/elapsedTime';
+
+function Loading({ n }: { n: number }) {
+  return (
+    <List>
+      {new Array(n).fill(0).map((_, i) => {
+        return (
+          <LoadingItem key={i}>
+            <LoadingAvatar $width="40px" />
+            <SkeletonContainer $gap="5px">
+              <Skeleton $height="20px" $width="140px" />
+              <Skeleton $height="15px" $width="80px" />
+            </SkeletonContainer>
+            <LoadingStatus />
+          </LoadingItem>
+        );
+      })}
+    </List>
+  );
+}
 
 function SupportList({
   setIsVisible,
@@ -25,7 +46,7 @@ function SupportList({
   const { supportList } = useSupportList();
 
   if (supportList === undefined) {
-    return <List>Loading</List>;
+    return <Loading n={5} />;
   }
 
   if (supportList?.length === 0) {
@@ -45,7 +66,7 @@ function SupportList({
             role="button"
             tabIndex={0}
           >
-            <Avatar $fontSize="1.25rem" $picture={owner_profile?.picture} $width="40px">
+            <Avatar $border={true} $picture={owner_profile?.picture} $width="40px">
               {owner_profile?.name.charAt(0)}
             </Avatar>
             <div>
@@ -61,12 +82,15 @@ function SupportList({
 }
 
 function SupportSidebar() {
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  useOutsideClick(sidebarRef, () => setIsVisible(false));
+
   return (
-    <>
+    <div ref={sidebarRef}>
       <OpenCloseContainer>
-        <IconButton onClick={() => setIsVisible(!isVisible)}>
+        <IconButton onMouseDown={() => setIsVisible(!isVisible)}>
           <Image
             src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
             height={24}
@@ -81,15 +105,15 @@ function SupportSidebar() {
         <footer>
           <Image
             src="/iesb_logo.png"
-            height={90}
-            width={90}
+            height={60}
+            width={60}
             quality={100}
             alt="Logo IESB"
-            // style={{ border: '12px solid white', boxSizing: 'content-box' }}
+            style={{ border: '2px solid white', boxSizing: 'content-box' }}
           />
         </footer>
       </Container>
-    </>
+    </div>
   );
 }
 

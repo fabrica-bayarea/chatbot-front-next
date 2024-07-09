@@ -1,14 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { Updater } from 'use-immer';
 
 import { Container, MoreButton, Options, UserContainer } from './SupportHeader.styled';
 import { sendSupport, updateSupportStatus } from '@/actions/support';
 import { RequestButton } from '@/components/Buttons';
 import { Avatar } from '@/components/styled';
-import { useMainContext } from '@/hooks';
+import { useMainContext, useOutsideClick } from '@/hooks';
 import type { Support } from '@/utils/definitions';
 
 function SupportHeader({
@@ -19,8 +19,11 @@ function SupportHeader({
   setSupport: Updater<Support>;
 }) {
   const { setAndShow } = useMainContext();
+  const navRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const user = data.owner_profile;
+
+  useOutsideClick(navRef, () => setIsVisible(false));
 
   const handleAccept = async () => {
     await updateSupportStatus(data.id, 'accepted');
@@ -55,14 +58,22 @@ function SupportHeader({
 
   return (
     <Container>
-      <Avatar $border={true} $fontSize="1.8em" $picture={user?.picture} $width="3.5em">
+      <Avatar $border={true} $fontSize="2em" $picture={user?.picture} $width="3em">
         {user?.name.charAt(0)}
       </Avatar>
       <UserContainer>
         <span>{user?.name}</span>
         <span>{user?.email}</span>
       </UserContainer>
-      <Options $isVisible={isVisible}>
+      <Options ref={navRef} $isVisible={isVisible}>
+        <MoreButton onMouseDown={() => setIsVisible(!isVisible)}>
+          <Image
+            src="/more_vert-white.svg"
+            height={24}
+            width={24}
+            alt="Alternar visibilidade"
+          />
+        </MoreButton>
         <nav>
           {data.status === 'open' && (
             <RequestButton request={handleAccept}>Iniciar atendimento</RequestButton>
@@ -81,14 +92,6 @@ function SupportHeader({
             <RequestButton request={handleClose}>Encerrar atendimento</RequestButton>
           )}
         </nav>
-        <MoreButton onClick={() => setIsVisible(!isVisible)}>
-          <Image
-            src="/more_vert-white.svg"
-            height={24}
-            width={24}
-            alt="Alternar visibilidade das opções"
-          />
-        </MoreButton>
       </Options>
     </Container>
   );

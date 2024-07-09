@@ -55,20 +55,20 @@ function Feedback({ id }: { id: string }) {
           $selected={feedback === 'good'}
           onClick={() => handleFeedback('good')}
         >
-          <Image src="/thumbs_up.svg" height={18} width={18} alt="Thumbs up icon" />
+          <Image src="/thumbs_up.svg" height={18} width={18} alt="Feedback positivo" />
         </IconButton>
         <IconButton
           $hover={true}
           $selected={feedback === 'poor'}
           onClick={() => handleFeedback('poor')}
         >
-          <Image src="/thumbs_down.svg" height={18} width={18} alt="Thumbs down icon" />
+          <Image src="/thumbs_down.svg" height={18} width={18} alt="Feedback negativo" />
         </IconButton>
       </Question>
       {showDialog && (
         <Dialog>
           <IconButton onClick={() => setShowDialog(false)} $hover={true}>
-            <Image src="/xmark.svg" height={16} width={16} alt="Close icon" />
+            <Image src="/xmark.svg" height={16} width={16} alt="Fechar" />
           </IconButton>
           <span>Feedback recebido!</span>
           {feedback === 'poor' && (

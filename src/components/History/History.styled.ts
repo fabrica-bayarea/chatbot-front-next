@@ -11,7 +11,7 @@ export const ItemDetails = styled.div`
 
   & > span:nth-child(2) {
     font-size: 0.75em;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
 
   & > span:nth-child(3) {
@@ -37,15 +37,27 @@ export const List = styled.ul`
 
 export const ListItem = styled.li`
   align-items: center;
-  border-top: 1px solid var(--clr-light);
   cursor: pointer;
   display: flex;
   gap: 20px;
   justify-content: space-between;
   padding: 20px 10px 20px 40px;
   transition: background-color 200ms ease;
+  width: 100%;
 
   &:hover {
     background-color: var(--clr-light);
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--clr-light);
+  }
+`;
+
+export const LoadingItem = styled(ListItem)`
+  cursor: default;
+
+  &:hover {
+    background-color: unset;
   }
 `;
