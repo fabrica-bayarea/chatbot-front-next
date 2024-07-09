@@ -1,9 +1,8 @@
 'use client';
 
-import { type FormEvent, useEffect, useRef } from 'react';
-import BeatLoader from 'react-spinners/BeatLoader';
+import { useEffect, useRef } from 'react';
 
-import { Container, Conversation, LoadingContainer } from './SupportChat.styled';
+import { Container, Conversation } from './SupportChat.styled';
 import ChatMessage from '@/components/ChatMessage';
 import { ChatForm } from '@/components/Forms';
 import { useMessages } from '@/hooks';
@@ -11,7 +10,7 @@ import type { Support } from '@/utils/definitions';
 
 function SupportChat({ data }: { data: Support }) {
   const conversationRef = useRef<HTMLDivElement | null>(null);
-  const { isLoading, messages, addNewMessage } = useMessages(data);
+  const { messages, addNewMessage } = useMessages(data);
 
   const isAccepted = data.status === 'accepted';
 
@@ -36,9 +35,6 @@ function SupportChat({ data }: { data: Support }) {
             </ChatMessage>
           );
         })}
-        <LoadingContainer>
-          {isLoading && <BeatLoader color="gray" size={8} />}
-        </LoadingContainer>
       </Conversation>
       {isAccepted && (
         <ChatForm
