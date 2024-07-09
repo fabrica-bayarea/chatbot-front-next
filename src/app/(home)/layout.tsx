@@ -84,7 +84,7 @@ const Section = styled.section`
     }
   }
 
-  @media screen and (max-width: 480px) {
+  @media screen and (width <= 480px) {
     border-radius: 0;
     min-height: 100dvh;
     width: 100%;
