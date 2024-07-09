@@ -41,7 +41,6 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
     }
   };
 
-  // Make the request when the component has been mounted
   useEffect(() => {
     getHistory();
   }, []);

@@ -42,8 +42,8 @@ function SupportChat({ data }: { data: Support }) {
       </Conversation>
       {isAccepted && (
         <ChatForm
-          background={true}
           action={(content) => addNewMessage(content)}
+          background={true}
           maxHeight={200}
         />
       )}

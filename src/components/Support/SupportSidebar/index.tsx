@@ -10,12 +10,11 @@ import {
   ListItem,
   LoadingItem,
   OpenCloseContainer,
-  Skeleton,
-  SkeletonContainer,
-  Status,
 } from './SupportSidebar.styled';
 
-import { Avatar, IconButton } from '@/components/styled';
+import { Avatar, LoadingAvatar, IconButton } from '@/components/styled';
+import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
+import { LoadingStatus, Status } from '@/components/styled/Status.styled';
 import { useOutsideClick, useSupportList } from '@/hooks';
 import elapsedTime from '@/utils/elapsedTime';
 
@@ -25,12 +24,12 @@ function Loading({ n }: { n: number }) {
       {new Array(n).fill(0).map((_, i) => {
         return (
           <LoadingItem key={i}>
-            <Avatar $width="40px"></Avatar>
-            <SkeletonContainer>
-              <Skeleton />
-              <Skeleton />
+            <LoadingAvatar $width="40px" />
+            <SkeletonContainer $gap="5px">
+              <Skeleton $height="20px" $width="140px" />
+              <Skeleton $height="15px" $width="80px" />
             </SkeletonContainer>
-            <Status />
+            <LoadingStatus />
           </LoadingItem>
         );
       })}
@@ -67,7 +66,7 @@ function SupportList({
             role="button"
             tabIndex={0}
           >
-            <Avatar $picture={owner_profile?.picture} $width="40px">
+            <Avatar $border={true} $picture={owner_profile?.picture} $width="40px">
               {owner_profile?.name.charAt(0)}
             </Avatar>
             <div>
@@ -84,7 +83,7 @@ function SupportList({
 
 function SupportSidebar() {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   useOutsideClick(sidebarRef, () => setIsVisible(false));
 
@@ -110,7 +109,7 @@ function SupportSidebar() {
             width={60}
             quality={100}
             alt="Logo IESB"
-            style={{ border: '1px solid white', boxSizing: 'content-box' }}
+            style={{ border: '2px solid white', boxSizing: 'content-box' }}
           />
         </footer>
       </Container>

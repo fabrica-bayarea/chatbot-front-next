@@ -18,7 +18,7 @@ export const Conversation = styled.div`
   flex-grow: 10;
   gap: 80px;
   overflow-y: scroll;
-  padding: 40px 234px 0 240px;
+  padding: 80px 234px 0 240px;
   scroll-behavior: smooth;
 
   &::-webkit-scrollbar {

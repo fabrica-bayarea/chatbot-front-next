@@ -13,7 +13,6 @@ export const Avatar = styled.div<AvatarProps>`
   background-color: var(--clr-c);
   border: ${({ $border }) => ($border ? '2px solid white' : 'none')};
   border-radius: 50%;
-  box-shadow: ${({ $border }) => ($border ? 'none' : '0 2px 4px rgb(0 0 0 / 20%)')};
   color: white;
   display: flex;
   font-size: ${(props) => props.$fontSize ?? '1rem'};
@@ -29,4 +28,10 @@ export const Avatar = styled.div<AvatarProps>`
       background-position: center;
       color: transparent;
     `}
+`;
+
+export const LoadingAvatar = styled(Avatar)`
+  background-color: var(--clr-a);
+  border: none;
+  opacity: 0.4;
 `;
