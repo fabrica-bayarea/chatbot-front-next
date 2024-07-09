@@ -55,12 +55,12 @@ export const ListItem = styled.li`
   transition: background-color 200ms ease;
   width: 100%;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--clr-light);
-  }
-
   &:hover {
     background-color: var(--clr-light);
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--clr-light);
   }
 
   & > div:nth-child(2) {

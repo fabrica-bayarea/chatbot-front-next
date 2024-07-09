@@ -1,18 +1,38 @@
 'use client';
 
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
-import BeatLoader from 'react-spinners/BeatLoader';
 
-import { ItemDetails, List, ListItem } from './History.styled';
+import { ItemDetails, List, ListItem, LoadingItem } from './History.styled';
 import { deleteConversation, fetchHistory } from '@/actions/conversations';
 import { TrashButton } from '@/components/Buttons';
+import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 import { useChatContext, useMainContext } from '@/hooks';
 import type { Conversation } from '@/utils/definitions';
+
+function Loading({ n }: { n: number }) {
+  return (
+    <List>
+      {new Array(n).fill(0).map((_, i) => {
+        return (
+          <LoadingItem key={i}>
+            <SkeletonContainer $gap="15px">
+              <SkeletonContainer $gap="5px">
+                <Skeleton $height="15px" $width="120px" />
+                <Skeleton $height="10px" $width="80px" />
+              </SkeletonContainer>
+              <Skeleton $height="20px" $width="200px" />
+            </SkeletonContainer>
+          </LoadingItem>
+        );
+      })}
+    </List>
+  );
+}
 
 function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   const { setConversation } = useChatContext();
   const { isLoading, setIsLoading } = useMainContext();
-  const [history, setHistory] = useState<Conversation[]>([]);
+  const [history, setHistory] = useState<Conversation[]| undefined>(undefined);
 
   const getHistory = async () => {
     try {
@@ -33,7 +53,7 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
     try {
       setIsLoading(true);
       await deleteConversation(id);
-      setHistory(history.filter((c) => c.id !== id));
+      setHistory(history?.filter((c) => c.id !== id));
     } catch (error) {
       console.log(error);
     } finally {
@@ -45,17 +65,17 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
     getHistory();
   }, []);
 
-  if (isLoading) {
-    return <BeatLoader color="lightgray" size={12} />;
+  if (history === undefined) {
+    return <Loading n={3} />;
   }
 
-  if (history.length === 0) {
+  if (history?.length === 0) {
     return <span>Não há nada aqui!</span>;
   }
 
   return (
     <List>
-      {history.map((conversation) => {
+      {history?.map((conversation) => {
         const { id, messages } = conversation;
         const firstTime = new Date(messages[0].created_at).toLocaleString('pt-BR');
 

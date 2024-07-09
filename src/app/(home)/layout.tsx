@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import type { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.main`
@@ -19,7 +19,7 @@ const Container = styled.main`
   }
 `;
 
-const Logo = styled.div`
+const LogoContainer = styled.div`
   align-items: center;
   display: flex;
   gap: 40px;
@@ -104,7 +104,7 @@ const Section = styled.section`
 function Layout({ children }: { children: ReactNode }) {
   return (
     <Container>
-      <Logo>
+      <LogoContainer>
         <h1>Chatbot</h1>
         <Image
           src="/iesb_logo.png"
@@ -114,7 +114,7 @@ function Layout({ children }: { children: ReactNode }) {
           alt="Logo IESB"
           style={{ border: '3px solid white', boxSizing: 'content-box' }}
         />
-      </Logo>
+      </LogoContainer>
       <Section>{children}</Section>
     </Container>
   );
