@@ -30,7 +30,7 @@ export const Message = styled.span<{
   align-self: flex-start;
   background-color: ${({ $bgColor }) => ($bgColor ? $bgColor : 'var(--clr-a)')};
   border-radius: var(--radius);
-  line-height: 1.25rem;
+  line-height: 1.4rem;
   padding: 12px 18px;
   white-space: pre-line;
 

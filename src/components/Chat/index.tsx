@@ -55,7 +55,7 @@ function Chat() {
           <ChatMessage role={'assistant'}>
             Eu sou <strong>Eda</strong>, assistente virtual do IESB.
             <br />
-            Em que posso ajudar?
+            Como posso ajudar?
           </ChatMessage>
         </div>
         {conversation.messages.map(({ content, role, owner_profile }, index) => {

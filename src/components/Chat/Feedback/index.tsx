@@ -1,9 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
-import { Dialog, Question } from './Feedback.styled';
+import { Dialog, QuestionContainer } from './Feedback.styled';
 import { updateConversationStatus } from '@/actions/conversations';
 import { updateMessageFeedback } from '@/actions/messages';
 import { DialogButton, IconButton } from '@/components/styled';
@@ -12,7 +13,7 @@ import type { MessageFeedback } from '@/utils/definitions';
 
 function Feedback({ id }: { id: string }) {
   const { conversation, setConversation } = useChatContext();
-  const { isLoading, setIsLoading } = useMainContext();
+  const { isLoading, setIsLoading, user } = useMainContext();
   const [feedback, setFeedback] = useState<MessageFeedback | undefined>(undefined);
   const [showDialog, setShowDialog] = useState(false);
 
@@ -35,9 +36,7 @@ function Feedback({ id }: { id: string }) {
   const handleStatus = async () => {
     try {
       setIsLoading(true);
-
       await updateConversationStatus(conversation.id, 'redirected');
-
       setConversation({ ...conversation, status: 'redirected' });
     } catch (error) {
       console.log(error);
@@ -46,10 +45,40 @@ function Feedback({ id }: { id: string }) {
     }
   };
 
+  const RedirectionOptions = () => {
+    if (feedback === 'poor') {
+      if (!user.email) {
+        return (
+          <>
+            <span>
+              Para ser atendido por nossos colaboradores, faça o{' '}
+              <Link href="/login">login</Link> ou{' '}
+              <Link href="/registro">registre-se.</Link>
+            </span>
+          </>
+        );
+      }
+
+      return (
+        <>
+          <span>Gostaria de ser direcionado para um de nossos colaboradores?</span>
+          <div>
+            <DialogButton onClick={() => handleStatus()} disabled={isLoading}>
+              Sim
+            </DialogButton>
+            <DialogButton onClick={() => setShowDialog(false)} disabled={isLoading}>
+              Não
+            </DialogButton>
+          </div>
+        </>
+      );
+    }
+  };
+
   return (
     <div>
-      <Question>
-        <div>A resposta do assistente virtual foi satisfatória?</div>
+      <QuestionContainer>
+        <span>A resposta do assistente foi satisfatória?</span>
         <IconButton
           $hover={true}
           $selected={feedback === 'good'}
@@ -64,26 +93,14 @@ function Feedback({ id }: { id: string }) {
         >
           <Image src="/thumbs_down.svg" height={18} width={18} alt="Feedback negativo" />
         </IconButton>
-      </Question>
+      </QuestionContainer>
       {showDialog && (
         <Dialog>
           <IconButton onClick={() => setShowDialog(false)} $hover={true}>
             <Image src="/xmark.svg" height={16} width={16} alt="Fechar" />
           </IconButton>
-          <span>Feedback recebido!</span>
-          {feedback === 'poor' && (
-            <>
-              <span>Gostaria de ser direcionado para um de nossos colaboradores?</span>
-              <div>
-                <DialogButton onClick={() => handleStatus()} disabled={isLoading}>
-                  Sim
-                </DialogButton>
-                <DialogButton onClick={() => setShowDialog(false)} disabled={isLoading}>
-                  Não
-                </DialogButton>
-              </div>
-            </>
-          )}
+          <span>Agradecemos o feedback!</span>
+          <RedirectionOptions />
         </Dialog>
       )}
     </div>

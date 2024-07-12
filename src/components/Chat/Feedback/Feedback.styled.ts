@@ -7,6 +7,7 @@ export const Dialog = styled.div`
   flex-direction: column;
   font-size: 0.9em;
   gap: 10px;
+  line-height: 20px;
   padding: 20px;
   position: relative;
 
@@ -23,10 +24,13 @@ export const Dialog = styled.div`
   }
 `;
 
-export const Question = styled.div`
+export const QuestionContainer = styled.div`
   align-items: center;
   display: flex;
   font-size: 0.8rem;
   font-style: italic;
-  justify-content: space-between;
+
+  & > span {
+    flex-grow: 10;
+  }
 `;
