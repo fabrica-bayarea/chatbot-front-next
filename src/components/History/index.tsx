@@ -32,7 +32,7 @@ function Loading({ n }: { n: number }) {
 function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   const { setConversation } = useChatContext();
   const { isLoading, setIsLoading } = useMainContext();
-  const [history, setHistory] = useState<Conversation[]| undefined>(undefined);
+  const [history, setHistory] = useState<Conversation[] | undefined>(undefined);
 
   const getHistory = async () => {
     try {
@@ -65,7 +65,7 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
     getHistory();
   }, []);
 
-  if (history === undefined) {
+  if (history === undefined || isLoading) {
     return <Loading n={3} />;
   }
 
