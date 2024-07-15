@@ -26,7 +26,7 @@ const Container = styled.main`
 
   & > img {
     bottom: 20px;
-    right: 20px;
+    left: 20px;
     position: absolute;
   }
 
