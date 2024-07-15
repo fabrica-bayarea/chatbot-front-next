@@ -49,7 +49,7 @@ const Section = styled.section`
   flex-direction: column;
   width: 400px;
 
-  & > div {
+  & > div:not(.error) {
     align-items: center;
     background-color: white;
     border-radius: 0 0 var(--r) var(--r);
