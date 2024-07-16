@@ -50,7 +50,12 @@ function SupportList({
   }
 
   if (supportList?.length === 0) {
-    return <List>Não há nada aqui!</List>;
+    return (
+      <List>
+        <span>Não há nada aqui!</span>
+        <span>(｡♥‿♥｡)</span>
+      </List>
+    );
   }
 
   return (

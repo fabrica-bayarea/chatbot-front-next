@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Container = styled.aside<{ $isVisible: boolean }>`
   background-color: var(--clr-lighter);
@@ -12,14 +12,15 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   position: relative;
   z-index: 100;
 
+  & > h1 {
+    padding: 0 20px;
+    text-align: center;
+  }
+
   & > footer {
     display: flex;
     justify-content: center;
     padding-bottom: 20px;
-  }
-
-  & > h1 {
-    padding: 0 20px;
   }
 
   @media screen and (width <= 1024px) {
@@ -36,6 +37,17 @@ export const List = styled.ul`
   flex-direction: column;
   flex-grow: 10;
   overflow-y: scroll;
+
+  & > span:first-child {
+    color: var(--clr-dark-gray);
+    margin: 80px 0 40px;
+    font-size: 1.2rem;
+  }
+
+  & > span:nth-child(2) {
+    color: var(--clr-a);
+    font-size: 2.5rem;
+  }
 
   &::-webkit-scrollbar {
     width: 6px;

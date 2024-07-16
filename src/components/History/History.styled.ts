@@ -20,11 +20,16 @@ export const ItemDetails = styled.div`
 `;
 
 export const List = styled.ul`
+  align-items: center;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow-y: scroll;
   width: 100%;
+
+  & > span {
+    margin: 120px 0 40px;
+  }
 
   &::-webkit-scrollbar {
     width: 6px;
