@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
 
 import {
@@ -42,15 +42,23 @@ function SupportList({
 }: {
   setIsVisible: Dispatch<SetStateAction<boolean>>;
 }) {
+  const pathname = usePathname();
   const router = useRouter();
   const { supportList } = useSupportList();
+
+  const pathId = pathname.split('/').splice(-1)[0];
 
   if (supportList === undefined) {
     return <Loading n={5} />;
   }
 
   if (supportList?.length === 0) {
-    return <List>Não há nada aqui!</List>;
+    return (
+      <List>
+        <span>Não há nada aqui!</span>
+        <span>(｡♥‿♥｡)</span>
+      </List>
+    );
   }
 
   return (
@@ -58,6 +66,7 @@ function SupportList({
       {supportList?.map(({ id, status, owner_profile, created_at }, index) => {
         return (
           <ListItem
+            className={pathId === id ? 'selected' : undefined}
             key={index}
             onClick={() => {
               setIsVisible(false);

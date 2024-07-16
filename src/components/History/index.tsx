@@ -5,6 +5,7 @@ import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 import { ItemDetails, List, ListItem, LoadingItem } from './History.styled';
 import { deleteConversation, fetchHistory } from '@/actions/conversations';
 import { TrashButton } from '@/components/Buttons';
+import { DialogButton } from '@/components/styled/Button.styled';
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 import { useChatContext, useMainContext } from '@/hooks';
 import type { Conversation } from '@/utils/definitions';
@@ -30,7 +31,7 @@ function Loading({ n }: { n: number }) {
 }
 
 function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
-  const { setConversation } = useChatContext();
+  const { newConversation, setConversation } = useChatContext();
   const { isLoading, setIsLoading } = useMainContext();
   const [history, setHistory] = useState<Conversation[] | undefined>(undefined);
 
@@ -70,7 +71,20 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   }
 
   if (history?.length === 0) {
-    return <span>Não há nada aqui!</span>;
+    return (
+      <List>
+        <span>Não há nada aqui!</span>
+        <DialogButton
+          onClick={() => {
+            setConversation(newConversation);
+            showFn(false);
+          }}
+          $width="150px"
+        >
+          Nova conversa
+        </DialogButton>
+      </List>
+    );
   }
 
   return (

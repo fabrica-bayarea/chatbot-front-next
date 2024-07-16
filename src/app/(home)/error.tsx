@@ -14,10 +14,6 @@ const Container = styled.div`
   gap: 60px;
   height: 600px;
   justify-content: center;
-
-  & > button {
-    width: 200px;
-  }
 `;
 
 export default function Error({
@@ -34,7 +30,9 @@ export default function Error({
   return (
     <Container className="error">
       <h2>Algo deu errado :(</h2>
-      <DialogButton onClick={() => reset()}>Tentar novamente</DialogButton>
+      <DialogButton onClick={() => reset()} $width="200px">
+        Tentar novamente
+      </DialogButton>
     </Container>
   );
 }
