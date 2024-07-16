@@ -71,6 +71,10 @@ export const ListItem = styled.li`
     background-color: var(--clr-light);
   }
 
+  &.selected {
+    background-color: var(--clr-a);
+  }
+
   &:not(:last-child) {
     border-bottom: 1px solid var(--clr-light);
   }

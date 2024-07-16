@@ -4,7 +4,7 @@ import { SupportStatus } from '@/utils/definitions';
 
 export const Status = styled.div<{ $status?: SupportStatus }>`
   aspect-ratio: 1;
-  background-color: var(--clr-a);
+  background-color: var(--clr-light-gray);
   border-radius: 50%;
   opacity: 0.8;
   width: 20px;
