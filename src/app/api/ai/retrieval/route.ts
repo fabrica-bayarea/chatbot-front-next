@@ -1,22 +1,37 @@
 // LangChain API Reference
 // https://v02.api.js.langchain.com/
 
-import { type Message as VercelChatMessage, StreamingTextResponse } from 'ai';
-import { NextRequest, NextResponse } from 'next/server';
-
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase';
 import { Document } from '@langchain/core/documents';
+import { SystemMessage } from '@langchain/core/messages';
 import { BytesOutputParser, StringOutputParser } from '@langchain/core/output_parsers';
 import { PromptTemplate } from '@langchain/core/prompts';
 import { RunnableSequence } from '@langchain/core/runnables';
 import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai';
+import { type Message as VercelChatMessage, StreamingTextResponse } from 'ai';
+import { NextRequest, NextResponse } from 'next/server';
 
-import { ANSWER_TEMPLATE, QUESTION_TEMPLATE } from '@/utils/promptTemplates';
 import { createClient } from '@/utils/supabase/server';
 
 export const runtime = 'edge';
 
-const combineDocumentsFn = (docs: Document[]) => {
+const SYSTEM_MESSAGE =
+  "Você é Eda, assistente virtual do Centro Universitário do Instituto de Educação Superior de Brasília (IESB). Seu papel é auxiliar alunos, colaboradores e outras pessoas com informações sobre nossa instituição. Atenha-se exclusivamente à sua função. Se a interação for sobre algo não relacionado ao IESB, responda: 'Desculpe, estou aqui para auxiliar com informações sobre o IESB. Nesse sentido, como posso lhe ajudar?'";
+
+const ANSWER_TEMPLATE = `
+  Responda à pergunta com base apenas no seguinte contexto e histórico de conversa:
+  <contexto>
+   {context}
+  </contexto>
+  
+  <historico>
+   {chat_history}
+  </historico>
+  
+  Pergunta: {question}
+`;
+
+const combineDocuments = (docs: Document[]) => {
   const serializedDocs = docs.map((doc) => doc.pageContent);
   return serializedDocs.join('\n\n');
 };
@@ -38,7 +53,8 @@ const formatVercelMessages = (chatHistory: VercelChatMessage[]) => {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const messages = body.messages ?? [];
+    const systemMessage = new SystemMessage({ content: SYSTEM_MESSAGE });
+    const messages = [systemMessage, ...(body.messages ?? [])];
     const previousMessages = messages.slice(0, -1);
     const currentMessageContent = messages[messages.length - 1].content;
 
@@ -66,21 +82,17 @@ export async function POST(req: NextRequest) {
       ],
     });
 
-    const retrievalChain = retriever.pipe(combineDocumentsFn);
+    const retrievalChain = retriever.pipe(combineDocuments);
 
-    const questionPrompt = PromptTemplate.fromTemplate(QUESTION_TEMPLATE);
     const answerPrompt = PromptTemplate.fromTemplate(ANSWER_TEMPLATE);
 
     const model = new ChatOpenAI({
       modelName: 'gpt-4o',
-      temperature: 0.1,
+      temperature: 0.4,
+      topP: 0.9,
+      frequencyPenalty: 0.3,
+      presencePenalty: 0.3,
     });
-
-    const standaloneQuestionChain = RunnableSequence.from([
-      questionPrompt,
-      model,
-      new StringOutputParser(),
-    ]);
 
     const answerChain = RunnableSequence.from([
       {
@@ -95,15 +107,15 @@ export async function POST(req: NextRequest) {
     const conversationalRetrievalQAChain = RunnableSequence.from([
       {
         chat_history: (input) => input.chat_history,
-        question: standaloneQuestionChain,
+        question: (input) => input.question,
       },
       answerChain,
       new BytesOutputParser(),
     ]);
 
     const stream = await conversationalRetrievalQAChain.stream({
-      question: currentMessageContent,
       chat_history: formatVercelMessages(previousMessages),
+      question: currentMessageContent,
     });
 
     const documents = await documentPromise;
