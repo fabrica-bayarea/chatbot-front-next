@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 import type { Updater } from 'use-immer';
 
 import { Container, MoreButton, Options, UserContainer } from './SupportHeader.styled';
-import { sendSupport, updateSupportStatus } from '@/actions/support';
+import { sendSupportUpdate, updateSupportStatus } from '@/actions/support';
 import { RequestButton } from '@/components/Buttons';
 import { Avatar } from '@/components/styled';
 import { useMainContext, useOutsideClick } from '@/hooks';
@@ -37,7 +37,7 @@ function SupportHeader({
   };
 
   const handleEmail = async () => {
-    const response = await sendSupport(data.id);
+    const response = await sendSupportUpdate(data.id);
 
     if (response === 'ok') {
       setIsVisible(false);

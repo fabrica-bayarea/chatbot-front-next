@@ -49,7 +49,7 @@ export const Options = styled.div<{ $isVisible: boolean }>`
     & > span {
       bottom: -25px;
       font-size: 0.75rem;
-      left: 25px;
+      left: 20px;
       position: absolute;
     }
   }

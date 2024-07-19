@@ -56,10 +56,9 @@ export type FetchStreamPayload = { body: { messages: Message[] } };
 export type SendEmailPayload = {
   body: {
     id: string;
-    collaboratorName: string;
-    email: string;
+    collaboratorProfile: Profile;
+    ownerProfile: Profile;
     messages: Message[];
-    name: string;
   };
 };
 

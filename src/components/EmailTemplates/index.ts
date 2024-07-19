@@ -1,3 +1,3 @@
-import SupportEmail from './SupportEmail';
+import SupportUpdateEmail from './SupportUpdateEmail';
 
-export { SupportEmail };
+export { SupportUpdateEmail };

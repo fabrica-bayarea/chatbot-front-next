@@ -75,7 +75,7 @@ function SupportList({
             role="button"
             tabIndex={0}
           >
-            <Avatar $border={true} $picture={owner_profile?.picture} $width="40px">
+            <Avatar $picture={owner_profile?.picture} $width="40px">
               {owner_profile?.name.charAt(0)}
             </Avatar>
             <div>
@@ -118,7 +118,7 @@ function SupportSidebar() {
             width={60}
             quality={100}
             alt="Logo IESB"
-            style={{ border: '2px solid white', boxSizing: 'content-box' }}
+            style={{ border: '2px solid white', boxSizing: 'content-box', opacity: 0.8 }}
           />
         </footer>
       </Container>

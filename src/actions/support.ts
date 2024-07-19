@@ -28,7 +28,7 @@ export async function fetchSupportList() {
   return response;
 }
 
-export async function sendSupport(id: string) {
+export async function sendSupportUpdate(id: string) {
   const supabase = createClient();
   const userProfile = await fetchUserProfile();
   const support = await fetchSupportById(id);
@@ -36,11 +36,10 @@ export async function sendSupport(id: string) {
   if (support) {
     const payload: SendEmailPayload = {
       body: {
-        collaboratorName: userProfile.name as string,
-        email: support.owner_profile.email as string,
-        id: support.id as string,
-        messages: support.messages as Message[],
-        name: support.owner_profile.name as string,
+        id: support.id,
+        collaboratorProfile: userProfile,
+        messages: support.messages,
+        ownerProfile: support.owner_profile,
       },
     };
 

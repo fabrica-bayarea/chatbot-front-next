@@ -18,7 +18,7 @@ export const Conversation = styled.div`
   flex-grow: 10;
   gap: 80px;
   overflow-y: scroll;
-  padding: 80px 234px 80px 240px;
+  padding: 80px calc(20% - 6px) 80px 20%;
   scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
@@ -29,11 +29,11 @@ export const Conversation = styled.div`
     background-color: var(--clr-b);
   }
 
-  @media screen and (width <= 1440px) {
-    padding: 40px 114px 40px 120px;
+  @media screen and (width <= 1024px) {
+    padding: 40px 74px 40px 80px;
   }
 
-  @media screen and (width <= 1024px) {
+  @media screen and (width <= 480px) {
     padding: 40px 34px 40px 40px;
   }
 `;

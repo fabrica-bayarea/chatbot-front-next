@@ -30,13 +30,13 @@ const LoadingChat = styled.div`
   display: flex;
   flex-direction: column;
   gap: 80px;
-  padding: 80px 240px;
-
-  @media screen and (width <= 1440px) {
-    padding: 40px 120px;
-  }
+  padding: 80px 20%;
 
   @media screen and (width <= 1024px) {
+    padding: 40px 80px;
+  }
+
+  @media screen and (width <= 480px) {
     padding: 40px;
   }
 `;
