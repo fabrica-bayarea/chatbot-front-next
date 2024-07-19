@@ -20,14 +20,10 @@ export const Container = styled(Form)<{ $background?: boolean }>`
       background-color: var(--clr-light);
       border-top: none;
       font-size: 1rem;
-      padding: 15px 240px;
-
-      @media screen and (width <= 1440px) {
-        padding: 15px 120px;
-      }
+      padding: 15px 20%;
 
       @media screen and (width <= 1024px) {
-        padding: 15px 40px;
+        padding: 15px 80px;
       }
 
       @media screen and (width <= 480px) {
