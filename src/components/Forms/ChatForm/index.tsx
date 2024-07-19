@@ -27,22 +27,6 @@ function ChatForm({
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [content, setContent] = useState('');
 
-  const resize = () => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      textarea.style.height = 'auto';
-
-      if (textarea.scrollHeight > maxHeight) {
-        textarea.style.height = `${maxHeight}px`;
-        textarea.style.overflowY = 'scroll';
-        textarea.scrollTop = textarea.scrollHeight;
-      } else {
-        textarea.style.height = `${textarea.scrollHeight}px`;
-        textarea.style.overflowY = 'hidden';
-      }
-    }
-  };
-
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
@@ -72,8 +56,24 @@ function ChatForm({
   };
 
   useEffect(() => {
+    const resize = () => {
+      if (textareaRef.current) {
+        const textarea = textareaRef.current;
+        textarea.style.height = 'auto';
+
+        if (textarea.scrollHeight > maxHeight) {
+          textarea.style.height = `${maxHeight}px`;
+          textarea.style.overflowY = 'scroll';
+          textarea.scrollTop = textarea.scrollHeight;
+        } else {
+          textarea.style.height = `${textarea.scrollHeight}px`;
+          textarea.style.overflowY = 'hidden';
+        }
+      }
+    };
+
     resize();
-  }, [content, resize]);
+  }, [content, maxHeight]);
 
   return (
     <Container ref={formRef} onSubmit={handleSubmit} $background={background}>

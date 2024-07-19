@@ -51,8 +51,10 @@ export const SupportUpdateEmail = ({
           </Text>
         </Section>
         <Section style={conversation}>
-          {messages.map(({ content, role }) => (
-            <Text style={messageFrom[role]}>{content}</Text>
+          {messages.map(({ content, role }, i) => (
+            <Text key={i} style={messageFrom[role]}>
+              {content}
+            </Text>
           ))}
         </Section>
         <Section>
