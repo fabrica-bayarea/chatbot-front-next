@@ -13,6 +13,8 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   z-index: 100;
 
   & > h1 {
+    color: var(--clr-b);
+    font-size: 1.8rem;
     padding: 0 20px;
     text-align: center;
   }

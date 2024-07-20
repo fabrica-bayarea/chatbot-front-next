@@ -26,7 +26,7 @@ export const Conversation = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--clr-b);
+    background-color: var(--clr-c);
   }
 
   @media screen and (width <= 1024px) {

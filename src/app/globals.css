@@ -7,9 +7,9 @@
   --clr-green: #67bb67;
   --clr-blue: #8787bb;
 
-  --clr-dark: #3c1e1e;
-  --clr-light: #fff0f0;
   --clr-lighter: #fff8f8;
+  --clr-light: #fff0f0;
+  --clr-dark: #3c1e1e;
 
   --clr-lighter-gray: #f0f0f0;
   --clr-light-gray: #d7d7d7;
@@ -35,7 +35,11 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-b);
 }
 

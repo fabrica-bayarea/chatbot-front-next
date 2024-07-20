@@ -10,6 +10,7 @@ import {
   SocialButton,
 } from './Button.styled';
 
+import { DarshboardCard } from './DashboardCard';
 import { Form, MainForm, StatusContainer, UploadContainer } from './Form.styled';
 import { MainInput, AdaptiveTextArea } from './Input.styled';
 import { Label } from './Label.styled';
@@ -24,6 +25,7 @@ export {
   MainButton,
   SendButton,
   SocialButton,
+  DarshboardCard,
   Form,
   MainForm,
   StatusContainer,

@@ -2,131 +2,101 @@
 
 import styled from 'styled-components';
 
-const Container = styled.section`
+import DashboardHeader from '@/components/Dashboard/DashboardHeader';
+import { AnalyticsProvider } from '@/context';
+import * as Graphics from '@/components/Dashboard/Graphics';
+import DashboardProfile from '@/components/Dashboard/DashboardProfile';
+
+import { device } from '@/utils/analyticsStyles';
+
+export const Container = styled.section`
   align-items: center;
-  background: linear-gradient(to bottom, var(--clr-light) 80%, var(--clr-a) 120%);
-  gap: 20px;
-  padding: 120px 40px 20px;
+  display: flex;
+  flex-direction: column;
   height: calc(100dvh - 40px);
   overflow-y: scroll;
+  padding-top: 80px;
+  width: 100%;
 
   &::-webkit-scrollbar {
     width: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--clr-a);
+    background-color: var(--clr-c);
   }
 `;
 
-const Wrapper = styled.div`
+export const Content = styled.section`
+  padding: 70px;
+
   display: grid;
-  grid-gap: 40px;
-  grid-template-columns: [col1-start] 320px [col2-start] 320px [col3-start] 320px [col3-end];
-  grid-template-rows: [row1-start] 240px [row2-start] 240px [row2-end];
+  grid-template-rows: auto;
+  row-gap: 40px;
+  column-gap: 40px;
 
-  @media screen and (width <= 1440px) {
-    grid-template-columns: [col1-start] 320px [col2-start] 320px [col2-end];
-    grid-template-rows: [row1-start] 240px [row2-start] 240px [row3-start] 240px [row3-end];
+  grid-template:
+    'Card ClosedSupportGraphic' minmax(auto, auto)
+    'GeneralComparisonGraphic GeneralComparisonGraphic' minmax(auto, auto)
+    'StatusUpdatesGraphic StatusUpdatesGraphic' minmax(auto, auto)
+    'CallDuration CallDuration' minmax(auto, auto)
+    / 600px 360px;
+
+  @media ${device.lg} {
+    grid-template:
+      'Card ClosedSupportGraphic' minmax(auto, auto)
+      'StatusUpdatesGraphic StatusUpdatesGraphic' minmax(auto, auto)
+      'GeneralComparisonGraphic GeneralComparisonGraphic' minmax(auto, auto)
+      'CallDuration CallDuration' minmax(auto, auto)
+      / 795px 510px;
   }
 
-  @media screen and (width <= 1024px) {
-    grid-gap: 20px;
+  @media ${device.md} {
+    grid-template:
+      'Card' minmax(auto, auto)
+      'ClosedSupportGraphic' minmax(auto, auto)
+      'StatusUpdatesGraphic' minmax(auto, auto)
+      'GeneralComparisonGraphic' minmax(auto, auto)
+      'CallDuration' minmax(auto, auto)
+      / 500px;
+
+    justify-content: center;
   }
 
-  @media screen and (width <= 768px) {
-    grid-template-columns: 320px;
-    grid-template-rows: repeat(6, 240px);
+  @media ${device.sm} {
+    grid-template:
+      'Card' minmax(auto, auto)
+      'ClosedSupportGraphic' minmax(auto, auto)
+      'StatusUpdatesGraphic' minmax(auto, auto)
+      'GeneralComparisonGraphic' minmax(auto, auto)
+      'CallDuration' minmax(auto, auto)
+      / 600px;
   }
 
-  @media screen and (width <= 480px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(6, 240px);
-    width: 100%;
-  }
-`;
-
-const Box = styled.div`
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 0 4px 0 rgb(0 0 0 / 20%);
-  padding: 20px;
-
-  &.a {
-    grid-column: col1-start / col3-start;
-    grid-row: row1-start;
-  }
-
-  &.b {
-    grid-column: col3-start;
-    grid-row: row1-start / row2-end;
-  }
-
-  &.c {
-    grid-column: col1-start;
-    grid-row: row2-start;
-  }
-
-  &.d {
-    grid-column: col2-start;
-    grid-row: row2-start;
-  }
-
-  @media screen and (width <= 1440px) {
-    &.a {
-      grid-column: col1-start / col2-end;
-      grid-row: row1-start;
-    }
-
-    &.b {
-      grid-column: col1-start;
-      grid-row: row2-start / row3-end;
-    }
-
-    &.c {
-      grid-column: col2-start;
-      grid-row: row2-start;
-    }
-
-    &.d {
-      grid-column: col2-start;
-      grid-row: row3-start;
-    }
-  }
-
-  @media screen and (width <= 768px) {
-    &.a {
-      grid-column: 1;
-      grid-row: 1 / 3;
-    }
-
-    &.b {
-      grid-column: 1;
-      grid-row: 3 / 5;
-    }
-
-    &.c {
-      grid-column: 1;
-      grid-row: 5;
-    }
-
-    &.d {
-      grid-column: 1;
-      grid-row: 6;
-    }
+  @media ${device.xs} {
+    grid-template:
+      'Card' minmax(auto, auto)
+      'ClosedSupportGraphic' minmax(auto, auto)
+      'StatusUpdatesGraphic' minmax(auto, auto)
+      'GeneralComparisonGraphic' minmax(auto, auto)
+      'CallDuration' minmax(auto, auto)
+      / 400px;
   }
 `;
 
 function Support() {
   return (
-    <Container>
-      <Wrapper>
-        <Box className="a"></Box>
-        <Box className="b"></Box>
-        <Box className="c"></Box>
-        <Box className="d"></Box>
-      </Wrapper>
-    </Container>
+    <AnalyticsProvider>
+      <Container>
+        <DashboardHeader />
+        <Content>
+          <DashboardProfile />
+          <Graphics.ClosedSupportGraphic />
+          <Graphics.GeneralComparisonGraphic />
+          <Graphics.StatusUpdatesGraphic />
+        </Content>
+      </Container>
+    </AnalyticsProvider>
   );
 }
 

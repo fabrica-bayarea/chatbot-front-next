@@ -108,3 +108,37 @@ export type ChatContextShared = {
   newConversation: Conversation;
   setConversation: Dispatch<SetStateAction<Conversation>>;
 };
+
+export type PeriodData = {
+  closedSupportGraphic: {
+    total: {
+      porcentage: number;
+      value: number;
+    };
+    own: {
+      porcentage: number;
+      value: number;
+    };
+  };
+  generalComparisonGraphic: {
+    general: number[];
+    own: (number | null)[];
+  };
+  statusUpdatesGraphic: {
+    openSupport: number[];
+    closedSupport: number[];
+  };
+};
+
+export type AnalyticsData = {
+  yesterday: PeriodData;
+  last_30_days: PeriodData;
+  last_6_months: PeriodData;
+  last_12_months: PeriodData;
+};
+
+export type AnalyticsContextShared = {
+  analytics: AnalyticsData;
+  filteredData: PeriodData;
+  setFilter: Dispatch<SetStateAction<string>>;
+};
