@@ -17,7 +17,7 @@ export const Container = styled.header`
   }
 
   @media ${device.xs} {
-    padding: 80px 40px 0px 40px;
+    padding: 80px 40px 0;
   }
 `;
 

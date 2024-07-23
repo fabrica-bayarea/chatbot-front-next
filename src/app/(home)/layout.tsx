@@ -107,7 +107,7 @@ function Layout({ children }: { children: ReactNode }) {
       <LogoContainer>
         <h1>Chatbot</h1>
         <Image
-          src="/iesb_logo.png"
+          src="/iesb-logo.png"
           height={100}
           width={100}
           quality={100}

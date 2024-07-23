@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import { DarshboardCard } from '@/components/styled';
 
 export const AvatarContainer = styled.div`
-  /* align-items: center; */
   display: flex;
-  /* flex-grow: 10; */
   justify-content: space-evenly;
   position: relative;
   top: -40px;

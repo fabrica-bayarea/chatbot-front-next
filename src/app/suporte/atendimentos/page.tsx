@@ -3,9 +3,9 @@
 import styled from 'styled-components';
 
 import DashboardHeader from '@/components/Dashboard/DashboardHeader';
-import { AnalyticsProvider } from '@/context';
-import * as Graphics from '@/components/Dashboard/Graphics';
 import DashboardProfile from '@/components/Dashboard/DashboardProfile';
+import * as Graphics from '@/components/Dashboard/Graphics';
+import { AnalyticsProvider } from '@/context';
 
 import { device } from '@/utils/analyticsStyles';
 
@@ -13,7 +13,7 @@ export const Container = styled.section`
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: calc(100dvh - 40px);
+  height: calc(100dvh - 50px);
   overflow-y: scroll;
   padding-top: 80px;
   width: 100%;
@@ -28,19 +28,15 @@ export const Container = styled.section`
 `;
 
 export const Content = styled.section`
-  padding: 70px;
-
   display: grid;
-  grid-template-rows: auto;
-  row-gap: 40px;
-  column-gap: 40px;
-
+  gap: 40px;
   grid-template:
     'Card ClosedSupportGraphic' minmax(auto, auto)
     'GeneralComparisonGraphic GeneralComparisonGraphic' minmax(auto, auto)
     'StatusUpdatesGraphic StatusUpdatesGraphic' minmax(auto, auto)
     'CallDuration CallDuration' minmax(auto, auto)
     / 600px 360px;
+  padding: 70px;
 
   @media ${device.lg} {
     grid-template:
@@ -59,7 +55,6 @@ export const Content = styled.section`
       'GeneralComparisonGraphic' minmax(auto, auto)
       'CallDuration' minmax(auto, auto)
       / 500px;
-
     justify-content: center;
   }
 

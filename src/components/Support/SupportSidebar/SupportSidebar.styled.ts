@@ -6,7 +6,7 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 40px;
-  height: calc(100dvh - 40px);
+  height: calc(100dvh - 50px);
   min-width: 280px;
   padding-top: 120px;
   position: relative;
@@ -16,13 +16,20 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
     color: var(--clr-b);
     font-size: 1.8rem;
     padding: 0 20px;
-    text-align: center;
   }
 
   & > footer {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 20px;
+    background-color: var(--clr-c);
+    background-image: linear-gradient(
+      to bottom right,
+      rgba(255 255 255 / 10%),
+      rgba(255 255 255 / 0%) 80%
+    );
+
+    & > nav {
+      display: flex;
+      justify-content: space-evenly;
+    }
   }
 
   @media screen and (width <= 1024px) {
@@ -101,7 +108,7 @@ export const LoadingItem = styled(ListItem)`
 export const OpenCloseContainer = styled.div`
   left: 12px;
   position: absolute;
-  top: 0;
+  top: 5px;
   visibility: hidden;
   z-index: 100;
 

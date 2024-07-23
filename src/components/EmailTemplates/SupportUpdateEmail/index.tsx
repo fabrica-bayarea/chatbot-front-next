@@ -19,7 +19,7 @@ import * as React from 'react';
 
 import { Message, Profile } from '@/utils/definitions';
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '';
+const baseUrl = process.env.VERCEL_URL ?? '';
 
 function SupportUpdateEmail({
   id,
@@ -181,7 +181,7 @@ function SupportUpdateEmail({
                   Se estiver satisfeito, você pode encerrar este atendimento e fazer uma
                   avaliação.
                 </Text>
-                <Button href={`${baseUrl}/`} style={button}>
+                <Button href={`${baseUrl}/suporte/avaliacao/${id}`} style={button}>
                   Encerrar atendimento
                 </Button>
               </Column>
@@ -195,7 +195,7 @@ function SupportUpdateEmail({
             <Link href={baseUrl} style={footerLink}>
               Site
             </Link>
-            <Link href="/" style={footerLink}>
+            <Link href={`${baseUrl}/suporte/privacidade`} style={footerLink}>
               Política de Privacidade
             </Link>
             <Hr style={divider} />
