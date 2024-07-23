@@ -2,7 +2,7 @@
 
 import { fetchUserProfile } from './auth';
 import api from '@/utils/data';
-import { Message, SendEmailPayload, Support, SupportStatus } from '@/utils/definitions';
+import { SendEmailPayload, Support, SupportStatus } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/server';
 
 export async function fetchSupportById(supportId: string) {
@@ -52,6 +52,18 @@ export async function sendSupportUpdate(id: string) {
       return 'ok';
     }
   }
+}
+
+export async function updateSupportRating(id: string, rating: number) {
+  const supabase = createClient();
+
+  const response = await supabase
+    .from('support')
+    .update({ rating })
+    .eq('id', id)
+    .select();
+
+  return response;
 }
 
 export async function updateSupportStatus(id: string, status: SupportStatus) {

@@ -21,7 +21,7 @@ const Container = styled.div`
       transparent
     );
     border: none;
-    min-height: 2px;
+    height: 2px;
     margin: 20px 0;
     width: 100%;
   }

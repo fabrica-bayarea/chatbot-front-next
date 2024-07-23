@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-export const DarshboardCard = styled.div`
+export const DashboardCard = styled.div`
+  background-color: white;
   border: 1px solid var(--clr-light);
   border-radius: 8px;
   box-shadow: 0 2px 4px 0 rgba(255 150 150 / 20%);

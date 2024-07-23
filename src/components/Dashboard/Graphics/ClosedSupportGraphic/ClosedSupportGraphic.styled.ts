@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { DarshboardCard } from '@/components/styled';
+import { DashboardCard } from '@/components/styled';
 
-export const Container = styled(DarshboardCard)`
+export const Container = styled(DashboardCard)`
   align-items: center;
   grid-area: ClosedSupportGraphic;
   height: 360px;

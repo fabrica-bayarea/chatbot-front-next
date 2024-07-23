@@ -60,6 +60,18 @@ export const DialogButton = styled(Button)<{ $width?: string }>`
   }
 `;
 
+export const EmailButton = styled(Button)`
+  background-color: var(--clr-b);
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  padding: 20px 40px;
+
+  &:disabled {
+    opacity: 0.75;
+  }
+`;
+
 export const IconButton = styled(Button)<{
   $bgColor?: string;
   $hover?: boolean;

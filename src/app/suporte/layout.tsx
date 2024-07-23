@@ -20,7 +20,9 @@ const Header = styled.header`
   }
 `;
 
-const Content = styled.main`
+const Main = styled.main`
+  background-color: var(--clr-lighter-gray);
+  background-image: linear-gradient(to top, var(--clr-light-gray), transparent 25%);
   display: flex;
   min-height: calc(100dvh - 50px);
 
@@ -43,7 +45,7 @@ function Layout({ children }: { children: ReactNode }) {
           alt="Logo IESB"
         />
       </Header>
-      <Content>{children}</Content>
+      <Main>{children}</Main>
     </>
   );
 }

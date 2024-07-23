@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { DarshboardCard } from '@/components/styled';
+import { DashboardCard } from '@/components/styled';
 
 export const AvatarContainer = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ export const AvatarContainer = styled.div`
   width: 100%;
 `;
 
-export const Container = styled(DarshboardCard)`
+export const Container = styled(DashboardCard)`
   grid-area: Card;
   grid-template-rows: 10px auto;
 `;

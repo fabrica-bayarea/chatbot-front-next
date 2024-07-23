@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { DarshboardCard } from '@/components/styled';
+import { DashboardCard } from '@/components/styled';
 
-export const Container = styled(DarshboardCard)`
+export const Container = styled(DashboardCard)`
   grid-area: StatusUpdatesGraphic;
   height: 520px;
 
