@@ -20,7 +20,7 @@ export const Container = styled.div<{ $delay: number; $visible: boolean }>`
   & > div {
     animation: ${({ $delay, $visible }) =>
       $visible ? `timeout ${$delay}ms linear` : 'none'};
-    background-color: var(--clr-b);
+    background-color: var(--clr-blue);
     height: 4px;
     width: 0;
   }

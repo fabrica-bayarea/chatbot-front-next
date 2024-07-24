@@ -28,6 +28,32 @@ export async function fetchSupportList() {
   return response;
 }
 
+export async function sendEndOfSupport(id: string) {
+  const supabase = createClient();
+  const userProfile = await fetchUserProfile();
+  const support = await fetchSupportById(id);
+
+  if (support) {
+    const payload: SendEmailPayload = {
+      body: {
+        id: support.id,
+        collaboratorProfile: userProfile,
+        ownerProfile: support.owner_profile,
+        template: 'end-of-support',
+      },
+    };
+
+    const { status } = await api.sendEmail(payload);
+
+    if (status === 200) {
+      const time = new Date().toISOString();
+      await supabase.from('support').update({ last_sent_at: time }).eq('id', id).select();
+
+      return 'ok';
+    }
+  }
+}
+
 export async function sendSupportUpdate(id: string) {
   const supabase = createClient();
   const userProfile = await fetchUserProfile();
@@ -38,8 +64,10 @@ export async function sendSupportUpdate(id: string) {
       body: {
         id: support.id,
         collaboratorProfile: userProfile,
-        messages: support.messages,
         ownerProfile: support.owner_profile,
+        messages: support.messages,
+        status: support.status,
+        template: 'support-update',
       },
     };
 

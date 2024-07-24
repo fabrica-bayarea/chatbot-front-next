@@ -58,7 +58,9 @@ export type SendEmailPayload = {
     id: string;
     collaboratorProfile: Profile;
     ownerProfile: Profile;
-    messages: Message[];
+    messages?: Message[];
+    status?: SupportStatus;
+    template: 'end-of-support' | 'support-update';
   };
 };
 

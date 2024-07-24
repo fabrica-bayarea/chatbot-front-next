@@ -17,22 +17,18 @@ import {
 
 import React, { CSSProperties } from 'react';
 
-import { Message, Profile, SupportStatus } from '@/utils/definitions';
+import { Profile } from '@/utils/definitions';
 
 const baseUrl = process.env.VERCEL_URL ?? '';
 
-function SupportUpdateEmail({
+function EndOfSupportEmail({
   id,
   collaboratorProfile,
   ownerProfile,
-  messages,
-  status,
 }: {
   id: string;
   collaboratorProfile: Profile;
   ownerProfile: Profile;
-  messages: Message[];
-  status: SupportStatus;
 }) {
   const avatar: CSSProperties = {
     backgroundImage: `url(${collaboratorProfile.picture})`,
@@ -50,25 +46,19 @@ function SupportUpdateEmail({
     borderRadius: '4px',
     color: 'white',
     fontSize: '16px',
+    marginTop: '20px',
     padding: '20px 40px',
   };
 
   const buttonContainer: CSSProperties = {
-    marginTop: '80px',
-  };
-
-  const closingText: CSSProperties = {
-    fontSize: '20px',
+    backgroundColor: '#fff0f0',
+    borderRadius: '16px',
+    marginTop: '40px',
+    padding: '40px',
   };
 
   const container: CSSProperties = {
     maxWidth: '600px',
-  };
-
-  const conversation: CSSProperties = {
-    backgroundColor: '#fff0f0',
-    margin: '40px 0 20px',
-    padding: '20px',
   };
 
   const divider: CSSProperties = {
@@ -117,41 +107,11 @@ function SupportUpdateEmail({
     lineHeight: '26px',
   };
 
-  const message: CSSProperties = {
-    ...paragraph,
-    margin: '30px 0',
-    whiteSpace: 'pre-line',
-  };
-
-  const serviceText = {
-    ...message,
-    borderRadius: '8px',
-    padding: '20px',
-  };
-
-  const messageFrom: {
-    user: CSSProperties;
-    assistant: CSSProperties;
-    collaborator: CSSProperties;
-  } = {
-    user: {
-      ...message,
-    },
-    assistant: {
-      ...serviceText,
-      backgroundColor: '#f0e4e4',
-    },
-    collaborator: {
-      ...serviceText,
-      backgroundColor: '#f0d4d4',
-    },
-  };
-
   return (
     <Html>
       <Head />
       <Preview>
-        {collaboratorProfile.name} lhe enviou uma atualização da conversa ID: {id}
+        {collaboratorProfile.name} encerrou o atendimento ID: {id}
       </Preview>
       <Body style={main}>
         <Container style={container}>
@@ -161,44 +121,32 @@ function SupportUpdateEmail({
               <Column align="center">
                 <div style={avatar}></div>
                 <Text style={introductionText}>
-                  {collaboratorProfile.name} lhe enviou uma atualização de conversa.
+                  {collaboratorProfile.name} encerrou o atendimento:
                 </Text>
+                <Text style={paragraph}>{id}</Text>
               </Column>
             </Row>
           </Section>
-          <Section style={conversation}>
-            {messages.map(({ content, role }, i) => (
-              <Text key={i} style={messageFrom[role]}>
-                {content}
+          <Section style={buttonContainer}>
+            <Row>
+              <Text style={paragraph}>
+                Esperamos que esteja satifeito. Nossa equipe seguirá à disposição para
+                solucionar qualquer questão que apareça no futuro.
               </Text>
-            ))}
+              <Text style={paragraph}>
+                Sua opinião é muito importante para nós! Por favor, avalie nosso
+                atendimento. É bem rápido!
+              </Text>
+            </Row>
+            <Row>
+              <Column align="center">
+                <Button href={`${baseUrl}/suporte/avaliacao/${id}`} style={button}>
+                  Avaliar atendimento
+                </Button>
+              </Column>
+            </Row>
           </Section>
-          <Section>
-            <Text style={closingText}>Atenciosamente,</Text>
-            <Text style={closingText}>Equipe IESB</Text>
-          </Section>
-          {status === 'accepted' && (
-            <Section style={buttonContainer}>
-              <Row>
-                <Column align="center">
-                  <Text style={paragraph}>
-                    Se estiver satisfeito, você pode encerrar este atendimento e fazer uma
-                    avaliação.
-                  </Text>
-                  <Button href={`${baseUrl}/suporte/avaliacao/${id}`} style={button}>
-                    Encerrar atendimento
-                  </Button>
-                </Column>
-              </Row>
-            </Section>
-          )}
           <Section style={footer}>
-            {status === 'accepted' && (
-              <Text style={footerText}>
-                Você está recebendo este e-mail porque possui um atendimento pendente em
-                nosso sistema.
-              </Text>
-            )}
             <Link href={baseUrl} style={footerLink}>
               Site
             </Link>
@@ -223,4 +171,4 @@ function SupportUpdateEmail({
   );
 }
 
-export default SupportUpdateEmail;
+export default EndOfSupportEmail;

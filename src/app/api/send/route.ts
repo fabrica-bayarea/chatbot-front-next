@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { type ReactElement } from 'react';
 import { Resend } from 'resend';
 
-import { SupportUpdateEmail } from '@/components/EmailTemplates';
+import { EndOfSupportEmail, SupportUpdateEmail } from '@/components/EmailTemplates';
+
+const templates = {
+  'end-of-support': EndOfSupportEmail,
+  'support-update': SupportUpdateEmail,
+};
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -13,8 +17,8 @@ export async function POST(req: NextRequest) {
     const payload = {
       from: 'Chatbot IESB <chatbot@phlima.com>',
       to: [body.ownerProfile.email],
-      subject: `Atualização de conversa (ID: ${body.id})`,
-      react: SupportUpdateEmail(body) as ReactElement,
+      subject: `Atualização de atendimento (ID: ${body.id})`,
+      react: templates[body.template as 'end-of-support' | 'support-update'](body),
     };
 
     const data = await resend.emails.send(payload);

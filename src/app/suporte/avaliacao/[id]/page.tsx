@@ -125,7 +125,7 @@ function Rating({ params }: { params: { id: string } }) {
   return (
     <>
       <Section>
-        <h1>Encerrar atendimento</h1>
+        <h1>Avaliar atendimento</h1>
         <p>
           Sua opinião é essencial para nós! Por favor, avalie o atendimento recebido e
           ajude a melhorar nossos serviços.
@@ -207,7 +207,7 @@ function Rating({ params }: { params: { id: string } }) {
                 </div>
               </InputContainer>
               <EmailButton type="submit" disabled={!rating}>
-                Encerrar
+                Avaliar
               </EmailButton>
             </>
           )}
