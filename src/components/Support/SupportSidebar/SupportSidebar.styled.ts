@@ -1,20 +1,19 @@
 import styled from 'styled-components';
 
 export const Container = styled.aside<{ $isVisible: boolean }>`
-  background-color: var(--clr-lighter);
+  background-color: white;
   box-shadow: 1px 0 4px 0 rgb(0 0 0 / 20%);
   display: flex;
   flex-direction: column;
   gap: 40px;
   height: calc(100dvh - 50px);
-  min-width: 280px;
+  min-width: 300px;
   padding-top: 120px;
   position: relative;
   z-index: 100;
 
   & > h1 {
-    color: var(--clr-b);
-    font-size: 1.8rem;
+    font-size: 2rem;
     padding: 0 20px;
   }
 

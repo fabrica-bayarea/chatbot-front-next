@@ -45,8 +45,6 @@ const ClosedSupportGraphic = () => {
           enabled: false,
         },
         showInLegend: true,
-        cursor: 'pointer',
-        allowPointSelect: true,
       },
     },
     tooltip: {

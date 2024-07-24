@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { device } from '@/utils/analyticsStyles';
-
 export const Container = styled.header`
   width: 1000px;
 
@@ -15,10 +13,6 @@ export const Container = styled.header`
   & > span {
     color: var(--clr-gray);
   }
-
-  @media ${device.xs} {
-    padding: 80px 40px 0;
-  }
 `;
 
 export const Content = styled.section`
@@ -28,11 +22,6 @@ export const Content = styled.section`
   gap: 40px;
   justify-content: flex-end;
   margin-top: 40px;
-
-  @media ${device.xs} {
-    flex-direction: column;
-    height: 130px;
-  }
 
   & > select {
     border: none;
