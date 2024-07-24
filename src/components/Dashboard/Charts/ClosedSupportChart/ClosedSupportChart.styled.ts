@@ -3,10 +3,7 @@ import styled from 'styled-components';
 import { DashboardCard } from '@/components/styled';
 
 export const Container = styled(DashboardCard)`
-  grid-area: StatusUpdatesGraphic;
-  height: 520px;
-
-  & > div {
-    padding: 0 80px;
-  }
+  align-items: center;
+  grid-area: ClosedSupportChart;
+  height: 360px;
 `;

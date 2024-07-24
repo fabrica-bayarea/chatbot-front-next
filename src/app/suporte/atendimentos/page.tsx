@@ -2,9 +2,14 @@
 
 import styled from 'styled-components';
 
+import {
+  ClosedSupportChart,
+  GeneralComparisonChart,
+  StatusUpdateChart,
+} from '@/components/Dashboard/Charts';
+
 import DashboardHeader from '@/components/Dashboard/DashboardHeader';
 import DashboardProfile from '@/components/Dashboard/DashboardProfile';
-import * as Graphics from '@/components/Dashboard/Graphics';
 import { AnalyticsProvider } from '@/context';
 
 export const Container = styled.section`
@@ -29,9 +34,9 @@ export const Content = styled.section`
   display: grid;
   gap: 40px;
   grid-template:
-    'Card ClosedSupportGraphic' minmax(auto, auto)
-    'GeneralComparisonGraphic GeneralComparisonGraphic' minmax(auto, auto)
-    'StatusUpdatesGraphic StatusUpdatesGraphic' minmax(auto, auto)
+    'Card ClosedSupportChart' minmax(auto, auto)
+    'GeneralComparisonChart GeneralComparisonChart' minmax(auto, auto)
+    'StatusUpdateChart StatusUpdateChart' minmax(auto, auto)
     'CallDuration CallDuration' minmax(auto, auto)
     / 600px 360px;
   padding: 60px 0;
@@ -44,9 +49,9 @@ function Support() {
         <DashboardHeader />
         <Content>
           <DashboardProfile />
-          <Graphics.ClosedSupportGraphic />
-          <Graphics.GeneralComparisonGraphic />
-          <Graphics.StatusUpdatesGraphic />
+          <ClosedSupportChart />
+          <GeneralComparisonChart />
+          <StatusUpdateChart />
         </Content>
       </Container>
     </AnalyticsProvider>

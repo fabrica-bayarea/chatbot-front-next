@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import { DashboardCard } from '@/components/styled';
 
 export const Container = styled(DashboardCard)`
-  align-items: center;
-  grid-area: ClosedSupportGraphic;
-  height: 360px;
+  grid-area: GeneralComparisonChart;
+  height: 520px;
+
+  & > div {
+    padding: 0 80px;
+  }
 `;

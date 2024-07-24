@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { DashboardCard } from '@/components/styled';
 
 export const Container = styled(DashboardCard)`
-  grid-area: GeneralComparisonGraphic;
+  grid-area: StatusUpdateChart;
   height: 520px;
 
   & > div {

@@ -13,7 +13,7 @@ const Rating = styled.div<{ $rating: number }>`
     content: '';
     height: var(--h);
     left: 0;
-    opacity: 20%;
+    opacity: 0.2;
     position: absolute;
     top: 0;
     width: 100%;
@@ -25,7 +25,7 @@ const Rating = styled.div<{ $rating: number }>`
     content: '';
     height: var(--h);
     left: 0;
-    opacity: 50%;
+    opacity: 0.5;
     position: absolute;
     top: 0;
     width: ${({ $rating }) => ($rating / 5) * 100}%;
