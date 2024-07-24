@@ -15,7 +15,7 @@ export const Container = styled.header`
   }
 `;
 
-export const Content = styled.section`
+export const SelectContainer = styled.section`
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -27,6 +27,6 @@ export const Content = styled.section`
     border: none;
     font-family: inherit;
     font-size: inherit;
-    padding: 10px;
+    padding: 20px 10px;
   }
 `;

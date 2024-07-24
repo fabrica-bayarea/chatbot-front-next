@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Content } from './DashboardHeader.styled';
+import { Container, SelectContainer } from './DashboardHeader.styled';
 import { useAnalyticsContext } from '@/hooks';
 
 const options = [
@@ -29,7 +29,7 @@ function DashboardHeader() {
     <Container>
       <h1>Dashboard</h1>
       <span>Visualize informações sobre seu perfil e seus atendimentos.</span>
-      <Content>
+      <SelectContainer>
         <label htmlFor="period-select">Selecione um período:</label>
         <select
           id="period-select"
@@ -42,7 +42,7 @@ function DashboardHeader() {
             </option>
           ))}
         </select>
-      </Content>
+      </SelectContainer>
     </Container>
   );
 }
