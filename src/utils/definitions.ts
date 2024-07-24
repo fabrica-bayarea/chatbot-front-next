@@ -58,7 +58,9 @@ export type SendEmailPayload = {
     id: string;
     collaboratorProfile: Profile;
     ownerProfile: Profile;
-    messages: Message[];
+    messages?: Message[];
+    status?: SupportStatus;
+    template: 'end-of-support' | 'support-update';
   };
 };
 
@@ -107,4 +109,36 @@ export type ChatContextShared = {
   isStreaming?: boolean;
   newConversation: Conversation;
   setConversation: Dispatch<SetStateAction<Conversation>>;
+};
+
+export type FilteredAnalyticsData = {
+  closedSupportChart: {
+    total: {
+      porcentage: number;
+      value: number;
+    };
+    own: {
+      porcentage: number;
+      value: number;
+    };
+  };
+  generalComparisonChart: {
+    general: number[];
+    own: (number | null)[];
+  };
+  statusUpdateChart: {
+    openSupport: number[];
+    closedSupport: number[];
+  };
+};
+
+export type AnalyticsData = {
+  [key: string]: FilteredAnalyticsData;
+};
+
+export type AnalyticsContextShared = {
+  analytics: AnalyticsData;
+  colors: { [key: string]: string };
+  filteredData: FilteredAnalyticsData;
+  setFilter: Dispatch<SetStateAction<string>>;
 };

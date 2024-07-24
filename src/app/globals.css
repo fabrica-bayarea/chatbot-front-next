@@ -1,17 +1,17 @@
 :root {
   --clr-a: #f0d4d4;
-  --clr-b: #ed2241;
+  --clr-b: #d92936;
   --clr-c: #b41e3c;
   --clr-d: #961e1e;
 
-  --clr-green: #67bb67;
+  --clr-green: #87bb87;
   --clr-blue: #8787bb;
 
-  --clr-dark: #3c1e1e;
-  --clr-light: #fff0f0;
   --clr-lighter: #fff8f8;
+  --clr-light: #fff0f0;
+  --clr-dark: #3c1e1e;
 
-  --clr-lighter-gray: #f0f0f0;
+  --clr-lighter-gray: #f4f4f4;
   --clr-light-gray: #d7d7d7;
   --clr-gray: #a1a1a1;
   --clr-dark-gray: #717171;
@@ -35,7 +35,11 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-b);
 }
 

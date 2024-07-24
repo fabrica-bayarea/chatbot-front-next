@@ -24,8 +24,8 @@ export const Avatar = styled.div<AvatarProps>`
     $picture &&
     css`
       background-image: url(${$picture});
-      background-size: cover;
       background-position: center;
+      background-size: cover;
       color: transparent;
     `}
 `;

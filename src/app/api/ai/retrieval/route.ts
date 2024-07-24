@@ -1,5 +1,5 @@
 // LangChain API Reference
-// https://v02.api.js.langchain.com/
+// https://v02.api.js.langchain.com
 
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase';
 import { Document } from '@langchain/core/documents';

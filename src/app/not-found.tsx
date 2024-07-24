@@ -47,7 +47,7 @@ function NotFound() {
       <h1>Página não encontrada.</h1>
       <span>(｡╯︵╰｡)</span>
       <Image
-        src="/iesb_logo.png"
+        src="/iesb-logo.png"
         height={60}
         width={60}
         quality={100}

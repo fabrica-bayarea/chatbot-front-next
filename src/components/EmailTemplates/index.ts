@@ -1,3 +1,4 @@
+import EndOfSupportEmail from './EndOfSupportEmail';
 import SupportUpdateEmail from './SupportUpdateEmail';
 
-export { SupportUpdateEmail };
+export { EndOfSupportEmail, SupportUpdateEmail };

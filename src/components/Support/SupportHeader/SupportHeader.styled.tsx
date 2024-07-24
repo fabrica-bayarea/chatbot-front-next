@@ -7,7 +7,7 @@ export const Container = styled.header`
   background-color: var(--clr-b);
   background-image: linear-gradient(
     to bottom right,
-    rgba(255 255 255 / 8%),
+    rgba(255 255 255 / 10%),
     rgba(255 255 255 / 0%) 80%
   );
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);

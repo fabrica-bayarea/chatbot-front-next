@@ -23,7 +23,6 @@ function ChatForm({
   background?: boolean;
 }) {
   const { isLoading } = useMainContext();
-  const formRef = useRef<HTMLFormElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [content, setContent] = useState('');
 
@@ -76,7 +75,7 @@ function ChatForm({
   }, [content, maxHeight]);
 
   return (
-    <Container ref={formRef} onSubmit={handleSubmit} $background={background}>
+    <Container onSubmit={handleSubmit} $background={background}>
       <AdaptiveTextArea
         placeholder="Digite uma mensagem"
         ref={textareaRef}

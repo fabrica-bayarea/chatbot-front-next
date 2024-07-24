@@ -1,24 +1,39 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { fetchUserProfile } from '@/actions/auth';
+import { fetchSupportById } from './actions/support';
 import { updateSession } from '@/utils/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
-  const userProfile = await fetchUserProfile();
+  const { pathname } = request.nextUrl;
+  const user = await fetchUserProfile();
 
-  if (request.nextUrl.pathname === '/') {
-    if (!userProfile) {
+  if (pathname === '/') {
+    if (!user) {
       return NextResponse.rewrite(new URL('/login', request.url));
     }
   }
 
-  if (request.nextUrl.pathname.startsWith('/suporte')) {
-    if (!userProfile) {
+  if (pathname.startsWith('/suporte/atendimentos')) {
+    if (!user) {
       return NextResponse.rewrite(new URL('/login', request.url));
     }
 
-    if (userProfile.role === 'user') {
-      return NextResponse.rewrite(new URL('/unauthorized', request.url));
+    if (user.role === 'user') {
+      return NextResponse.rewrite(new URL('/404', request.url));
+    }
+  }
+
+  if (pathname.startsWith('/suporte/avaliacao/')) {
+    if (!user) {
+      return NextResponse.rewrite(new URL('/login', request.url));
+    }
+
+    const pathId = pathname.split('/').splice(-1)[0];
+    const support = await fetchSupportById(pathId);
+
+    if (user.id !== support?.owner_profile.id) {
+      return NextResponse.rewrite(new URL('/404', request.url));
     }
   }
 

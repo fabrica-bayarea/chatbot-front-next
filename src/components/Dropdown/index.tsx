@@ -30,7 +30,7 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
       </IconButton>
       <Navigation $isVisible={isVisible}>
         {user.role !== 'user' && (
-          <DropdownButton onClick={() => router.push('/suporte')}>
+          <DropdownButton onClick={() => router.push('/suporte/atendimentos')}>
             Atendimentos
           </DropdownButton>
         )}

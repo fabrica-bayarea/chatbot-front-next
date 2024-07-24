@@ -5,7 +5,13 @@ import { useRef, useState } from 'react';
 import type { Updater } from 'use-immer';
 
 import { Container, MoreButton, Options, UserContainer } from './SupportHeader.styled';
-import { sendSupportUpdate, updateSupportStatus } from '@/actions/support';
+
+import {
+  sendEndOfSupport,
+  sendSupportUpdate,
+  updateSupportStatus,
+} from '@/actions/support';
+
 import { RequestButton } from '@/components/Buttons';
 import { Avatar } from '@/components/styled';
 import { useMainContext, useOutsideClick } from '@/hooks';
@@ -37,16 +43,14 @@ function SupportHeader({
   };
 
   const handleEmail = async () => {
-    const response = await sendSupportUpdate(data.id);
-
-    if (response === 'ok') {
-      setIsVisible(false);
-      setAndShow('E-mail enviado!');
-    }
+    await sendSupportUpdate(data.id);
+    setIsVisible(false);
+    setAndShow('E-mail enviado!');
   };
 
   const handleClose = async () => {
     await updateSupportStatus(data.id, 'closed');
+    await sendEndOfSupport(data.id);
 
     setSupport((draft) => {
       draft.status = 'closed';

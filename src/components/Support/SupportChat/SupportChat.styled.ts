@@ -7,7 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 10;
-  height: calc(100dvh - 160px);
+  height: calc(100dvh - 170px);
   padding-bottom: 80px;
   position: relative;
 `;
@@ -26,7 +26,7 @@ export const Conversation = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--clr-b);
+    background-color: var(--clr-c);
   }
 
   @media screen and (width <= 1024px) {

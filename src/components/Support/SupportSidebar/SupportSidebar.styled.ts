@@ -1,26 +1,35 @@
 import styled from 'styled-components';
 
 export const Container = styled.aside<{ $isVisible: boolean }>`
-  background-color: var(--clr-lighter);
+  background-color: white;
   box-shadow: 1px 0 4px 0 rgb(0 0 0 / 20%);
   display: flex;
   flex-direction: column;
   gap: 40px;
-  height: calc(100dvh - 40px);
-  min-width: 280px;
+  height: calc(100dvh - 50px);
+  min-width: 300px;
   padding-top: 120px;
   position: relative;
   z-index: 100;
 
   & > h1 {
+    color: var(--clr-b);
+    font-size: 2rem;
     padding: 0 20px;
-    text-align: center;
   }
 
   & > footer {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 20px;
+    background-color: var(--clr-c);
+    background-image: linear-gradient(
+      to bottom right,
+      rgba(255 255 255 / 10%),
+      rgba(255 255 255 / 0%) 80%
+    );
+
+    & > nav {
+      display: flex;
+      justify-content: space-evenly;
+    }
   }
 
   @media screen and (width <= 1024px) {
@@ -99,7 +108,7 @@ export const LoadingItem = styled(ListItem)`
 export const OpenCloseContainer = styled.div`
   left: 12px;
   position: absolute;
-  top: 0;
+  top: 5px;
   visibility: hidden;
   z-index: 100;
 

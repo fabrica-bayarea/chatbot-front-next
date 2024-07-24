@@ -12,6 +12,7 @@ import {
   OpenCloseContainer,
 } from './SupportSidebar.styled';
 
+import { signOut } from '@/actions/auth';
 import { Avatar, LoadingAvatar, IconButton } from '@/components/styled';
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 import { LoadingStatus, Status } from '@/components/styled/Status.styled';
@@ -70,7 +71,7 @@ function SupportList({
             key={index}
             onClick={() => {
               setIsVisible(false);
-              router.push(`/suporte/${id}`);
+              router.push(`/suporte/atendimentos/${id}`);
             }}
             role="button"
             tabIndex={0}
@@ -92,6 +93,7 @@ function SupportList({
 
 function SupportSidebar() {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
   useOutsideClick(sidebarRef, () => setIsVisible(false));
@@ -112,14 +114,22 @@ function SupportSidebar() {
         <h1>Atendimentos</h1>
         <SupportList setIsVisible={setIsVisible} />
         <footer>
-          <Image
-            src="/iesb_logo.png"
-            height={60}
-            width={60}
-            quality={100}
-            alt="Logo IESB"
-            style={{ border: '2px solid white', boxSizing: 'content-box', opacity: 0.8 }}
-          />
+          <nav>
+            <IconButton onClick={() => router.push('/')}>
+              <Image
+                src="/home-white.svg"
+                height={18}
+                width={18}
+                alt="Página principal"
+              />
+            </IconButton>
+            <IconButton onClick={() => router.push('/suporte/atendimentos')}>
+              <Image src="/bar_chart-white.svg" height={18} width={18} alt="Painel" />
+            </IconButton>
+            <IconButton onClick={() => signOut()}>
+              <Image src="/logout-white.svg" height={18} width={18} alt="Logout" />
+            </IconButton>
+          </nav>
         </footer>
       </Container>
     </div>

@@ -18,6 +18,8 @@
     "@supabase/supabase-js": "^2.43.4",
     "@uploadthing/react": "^6.0.2",
     "ai": "^3.1.22",
+    "highcharts": "^11.4.6",
+    "highcharts-react-official": "^3.2.1",
     "immer": "^10.1.1",
     "langchain": "^0.2.3",
     "next": "latest",
