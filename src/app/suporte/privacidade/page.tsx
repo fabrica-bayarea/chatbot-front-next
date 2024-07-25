@@ -45,8 +45,8 @@ function Rating() {
         O Centro Universitário IESB, de propriedade do Centro de Educação Superior de
         Brasília LTDA (CNPJ 00.422.333/0001-09), com sede no SGAS, quadra 613/614, via L2
         Sul, Asa Sul, Brasília, Distrito Federal, CEP 70.200-730, é o responsável pelo
-        tratamento dos dados pessoais dos "USUÁRIOS", conforme definido na Lei Geral de
-        Proteção de Dados (LGPD), Lei 13.709/2018.
+        tratamento dos dados pessoais dos &quot;USUÁRIOS&quot;, conforme definido na Lei
+        Geral de Proteção de Dados (LGPD), Lei 13.709/2018.
       </p>
       <h4>Objetivos</h4>
       <p>
