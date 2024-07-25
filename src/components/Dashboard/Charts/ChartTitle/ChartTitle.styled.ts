@@ -9,8 +9,8 @@ export const Container = styled.header`
   padding: 40px 40px 20px;
   width: 100%;
 
-  & > h6 {
-    font-size: 18px;
+  & > h3 {
+    font-size: 1.2rem;
   }
 
   & > span {

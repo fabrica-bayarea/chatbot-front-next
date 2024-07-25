@@ -4,22 +4,17 @@ import { type ChangeEvent, type FormEvent, useState } from 'react';
 import styled from 'styled-components';
 
 import { updateSupportRating, updateSupportStatus } from '@/actions/support';
+import { Section } from '@/app/suporte/layout';
 import { EmailButton } from '@/components/styled';
 
-const Section = styled.section`
-  background-color: white;
-  border-radius: 16px;
-  gap: 30px;
-  height: fit-content;
-  margin: 100px 25%;
-  padding: 40px 60px;
-
+const RatingSection = styled(Section)`
   & > h1 {
     font-size: 1.75rem;
   }
 
-  & > h3 {
-    font-size: 1.25rem;
+  & > h5 {
+    font-family: var(--font-a);
+    font-size: 1rem;
   }
 
   & > ul {
@@ -42,22 +37,9 @@ const Section = styled.section`
     width: 80%;
   }
 
-  @media screen and (width <= 1024px) {
-    margin: 100px 10%;
-  }
-
-  @media screen and (width <= 768px) {
-    border-radius: 0;
-    height: calc(100dvh - 50px);
-    margin: 0;
-    padding: 40px 20px;
-
+  @media screen and (width <= 480px) {
     & > h1 {
       font-size: 1.5rem;
-    }
-
-    & > h3 {
-      font-size: 1rem;
     }
   }
 `;
@@ -124,13 +106,13 @@ function Rating({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <Section>
-        <h1>Avaliar atendimento</h1>
+      <RatingSection>
+        <h1>Avaliação de atendimento</h1>
         <p>
           Sua opinião é essencial para nós! Por favor, avalie o atendimento recebido e
           ajude a melhorar nossos serviços.
         </p>
-        <h3>Por que sua avaliação é importante?</h3>
+        <h5>Por que sua avaliação é importante?</h5>
         <ul>
           <li>Melhoria contínua: Sua opinião nos ajuda a aprimorar nosso atendimento.</li>
           <li>
@@ -212,7 +194,7 @@ function Rating({ params }: { params: { id: string } }) {
             </>
           )}
         </RatingForm>
-      </Section>
+      </RatingSection>
     </>
   );
 }
