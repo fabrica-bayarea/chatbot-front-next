@@ -4,8 +4,27 @@ import { type ChangeEvent, type FormEvent, useState } from 'react';
 import styled from 'styled-components';
 
 import { updateSupportRating, updateSupportStatus } from '@/actions/support';
-import { Section } from '@/app/suporte/layout';
 import { EmailButton } from '@/components/styled';
+
+const Section = styled.section`
+  background-color: white;
+  border-radius: 16px;
+  gap: 30px;
+  height: fit-content;
+  margin: 100px 25%;
+  padding: 40px 60px;
+
+  @media screen and (width <= 1024px) {
+    margin: 100px 10%;
+  }
+
+  @media screen and (width <= 768px) {
+    border-radius: 0;
+    height: calc(100dvh - 50px);
+    margin: 0;
+    padding: 40px 20px;
+  }
+`;
 
 const RatingSection = styled(Section)`
   & > h1 {

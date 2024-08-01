@@ -5,11 +5,13 @@ import type {
   SendEmailResponse,
 } from './definitions';
 
+const baseUrl = process.env.VERCEL_URL ?? '';
+
 const api = {
   async fetchStream({
     body,
   }: FetchStreamPayload): Promise<APIResult<ReadableStreamDefaultReader>> {
-    const response = await fetch(`http://localhost:3000/api/ai/retrieval`, {
+    const response = await fetch(`${baseUrl}/api/ai/retrieval`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: body.messages }),
@@ -22,7 +24,7 @@ const api = {
   },
 
   async sendEmail({ body }: SendEmailPayload): Promise<APIResult<SendEmailResponse>> {
-    const response = await fetch('http://localhost:3000/api/send', {
+    const response = await fetch(`${baseUrl}/api/send`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

@@ -6,7 +6,7 @@ function useOutsideClick(
   all = false
 ) {
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (ref.current && (all || !ref.current.contains(event.target))) {
         handler();
       }

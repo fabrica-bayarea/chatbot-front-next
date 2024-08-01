@@ -12,7 +12,7 @@ import DashboardHeader from '@/components/Dashboard/DashboardHeader';
 import DashboardProfile from '@/components/Dashboard/DashboardProfile';
 import { AnalyticsProvider } from '@/context';
 
-export const Container = styled.section`
+const Container = styled.section`
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@ export const Container = styled.section`
   }
 `;
 
-export const Content = styled.section`
+const Content = styled.section`
   display: grid;
   gap: 40px;
   grid-template:

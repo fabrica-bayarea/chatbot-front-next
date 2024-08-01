@@ -40,10 +40,10 @@ function Login() {
         <LoginForm />
         <MainButton onClick={() => router.push('/registro')}>Registro</MainButton>
         <hr />
-        {/* <SocialButton onClick={() => signInWithGoogle(path)}>
+        <SocialButton onClick={() => signInWithGoogle(path)}>
           <Image src={'/google_g.png'} width={30} height={30} alt="Logo Google" />
           <span>Continuar com Google</span>
-        </SocialButton> */}
+        </SocialButton>
         <SocialButton onClick={() => signInAnonymously()}>
           Continuar anonimamente
         </SocialButton>
