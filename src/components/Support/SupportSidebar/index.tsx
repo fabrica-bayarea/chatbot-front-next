@@ -123,7 +123,12 @@ function SupportSidebar() {
                 alt="Página principal"
               />
             </IconButton>
-            <IconButton onClick={() => router.push('/suporte/atendimentos')}>
+            <IconButton
+              onClick={() => {
+                setIsVisible(false);
+                router.push('/suporte/atendimentos');
+              }}
+            >
               <Image src="/bar_chart-white.svg" height={18} width={18} alt="Painel" />
             </IconButton>
             <IconButton onClick={() => signOut()}>

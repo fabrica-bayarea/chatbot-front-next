@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.header`
-  width: 1000px;
+  width: 100%;
 
   & > h1 {
     font-size: 3rem;

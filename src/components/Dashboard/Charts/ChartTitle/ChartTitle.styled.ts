@@ -6,7 +6,7 @@ export const Container = styled.header`
   flex-direction: column;
   gap: 10px;
   justify-content: center;
-  padding: 40px 40px 20px;
+  padding: 30px 20px 20px;
   width: 100%;
 
   & > h3 {
@@ -16,5 +16,11 @@ export const Container = styled.header`
   & > span {
     color: var(--clr-gray);
     font-size: 0.9rem;
+  }
+
+  @media screen and (width <= 1280px) {
+    & > h3 {
+      font-size: 1rem;
+    }
   }
 `;

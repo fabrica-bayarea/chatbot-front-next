@@ -13,12 +13,11 @@ import DashboardProfile from '@/components/Dashboard/DashboardProfile';
 import { AnalyticsProvider } from '@/context';
 
 export const Container = styled.section`
-  align-items: center;
   display: flex;
   flex-direction: column;
   height: calc(100dvh - 50px);
   overflow-y: scroll;
-  padding-top: 80px;
+  padding: 80px 15% 0;
   width: 100%;
 
   &::-webkit-scrollbar {
@@ -27,6 +26,14 @@ export const Container = styled.section`
 
   &::-webkit-scrollbar-thumb {
     background-color: var(--clr-c);
+  }
+
+  @media screen and (width <= 1440px) {
+    padding: 80px 10% 0;
+  }
+
+  @media screen and (width <= 1280px) {
+    padding: 80px 5% 0;
   }
 `;
 
@@ -38,8 +45,29 @@ export const Content = styled.section`
     'GeneralComparisonChart GeneralComparisonChart' minmax(auto, auto)
     'StatusUpdateChart StatusUpdateChart' minmax(auto, auto)
     'CallDuration CallDuration' minmax(auto, auto)
-    / 600px 360px;
-  padding: 60px 0;
+    / 1.4fr 1fr;
+  margin: 60px 0;
+  width: 100%;
+
+  @media screen and (width <= 1280px) {
+    gap: 20px;
+  }
+
+  @media screen and (width <= 768px) {
+    grid-template:
+      'Card'
+      'ClosedSupportChart'
+      'GeneralComparisonChart'
+      'StatusUpdateChart'
+      'CallDuration'
+      / 100%;
+
+    padding: 0 40px;
+  }
+
+  @media screen and (width <= 480px) {
+    padding: 0;
+  }
 `;
 
 function Support() {
