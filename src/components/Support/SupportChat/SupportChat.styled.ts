@@ -30,7 +30,7 @@ export const Conversation = styled.div`
     background-color: var(--clr-c);
   }
 
-  ${mediaQueries.mobileL} {
+  ${mediaQueries.laptopS} {
     padding: 40px 74px 40px 80px;
   }
 

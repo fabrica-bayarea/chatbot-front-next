@@ -62,7 +62,6 @@ const Content = styled.section`
       'StatusUpdateChart'
       'CallDuration'
       / 100%;
-
     padding: 0 40px;
   }
 
