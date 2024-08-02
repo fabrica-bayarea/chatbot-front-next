@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { Form } from '@/components/styled';
+import { mediaQueries } from '@/utils/mediaQueries';
 
 export const Container = styled(Form)<{ $background?: boolean }>`
   align-items: flex-end;
@@ -22,11 +23,11 @@ export const Container = styled(Form)<{ $background?: boolean }>`
       font-size: 1rem;
       padding: 15px 20%;
 
-      @media screen and (width <= 1024px) {
+      ${mediaQueries.laptopS} {
         padding: 15px 80px;
       }
 
-      @media screen and (width <= 480px) {
+      ${mediaQueries.mobileL} {
         padding: 15px 20px;
       }
     `}

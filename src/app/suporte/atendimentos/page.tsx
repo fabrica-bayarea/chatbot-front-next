@@ -11,14 +11,14 @@ import {
 import DashboardHeader from '@/components/Dashboard/DashboardHeader';
 import DashboardProfile from '@/components/Dashboard/DashboardProfile';
 import { AnalyticsProvider } from '@/context';
+import { mediaQueries } from '@/utils/mediaQueries';
 
 const Container = styled.section`
-  align-items: center;
   display: flex;
   flex-direction: column;
   height: calc(100dvh - 50px);
   overflow-y: scroll;
-  padding-top: 80px;
+  padding: 80px 15% 0;
   width: 100%;
 
   &::-webkit-scrollbar {
@@ -27,6 +27,14 @@ const Container = styled.section`
 
   &::-webkit-scrollbar-thumb {
     background-color: var(--clr-c);
+  }
+
+  ${mediaQueries.laptopL} {
+    padding: 80px 10% 0;
+  }
+
+  ${mediaQueries.laptopM} {
+    padding: 80px 5% 0;
   }
 `;
 
@@ -38,8 +46,28 @@ const Content = styled.section`
     'GeneralComparisonChart GeneralComparisonChart' minmax(auto, auto)
     'StatusUpdateChart StatusUpdateChart' minmax(auto, auto)
     'CallDuration CallDuration' minmax(auto, auto)
-    / 600px 360px;
-  padding: 60px 0;
+    / 1.4fr 1fr;
+  margin: 60px 0;
+  width: 100%;
+
+  ${mediaQueries.laptopM} {
+    gap: 20px;
+  }
+
+  ${mediaQueries.tablet} {
+    grid-template:
+      'Card'
+      'ClosedSupportChart'
+      'GeneralComparisonChart'
+      'StatusUpdateChart'
+      'CallDuration'
+      / 100%;
+    padding: 0 40px;
+  }
+
+  ${mediaQueries.mobileL} {
+    padding: 0;
+  }
 `;
 
 function Support() {

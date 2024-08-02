@@ -2,7 +2,7 @@
 
 import { type Options, TooltipFormatterContextObject } from 'highcharts';
 
-import { Container } from './GeneralComparisonChart.styled';
+import { ChartContainer, Container } from './GeneralComparisonChart.styled';
 import Chart from '@/components/Dashboard/Charts/Chart';
 import ChartTitle from '@/components/Dashboard/Charts/ChartTitle';
 import { useAnalyticsContext } from '@/hooks';
@@ -13,6 +13,7 @@ function GeneralComparisonChart() {
   const chartOptions: Options = {
     chart: {
       type: 'column',
+      backgroundColor: 'transparent',
       marginTop: 50,
     },
     series: [
@@ -73,7 +74,9 @@ function GeneralComparisonChart() {
         title="Comparação geral"
         description="Analise sua participação em relação ao total de atendimentos."
       />
-      <Chart chartOptions={chartOptions} />
+      <ChartContainer>
+        <Chart chartOptions={chartOptions} />
+      </ChartContainer>
     </Container>
   );
 }

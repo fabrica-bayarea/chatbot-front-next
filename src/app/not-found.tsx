@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 
+import { mediaQueries } from '@/utils/mediaQueries';
+
 const Container = styled.main`
   align-items: center;
   background: linear-gradient(to bottom right, var(--clr-b), var(--clr-c));
@@ -30,7 +32,7 @@ const Container = styled.main`
     position: absolute;
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL} {
     & > h1 {
       font-size: 2rem;
     }

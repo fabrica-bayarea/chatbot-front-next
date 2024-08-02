@@ -2,6 +2,8 @@
 
 import styled from 'styled-components';
 
+import { mediaQueries } from '@/utils/mediaQueries';
+
 const Section = styled.section`
   background-color: white;
   border-radius: 16px;
@@ -48,7 +50,7 @@ const PrivacySection = styled(Section)`
     margin-left: 20px;
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL} {
     & > h1 {
       font-size: 1.5rem;
     }

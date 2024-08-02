@@ -17,7 +17,7 @@ function DashboardProfile() {
   return (
     <Container>
       <AvatarContainer>
-        <ProfileAvatar $fontSize="2.5em" $picture={user.picture} $width="3.75em">
+        <ProfileAvatar $fontSize="2.5em" $picture={user.picture} $width="3.5em">
           {user.name.charAt(0)}
         </ProfileAvatar>
         <UserContainer>

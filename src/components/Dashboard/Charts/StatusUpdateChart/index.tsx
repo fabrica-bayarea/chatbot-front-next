@@ -2,7 +2,7 @@
 
 import { type Options, type TooltipFormatterContextObject } from 'highcharts';
 
-import { Container } from './StatusUpdateChart.styled';
+import { ChartContainer, Container } from './StatusUpdateChart.styled';
 import Chart from '@/components/Dashboard/Charts/Chart';
 import ChartTitle from '@/components/Dashboard/Charts/ChartTitle';
 import { useAnalyticsContext } from '@/hooks';
@@ -13,6 +13,7 @@ function StatusUpdateChart() {
   const chartOptions: Options = {
     chart: {
       type: 'spline',
+      backgroundColor: 'transparent',
       marginTop: 50,
     },
     series: [
@@ -63,6 +64,9 @@ function StatusUpdateChart() {
             <span style="color: var(--clr-dark-gray); font-size: 16px;">
               Chamadas
             </span>
+            <span style="color: var(--clr-dark-gray); font-size: 12px; margin-top: 10px;">
+             Horário: ${self.point.x}:00
+            </span>
           </div>
         `;
       },
@@ -75,7 +79,9 @@ function StatusUpdateChart() {
         title="Atualizações de status"
         description="Acompanhe a quantidade de atendimentos aceitos e encerrados a cada hora."
       />
-      <Chart chartOptions={chartOptions} />
+      <ChartContainer>
+        <Chart chartOptions={chartOptions} />
+      </ChartContainer>
     </Container>
   );
 }

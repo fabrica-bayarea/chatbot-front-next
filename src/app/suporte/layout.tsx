@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { type ReactNode } from 'react';
 import styled from 'styled-components';
 
+import { mediaQueries } from '@/utils/mediaQueries';
+
 const Header = styled.header`
   align-items: center;
   background-color: var(--clr-c);
@@ -15,7 +17,7 @@ const Header = styled.header`
   position: relative;
   z-index: 100;
 
-  @media screen and (width <= 1024px) {
+  ${mediaQueries.laptopS} {
     padding: 0 30px;
   }
 `;

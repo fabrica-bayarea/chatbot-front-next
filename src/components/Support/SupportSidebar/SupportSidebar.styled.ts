@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { mediaQueries } from '@/utils/mediaQueries';
+
 export const Container = styled.aside<{ $isVisible: boolean }>`
   background-color: white;
   box-shadow: 1px 0 4px 0 rgb(0 0 0 / 20%);
@@ -32,7 +34,7 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
     }
   }
 
-  @media screen and (width <= 1024px) {
+  ${mediaQueries.laptopS} {
     left: ${({ $isVisible }) => ($isVisible ? 0 : '-280px')};
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     position: absolute;
@@ -112,7 +114,7 @@ export const OpenCloseContainer = styled.div`
   visibility: hidden;
   z-index: 100;
 
-  @media screen and (width <= 1024px) {
+  ${mediaQueries.laptopS} {
     visibility: visible;
   }
 `;

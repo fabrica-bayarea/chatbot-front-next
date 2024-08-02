@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { IconButton } from '@/components/styled';
+import { mediaQueries } from '@/utils/mediaQueries';
 
 export const Container = styled.div`
   background-image: url('/chat_background.jpg');
@@ -29,11 +30,11 @@ export const Conversation = styled.div`
     background-color: var(--clr-c);
   }
 
-  @media screen and (width <= 1024px) {
+  ${mediaQueries.laptopS} {
     padding: 40px 74px 40px 80px;
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL} {
     padding: 40px 34px 40px 40px;
   }
 `;
@@ -45,7 +46,7 @@ export const SendButton = styled(IconButton)`
   right: -90px;
   top: 30px;
 
-  @media screen and (width <= 1024px) {
+  ${mediaQueries.laptopS}{
     right: -30px;
     top: -30px;
   }

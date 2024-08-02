@@ -2,7 +2,7 @@ export const screenSizes = {
   mobileS: 320,
   mobileM: 375,
   mobileL: 480,
-  tablet: 820,
+  tablet: 768,
   laptopS: 1024,
   laptopM: 1280,
   laptopL: 1440,

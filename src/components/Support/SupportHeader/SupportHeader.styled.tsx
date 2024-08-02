@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { IconButton } from '@/components/styled';
+import { mediaQueries } from '@/utils/mediaQueries';
 
 export const Container = styled.header`
   align-items: center;
@@ -18,13 +19,13 @@ export const Container = styled.header`
   padding: 0 60px;
   z-index: 10;
 
-  @media screen and (width <= 1024px) {
+  ${mediaQueries.laptopS} {
     font-size: 14px;
     height: 100px;
     padding: 0 12px 0 20px;
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL} {
     font-size: 10px;
     gap: 10px;
     height: 80px;
@@ -34,7 +35,7 @@ export const Container = styled.header`
 export const MoreButton = styled(IconButton)`
   display: none;
 
-  @media screen and (width <= 1440px) {
+  ${mediaQueries.laptopL} {
     display: flex;
   }
 `;
@@ -54,7 +55,7 @@ export const Options = styled.div<{ $isVisible: boolean }>`
     }
   }
 
-  @media screen and (width <= 1440px) {
+  ${mediaQueries.laptopL} {
     & > nav {
       background-color: var(--clr-b);
       border: 1px solid var(--clr-c);
@@ -93,7 +94,7 @@ export const UserContainer = styled.div`
     position: relative;
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL}{
     & > span:last-child {
       display: none;
     }
