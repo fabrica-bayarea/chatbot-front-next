@@ -11,6 +11,7 @@ import {
 import DashboardHeader from '@/components/Dashboard/DashboardHeader';
 import DashboardProfile from '@/components/Dashboard/DashboardProfile';
 import { AnalyticsProvider } from '@/context';
+import { mediaQueries } from '@/utils/mediaQueries';
 
 export const Container = styled.section`
   display: flex;
@@ -28,11 +29,11 @@ export const Container = styled.section`
     background-color: var(--clr-c);
   }
 
-  @media screen and (width <= 1440px) {
+  ${mediaQueries.laptopL} {
     padding: 80px 10% 0;
   }
 
-  @media screen and (width <= 1280px) {
+  ${mediaQueries.laptopM} {
     padding: 80px 5% 0;
   }
 `;
@@ -49,11 +50,11 @@ export const Content = styled.section`
   margin: 60px 0;
   width: 100%;
 
-  @media screen and (width <= 1280px) {
+  ${mediaQueries.laptopM} {
     gap: 20px;
   }
 
-  @media screen and (width <= 768px) {
+  ${mediaQueries.tablet} {
     grid-template:
       'Card'
       'ClosedSupportChart'
@@ -65,7 +66,7 @@ export const Content = styled.section`
     padding: 0 40px;
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL} {
     padding: 0;
   }
 `;

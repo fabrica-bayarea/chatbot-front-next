@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import { mediaQueries } from '@/utils/mediaQueries';
+
 export const Button = styled.button`
   align-items: center;
   background-color: transparent;
@@ -34,7 +36,7 @@ export const AltButton = styled(Button)`
     right: 20px;
   }
 
-  @media screen and (width <= 1440px) {
+  ${mediaQueries.laptopL} {
     border: unset;
     border-radius: unset;
     height: 40px;

@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 
 import { Section } from '@/app/suporte/layout';
+import { mediaQueries } from '@/utils/mediaQueries';
 
 const PrivacySection = styled(Section)`
   & > h1 {
@@ -30,7 +31,7 @@ const PrivacySection = styled(Section)`
     margin-left: 20px;
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL} {
     & > h1 {
       font-size: 1.5rem;
     }

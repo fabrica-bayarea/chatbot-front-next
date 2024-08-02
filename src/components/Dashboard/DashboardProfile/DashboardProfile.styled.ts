@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { Avatar, DashboardCard } from '@/components/styled';
+import { mediaQueries } from '@/utils/mediaQueries';
 
 export const AvatarContainer = styled.div`
   align-items: center;
@@ -9,11 +10,11 @@ export const AvatarContainer = styled.div`
   justify-content: space-evenly;
   width: 100%;
 
-  @media screen and (width <= 1440px) {
+  ${mediaQueries.laptopL} {
     font-size: 14px;
   }
 
-  @media screen and (width <= 768px) {
+  ${mediaQueries.tablet} {
     flex-direction: column;
     font-size: 16px;
   }
@@ -26,11 +27,11 @@ export const Container = styled(DashboardCard)`
   justify-content: space-evenly;
   padding: 10px;
 
-  @media screen and (width <= 1280px) {
+  ${mediaQueries.laptopM} {
     font-size: 14px;
   }
 
-  @media screen and (width <= 768px) {
+  ${mediaQueries.tablet} {
     gap: 40px;
     padding: 20px 10px;
   }
@@ -70,7 +71,7 @@ export const UserContainer = styled.div`
     font-size: 0.9rem;
   }
 
-  @media screen and (width <= 1280px) {
+  ${mediaQueries.laptopM} {
     gap: 4px;
 
     & > span:nth-child(2) {
@@ -78,7 +79,7 @@ export const UserContainer = styled.div`
     }
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL} {
     & > span:first-child {
       font-size: 1.5rem;
     }

@@ -8,6 +8,7 @@ import Loading from './loading';
 import { SupportChat, SupportHeader } from '@/components/Support';
 import { useSupport } from '@/hooks';
 import type { Support } from '@/utils/definitions';
+import { mediaQueries } from '@/utils/mediaQueries';
 
 const MovedContainer = styled.section`
   align-items: center;
@@ -26,7 +27,7 @@ const MovedContainer = styled.section`
     font-size: 5rem;
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL} {
     & > span:first-child {
       font-size: 1.2rem;
       text-align: center;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { DashboardCard } from '@/components/styled';
+import { mediaQueries } from '@/utils/mediaQueries';
 
 export const ChartContainer = styled.div`
   overflow-x: scroll;
@@ -22,11 +23,11 @@ export const Container = styled(DashboardCard)`
   grid-area: GeneralComparisonChart;
   padding: 0 80px;
 
-  @media screen and (width <= 1440px) {
+  ${mediaQueries.laptopL} {
     padding: 0 40px;
   }
 
-  @media screen and (width <= 1280px) {
+  ${mediaQueries.laptopM} {
     padding: 0 20px;
   }
 `;

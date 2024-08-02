@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { mediaQueries } from '@/utils/mediaQueries';
+
 export const Container = styled.header`
   border-bottom: 1px solid var(--clr-lighter-gray);
   display: flex;
@@ -18,7 +20,7 @@ export const Container = styled.header`
     font-size: 0.9rem;
   }
 
-  @media screen and (width <= 1280px) {
+  ${mediaQueries.laptopM} {
     & > h3 {
       font-size: 1rem;
     }

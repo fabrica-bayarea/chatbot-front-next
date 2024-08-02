@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { type ReactNode } from 'react';
 import styled from 'styled-components';
 
+import { mediaQueries } from '@/utils/mediaQueries';
+
 const Container = styled.main`
   align-items: center;
   background: linear-gradient(to bottom right, var(--clr-b), var(--clr-c));
@@ -35,7 +37,7 @@ const LogoContainer = styled.div`
     top: 4px;
   }
 
-  @media screen and (width <= 1024px) {
+  ${mediaQueries.laptopS} {
     display: none;
   }
 `;
@@ -84,7 +86,7 @@ const Section = styled.section`
     }
   }
 
-  @media screen and (width <= 480px) {
+  ${mediaQueries.mobileL} {
     border-radius: 0;
     min-height: 100dvh;
     width: 100%;
