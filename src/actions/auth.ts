@@ -5,6 +5,8 @@ import { redirect } from 'next/navigation';
 
 import { createClient } from '@/utils/supabase/server';
 
+const baseUrl = process.env.VERCEL_URL ?? '';
+
 export async function fetchUserProfile() {
   const supabase = createClient();
 
@@ -95,9 +97,7 @@ export async function signInWithGoogle(path: string) {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `http://localhost:3000/auth/callback?next=${
-        path === '/login' ? '/' : path
-      }`,
+      redirectTo: `${baseUrl}/auth/callback?next=${path === '/login' ? '/' : path}`,
     },
   });
 

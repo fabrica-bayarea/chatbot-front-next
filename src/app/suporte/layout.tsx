@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { mediaQueries } from '@/utils/mediaQueries';
 
-export const Header = styled.header`
+const Header = styled.header`
   align-items: center;
   background-color: var(--clr-c);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
@@ -22,7 +22,7 @@ export const Header = styled.header`
   }
 `;
 
-export const Main = styled.main`
+const Main = styled.main`
   background-color: var(--clr-lighter-gray);
   background-image: linear-gradient(to top, var(--clr-light-gray), transparent 10%);
   display: flex;
@@ -32,26 +32,6 @@ export const Main = styled.main`
     display: flex;
     flex-direction: column;
     width: 100%;
-  }
-`;
-
-export const Section = styled.section`
-  background-color: white;
-  border-radius: 16px;
-  gap: 30px;
-  height: fit-content;
-  margin: 100px 25%;
-  padding: 40px 60px;
-
-  ${mediaQueries.laptopS} {
-    margin: 100px 10%;
-  }
-
-  ${mediaQueries.tablet} {
-    border-radius: 0;
-    height: calc(100dvh - 50px);
-    margin: 0;
-    padding: 40px 20px;
   }
 `;
 

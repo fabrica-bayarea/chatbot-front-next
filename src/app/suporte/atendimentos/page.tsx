@@ -13,7 +13,7 @@ import DashboardProfile from '@/components/Dashboard/DashboardProfile';
 import { AnalyticsProvider } from '@/context';
 import { mediaQueries } from '@/utils/mediaQueries';
 
-export const Container = styled.section`
+const Container = styled.section`
   display: flex;
   flex-direction: column;
   height: calc(100dvh - 50px);
@@ -38,7 +38,7 @@ export const Container = styled.section`
   }
 `;
 
-export const Content = styled.section`
+const Content = styled.section`
   display: grid;
   gap: 40px;
   grid-template:
