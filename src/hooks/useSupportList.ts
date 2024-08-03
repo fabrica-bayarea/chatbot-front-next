@@ -13,9 +13,14 @@ function useSupportList() {
   const getSupportList = async () => {
     setIsLoading(true);
     const { data } = await fetchSupportList();
-    
+
     setSupportList(data);
     setIsLoading(false);
+  };
+
+  const playAudio = () => {
+    const audio = new Audio('/audio/notification.mp3');
+    audio.play();
   };
 
   useEffect(() => {
@@ -29,6 +34,11 @@ function useSupportList() {
         { event: '*', schema: 'public', table: 'support' },
         async (payload) => {
           console.log('Change received!', payload);
+
+          if (payload.eventType === 'INSERT') {
+            playAudio();
+          }
+
           const { data } = await fetchSupportList();
           setSupportList(data);
         }

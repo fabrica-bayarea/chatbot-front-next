@@ -32,7 +32,7 @@ function CookieNotice() {
   return (
     <Container $visible={isVisible}>
       <span>
-        Este site utiliza cookies para melhorar a experiência do usuário. Para mais
+        Este site utiliza cookies para melhor experiência do usuário. Para mais
         informações, consulte nossa{' '}
         <Link href="/suporte/privacidade" target="_blank">
           Politica de privacidade.

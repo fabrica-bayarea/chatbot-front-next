@@ -40,7 +40,7 @@ const Container = styled.section`
 
 const Content = styled.section`
   display: grid;
-  gap: 40px;
+  gap: 20px;
   grid-template:
     'Card ClosedSupportChart' minmax(auto, auto)
     'GeneralComparisonChart GeneralComparisonChart' minmax(auto, auto)
@@ -51,7 +51,7 @@ const Content = styled.section`
   width: 100%;
 
   ${mediaQueries.laptopM} {
-    gap: 20px;
+    gap: 10px;
   }
 
   ${mediaQueries.tablet} {

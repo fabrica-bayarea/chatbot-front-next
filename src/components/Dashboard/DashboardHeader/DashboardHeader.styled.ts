@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { mediaQueries } from '@/utils/mediaQueries';
+
 export const Container = styled.header`
   width: 100%;
 
@@ -28,5 +30,9 @@ export const SelectContainer = styled.section`
     font-family: inherit;
     font-size: inherit;
     padding: 20px 10px;
+  }
+
+  ${mediaQueries.mobileM} {
+    gap: 10px;
   }
 `;

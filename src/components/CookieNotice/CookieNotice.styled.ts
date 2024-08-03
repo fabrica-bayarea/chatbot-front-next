@@ -7,7 +7,6 @@ export const Container = styled.div<{ $visible: boolean }>`
   background-color: var(--clr-light);
   border-top: 1px solid var(--clr-a);
   bottom: 0;
-  box-shadow: 0 -1px 2px 0 rgb(0 0 0 / 10%);
   display: flex;
   gap: 20px;
   height: 100px;
@@ -16,7 +15,8 @@ export const Container = styled.div<{ $visible: boolean }>`
   opacity: ${({ $visible }) => ($visible ? '1' : '0')};
   padding: 0 40px;
   position: fixed;
-  transition: opacity 400ms ease;
+  transition: opacity 400ms ease, visibility 400ms ease;
+  visibility: ${({ $visible }) => ($visible ? 'visible' : 'hidden')};
   width: 100%;
   z-index: 1000;
 
