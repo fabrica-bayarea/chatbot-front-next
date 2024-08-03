@@ -10,13 +10,18 @@ export const AvatarContainer = styled.div`
   justify-content: space-evenly;
   width: 100%;
 
-  ${mediaQueries.laptopL} {
+  ${mediaQueries.laptopM} {
     font-size: 14px;
   }
 
   ${mediaQueries.tablet} {
     flex-direction: column;
     font-size: 16px;
+    gap: 20px;
+  }
+
+  ${mediaQueries.mobileM} {
+    font-size: 14px;
   }
 `;
 
@@ -26,10 +31,6 @@ export const Container = styled(DashboardCard)`
   grid-area: Card;
   justify-content: space-evenly;
   padding: 10px;
-
-  ${mediaQueries.laptopM} {
-    font-size: 14px;
-  }
 
   ${mediaQueries.tablet} {
     gap: 40px;
@@ -62,30 +63,16 @@ export const UserContainer = styled.div`
   gap: 10px;
 
   & > span:first-child {
-    font-size: 2rem;
-    left: -3px;
-    position: relative;
+    font-size: 1.75em;
   }
 
   & > span:nth-child(2) {
-    font-size: 0.9rem;
+    font-size: 0.9em;
   }
 
-  ${mediaQueries.laptopM} {
-    gap: 4px;
-
-    & > span:nth-child(2) {
-      font-size: 0.9em;
-    }
-  }
-
-  ${mediaQueries.mobileL} {
+  ${mediaQueries.tablet} {
     & > span:first-child {
-      font-size: 1.5rem;
-    }
-
-    & > span:nth-child(2) {
-      font-size: 0.8em;
+      text-align: center;
     }
   }
 `;

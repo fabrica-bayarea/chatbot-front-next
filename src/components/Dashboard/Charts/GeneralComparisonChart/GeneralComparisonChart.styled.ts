@@ -4,6 +4,7 @@ import { DashboardCard } from '@/components/styled';
 import { mediaQueries } from '@/utils/mediaQueries';
 
 export const ChartContainer = styled.div`
+  margin: 0 80px;
   overflow-x: scroll;
 
   &::-webkit-scrollbar {
@@ -17,17 +18,16 @@ export const ChartContainer = styled.div`
   & > div {
     min-width: 480px;
   }
+
+  ${mediaQueries.laptopL} {
+    margin: 0 40px;
+  }
+
+  ${mediaQueries.laptopM} {
+    margin: 0 20px;
+  }
 `;
 
 export const Container = styled(DashboardCard)`
   grid-area: GeneralComparisonChart;
-  padding: 0 80px;
-
-  ${mediaQueries.laptopL} {
-    padding: 0 40px;
-  }
-
-  ${mediaQueries.laptopM} {
-    padding: 0 20px;
-  }
 `;
