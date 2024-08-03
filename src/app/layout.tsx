@@ -8,6 +8,7 @@ import { ourFileRouter } from './api/uploadthing/core';
 import { public_sans, ubuntu } from './fonts';
 import StyledComponentsRegistry from './registry';
 import { fetchUserProfile } from '@/actions/auth';
+import CookieNotice from '@/components/CookieNotice';
 import Toast from '@/components/Toast';
 import { MainProvider } from '@/context';
 
@@ -25,6 +26,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <MainProvider user={userProfile}>
           <StyledComponentsRegistry>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+            <CookieNotice />
             <Toast />
             {children}
           </StyledComponentsRegistry>

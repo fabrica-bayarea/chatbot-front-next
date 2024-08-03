@@ -18,6 +18,7 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
     color: var(--clr-b);
     font-size: 2rem;
     padding: 0 20px;
+    text-align: center;
   }
 
   & > footer {
