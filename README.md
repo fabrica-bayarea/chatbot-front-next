@@ -1,78 +1,82 @@
-![Centro Universitário IESB](public/logoIesb.png)
+<img src="https://utfs.io/f/3b0c82a2-c46e-4378-91c0-a19ee1e9f817-gn7svz.png" width="120px" alt="IESB University Center">
 
-# Projeto Chatbot (Eda)
+# Project Chatbot (Eda)
 
-## Resumo
+## Summary
 
-Este projeto consiste em um assistente virtual para auxiliar alunos, colaboradores e demais pessoas interessandas com informações gerais sobre o Centro Universitário do IESB. Utiliza inteligência artificial para gerar respostas automatizadas e possui interface de interação humana para atendimento mais detalhado.
+This project consists of a virtual assistant to assist students, staff and other people interested in general information about IESB University Center. It uses artificial intelligence to generate automated responses and has a human interaction interface for more detailed assistance.
 
-## Linguagens e Tecnologias
+## Languages ​​and Technologies
 
-- Next.js com TypeScript
+- Next.js with TypeScript
 - Styled Components
 - LangChain.js
 
-## Serviços
+## Services
 
 - OpenAI
 - Resend
 - supabase
 
-## Configuração do banco de dados
+## Database configuration
 
-O chat é integrado com o [supabase](https://supabase.com/) (BaaS), que utiliza banco de dados PostgreSQL e suas vantagens, como _views_, _procedures_ e _triggers_. Antes de rodar a aplicação, deve haver um projeto já configurado em uma conta do supabase e acesso à informações como chave de API e URL.
+The chat is integrated with [supabase](https://supabase.com/) (BaaS), which uses the PostgreSQL database and its advantages, such as _views_, _procedures_, _triggers_, _Row Level Security_ (RLS), and more. Before running the application, there must be a project already configured in a supabase account and access to information such as API key and URL.
 
-~~Para mais orientações, veja este repositório.~~
+For more information, see this [repository](https://github.com/fabrica-bayarea/chatbot-dados).
 
-## Rodando localmente
+## Running locally
 
-### Clone o projeto
+### Clone the project
 
 ```bash
   git clone git@github.com:fabrica-bayarea/chatbot-front-next.git
 ```
 
-### Mude para a pasta recém-criada
+### Change to the newly created folder
 
 ```bash
   cd chatbot-front-next
 ```
 
-### Instale as dependências
+### Install the dependencies
 
 ```bash
   npm install
 ```
 
-### Configure as varáveis de ambiente
+### Configure environment variables
 
-Renomeie o arquivo `.env.example` para `.env.local` e complete as informações:
+Rename the `.env.example` file to `.env.local` and complete the information:
 
-| Chave                         | Descrição                                                 |
-| ----------------------------- | --------------------------------------------------------- |
-| NEXT_PUBLIC_SUPABASE_ANON_KEY | Chave de API do projeto [supabase](https://supabase.com/) |
-| NEXT_PUBLIC_SUPABASE_URL      | URL do projeto [supabase](https://supabase.com/)          |
-| OPENAI_API_KEY                | Chave de API [OpenAI](https://platform.openai.com/)       |
-| RESEND_API_KEY                | Chave de API [Resend](https://resend.com/)                |
-| UPLOADTHING_APP_ID            | ID de aplicação [uploadthing](https://uploadthing.com/)   |
-| UPLOADTHING_SECRET            | Chave de API [uploadthing](https://uploadthing.com/)      |
+| Key                           | Description                                            |
+| ----------------------------- | ------------------------------------------------------ |
+| NEXT_PUBLIC_SUPABASE_ANON_KEY | [Supabase](https://supabase.com/) project API Key      |
+| NEXT_PUBLIC_SUPABASE_URL      | [Supabase](https://supabase.com/) project URL          |
+| OPENAI_API_KEY                | [OpenAI](https://platform.openai.com/) API Key         |
+| RESEND_API_KEY                | [Resend](https://resend.com/) API Key                  |
+| UPLOADTHING_APP_ID            | [uploadthing](https://uploadthing.com/) application ID |
+| UPLOADTHING_SECRET            | [uploadthing](https://uploadthing.com/) API Key        |
 
-### Inicie a aplicação
+### Start the application
 
 ```bash
   npm run dev
 ```
 
-## Licença
+## License
 
 [GPL-3.0](https://github.com/fabrica-bayarea/chatbot-front-next?tab=GPL-3.0-1-ov-file#readme)
 
-## Contribuições
+## Contributions
 
-Antes de contribuir, leia nossas [Diretrizes de contribuição](https://github.com/fabrica-bayarea/chatbot-front-next/blob/dev/doc/translations/CONTRIBUTING_PT_BR.md).
+Before contributing, please read our [Contribution Guidelines](/doc/CONTRIBUTING.md).
 
-## Colaboradores
+## Collaborators
 
-- Felipe Carvalho Balbino da Silva - [GitHub](https://github.com/lipestile)
-- Kaio Victor da Silva - [GitHub](https://github.com/kaiosilva17)
-- Paulo Henrique Lima - [GitHub](https://github.com/limapaulobsb) | [LinkedIn](https://www.linkedin.com/in/limapaulobsb/)
+The list of contributors to this repository can be seen [here](https://github.com/fabrica-bayarea/chatbot-front-next/graphs/contributors).
+
+## Translations
+
+This document is available in other languages:
+
+- [Português (Brasil)](/doc/translations/README_PT_BR.md)
