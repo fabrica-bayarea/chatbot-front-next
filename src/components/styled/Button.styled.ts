@@ -54,6 +54,7 @@ export const DialogButton = styled(Button)<{ $width?: string }>`
   border: 1px solid var(--clr-a);
   border-radius: 4px;
   height: 40px;
+  padding: 0 10px;
   transition: background-color 200ms ease;
   width: ${({ $width }) => $width ?? '60px'};
 
