@@ -1,17 +1,15 @@
 'use client';
 
-import Image from 'next/image';
 import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
 
 import { Container, DropdownButton, Navigation } from './Dropdown.styled';
 import { signOut } from '@/actions/auth';
-import { IconButton } from '@/components/styled';
+import { Avatar, IconButton } from '@/components/styled';
 import { useChatContext, useMainContext, useOutsideClick } from '@/hooks';
 import { useRouter } from 'next/navigation';
 
 function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   const { user } = useMainContext();
-  const { newConversation, setConversation } = useChatContext();
   const navRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
@@ -21,12 +19,9 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   return (
     <Container ref={navRef}>
       <IconButton onMouseDown={() => setIsVisible(!isVisible)}>
-        <Image
-          src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
-          height={30}
-          width={30}
-          alt="Alternar visibilidade"
-        />
+        <Avatar $border={true} $fontSize="0.9rem" $picture={user?.picture} $width="40px">
+          {user?.name?.charAt(0)}
+        </Avatar>
       </IconButton>
       <Navigation $isVisible={isVisible}>
         {user.role !== 'user' && (
@@ -34,20 +29,9 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
             Atendimentos
           </DropdownButton>
         )}
-        <DropdownButton
-          onClick={() => {
-            setConversation(newConversation);
-            showFn(false);
-          }}
-        >
-          Nova conversa
-        </DropdownButton>
-        <DropdownButton
-          onClick={() => {
-            showFn(true);
-          }}
-        >
-          Histórico
+        <DropdownButton>Perfil</DropdownButton>
+        <DropdownButton onClick={() => router.push('/suporte/privacidade')}>
+          Política de Privacidade
         </DropdownButton>
         <DropdownButton onClick={() => signOut()}>Sair</DropdownButton>
       </Navigation>

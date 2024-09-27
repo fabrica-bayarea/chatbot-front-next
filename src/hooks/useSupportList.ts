@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { fetchSupportList } from '@/actions/support';
-import { Support } from '@/utils/definitions';
+import type { Support } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/client';
 
 function useSupportList() {

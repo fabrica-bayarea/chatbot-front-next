@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import { AnalyticsContext } from '@/context';
-import { AnalyticsContextShared } from '@/utils/definitions';
+import type { AnalyticsContextShared } from '@/utils/definitions';
 
 // This hook is necessary to ensure that the Context will not be undefined (TS)
 function useMainContext(): AnalyticsContextShared {

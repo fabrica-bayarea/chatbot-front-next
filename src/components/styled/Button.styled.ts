@@ -117,10 +117,12 @@ export const SendButton = styled(IconButton)`
   background-color: var(--clr-b);
   background-image: linear-gradient(
     to bottom right,
-    rgba(255 255 255 / 50%),
-    rgba(255 255 255 / 0%) 40%
+    rgba(255 255 255 / 40%),
+    rgba(255 255 255 / 0%) 50%
   );
   box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+  color: white;
+  font-size: 2rem;
   min-width: 50px;
 
   & > img {

@@ -1,21 +1,27 @@
 'use client';
 
+import { type PostgrestSingleResponse } from '@supabase/supabase-js';
 import Image from 'next/image';
 import { useState } from 'react';
 
 import { ButtonContainer } from './TrashButton.styled';
 import { IconButton } from '@/components/styled';
 
-function TrashButton({ handleClick }: { handleClick: () => Promise<void> }) {
+function TrashButton({
+  handleClick,
+}: {
+  handleClick: () => Promise<PostgrestSingleResponse<null>>;
+}) {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   if (showConfirmation) {
     return (
       <ButtonContainer>
         <IconButton
-          onClick={async (event) => {
+          onClick={(event) => {
             event.stopPropagation();
-            await handleClick();
+            handleClick();
+            setShowConfirmation(false);
           }}
           $hover={true}
         >

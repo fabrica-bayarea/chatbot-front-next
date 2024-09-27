@@ -6,19 +6,12 @@ import styled from 'styled-components';
 
 import { mediaQueries } from '@/utils/mediaQueries';
 
-const Container = styled.main`
+const Main = styled.main`
   align-items: center;
   background: linear-gradient(to bottom right, var(--clr-b), var(--clr-c));
   display: flex;
   justify-content: space-evenly;
   min-height: 100dvh;
-
-  & > a {
-    display: flex;
-    left: 10px;
-    position: absolute;
-    top: 10px;
-  }
 `;
 
 const LogoContainer = styled.div`
@@ -30,7 +23,6 @@ const LogoContainer = styled.div`
 
   & > h1 {
     color: white;
-    font-family: var(--font-b);
     font-size: 5.2rem;
     letter-spacing: 3px;
     position: relative;
@@ -105,7 +97,7 @@ const Section = styled.section`
 
 function Layout({ children }: { children: ReactNode }) {
   return (
-    <Container>
+    <Main>
       <LogoContainer>
         <h1>Chatbot</h1>
         <Image
@@ -118,7 +110,7 @@ function Layout({ children }: { children: ReactNode }) {
         />
       </LogoContainer>
       <Section>{children}</Section>
-    </Container>
+    </Main>
   );
 }
 

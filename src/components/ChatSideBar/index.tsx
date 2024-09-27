@@ -1,14 +1,21 @@
 'use client';
 
-import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
+import Image from 'next/image';
+import { type Dispatch, type SetStateAction, useRef } from 'react';
 
-import { ItemDetails, List, ListItem, LoadingItem } from './History.styled';
-import { deleteConversation, fetchHistory } from '@/actions/conversations';
+import {
+  Container,
+  ItemDetails,
+  List,
+  ListItem,
+  LoadingItem,
+} from './ChatSideBar.styled';
+
+import { deleteConversation } from '@/actions/conversations';
 import { TrashButton } from '@/components/Buttons';
-import { DialogButton } from '@/components/styled/Button.styled';
+import { DialogButton, SendButton } from '@/components/styled/Button.styled';
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
-import { useChatContext, useMainContext } from '@/hooks';
-import type { Conversation } from '@/utils/definitions';
+import { useChatContext, useHistory, useMainContext, useOutsideClick } from '@/hooks';
 
 function Loading({ n }: { n: number }) {
   return (
@@ -32,41 +39,9 @@ function Loading({ n }: { n: number }) {
 
 function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   const { newConversation, setConversation } = useChatContext();
-  const { isLoading, setIsLoading } = useMainContext();
-  const [history, setHistory] = useState<Conversation[] | undefined>(undefined);
+  const { history } = useHistory();
 
-  const getHistory = async () => {
-    try {
-      setIsLoading(true);
-      const { data } = await fetchHistory();
-
-      if (data) {
-        setHistory(data);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    try {
-      setIsLoading(true);
-      await deleteConversation(id);
-      setHistory(history?.filter((c) => c.id !== id));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getHistory();
-  }, []);
-
-  if (history === undefined || isLoading) {
+  if (history === undefined) {
     return <Loading n={3} />;
   }
 
@@ -108,7 +83,7 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
               <span>({messages.length} mensagens)</span>
               <span>{messages[0].content}</span>
             </ItemDetails>
-            <TrashButton handleClick={() => handleDelete(id as string)} />
+            <TrashButton handleClick={() => deleteConversation(id)} />
           </ListItem>
         );
       })}
@@ -116,4 +91,45 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   );
 }
 
-export default History;
+function ChatSideBar({
+  isVisible,
+  showFn,
+}: {
+  isVisible: boolean;
+  showFn: Dispatch<SetStateAction<boolean>>;
+}) {
+  const sidebarRef = useRef<HTMLElement | null>(null);
+  const { newConversation, setConversation } = useChatContext();
+
+  useOutsideClick(sidebarRef, () => showFn(false));
+
+  return (
+    <Container ref={sidebarRef} $isVisible={isVisible}>
+      <div>
+        <header>
+          <h1>Chatbot</h1>
+          <Image
+            src="/iesb-logo.png"
+            height={60}
+            width={60}
+            quality={100}
+            alt="Logo IESB"
+          />
+        </header>
+        <History showFn={showFn} />
+        <footer>
+          <SendButton
+            onClick={() => {
+              setConversation(newConversation);
+              showFn(false);
+            }}
+          >
+            +
+          </SendButton>
+        </footer>
+      </div>
+    </Container>
+  );
+}
+
+export default ChatSideBar;

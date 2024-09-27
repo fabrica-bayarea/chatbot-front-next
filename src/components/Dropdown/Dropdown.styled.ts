@@ -9,8 +9,9 @@ export const Container = styled.div`
 export const DropdownButton = styled(Button)`
   background-color: var(--clr-c);
   color: var(--clr-light);
+  font-size: 0.9rem;
   justify-content: flex-start;
-  padding: 10px 20px;
+  padding: 10px;
 
   &:hover {
     background-color: var(--clr-b);

@@ -5,7 +5,6 @@ import { type FormEvent, useEffect, useRef, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 import Feedback from './Feedback';
-import Suggestions from './Suggestions';
 import { Container, Conversation, Loading } from './Chat.styled';
 import ChatMessage from '@/components/ChatMessage';
 import { ChatForm } from '@/components/Forms';
@@ -65,7 +64,6 @@ function Chat() {
             </ChatMessage>
           );
         })}
-        {conversationLength === 0 && <Suggestions />}
         {showFeedback && (
           <Feedback id={conversation.messages[conversationLength - 1]?.id as string} />
         )}
