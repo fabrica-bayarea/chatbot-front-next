@@ -13,7 +13,7 @@ import DashboardProfile from '@/components/Dashboard/DashboardProfile';
 import { AnalyticsProvider } from '@/context';
 import { mediaQueries } from '@/utils/mediaQueries';
 
-const Container = styled.section`
+const Section = styled.section`
   display: flex;
   flex-direction: column;
   height: calc(100dvh - 50px);
@@ -38,7 +38,7 @@ const Container = styled.section`
   }
 `;
 
-const Content = styled.section`
+const Content = styled.div`
   display: grid;
   gap: 20px;
   grid-template:
@@ -73,7 +73,7 @@ const Content = styled.section`
 function Support() {
   return (
     <AnalyticsProvider>
-      <Container>
+      <Section>
         <DashboardHeader />
         <Content>
           <DashboardProfile />
@@ -81,7 +81,7 @@ function Support() {
           <GeneralComparisonChart />
           <StatusUpdateChart />
         </Content>
-      </Container>
+      </Section>
     </AnalyticsProvider>
   );
 }

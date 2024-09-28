@@ -2,7 +2,7 @@
 
 import { createContext, ReactNode, useCallback, useState } from 'react';
 
-import {
+import type {
   ContextResult,
   MainContextShared,
   MakeRequestParams,

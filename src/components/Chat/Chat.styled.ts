@@ -1,21 +1,23 @@
 import styled from 'styled-components';
 
+import { mediaQueries } from '@/utils/mediaQueries';
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex-grow: 10;
+  max-height: calc(100dvh - 80px);
   padding-bottom: 70px;
   position: relative;
-  width: 100%;
 `;
 
 export const Conversation = styled.div<{ $open: boolean }>`
   display: flex;
   flex-direction: column;
-  flex-grow: 10;
   gap: 60px;
   overflow-y: scroll;
-  padding: 60px 30px 0;
+  padding: 80px calc(20% - 6px) 80px 20%;
+  scroll-behavior: smooth;
 
   & > div:first-of-type {
     display: flex;
@@ -53,6 +55,14 @@ export const Conversation = styled.div<{ $open: boolean }>`
 
   &::-webkit-scrollbar-thumb {
     background-color: var(--clr-a);
+  }
+
+  ${mediaQueries.laptopS} {
+    padding: 40px 74px 40px 80px;
+  }
+
+  ${mediaQueries.mobileL} {
+    padding: 40px 34px 40px 40px;
   }
 `;
 

@@ -18,7 +18,7 @@ function ChatMessage({
 }) {
   const { user } = useMainContext();
 
-  const alignment = ownerProfile?.id === user?.id ? 'end' : 'start';
+  const alignment = ownerProfile && ownerProfile?.id === user?.id ? 'end' : 'start';
   const picture = ownerProfile?.picture;
   const name = ownerProfile ? ownerProfile.name : 'Eda';
   const bgColor = role === 'user' ? 'var(--clr-lighter-gray)' : 'var(--clr-a)';

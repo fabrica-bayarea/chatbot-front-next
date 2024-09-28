@@ -26,7 +26,7 @@ export function ChatProvider(props: {
 
   const newConversation: Conversation = {
     id: uuidv4(),
-    owner_id: user.id,
+    owner_id: user?.id,
     created_at: new Date().toISOString(),
     status: 'open',
     messages: [],
