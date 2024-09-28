@@ -8,7 +8,6 @@ import Chat from '@/components/Chat';
 import Dropdown from '@/components/Dropdown';
 import UnauthChat from '@/components/Chat/UnauthChat';
 import ChatSideBar from '@/components/ChatSideBar';
-import { IconButton } from '@/components/styled';
 import { ChatProvider } from '@/context';
 import { useMainContext } from '@/hooks';
 import { mediaQueries } from '@/utils/mediaQueries';
@@ -64,14 +63,14 @@ function Home() {
         <Section>
           <header>
             <OpenCloseContainer>
-              <IconButton onMouseDown={() => setShowSideBar(!showSideBar)}>
+              <button onMouseDown={() => setShowSideBar(!showSideBar)}>
                 <Image
                   src={showSideBar ? '/xmark.svg' : '/bars-white.svg'}
                   height={24}
                   width={24}
                   alt="Alternar menu lateral"
                 />
-              </IconButton>
+              </button>
             </OpenCloseContainer>
             {user && <Dropdown showFn={setShowSideBar} />}
           </header>

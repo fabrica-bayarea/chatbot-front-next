@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRef, useState } from 'react';
 import type { Updater } from 'use-immer';
 
-import { Container, MoreButton, Options, UserContainer } from './SupportHeader.styled';
+import { Container, Options, UserContainer } from './SupportHeader.styled';
 
 import {
   sendEndOfSupport,
@@ -70,14 +70,14 @@ function SupportHeader({
         <span>{user?.email}</span>
       </UserContainer>
       <Options ref={navRef} $isVisible={isVisible}>
-        <MoreButton onMouseDown={() => setIsVisible(!isVisible)}>
+        <button onMouseDown={() => setIsVisible(!isVisible)}>
           <Image
             src="/more_vert-white.svg"
             height={24}
             width={24}
             alt="Alternar visibilidade"
           />
-        </MoreButton>
+        </button>
         <nav>
           {data.status === 'open' && (
             <RequestButton request={handleAccept}>Iniciar atendimento</RequestButton>

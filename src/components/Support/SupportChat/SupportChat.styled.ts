@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { IconButton } from '@/components/styled';
 import { mediaQueries } from '@/utils/mediaQueries';
 
 export const Container = styled.div`
@@ -36,18 +35,5 @@ export const Conversation = styled.div`
 
   ${mediaQueries.mobileL} {
     padding: 40px 34px 40px 40px;
-  }
-`;
-
-export const SendButton = styled(IconButton)`
-  background-color: var(--clr-c);
-  height: 60px;
-  position: absolute;
-  right: -90px;
-  top: 30px;
-
-  ${mediaQueries.laptopS}{
-    right: -30px;
-    top: -30px;
   }
 `;

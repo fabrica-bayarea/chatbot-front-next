@@ -2,33 +2,40 @@ import styled, { css } from 'styled-components';
 
 import { mediaQueries } from '@/utils/mediaQueries';
 
-export const Button = styled.button`
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  display: flex;
-  font-family: inherit;
-  font-size: inherit;
-  justify-content: center;
+export const ActionButton = styled.button`
+  aspect-ratio: 1;
+  background-color: var(--clr-b);
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255 255 255 / 40%),
+    rgba(255 255 255 / 0%) 50%
+  );
+  border-radius: 50%;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+  color: white;
+  font-size: 2rem;
+  width: 50px;
 
-  &:disabled {
-    cursor: unset;
+  & > img {
+    left: 2px;
+    position: relative;
   }
 `;
 
-export const AltButton = styled(Button)`
+export const AltButton = styled.button`
+  align-items: center;
   border: 1px solid var(--clr-light);
   border-radius: 50px;
   color: var(--clr-light);
+  display: flex;
   font-size: 1rem;
   height: 50px;
+  justify-content: center;
   position: relative;
   width: 250px;
 
   &:disabled {
-    opacity: 0.75;
+    opacity: 0.6;
   }
 
   & > div {
@@ -50,7 +57,7 @@ export const AltButton = styled(Button)`
   }
 `;
 
-export const DialogButton = styled(Button)<{ $width?: string }>`
+export const DialogButton = styled.button<{ $width?: string }>`
   border: 1px solid var(--clr-a);
   border-radius: 4px;
   height: 40px;
@@ -63,19 +70,19 @@ export const DialogButton = styled(Button)<{ $width?: string }>`
   }
 `;
 
-export const MessageButton = styled(Button)`
-  background-color: var(--clr-light);
-  border: 1px solid var(--clr-gray);
-  border-radius: 4px;
-  padding: 12px 20px;
-  transition: background-color 200ms ease;
+export const DropdownButton = styled.button`
+  background-color: var(--clr-c);
+  color: var(--clr-light);
+  font-size: 0.9rem;
+  padding: 10px;
+  text-align: start;
 
-  &:hover:not(:disabled) {
-    background-color: var(--clr-lightgray);
+  &:hover {
+    background-color: var(--clr-b);
   }
 `;
 
-export const EmailButton = styled(Button)`
+export const EmailButton = styled.button`
   background-color: var(--clr-b);
   border-radius: 4px;
   color: white;
@@ -83,22 +90,25 @@ export const EmailButton = styled(Button)`
   padding: 20px 40px;
 
   &:disabled {
-    opacity: 0.75;
+    opacity: 0.6;
   }
 `;
 
-export const IconButton = styled(Button)<{
+export const IconButton = styled.button<{
   $bgColor?: string;
   $hover?: boolean;
   $selected?: boolean;
   $width?: string;
 }>`
-  aspect-ratio: 1 / 1;
+  align-items: center;
+  aspect-ratio: 1;
   background-color: ${({ $bgColor }) => $bgColor ?? 'transparent'};
   border-radius: 50%;
   box-shadow: ${({ $bgColor }) => ($bgColor ? '0 2px 4px 0 rgb(0 0 0 / 20%)' : 'none')};
+  display: flex;
   font-size: 1.5em;
-  min-width: ${({ $width }) => $width ?? '40px'};
+  justify-content: center;
+  width: ${({ $width }) => $width ?? '40px'};
 
   ${({ $hover, $selected }) =>
     $hover &&
@@ -112,42 +122,33 @@ export const IconButton = styled(Button)<{
     `}
 `;
 
-export const MainButton = styled(Button)`
+export const MainButton = styled.button`
+  align-items: center;
   border: 2px solid var(--clr-b);
   border-radius: 50px;
   color: var(--clr-b);
+  display: flex;
   font-size: 1.2em;
   height: 50px;
+  justify-content: center;
   width: 100%;
+`;
 
-  &:disabled {
-    opacity: 0.4;
+export const MessageButton = styled.button`
+  background-color: var(--clr-light);
+  border: 1px solid var(--clr-gray);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  height: 40px;
+  transition: background-color 200ms ease;
+  width: 100px;
+
+  &:hover:not(:disabled) {
+    background-color: var(--clr-lightgray);
   }
 `;
 
-export const SendButton = styled(IconButton)`
-  background-color: var(--clr-b);
-  background-image: linear-gradient(
-    to bottom right,
-    rgba(255 255 255 / 40%),
-    rgba(255 255 255 / 0%) 50%
-  );
-  box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
-  color: white;
-  font-size: 2rem;
-  min-width: 50px;
-
-  &:disabled {
-    opacity: 0.4;
-  }
-
-  & > img {
-    left: 2px;
-    position: relative;
-  }
-`;
-
-export const SocialButton = styled(Button)`
+export const SocialButton = styled.button`
   border: 2px solid var(--clr-light-gray);
   border-radius: 50px;
   color: var(--clr-dark);

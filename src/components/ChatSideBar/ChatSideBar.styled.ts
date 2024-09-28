@@ -5,8 +5,9 @@ import { mediaQueries } from '@/utils/mediaQueries';
 export const Container = styled.aside<{ $isVisible: boolean }>`
   background-color: var(--clr-c);
   height: 100dvh;
-  min-width: 320px;
+  max-width: 320px;
   padding: 10px;
+  width: 100%;
   z-index: 100;
 
   & > div {

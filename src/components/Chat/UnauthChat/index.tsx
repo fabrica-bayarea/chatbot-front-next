@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { Container, Conversation } from '../Chat.styled';
 import { MessageContainer } from './UnauthChat.styled';
@@ -28,10 +27,12 @@ function UnauthChat() {
                 <br />
                 Para dar continuidade, vou precisar de algumas informações.
                 <br />
-                Você pode fazer o <Link href="/login">login</Link> agora, ou fornecê-las
-                mais tarde.
+                Você pode fazer o login agora, ou fornecê-las mais tarde.
               </div>
               <div>
+                <MessageButton as="a" href="/login">
+                  Login
+                </MessageButton>
                 <MessageButton onClick={() => signInAnonymously()}>
                   Continuar
                 </MessageButton>

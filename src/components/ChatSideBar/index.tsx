@@ -13,7 +13,7 @@ import {
 
 import { deleteConversation } from '@/actions/conversations';
 import { TrashButton } from '@/components/Buttons';
-import { DialogButton, DialogLink, SendButton } from '@/components/styled';
+import { ActionButton, DialogButton } from '@/components/styled';
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 import { useChatContext, useHistory, useMainContext, useOutsideClick } from '@/hooks';
 
@@ -44,9 +44,9 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
 
   if (!user) {
     return (
-      <DialogLink href="/login" $width="150px">
+      <DialogButton as="a" href="/login" $width="150px">
         Login
-      </DialogLink>
+      </DialogButton>
     );
   }
 
@@ -128,7 +128,7 @@ function ChatSideBar({
         </header>
         <History showFn={showFn} />
         <footer>
-          <SendButton
+          <ActionButton
             onClick={() => {
               setConversation(newConversation);
               showFn(false);
@@ -136,7 +136,7 @@ function ChatSideBar({
             disabled={!user}
           >
             +
-          </SendButton>
+          </ActionButton>
         </footer>
       </div>
     </Container>

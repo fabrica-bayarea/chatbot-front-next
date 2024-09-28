@@ -20,18 +20,17 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
     padding: 0 20px;
   }
 
-  & > footer {
+  & > nav {
+    align-items: center;
     background-color: var(--clr-c);
     background-image: linear-gradient(
       to bottom right,
       rgba(255 255 255 / 10%),
       rgba(255 255 255 / 0%) 80%
     );
-
-    & > nav {
-      display: flex;
-      justify-content: space-evenly;
-    }
+    display: flex;
+    height: 40px;
+    justify-content: space-evenly;
   }
 
   ${mediaQueries.laptopS} {
@@ -108,9 +107,9 @@ export const LoadingItem = styled(ListItem)`
 `;
 
 export const OpenCloseContainer = styled.div`
-  left: 12px;
+  left: 20px;
   position: absolute;
-  top: 5px;
+  top: 12px;
   visibility: hidden;
   z-index: 100;
 

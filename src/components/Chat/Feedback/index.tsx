@@ -52,8 +52,13 @@ function Feedback({ id }: { id: string }) {
           <>
             <span>
               Para ser atendido por nossos colaboradores, faça o{' '}
-              <Link href="/login">login</Link> ou{' '}
-              <Link href="/registro">registre-se.</Link>
+              <Link href="/login" className="underline">
+                login
+              </Link>{' '}
+              ou{' '}
+              <Link href="/registro" className="underline">
+                registre-se.
+              </Link>
             </span>
           </>
         );

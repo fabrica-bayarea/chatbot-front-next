@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import styled from 'styled-components';
 
 import { signInWithGoogle } from '@/actions/auth';
@@ -29,7 +29,6 @@ const Container = styled.div`
 
 function Login() {
   const path = usePathname();
-  const router = useRouter();
 
   return (
     <>
@@ -38,7 +37,9 @@ function Login() {
       </header>
       <Container>
         <LoginForm />
-        <MainButton onClick={() => router.push('/registro')}>Registro</MainButton>
+        <MainButton as="a" href="/registro">
+          Registro
+        </MainButton>
         <hr />
         <SocialButton onClick={() => signInWithGoogle(path)}>
           <Image src={'/google_g.png'} width={30} height={30} alt="Logo Google" />
