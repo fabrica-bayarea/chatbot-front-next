@@ -6,9 +6,11 @@ import styled from 'styled-components';
 
 import Chat from '@/components/Chat';
 import Dropdown from '@/components/Dropdown';
+import UnauthChat from '@/components/Chat/UnauthChat';
 import ChatSideBar from '@/components/ChatSideBar';
 import { IconButton } from '@/components/styled';
 import { ChatProvider } from '@/context';
+import { useMainContext } from '@/hooks';
 import { mediaQueries } from '@/utils/mediaQueries';
 
 const Main = styled.main`
@@ -52,6 +54,7 @@ const OpenCloseContainer = styled.div`
 `;
 
 function Home() {
+  const { user } = useMainContext();
   const [showSideBar, setShowSideBar] = useState(false);
 
   return (
@@ -70,9 +73,9 @@ function Home() {
                 />
               </IconButton>
             </OpenCloseContainer>
-            <Dropdown showFn={setShowSideBar} />
+            {user && <Dropdown showFn={setShowSideBar} />}
           </header>
-          <Chat />
+          {user ? <Chat /> : <UnauthChat />}
         </Section>
       </Main>
     </ChatProvider>

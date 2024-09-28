@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
-import { signInAnonymously, signInWithGoogle } from '@/actions/auth';
+import { signInWithGoogle } from '@/actions/auth';
 import { LoginForm } from '@/components/Forms';
 import { MainButton, SocialButton } from '@/components/styled';
 
@@ -43,9 +43,6 @@ function Login() {
         <SocialButton onClick={() => signInWithGoogle(path)}>
           <Image src={'/google_g.png'} width={30} height={30} alt="Logo Google" />
           <span>Continuar com Google</span>
-        </SocialButton>
-        <SocialButton onClick={() => signInAnonymously()}>
-          Continuar anonimamente
         </SocialButton>
       </Container>
     </>

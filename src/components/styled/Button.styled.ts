@@ -63,6 +63,18 @@ export const DialogButton = styled(Button)<{ $width?: string }>`
   }
 `;
 
+export const MessageButton = styled(Button)`
+  background-color: var(--clr-light);
+  border: 1px solid var(--clr-gray);
+  border-radius: 4px;
+  padding: 12px 20px;
+  transition: background-color 200ms ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--clr-lightgray);
+  }
+`;
+
 export const EmailButton = styled(Button)`
   background-color: var(--clr-b);
   border-radius: 4px;
@@ -124,6 +136,10 @@ export const SendButton = styled(IconButton)`
   color: white;
   font-size: 2rem;
   min-width: 50px;
+
+  &:disabled {
+    opacity: 0.4;
+  }
 
   & > img {
     left: 2px;

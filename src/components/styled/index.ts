@@ -7,6 +7,7 @@ import {
   EmailButton,
   IconButton,
   MainButton,
+  MessageButton,
   SendButton,
   SocialButton,
 } from './Button.styled';
@@ -15,6 +16,7 @@ import { DashboardCard } from './DashboardCard.styled';
 import { Form, MainForm, StatusContainer, UploadContainer } from './Form.styled';
 import { MainInput, AdaptiveTextArea } from './Input.styled';
 import { Label } from './Label.styled';
+import { Link, DialogLink } from './Link.styled';
 
 export {
   Avatar,
@@ -25,6 +27,7 @@ export {
   EmailButton,
   IconButton,
   MainButton,
+  MessageButton,
   SendButton,
   SocialButton,
   DashboardCard,
@@ -35,4 +38,6 @@ export {
   MainInput,
   AdaptiveTextArea,
   Label,
+  Link,
+  DialogLink,
 };

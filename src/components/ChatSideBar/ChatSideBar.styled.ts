@@ -10,6 +10,7 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   z-index: 100;
 
   & > div {
+    align-items: center;
     background-color: white;
     border-radius: 12px;
     display: flex;
@@ -23,10 +24,12 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
       justify-content: space-between;
       margin: 60px 0 20px;
       padding: 0 20px;
+      width: 100%;
 
       & > h1 {
         color: var(--clr-b);
         font-size: 2rem;
+        letter-spacing: 1px;
       }
     }
 
@@ -34,6 +37,7 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
       display: flex;
       justify-content: flex-end;
       padding: 20px;
+      width: 100%;
     }
   }
 

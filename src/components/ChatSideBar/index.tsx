@@ -13,7 +13,7 @@ import {
 
 import { deleteConversation } from '@/actions/conversations';
 import { TrashButton } from '@/components/Buttons';
-import { DialogButton, SendButton } from '@/components/styled/Button.styled';
+import { DialogButton, DialogLink, SendButton } from '@/components/styled';
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 import { useChatContext, useHistory, useMainContext, useOutsideClick } from '@/hooks';
 
@@ -39,7 +39,16 @@ function Loading({ n }: { n: number }) {
 
 function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   const { newConversation, setConversation } = useChatContext();
+  const { user } = useMainContext();
   const { history } = useHistory();
+
+  if (!user) {
+    return (
+      <DialogLink href="/login" $width="150px">
+        Login
+      </DialogLink>
+    );
+  }
 
   if (history === undefined) {
     return <Loading n={3} />;
@@ -98,8 +107,9 @@ function ChatSideBar({
   isVisible: boolean;
   showFn: Dispatch<SetStateAction<boolean>>;
 }) {
-  const sidebarRef = useRef<HTMLElement | null>(null);
   const { newConversation, setConversation } = useChatContext();
+  const { user } = useMainContext();
+  const sidebarRef = useRef<HTMLElement | null>(null);
 
   useOutsideClick(sidebarRef, () => showFn(false));
 
@@ -107,7 +117,7 @@ function ChatSideBar({
     <Container ref={sidebarRef} $isVisible={isVisible}>
       <div>
         <header>
-          <h1>Chatbot</h1>
+          <h1>chatbot</h1>
           <Image
             src="/iesb-logo.png"
             height={60}
@@ -123,6 +133,7 @@ function ChatSideBar({
               setConversation(newConversation);
               showFn(false);
             }}
+            disabled={!user}
           >
             +
           </SendButton>
