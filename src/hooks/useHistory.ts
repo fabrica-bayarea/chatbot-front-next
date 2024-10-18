@@ -37,7 +37,7 @@ function useHistory() {
           event: '*',
           schema: 'public',
           table: 'human_messages',
-          filter: `owner_id=eq.${user.id}`,
+          filter: `owner_id=eq.${user?.id}`,
         },
         handleChange
       )
@@ -47,7 +47,7 @@ function useHistory() {
           event: '*',
           schema: 'public',
           table: 'conversations',
-          filter: `owner_id=eq.${user.id}`,
+          filter: `owner_id=eq.${user?.id}`,
         },
         handleChange
       )
