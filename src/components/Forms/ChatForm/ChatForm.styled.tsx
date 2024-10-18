@@ -11,9 +11,17 @@ export const Container = styled(Form)<{ $background?: boolean }>`
   font-size: 1.2rem;
   gap: 10px;
   left: 0;
-  padding: 10px;
+  padding: 10px 20%;
   position: absolute;
   z-index: 10;
+
+  ${mediaQueries.laptopS} {
+    padding: 10px 80px;
+  }
+
+  ${mediaQueries.mobileL} {
+    padding: 10px 20px;
+  }
 
   ${({ $background }) =>
     $background &&
@@ -21,14 +29,5 @@ export const Container = styled(Form)<{ $background?: boolean }>`
       background-color: var(--clr-light);
       border-top: none;
       font-size: 1rem;
-      padding: 15px 20%;
-
-      ${mediaQueries.laptopS} {
-        padding: 15px 80px;
-      }
-
-      ${mediaQueries.mobileL} {
-        padding: 15px 20px;
-      }
     `}
 `;

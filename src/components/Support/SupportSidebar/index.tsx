@@ -13,7 +13,7 @@ import {
 } from './SupportSidebar.styled';
 
 import { signOut } from '@/actions/auth';
-import { Avatar, LoadingAvatar, IconButton } from '@/components/styled';
+import { Avatar, LoadingAvatar } from '@/components/styled';
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 import { LoadingStatus, Status } from '@/components/styled/Status.styled';
 import { useOutsideClick, useSupportList } from '@/hooks';
@@ -93,7 +93,6 @@ function SupportList({
 
 function SupportSidebar() {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
-  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
   useOutsideClick(sidebarRef, () => setIsVisible(false));
@@ -101,41 +100,34 @@ function SupportSidebar() {
   return (
     <div ref={sidebarRef}>
       <OpenCloseContainer>
-        <IconButton onMouseDown={() => setIsVisible(!isVisible)}>
+        <button onMouseDown={() => setIsVisible(!isVisible)}>
           <Image
             src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
             height={24}
             width={24}
             alt="Alternar menu lateral"
           />
-        </IconButton>
+        </button>
       </OpenCloseContainer>
       <Container $isVisible={isVisible}>
         <h1>Atendimentos</h1>
         <SupportList setIsVisible={setIsVisible} />
-        <footer>
-          <nav>
-            <IconButton onClick={() => router.push('/')}>
-              <Image
-                src="/home-white.svg"
-                height={18}
-                width={18}
-                alt="Página principal"
-              />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                setIsVisible(false);
-                router.push('/suporte/atendimentos');
-              }}
-            >
-              <Image src="/bar_chart-white.svg" height={18} width={18} alt="Painel" />
-            </IconButton>
-            <IconButton onClick={() => signOut()}>
-              <Image src="/logout-white.svg" height={18} width={18} alt="Logout" />
-            </IconButton>
-          </nav>
-        </footer>
+        <nav>
+          <a href="/">
+            <Image src="/home-white.svg" height={18} width={18} alt="Página principal" />
+          </a>
+          <a
+            href="/suporte/atendimentos"
+            onClick={() => {
+              setIsVisible(false);
+            }}
+          >
+            <Image src="/bar_chart-white.svg" height={18} width={18} alt="Painel" />
+          </a>
+          <button onClick={() => signOut()}>
+            <Image src="/logout-white.svg" height={18} width={18} alt="Logout" />
+          </button>
+        </nav>
       </Container>
     </div>
   );

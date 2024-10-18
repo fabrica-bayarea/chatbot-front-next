@@ -11,7 +11,12 @@ export async function getCookie(name: string) {
 
 export async function setCookie(name: string, value: string) {
   const cookieStore = cookies();
-  cookieStore.set({ name, value });
+  cookieStore.set({ 
+    name, 
+    value,
+    secure: true,
+    sameSite: "none",
+    });
 }
 
 export async function removeCookie(name: string) {

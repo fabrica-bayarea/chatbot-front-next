@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useImmer } from 'use-immer';
 
 import { fetchSupportById } from '@/actions/support';
-import { Support } from '@/utils/definitions';
+import type { Support } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/client';
 
 function useSupport(supportId: string) {
