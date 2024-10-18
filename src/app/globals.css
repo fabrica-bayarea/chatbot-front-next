@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+
 :root {
   --clr-a: #f0d4d4;
   --clr-b: #d92936;
@@ -14,6 +17,9 @@
   --clr-light-gray: #d7d7d7;
   --clr-gray: #a1a1a1;
   --clr-dark-gray: #717171;
+
+  --font-a: 'Public Sans', sans-serif;
+  --font-b: 'Ubuntu', sans-serif;
 }
 
 *,
