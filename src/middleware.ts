@@ -8,12 +8,6 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const user = await fetchUserProfile();
 
-  if (pathname === '/') {
-    if (!user) {
-      return NextResponse.rewrite(new URL('/login', request.url));
-    }
-  }
-
   if (pathname.startsWith('/suporte/atendimentos')) {
     if (!user) {
       return NextResponse.rewrite(new URL('/login', request.url));

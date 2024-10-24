@@ -1,53 +1,37 @@
 'use client';
 
-import Image from 'next/image';
 import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
 
-import { Container, DropdownButton, Navigation } from './Dropdown.styled';
+import { Container, Navigation } from './Dropdown.styled';
 import { signOut } from '@/actions/auth';
-import { IconButton } from '@/components/styled';
-import { useChatContext, useMainContext, useOutsideClick } from '@/hooks';
-import { useRouter } from 'next/navigation';
+import { Avatar, DropdownButton } from '@/components/styled';
+import { useMainContext, useOutsideClick } from '@/hooks';
 
 function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   const { user } = useMainContext();
-  const { newConversation, setConversation } = useChatContext();
   const navRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const router = useRouter();
 
   useOutsideClick(navRef, () => setIsVisible(false), true);
 
   return (
     <Container ref={navRef}>
-      <IconButton onMouseDown={() => setIsVisible(!isVisible)}>
-        <Image
-          src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
-          height={30}
-          width={30}
-          alt="Alternar visibilidade"
-        />
-      </IconButton>
+      <button onMouseDown={() => setIsVisible(!isVisible)}>
+        <Avatar $border={true} $fontSize="0.9rem" $picture={user?.picture} $width="40px">
+          {user?.name?.charAt(0)}
+        </Avatar>
+      </button>
       <Navigation $isVisible={isVisible}>
         {user.role !== 'user' && (
-          <DropdownButton onClick={() => router.push('/suporte/atendimentos')}>
+          <DropdownButton as="a" href="/suporte/atendimentos" target="_blank">
             Atendimentos
           </DropdownButton>
         )}
-        <DropdownButton
-          onClick={() => {
-            setConversation(newConversation);
-            showFn(false);
-          }}
-        >
-          Nova conversa
+        <DropdownButton as="a" href="/perfil">
+          Perfil
         </DropdownButton>
-        <DropdownButton
-          onClick={() => {
-            showFn(true);
-          }}
-        >
-          Histórico
+        <DropdownButton as="a" href="/suporte/privacidade" target="_blank">
+          Política de Privacidade
         </DropdownButton>
         <DropdownButton onClick={() => signOut()}>Sair</DropdownButton>
       </Navigation>

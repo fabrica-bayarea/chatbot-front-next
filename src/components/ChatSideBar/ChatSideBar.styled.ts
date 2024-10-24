@@ -3,34 +3,41 @@ import styled from 'styled-components';
 import { mediaQueries } from '@/utils/mediaQueries';
 
 export const Container = styled.aside<{ $isVisible: boolean }>`
-  background-color: white;
-  box-shadow: 1px 0 4px 0 rgb(0 0 0 / 20%);
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  height: calc(100dvh - 50px);
-  min-width: 320px;
-  padding-top: 120px;
-  position: relative;
+  background-color: var(--clr-c);
+  height: 100dvh;
+  max-width: 320px;
+  padding: 10px;
+  width: 100%;
   z-index: 100;
 
-  & > h1 {
-    color: var(--clr-b);
-    font-size: 2rem;
-    padding: 0 20px;
-  }
-
-  & > nav {
+  & > div {
     align-items: center;
-    background-color: var(--clr-c);
-    background-image: linear-gradient(
-      to bottom right,
-      rgba(255 255 255 / 10%),
-      rgba(255 255 255 / 0%) 80%
-    );
+    background-color: white;
+    border-radius: 12px;
     display: flex;
-    height: 40px;
-    justify-content: space-evenly;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+
+    & > header {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin: 60px 0 20px;
+      padding: 0 20px;
+      width: 100%;
+
+      & > h1 {
+        color: var(--clr-b);
+        font-size: 2rem;
+        letter-spacing: 1px;
+      }
+    }
+
+    & > footer {
+      padding: 20px;
+      width: 100%;
+    }
   }
 
   ${mediaQueries.laptopS} {
@@ -41,6 +48,25 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   }
 `;
 
+export const ItemDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  & > span:nth-child(1) {
+    font-size: 0.75em;
+  }
+
+  & > span:nth-child(2) {
+    font-size: 0.75em;
+    margin-bottom: 10px;
+  }
+
+  & > span:nth-child(3) {
+    font-size: 0.9em;
+  }
+`;
+
 export const List = styled.ul`
   align-items: center;
   display: flex;
@@ -48,15 +74,8 @@ export const List = styled.ul`
   flex-grow: 10;
   overflow-y: scroll;
 
-  & > span:first-child {
-    color: var(--clr-dark-gray);
-    margin: 80px 0 40px;
-    font-size: 1.2rem;
-  }
-
-  & > span:nth-child(2) {
-    color: var(--clr-a);
-    font-size: 2.5rem;
+  & > span {
+    margin: 120px 0 40px;
   }
 
   &::-webkit-scrollbar {
@@ -72,7 +91,8 @@ export const ListItem = styled.li`
   align-items: center;
   cursor: pointer;
   display: flex;
-  gap: 10px;
+  gap: 20px;
+  justify-content: space-between;
   padding: 20px;
   transition: background-color 200ms ease;
   width: 100%;
@@ -81,20 +101,8 @@ export const ListItem = styled.li`
     background-color: var(--clr-light);
   }
 
-  &.selected {
-    background-color: var(--clr-a);
-  }
-
   &:not(:last-child) {
     border-bottom: 1px solid var(--clr-light);
-  }
-
-  & > div:nth-child(2) {
-    flex-grow: 10;
-
-    & > span {
-      font-size: 0.75rem;
-    }
   }
 `;
 
@@ -103,17 +111,5 @@ export const LoadingItem = styled(ListItem)`
 
   &:hover {
     background-color: unset;
-  }
-`;
-
-export const OpenCloseContainer = styled.div`
-  left: 20px;
-  position: absolute;
-  top: 12px;
-  visibility: hidden;
-  z-index: 100;
-
-  ${mediaQueries.laptopS} {
-    visibility: visible;
   }
 `;

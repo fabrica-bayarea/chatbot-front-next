@@ -5,7 +5,7 @@ import { extractRouterConfig } from 'uploadthing/server';
 
 import './globals.css';
 import { ourFileRouter } from './api/uploadthing/core';
-import { public_sans, ubuntu } from './fonts';
+//import { public_sans, ubuntu } from './fonts';
 import StyledComponentsRegistry from './registry';
 import { fetchUserProfile } from '@/actions/auth';
 import CookieNotice from '@/components/CookieNotice';
@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const userProfile = await fetchUserProfile();
 
   return (
-    <html lang="en" className={`${public_sans.variable} ${ubuntu.variable}`}>
+    <html lang="en">
       <body>
         <MainProvider user={userProfile}>
           <StyledComponentsRegistry>

@@ -207,7 +207,7 @@ function SupportUpdateEmail({
             </Link>
             <Hr style={divider} />
             <Img
-              src={'https://utfs.io/f/3b0c82a2-c46e-4378-91c0-a19ee1e9f817-gn7svz.png'}
+              src={'https://utfs.io/f/d8cf7ed4-a01b-43e8-bb5a-ecaeb2faf9d5-fvq37x.png'}
               height={50}
               width={50}
               style={logo}

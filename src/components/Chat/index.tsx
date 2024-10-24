@@ -5,7 +5,6 @@ import { type FormEvent, useEffect, useRef, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 import Feedback from './Feedback';
-import Suggestions from './Suggestions';
 import { Container, Conversation, Loading } from './Chat.styled';
 import ChatMessage from '@/components/ChatMessage';
 import { ChatForm } from '@/components/Forms';
@@ -53,9 +52,9 @@ function Chat() {
             alt="Ilustração da Eda"
           />
           <ChatMessage role={'assistant'}>
-            Eu sou <strong>Eda</strong>, assistente virtual do IESB.
+            Tudo pronto!
             <br />
-            Como posso lhe ajudar?
+            Como posso lhe ajudar hoje?
           </ChatMessage>
         </div>
         {conversation.messages.map(({ content, role, owner_profile }, index) => {
@@ -65,7 +64,6 @@ function Chat() {
             </ChatMessage>
           );
         })}
-        {conversationLength === 0 && <Suggestions />}
         {showFeedback && (
           <Feedback id={conversation.messages[conversationLength - 1]?.id as string} />
         )}
@@ -80,7 +78,14 @@ function Chat() {
         )}
         <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
       </Conversation>
-      {isOpen && <ChatForm action={(content) => getStream(content)} maxHeight={120} />}
+
+      {isOpen && (
+        <ChatForm
+          action={(content) => getStream(content)}
+          background={true}
+          maxHeight={120}
+        />
+      )}
     </Container>
   );
 }

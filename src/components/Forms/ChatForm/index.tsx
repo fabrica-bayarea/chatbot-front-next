@@ -10,7 +10,7 @@ import {
 } from 'react';
 
 import { Container } from './ChatForm.styled';
-import { AdaptiveTextArea, SendButton } from '@/components/styled';
+import { AdaptiveTextArea, IconButton } from '@/components/styled';
 import { useMainContext } from '@/hooks';
 
 function ChatForm({
@@ -84,9 +84,9 @@ function ChatForm({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <SendButton type="submit">
-        <Image src="/send-white.svg" height={24} width={24} alt="Enviar mensagem" />
-      </SendButton>
+      <IconButton type="submit">
+        <Image src="/send.svg" height={36} width={36} alt="Enviar mensagem" />
+      </IconButton>
     </Container>
   );
 }

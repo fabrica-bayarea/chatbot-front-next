@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import useMainContext from './useMainContext';
 import { createHumanMessage } from '@/actions/messages';
-import { Message, Support } from '@/utils/definitions';
+import type { Message, Support } from '@/utils/definitions';
 
 function useMessages(data: Support) {
   const { user } = useMainContext();

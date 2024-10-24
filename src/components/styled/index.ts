@@ -1,13 +1,14 @@
 import { Avatar, LoadingAvatar } from './Avatar.styled';
 
 import {
-  Button,
+  ActionButton,
   AltButton,
   DialogButton,
+  DropdownButton,
   EmailButton,
   IconButton,
   MainButton,
-  SendButton,
+  MessageButton,
   SocialButton,
 } from './Button.styled';
 
@@ -19,13 +20,14 @@ import { Label } from './Label.styled';
 export {
   Avatar,
   LoadingAvatar,
-  Button,
+  ActionButton,
   AltButton,
   DialogButton,
+  DropdownButton,
   EmailButton,
   IconButton,
   MainButton,
-  SendButton,
+  MessageButton,
   SocialButton,
   DashboardCard,
   Form,

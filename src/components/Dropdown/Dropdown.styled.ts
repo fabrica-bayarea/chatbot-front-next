@@ -1,20 +1,7 @@
 import styled from 'styled-components';
 
-import { Button } from '@/components/styled';
-
 export const Container = styled.div`
   position: relative;
-`;
-
-export const DropdownButton = styled(Button)`
-  background-color: var(--clr-c);
-  color: var(--clr-light);
-  justify-content: flex-start;
-  padding: 10px 20px;
-
-  &:hover {
-    background-color: var(--clr-b);
-  }
 `;
 
 export const Navigation = styled.nav<{ $isVisible: boolean }>`

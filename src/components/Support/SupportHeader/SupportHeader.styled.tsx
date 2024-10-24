@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 
-import { IconButton } from '@/components/styled';
 import { mediaQueries } from '@/utils/mediaQueries';
 
 export const Container = styled.header`
@@ -32,16 +31,16 @@ export const Container = styled.header`
   }
 `;
 
-export const MoreButton = styled(IconButton)`
-  display: none;
-
-  ${mediaQueries.laptopL} {
-    display: flex;
-  }
-`;
-
 export const Options = styled.div<{ $isVisible: boolean }>`
   position: relative;
+
+  & > button {
+    display: none;
+
+    ${mediaQueries.laptopL} {
+      display: flex;
+    }
+  }
 
   & > nav {
     display: flex;
@@ -94,7 +93,7 @@ export const UserContainer = styled.div`
     position: relative;
   }
 
-  ${mediaQueries.mobileL}{
+  ${mediaQueries.mobileL} {
     & > span:last-child {
       display: none;
     }
