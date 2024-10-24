@@ -10,4 +10,12 @@ export const MessageContainer = styled.div`
     justify-content: space-between;
     margin-top: 60px;
   }
+
+  @media screen and (width <= 667px) {
+    & > div:last-child {
+      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
 `;

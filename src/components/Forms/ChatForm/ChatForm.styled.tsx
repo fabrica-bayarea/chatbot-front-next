@@ -15,6 +15,11 @@ export const Container = styled(Form)<{ $background?: boolean }>`
   position: absolute;
   z-index: 10;
 
+  & > button {
+    position: relative;
+    top: -5px;
+  }
+
   ${mediaQueries.laptopS} {
     padding: 10px 80px;
   }

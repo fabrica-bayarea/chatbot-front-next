@@ -27,14 +27,7 @@ export const MainInput = styled(Input)`
   font-size: 1em;
 `;
 
-export const TextArea = styled.textarea`
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  resize: none;
-`;
-
-export const AdaptiveTextArea = styled(TextArea)`
+export const AdaptiveTextArea = styled.textarea`
   border: none;
   border-radius: 4px;
   flex-grow: 10;

@@ -78,7 +78,14 @@ function Chat() {
         )}
         <Loading>{isLoading && <BeatLoader color="lightgray" size={8} />}</Loading>
       </Conversation>
-      {isOpen && <ChatForm action={(content) => getStream(content)} maxHeight={120} />}
+
+      {isOpen && (
+        <ChatForm
+          action={(content) => getStream(content)}
+          background={true}
+          maxHeight={120}
+        />
+      )}
     </Container>
   );
 }

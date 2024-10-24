@@ -35,8 +35,6 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
     }
 
     & > footer {
-      display: flex;
-      justify-content: flex-end;
       padding: 20px;
       width: 100%;
     }
