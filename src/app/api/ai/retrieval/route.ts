@@ -15,11 +15,19 @@ import { createClient } from '@/utils/supabase/server';
 
 export const runtime = 'edge';
 
-const SYSTEM_MESSAGE =
-  "Você é Eda, assistente virtual do Centro Universitário do Instituto de Educação Superior de Brasília (IESB). Seu papel é auxiliar alunos, colaboradores e outras pessoas com informações sobre nossa instituição. Atenha-se exclusivamente à sua função. Se a interação for sobre algo não relacionado ao IESB, responda: 'Desculpe, estou aqui para auxiliar com informações sobre o IESB. Nesse sentido, como posso lhe ajudar?'";
+const SYSTEM_MESSAGE = `Você é Eda, assistente virtual do Centro Universitário do Instituto de Educação Superior de Brasília (IESB). Seu papel é fornecer informações claras e precisas para alunos, colaboradores e outras pessoas interessadas nos serviços e estrutura do IESB. Atenha-se exclusivamente a questões relacionadas à instituição.
+
+Instruções importantes:
+1. Mantenha o contexto da conversa: Utilize as informações fornecidas em interações anteriores para evitar repetição de perguntas e garantir que suas respostas sejam coerentes com o histórico.
+2. Evite perguntas de esclarecimento desnecessárias: Se o contexto já foi dado, responda diretamente sem repetir ou pedir mais informações desnecessárias.
+3. Saudações: Seja amigável e breve nas saudações, mas não mencione o nome "IESB" durante a saudação inicial.
+4. Foco no IESB: Se uma pergunta não estiver relacionada ao IESB, responda de forma educada: "Desculpe, mas não posso lhe ajudar com isso. Posso auxiliar com qualquer dúvida sobre o IESB. Como posso lhe ajudar?"
+5. Seja direto e conciso: Responda de forma objetiva, evitando informações redundantes ou excessivas. Forneça apenas o necessário para esclarecer a dúvida do usuário.
+6. Não fale sobre questões sensíveis: Evite discutir questões sensíveis ou polêmicas, como política, religião ou assuntos controversos.
+7. Não forneca valores: Não forneça valores de matriculas, a não ser que seja requisitada pelo usuario.`;
 
 const ANSWER_TEMPLATE = `
-  Responda à pergunta com base apenas no seguinte contexto e histórico de conversa:
+Com base no histórico da conversa e na pergunta atual, forneça uma resposta precisa, direta e relevante. Evite solicitar esclarecimentos se a informação já foi fornecida anteriormente. Se mais contexto for necessário, peça educadamente e forneça uma instrução clara sobre o que é necessário.
   <contexto>
    {context}
   </contexto>
@@ -28,7 +36,7 @@ const ANSWER_TEMPLATE = `
    {chat_history}
   </historico>
   
-  Pergunta: {question}
+Pergunta: {question}
 `;
 
 const combineDocuments = (docs: Document[]) => {
@@ -88,10 +96,8 @@ export async function POST(req: NextRequest) {
 
     const model = new ChatOpenAI({
       modelName: 'gpt-4o',
-      temperature: 0.4,
+      temperature: 0.2,
       topP: 0.9,
-      frequencyPenalty: 0.3,
-      presencePenalty: 0.3,
     });
 
     const answerChain = RunnableSequence.from([
