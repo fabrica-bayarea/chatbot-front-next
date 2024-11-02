@@ -15,7 +15,6 @@ function useHistory() {
   const getHistory = async () => {
     setIsLoading(true);
     const { data } = await fetchHistory();
-
     setHistory(data);
     setIsLoading(false);
   };
@@ -30,7 +29,7 @@ function useHistory() {
     };
 
     const channel = supabase
-      .channel('support-list')
+      .channel(`${user?.id}-history`)
       .on(
         'postgres_changes',
         {

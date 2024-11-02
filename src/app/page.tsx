@@ -72,7 +72,7 @@ function Home() {
                 />
               </button>
             </OpenCloseContainer>
-            {user && <Dropdown showFn={setShowSideBar} />}
+            {user && <Dropdown />}
           </header>
           {user ? <Chat /> : <UnauthChat />}
         </Section>

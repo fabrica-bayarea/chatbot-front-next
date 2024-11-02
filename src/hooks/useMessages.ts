@@ -1,14 +1,16 @@
-import { useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import useMainContext from './useMainContext';
 import { createHumanMessage } from '@/actions/messages';
-import type { Message, Support } from '@/utils/definitions';
+import type { Conversation, Message, Support } from '@/utils/definitions';
 
-function useMessages(data: Support) {
+function useMessages(conversation: Conversation) {
   const { user } = useMainContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [messages, setMessages] = useState<Message[]>([...data.messages]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const addNewMessage = async (content: string) => {
     try {
@@ -16,7 +18,7 @@ function useMessages(data: Support) {
 
       const newMessage: Message = {
         id: uuidv4(),
-        conversation_id: data.conversation_id,
+        conversation_id: conversation.id,
         content,
         created_at: new Date().toISOString(),
         role: 'collaborator',
@@ -31,6 +33,10 @@ function useMessages(data: Support) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    setMessages(conversation.messages);
+  }, [conversation]);
 
   return { messages, isLoading, addNewMessage };
 }

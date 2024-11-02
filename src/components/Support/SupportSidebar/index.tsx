@@ -64,14 +64,14 @@ function SupportList({
 
   return (
     <List>
-      {supportList?.map(({ id, status, owner_profile, created_at }, index) => {
+      {supportList?.map(({ id, owner_profile, support_details }, index) => {
         return (
           <ListItem
             className={pathId === id ? 'selected' : undefined}
             key={index}
             onClick={() => {
               setIsVisible(false);
-              router.push(`/suporte/atendimentos/${id}`);
+              router.push(`/suporte/atendimentos/${support_details?.id}`);
             }}
             role="button"
             tabIndex={0}
@@ -81,9 +81,9 @@ function SupportList({
             </Avatar>
             <div>
               <div>{owner_profile?.name.split(' ')[0]}</div>
-              <span>{elapsedTime(created_at)}</span>
+              <span>{elapsedTime(support_details?.created_at as string)}</span>
             </div>
-            <Status $status={status} />
+            <Status $status={support_details?.status} />
           </ListItem>
         );
       })}

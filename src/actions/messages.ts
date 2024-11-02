@@ -1,6 +1,6 @@
 'use server';
 
-import { Message, MessageFeedback } from '@/utils/definitions';
+import type { Message, MessageFeedback } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/server';
 
 export async function createAIMessage({

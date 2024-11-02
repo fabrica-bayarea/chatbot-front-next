@@ -3,17 +3,16 @@
 import { useEffect, useState } from 'react';
 
 import { fetchSupportList } from '@/actions/support';
-import type { Support } from '@/utils/definitions';
+import type { Conversation } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/client';
 
 function useSupportList() {
-  const [supportList, setSupportList] = useState<Support[] | undefined>(undefined);
+  const [supportList, setSupportList] = useState<Conversation[] | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getSupportList = async () => {
     setIsLoading(true);
     const { data } = await fetchSupportList();
-
     setSupportList(data);
     setIsLoading(false);
   };

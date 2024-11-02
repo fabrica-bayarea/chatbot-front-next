@@ -15,27 +15,29 @@ import {
 import { RequestButton } from '@/components/Buttons';
 import { Avatar } from '@/components/styled';
 import { useMainContext, useOutsideClick } from '@/hooks';
-import type { Support } from '@/utils/definitions';
+import type { Conversation, Support } from '@/utils/definitions';
 
 function SupportHeader({
-  data,
-  setSupport,
+  conversation,
+  setConversation,
 }: {
-  data: Support;
-  setSupport: Updater<Support>;
+  conversation: Conversation;
+  setConversation: Updater<Conversation>;
 }) {
   const { setAndShow } = useMainContext();
   const navRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const user = data.owner_profile;
+
+  const support = conversation.support_details as Support;
+  const user = conversation.owner_profile;
 
   useOutsideClick(navRef, () => setIsVisible(false));
 
   const handleAccept = async () => {
-    await updateSupportStatus(data.id, 'accepted');
+    await updateSupportStatus(support.id, 'accepted');
 
-    setSupport((draft) => {
-      draft.status = 'accepted';
+    setConversation((draft) => {
+      (draft.support_details as Support).status = 'accepted';
     });
 
     setIsVisible(false);
@@ -43,17 +45,17 @@ function SupportHeader({
   };
 
   const handleEmail = async () => {
-    await sendSupportUpdate(data.id);
+    await sendSupportUpdate(conversation);
     setIsVisible(false);
     setAndShow('E-mail enviado!');
   };
 
   const handleClose = async () => {
-    await updateSupportStatus(data.id, 'closed');
-    await sendEndOfSupport(data.id);
+    await updateSupportStatus(support.id, 'closed');
+    await sendEndOfSupport(conversation);
 
-    setSupport((draft) => {
-      draft.status = 'closed';
+    setConversation((draft) => {
+      (draft.support_details as Support).status = 'closed';
     });
 
     setIsVisible(false);
@@ -62,12 +64,12 @@ function SupportHeader({
 
   return (
     <Container>
-      <Avatar $border={true} $fontSize="2em" $picture={user?.picture} $width="3em">
+      <Avatar $border={true} $fontSize="2em" $picture={user.picture} $width="3em">
         {user?.name.charAt(0)}
       </Avatar>
       <UserContainer>
-        <span>{user?.name}</span>
-        <span>{user?.email}</span>
+        <span>{user.name}</span>
+        <span>{user.email}</span>
       </UserContainer>
       <Options ref={navRef} $isVisible={isVisible}>
         <button onMouseDown={() => setIsVisible(!isVisible)}>
@@ -79,20 +81,20 @@ function SupportHeader({
           />
         </button>
         <nav>
-          {data.status === 'open' && (
+          {support.status === 'open' && (
             <RequestButton request={handleAccept}>Iniciar atendimento</RequestButton>
           )}
-          {data.status !== 'open' && (
+          {support.status !== 'open' && (
             <>
               <RequestButton request={handleEmail}>Enviar por e-mail</RequestButton>
-              {data.last_sent_at && (
-                <span>{`Último envio: ${new Date(data.last_sent_at).toLocaleString(
+              {support.last_sent_at && (
+                <span>{`Último envio: ${new Date(support.last_sent_at).toLocaleString(
                   'pt-BR'
                 )}`}</span>
               )}
             </>
           )}
-          {data.status === 'accepted' && (
+          {support.status === 'accepted' && (
             <RequestButton request={handleClose}>Encerrar atendimento</RequestButton>
           )}
         </nav>

@@ -17,10 +17,12 @@ function ChatForm({
   action,
   maxHeight,
   background,
+  disabled = false,
 }: {
   action: (content: string) => void;
   maxHeight: number;
   background?: boolean;
+  disabled?: boolean;
 }) {
   const { isLoading } = useMainContext();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -83,8 +85,9 @@ function ChatForm({
         value={content}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        disabled={disabled}
       />
-      <IconButton type="submit">
+      <IconButton type="submit" disabled={disabled}>
         <Image src="/send.svg" height={36} width={36} alt="Enviar mensagem" />
       </IconButton>
     </Container>

@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { fetchUserProfile } from '@/actions/auth';
-import { fetchSupportById } from './actions/support';
+import { fetchConversationBySupportId } from '@/actions/conversations';
 import { updateSession } from '@/utils/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
@@ -23,10 +23,10 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL('/login', request.url));
     }
 
-    const pathId = pathname.split('/').splice(-1)[0];
-    const support = await fetchSupportById(pathId);
+    const id = pathname.split('/').splice(-1)[0];
+    const conversation = await fetchConversationBySupportId(id);
 
-    if (user.id !== support?.owner_profile.id) {
+    if (user.id !== conversation?.owner_id) {
       return NextResponse.rewrite(new URL('/404', request.url));
     }
   }

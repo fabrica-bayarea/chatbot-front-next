@@ -7,7 +7,7 @@ import { signOut } from '@/actions/auth';
 import { Avatar, DropdownButton } from '@/components/styled';
 import { useMainContext, useOutsideClick } from '@/hooks';
 
-function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
+function Dropdown() {
   const { user } = useMainContext();
   const navRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
