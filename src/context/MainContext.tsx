@@ -2,6 +2,8 @@
 
 import { createContext, ReactNode, useCallback, useState } from 'react';
 
+import usePresence from '@/hooks/usePresence';
+
 import type {
   ContextResult,
   MainContextShared,
@@ -12,10 +14,18 @@ import type {
 
 const MainContext = createContext<MainContextShared | undefined>(undefined);
 
-export function MainProvider({ children, user }: { children: ReactNode; user: Profile }) {
+export function MainProvider({
+  children,
+  user,
+}: {
+  children: ReactNode;
+  user: Profile | null;
+}) {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showMessage, setShowMessage] = useState(false);
+
+  const presence = usePresence(user?.id);
 
   // Generic function that prepares a request.
   // If successful, execute the passed function, otherwise show an error message.
@@ -68,6 +78,7 @@ export function MainProvider({ children, user }: { children: ReactNode; user: Pr
     setShowMessage,
     showMessage,
     user,
+    presence,
   };
 
   return <MainContext.Provider value={{ ...shared }}>{children}</MainContext.Provider>;

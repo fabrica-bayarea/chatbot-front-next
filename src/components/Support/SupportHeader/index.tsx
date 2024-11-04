@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRef, useState } from 'react';
 import type { Updater } from 'use-immer';
 
-import { Container, Options, UserContainer } from './SupportHeader.styled';
+import { ButtonContainer, Container, UserContainer } from './SupportHeader.styled';
 
 import {
   sendEndOfSupport,
@@ -13,7 +13,7 @@ import {
 } from '@/actions/support';
 
 import { RequestButton } from '@/components/Buttons';
-import { Avatar } from '@/components/styled';
+import { Avatar, Presence } from '@/components/styled';
 import { useMainContext, useOutsideClick } from '@/hooks';
 import type { Conversation, Support } from '@/utils/definitions';
 
@@ -24,12 +24,12 @@ function SupportHeader({
   conversation: Conversation;
   setConversation: Updater<Conversation>;
 }) {
-  const { setAndShow } = useMainContext();
+  const { presence, setAndShow } = useMainContext();
   const navRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   const support = conversation.support_details as Support;
-  const user = conversation.owner_profile;
+  const owner = conversation.owner_profile;
 
   useOutsideClick(navRef, () => setIsVisible(false));
 
@@ -64,14 +64,17 @@ function SupportHeader({
 
   return (
     <Container>
-      <Avatar $border={true} $fontSize="2em" $picture={user.picture} $width="3em">
-        {user?.name.charAt(0)}
+      <Avatar $border={true} $fontSize="2em" $picture={owner.picture} $width="3em">
+        {owner?.name.charAt(0)}
       </Avatar>
       <UserContainer>
-        <span>{user.name}</span>
-        <span>{user.email}</span>
+        <div>
+          <span>{owner.name}</span>
+          <Presence $presence={presence.includes(owner.id)} />
+        </div>
+        <span>{owner.email}</span>
       </UserContainer>
-      <Options ref={navRef} $isVisible={isVisible}>
+      <ButtonContainer ref={navRef} $isVisible={isVisible}>
         <button onMouseDown={() => setIsVisible(!isVisible)}>
           <Image
             src="/more_vert-white.svg"
@@ -98,7 +101,7 @@ function SupportHeader({
             <RequestButton request={handleClose}>Encerrar atendimento</RequestButton>
           )}
         </nav>
-      </Options>
+      </ButtonContainer>
     </Container>
   );
 }

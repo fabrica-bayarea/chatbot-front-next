@@ -102,7 +102,8 @@ export type MainContextShared = {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setShowMessage: Dispatch<SetStateAction<boolean>>;
   showMessage: boolean;
-  user: Profile;
+  user: Profile | null;
+  presence: string[];
 };
 
 export type ChatContextShared = {

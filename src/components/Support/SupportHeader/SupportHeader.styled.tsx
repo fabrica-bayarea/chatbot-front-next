@@ -2,36 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { mediaQueries } from '@/utils/mediaQueries';
 
-export const Container = styled.header`
-  align-items: center;
-  background-color: var(--clr-b);
-  background-image: linear-gradient(
-    to bottom right,
-    rgba(255 255 255 / 10%),
-    rgba(255 255 255 / 0%) 80%
-  );
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
-  color: var(--clr-light);
-  display: flex;
-  gap: 20px;
-  height: 120px;
-  padding: 0 60px;
-  z-index: 10;
-
-  ${mediaQueries.laptopS} {
-    font-size: 14px;
-    height: 100px;
-    padding: 0 12px 0 20px;
-  }
-
-  ${mediaQueries.mobileL} {
-    font-size: 10px;
-    gap: 10px;
-    height: 80px;
-  }
-`;
-
-export const Options = styled.div<{ $isVisible: boolean }>`
+export const ButtonContainer = styled.div<{ $isVisible: boolean }>`
   position: relative;
 
   & > button {
@@ -81,20 +52,55 @@ export const Options = styled.div<{ $isVisible: boolean }>`
   }
 `;
 
+export const Container = styled.header`
+  align-items: center;
+  background-color: var(--clr-b);
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255 255 255 / 10%),
+    rgba(255 255 255 / 0%) 80%
+  );
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
+  color: var(--clr-light);
+  display: flex;
+  gap: 20px;
+  height: 120px;
+  padding: 0 60px;
+  z-index: 10;
+
+  ${mediaQueries.laptopS} {
+    font-size: 14px;
+    height: 100px;
+    padding: 0 12px 0 20px;
+  }
+
+  ${mediaQueries.mobileL} {
+    font-size: 10px;
+    gap: 10px;
+    height: 80px;
+  }
+`;
+
 export const UserContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 10;
   gap: 10px;
 
-  & > span:first-child {
+  & > div {
+    align-items: center;
+    display: flex;
+    gap: 20px;
+  }
+
+  & > div > span {
     font-size: 1.8em;
     left: -2px;
     position: relative;
   }
 
   ${mediaQueries.mobileL} {
-    & > span:last-child {
+    & > span {
       display: none;
     }
   }
