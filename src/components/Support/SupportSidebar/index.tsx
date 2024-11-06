@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
 
@@ -113,17 +114,17 @@ function SupportSidebar() {
         <h1>Atendimentos</h1>
         <SupportList setIsVisible={setIsVisible} />
         <nav>
-          <a href="/">
+          <Link href="/">
             <Image src="/home-white.svg" height={18} width={18} alt="Página principal" />
-          </a>
-          <a
+          </Link>
+          <Link
             href="/suporte/atendimentos"
             onClick={() => {
               setIsVisible(false);
             }}
           >
             <Image src="/bar_chart-white.svg" height={18} width={18} alt="Painel" />
-          </a>
+          </Link>
           <button onClick={() => signOut()}>
             <Image src="/logout-white.svg" height={18} width={18} alt="Logout" />
           </button>

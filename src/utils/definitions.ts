@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
+import type { Updater } from 'use-immer';
 
 export type MessageFeedback = 'good' | 'poor';
 
@@ -111,7 +112,7 @@ export type ChatContextShared = {
   getStream: (question: string) => Promise<ContextResult<ReadableStreamDefaultReader>>;
   isStreaming?: boolean;
   newConversation: Conversation;
-  setConversation: Dispatch<SetStateAction<Conversation>>;
+  setConversation: Updater<Conversation>;
   sendMessage: (content: string) => void;
 };
 

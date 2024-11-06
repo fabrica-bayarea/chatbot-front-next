@@ -29,8 +29,14 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
       rgba(255 255 255 / 0%) 80%
     );
     display: flex;
-    height: 40px;
     justify-content: space-evenly;
+    min-height: 40px;
+
+    a,
+    button {
+      height: 18px;
+      width: 18px;
+    }
   }
 
   ${mediaQueries.laptopS} {

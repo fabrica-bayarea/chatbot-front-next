@@ -8,7 +8,7 @@ export const DashboardCard = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 360px;
-  transition: box-shadow ease-in-out 250ms;
+  transition: box-shadow ease-in-out 200ms;
 
   &:hover {
     box-shadow: 0 0 20px 0 rgba(255 150 150 / 25%);

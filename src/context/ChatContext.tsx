@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { createAIMessage, createHumanMessage } from '@/actions/messages';
 import { useConversation, useMainContext } from '@/hooks';
 import api from '@/utils/data';
-import statusCodes from '@/utils/statusCodes';
 
 import type {
   ChatContextShared,
@@ -15,7 +14,10 @@ import type {
   FetchStreamPayload,
   MakeRequestParams,
   Message,
+  Profile,
 } from '@/utils/definitions';
+
+import statusCodes from '@/utils/statusCodes';
 
 const ChatContext = createContext<ChatContextShared | undefined>(undefined);
 
@@ -24,12 +26,12 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
   const newConversation: Conversation = {
     id: uuidv4(),
-    owner_id: user?.id,
+    owner_id: user?.id as string,
     created_at: new Date().toISOString(),
     status: 'open',
     active_support: null,
     messages: [],
-    owner_profile: user,
+    owner_profile: user as Profile,
     support_details: null,
   };
 
