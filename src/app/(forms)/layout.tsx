@@ -35,7 +35,7 @@ const LogoContainer = styled.div`
 `;
 
 const Section = styled.section`
-  --r: 16px;
+  --r: 8px;
 
   border-radius: var(--r);
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
@@ -83,7 +83,7 @@ const Section = styled.section`
     min-height: 100dvh;
     width: 100%;
 
-    & > div {
+    & > div:not(.error) {
       border-radius: 0;
       flex-grow: 10;
     }

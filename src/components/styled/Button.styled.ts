@@ -58,9 +58,12 @@ export const AltButton = styled.button`
 `;
 
 export const DialogButton = styled.button<{ $width?: string }>`
+  align-items: center;
   border: 1px solid var(--clr-a);
   border-radius: 4px;
+  display: flex;
   height: 40px;
+  justify-content: center;
   padding: 0 10px;
   transition: background-color 200ms ease;
   width: ${({ $width }) => $width ?? '60px'};
@@ -135,11 +138,14 @@ export const MainButton = styled.button`
 `;
 
 export const MessageButton = styled.button`
+  align-items: center;
   background-color: var(--clr-light);
   border: 1px solid var(--clr-gray);
   border-radius: 4px;
+  display: flex;
   font-size: 0.9rem;
   height: 40px;
+  justify-content: center;
   transition: background-color 200ms ease;
   width: 100px;
 
@@ -149,9 +155,11 @@ export const MessageButton = styled.button`
 `;
 
 export const SocialButton = styled.button`
+  align-items: center;
   border: 2px solid var(--clr-light-gray);
   border-radius: 50px;
   color: var(--clr-dark);
+  display: flex;
   height: 50px;
   padding: 0 10px;
   width: 100%;

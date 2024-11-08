@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { mediaQueries } from '@/utils/mediaQueries';
 
 export const Container = styled.div`
+  background-color: white;
   display: flex;
   flex-direction: column;
   flex-grow: 10;
@@ -61,8 +62,12 @@ export const Conversation = styled.div<{ $open: boolean }>`
     padding: 40px 74px 40px 80px;
   }
 
-  ${mediaQueries.mobileL} {
+  @media screen and (width <= 667px) {
     padding: 40px 34px 40px 40px;
+  }
+
+  ${mediaQueries.mobileL} {
+    padding: 40px 24px 40px 30px;
   }
 `;
 

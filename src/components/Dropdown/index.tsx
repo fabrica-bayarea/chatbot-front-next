@@ -23,7 +23,7 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
       </button>
       <Navigation $isVisible={isVisible}>
         {user.role !== 'user' && (
-          <DropdownButton as="a" href="/suporte/atendimentos">
+          <DropdownButton as="a" href="/suporte/atendimentos" target="_blank">
             Atendimentos
           </DropdownButton>
         )}
