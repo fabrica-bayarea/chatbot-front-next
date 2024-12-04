@@ -96,8 +96,11 @@ export async function POST(req: NextRequest) {
 
     const model = new ChatOpenAI({
       modelName: 'gpt-4o',
-      temperature: 0.2,
+      temperature: 0.1,
       topP: 0.9,
+      maxTokens: 2048,
+      presencePenalty: 0.1,
+      frequencyPenalty: 0.1,
     });
 
     const answerChain = RunnableSequence.from([
