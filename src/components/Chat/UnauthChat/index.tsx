@@ -9,7 +9,7 @@ import { MessageButton } from '@/components/styled';
 function UnauthChat() {
   return (
     <Container>
-      <Conversation $open={true}>
+      <Conversation>
         <div>
           <Image
             src="/eda.png"

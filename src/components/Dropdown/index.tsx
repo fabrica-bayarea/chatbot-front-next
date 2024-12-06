@@ -22,7 +22,7 @@ function Dropdown() {
         </Avatar>
       </button>
       <Navigation $isVisible={isVisible}>
-        {user.role !== 'user' && (
+        {user?.role !== 'user' && (
           <DropdownButton as="a" href="/suporte/atendimentos" target="_blank">
             Atendimentos
           </DropdownButton>

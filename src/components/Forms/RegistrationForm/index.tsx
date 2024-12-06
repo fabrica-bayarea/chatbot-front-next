@@ -25,7 +25,7 @@ function RegistrationForm() {
   const validation = useValidation(inputs);
 
   const [formState, formAction] = useFormState(
-    (prevState: StatusMessage, formData: FormData) => signUp(formData),
+    (prevState: void | StatusMessage, formData: FormData) => signUp(formData), // review types
     { message: '' }
   );
 
@@ -50,7 +50,7 @@ function RegistrationForm() {
   }, [validation]);
 
   useEffect(() => {
-    setStatusMessage(formState.message);
+    setStatusMessage((formState as { message: string }).message); // review types
   }, [formState]);
 
   return (

@@ -24,7 +24,7 @@ function LoginForm() {
   const validation = useValidation(inputs);
 
   const [formState, formAction] = useFormState(
-    (prevState: StatusMessage, formData: FormData) => signIn(formData, path),
+    (prevState: void | StatusMessage, formData: FormData) => signIn(formData, path), // review types
     { message: '' }
   );
 
@@ -45,7 +45,7 @@ function LoginForm() {
   }, [validation]);
 
   useEffect(() => {
-    setStatusMessage(formState.message);
+    setStatusMessage((formState as { message: string }).message); // review types
   }, [formState]);
 
   return (
