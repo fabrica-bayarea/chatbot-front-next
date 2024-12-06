@@ -7,7 +7,7 @@ import { signOut } from '@/actions/auth';
 import { Avatar, DropdownButton } from '@/components/styled';
 import { useMainContext, useOutsideClick } from '@/hooks';
 
-function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
+function Dropdown() {
   const { user } = useMainContext();
   const navRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +22,7 @@ function Dropdown({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
         </Avatar>
       </button>
       <Navigation $isVisible={isVisible}>
-        {user.role !== 'user' && (
+        {user?.role !== 'user' && (
           <DropdownButton as="a" href="/suporte/atendimentos" target="_blank">
             Atendimentos
           </DropdownButton>

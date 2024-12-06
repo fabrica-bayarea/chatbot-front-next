@@ -120,6 +120,7 @@ function SupportUpdateEmail({
   const message: CSSProperties = {
     ...paragraph,
     margin: '30px 0',
+    padding: '0 20px',
     whiteSpace: 'pre-line',
   };
 

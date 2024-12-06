@@ -5,9 +5,10 @@ import styled from 'styled-components';
 import { type Updater } from 'use-immer';
 
 import Loading from './loading';
+import { fetchConversationBySupportId } from '@/actions/conversations';
 import { SupportChat, SupportHeader } from '@/components/Support';
-import { useSupport } from '@/hooks';
-import type { Support } from '@/utils/definitions';
+import { useConversation } from '@/hooks';
+import type { Conversation, Support } from '@/utils/definitions';
 import { mediaQueries } from '@/utils/mediaQueries';
 
 const MovedContainer = styled.section`
@@ -50,20 +51,25 @@ function Moved() {
 }
 
 function SupportPage({ params }: { params: { id: string } }) {
-  const { support, setSupport } = useSupport(params.id);
+  const { conversation, setConversation } = useConversation(() =>
+    fetchConversationBySupportId(params.id)
+  );
 
-  if (support === undefined) {
+  if (conversation === undefined) {
     return <Loading />;
   }
 
-  if (support === null) {
+  if (conversation === null) {
     return <Moved />;
   }
 
   return (
     <section>
-      <SupportHeader data={support} setSupport={setSupport as Updater<Support>} />
-      <SupportChat data={support} />
+      <SupportHeader
+        conversation={conversation}
+        setConversation={setConversation as Updater<Conversation>}
+      />
+      <SupportChat conversation={conversation} />
     </section>
   );
 }

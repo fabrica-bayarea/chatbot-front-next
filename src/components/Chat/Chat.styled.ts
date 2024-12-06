@@ -12,7 +12,7 @@ export const Container = styled.div`
   position: relative;
 `;
 
-export const Conversation = styled.div<{ $open: boolean }>`
+export const Conversation = styled.div`
   display: flex;
   flex-direction: column;
   gap: 60px;
@@ -44,10 +44,6 @@ export const Conversation = styled.div<{ $open: boolean }>`
     & > span {
       font-weight: bold;
     }
-  }
-
-  & > *:not(.redirect-status) {
-    opacity: ${({ $open }) => ($open ? '1' : '0.6')};
   }
 
   &::-webkit-scrollbar {

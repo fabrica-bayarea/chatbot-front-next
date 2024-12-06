@@ -1,25 +1,8 @@
 'use server';
 
-import { fetchUserProfile } from './auth';
 import api from '@/utils/data';
-import { SendEmailPayload, Support, SupportStatus } from '@/utils/definitions';
+import type { Conversation, SendEmailPayload, SupportStatus } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/server';
-
-export async function fetchSupportById(supportId: string) {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
-    .rpc('fetch_support_by_id', {
-      support_id: supportId,
-    })
-    .single();
-
-  if (error) {
-    console.log(error);
-  }
-
-  return data as Support | null;
-}
 
 export async function fetchSupportList() {
   const supabase = createClient();
@@ -28,17 +11,16 @@ export async function fetchSupportList() {
   return response;
 }
 
-export async function sendEndOfSupport(id: string) {
+export async function sendEndOfSupport(conversation: Conversation) {
   const supabase = createClient();
-  const userProfile = await fetchUserProfile();
-  const support = await fetchSupportById(id);
+  const support = conversation.support_details;
 
   if (support) {
     const payload: SendEmailPayload = {
       body: {
         id: support.id,
-        collaboratorProfile: userProfile,
-        ownerProfile: support.owner_profile,
+        collaboratorProfile: support.collaborator_profile,
+        ownerProfile: conversation.owner_profile,
         template: 'end-of-support',
       },
     };
@@ -47,25 +29,29 @@ export async function sendEndOfSupport(id: string) {
 
     if (status === 200) {
       const time = new Date().toISOString();
-      await supabase.from('support').update({ last_sent_at: time }).eq('id', id).select();
+
+      await supabase
+        .from('support')
+        .update({ last_sent_at: time })
+        .eq('id', support.id)
+        .select();
 
       return 'ok';
     }
   }
 }
 
-export async function sendSupportUpdate(id: string) {
+export async function sendSupportUpdate(conversation: Conversation) {
   const supabase = createClient();
-  const userProfile = await fetchUserProfile();
-  const support = await fetchSupportById(id);
+  const support = conversation.support_details;
 
   if (support) {
     const payload: SendEmailPayload = {
       body: {
         id: support.id,
-        collaboratorProfile: userProfile,
-        ownerProfile: support.owner_profile,
-        messages: support.messages,
+        collaboratorProfile: support.collaborator_profile,
+        ownerProfile: conversation.owner_profile,
+        messages: conversation.messages,
         status: support.status,
         template: 'support-update',
       },
@@ -75,7 +61,12 @@ export async function sendSupportUpdate(id: string) {
 
     if (status === 200) {
       const time = new Date().toISOString();
-      await supabase.from('support').update({ last_sent_at: time }).eq('id', id).select();
+
+      await supabase
+        .from('support')
+        .update({ last_sent_at: time })
+        .eq('id', support.id)
+        .select();
 
       return 'ok';
     }

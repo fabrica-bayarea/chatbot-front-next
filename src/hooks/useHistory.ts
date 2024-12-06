@@ -15,7 +15,6 @@ function useHistory() {
   const getHistory = async () => {
     setIsLoading(true);
     const { data } = await fetchHistory();
-
     setHistory(data);
     setIsLoading(false);
   };
@@ -30,17 +29,7 @@ function useHistory() {
     };
 
     const channel = supabase
-      .channel('support-list')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'human_messages',
-          filter: `owner_id=eq.${user?.id}`,
-        },
-        handleChange
-      )
+      .channel(`${user?.id}-history`)
       .on(
         'postgres_changes',
         {
@@ -57,6 +46,15 @@ function useHistory() {
           event: 'DELETE',
           schema: 'public',
           table: 'conversations',
+        },
+        handleChange
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
         },
         handleChange
       )

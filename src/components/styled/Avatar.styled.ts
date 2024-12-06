@@ -17,7 +17,7 @@ export const Avatar = styled.div<AvatarProps>`
   display: flex;
   font-size: ${(props) => props.$fontSize ?? '1rem'};
   justify-content: center;
-  width: ${(props) => props.$width ?? '60px'};
+  min-width: ${(props) => props.$width ?? '60px'};
   user-select: none;
 
   ${({ $picture }) =>

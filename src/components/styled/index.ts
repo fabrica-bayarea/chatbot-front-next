@@ -16,6 +16,8 @@ import { DashboardCard } from './DashboardCard.styled';
 import { Form, MainForm, StatusContainer, UploadContainer } from './Form.styled';
 import { MainInput, AdaptiveTextArea } from './Input.styled';
 import { Label } from './Label.styled';
+import { Notification } from './Notification.styled';
+import { Presence } from './Presence.styled';
 
 export {
   Avatar,
@@ -37,4 +39,6 @@ export {
   MainInput,
   AdaptiveTextArea,
   Label,
+  Notification,
+  Presence,
 };

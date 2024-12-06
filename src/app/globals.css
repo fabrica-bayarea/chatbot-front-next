@@ -6,8 +6,8 @@
   --clr-c: #b41e3c;
   --clr-d: #961e1e;
 
-  --clr-green: #87bb87;
-  --clr-blue: #8787bb;
+  --clr-green: #94f294;
+  --clr-blue: #9b9bdb;
 
   --clr-light: #fff0f0;
   --clr-dark: #3c1e1e;
@@ -85,12 +85,12 @@ textarea {
   }
 
   20% {
-    box-shadow: 0 0 0 0 rgb(0 0 0 / 75%);
+    box-shadow: 0 0 0 0 rgb(60 60 180 / 60%);
     transform: scale(1);
   }
 
   100% {
-    box-shadow: 0 0 0 10px rgb(0 0 0 / 0%);
+    box-shadow: 0 0 0 10px rgb(60 60 120 / 0%);
     transform: scale(0.95);
   }
 }

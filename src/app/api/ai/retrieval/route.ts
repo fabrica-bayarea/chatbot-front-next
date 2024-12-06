@@ -143,7 +143,8 @@ export async function POST(req: NextRequest) {
         'x-sources': serializedSources,
       },
     });
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: e.status ?? 500 });
+  } catch (error: any) {
+    console.log(error.message);
+    return NextResponse.json({ error: error.message }, { status: error.status ?? 500 });
   }
 }

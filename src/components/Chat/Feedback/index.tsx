@@ -47,20 +47,18 @@ function Feedback({ id }: { id: string }) {
 
   const RedirectionOptions = () => {
     if (feedback === 'poor') {
-      if (!user.email) {
+      if (!user?.email) {
         return (
-          <>
-            <span>
-              Para ser atendido por nossos colaboradores, faça o{' '}
-              <Link href="/login" className="underline">
-                login
-              </Link>{' '}
-              ou{' '}
-              <Link href="/registro" className="underline">
-                registre-se.
-              </Link>
-            </span>
-          </>
+          <span>
+            Para ser atendido por nossos colaboradores, faça o{' '}
+            <Link href="/login" className="underline">
+              login
+            </Link>{' '}
+            ou{' '}
+            <Link href="/registro" className="underline">
+              registre-se.
+            </Link>
+          </span>
         );
       }
 

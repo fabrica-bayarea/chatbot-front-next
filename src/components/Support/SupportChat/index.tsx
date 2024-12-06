@@ -2,17 +2,17 @@
 
 import { useEffect, useRef } from 'react';
 
-import { Container, Conversation } from './SupportChat.styled';
+import { Container, Conversation as StyledConversation } from './SupportChat.styled';
 import ChatMessage from '@/components/ChatMessage';
 import { ChatForm } from '@/components/Forms';
 import { useMessages } from '@/hooks';
-import type { Support } from '@/utils/definitions';
+import type { Conversation, Support } from '@/utils/definitions';
 
-function SupportChat({ data }: { data: Support }) {
+function SupportChat({ conversation }: { conversation: Conversation }) {
+  const { messages, sendMessage } = useMessages(conversation);
   const conversationRef = useRef<HTMLDivElement | null>(null);
-  const { messages, addNewMessage } = useMessages(data);
 
-  const isAccepted = data.status === 'accepted';
+  const support = conversation.support_details as Support;
 
   // Keeps the chat always scrolled down
   useEffect(() => {
@@ -27,7 +27,7 @@ function SupportChat({ data }: { data: Support }) {
 
   return (
     <Container>
-      <Conversation ref={conversationRef}>
+      <StyledConversation ref={conversationRef}>
         {messages.map(({ content, role, owner_profile }, index) => {
           return (
             <ChatMessage key={index} role={role} ownerProfile={owner_profile}>
@@ -35,14 +35,13 @@ function SupportChat({ data }: { data: Support }) {
             </ChatMessage>
           );
         })}
-      </Conversation>
-      {isAccepted && (
-        <ChatForm
-          action={(content) => addNewMessage(content)}
-          background={true}
-          maxHeight={200}
-        />
-      )}
+      </StyledConversation>
+      <ChatForm
+        action={(content) => sendMessage(content)}
+        background={true}
+        maxHeight={200}
+        disabled={support.status !== 'accepted'}
+      />
     </Container>
   );
 }

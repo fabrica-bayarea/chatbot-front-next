@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
+import type { Updater } from 'use-immer';
 
 export type MessageFeedback = 'good' | 'poor';
 
@@ -27,14 +28,6 @@ export interface Message {
   owner_profile: Profile | null;
 }
 
-export interface Conversation {
-  id: string;
-  owner_id: string;
-  created_at: string;
-  status: ConversationStatus;
-  messages: Message[];
-}
-
 export interface Support {
   id: string;
   conversation_id: string;
@@ -45,8 +38,26 @@ export interface Support {
   closed_at: string | null;
   closed_by: string | null;
   last_sent_at: string | null;
+  collaborator_profile: Profile;
+}
+
+export interface Conversation {
+  id: string;
+  owner_id: string;
+  created_at: string;
+  status: ConversationStatus;
+  active_support: string | null;
   messages: Message[];
   owner_profile: Profile;
+  support_details: Support | null;
+}
+
+export interface Notification {
+  id: string;
+  type: 'new message';
+  conversation_id: string;
+  support_id: string;
+  recipient_id: string;
 }
 
 export type InputScheme = { isRequired: boolean; label: string; value: string };
@@ -100,7 +111,8 @@ export type MainContextShared = {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setShowMessage: Dispatch<SetStateAction<boolean>>;
   showMessage: boolean;
-  user: Profile;
+  user: Profile | null;
+  presence: string[];
 };
 
 export type ChatContextShared = {
@@ -108,7 +120,8 @@ export type ChatContextShared = {
   getStream: (question: string) => Promise<ContextResult<ReadableStreamDefaultReader>>;
   isStreaming?: boolean;
   newConversation: Conversation;
-  setConversation: Dispatch<SetStateAction<Conversation>>;
+  setConversation: Updater<Conversation>;
+  sendMessage: (content: string) => void;
 };
 
 export type FilteredAnalyticsData = {
