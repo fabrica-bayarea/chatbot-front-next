@@ -15,19 +15,15 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   z-index: 100;
 
   & > h1 {
-    color: var(--clr-b);
+    color: var(--clr-dark);
     font-size: 2rem;
+    font-weight: 300;
     padding: 0 20px;
   }
 
   & > nav {
     align-items: center;
-    background-color: var(--clr-c);
-    background-image: linear-gradient(
-      to bottom right,
-      rgba(255 255 255 / 10%),
-      rgba(255 255 255 / 0%) 80%
-    );
+    background-color: var(--clr-dark-gray);
     display: flex;
     justify-content: space-evenly;
     min-height: 40px;
@@ -98,7 +94,7 @@ export const ListItem = styled.li`
   & > div:nth-child(2) {
     flex-grow: 10;
 
-    & > span {
+    & > div:nth-child(2) {
       font-size: 0.75rem;
     }
   }

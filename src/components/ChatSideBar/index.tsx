@@ -3,19 +3,20 @@
 import Image from 'next/image';
 import { type Dispatch, type SetStateAction, useRef } from 'react';
 
-import {
-  Container,
-  ItemDetails,
-  List,
-  ListItem,
-  LoadingItem,
-} from './ChatSideBar.styled';
-
+import { Container, List, ListItem, LoadingItem } from './ChatSideBar.styled';
 import { deleteConversation } from '@/actions/conversations';
+import { deleteNotifications } from '@/actions/notifications';
 import { TrashButton } from '@/components/Buttons';
-import { ActionButton, DialogButton } from '@/components/styled';
+import { ActionButton, DialogButton, Notification } from '@/components/styled';
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
-import { useChatContext, useHistory, useMainContext, useOutsideClick } from '@/hooks';
+
+import {
+  useChatContext,
+  useHistory,
+  useMainContext,
+  useNotifications,
+  useOutsideClick,
+} from '@/hooks';
 
 function Loading({ n }: { n: number }) {
   return (
@@ -38,9 +39,15 @@ function Loading({ n }: { n: number }) {
 }
 
 function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
-  const { newConversation, setConversation } = useChatContext();
+  const {
+    conversation: contextConversation,
+    newConversation,
+    setConversation,
+  } = useChatContext();
+
   const { user } = useMainContext();
   const { history } = useHistory();
+  const { notifications, setNotifications } = useNotifications(contextConversation?.id);
 
   if (!user) {
     return (
@@ -77,22 +84,40 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
         const { id, messages } = conversation;
         const firstTime = new Date(messages[0].created_at).toLocaleString('pt-BR');
 
+        const conversationNotifications = notifications.filter(
+          (e) => e.conversation_id === id
+        );
+
+        const newMessagesCount = conversationNotifications.length;
+
         return (
           <ListItem
             key={id}
             onClick={() => {
               setConversation(conversation);
               showFn(false);
+              deleteNotifications(conversationNotifications);
+              setNotifications((draft) => draft.filter((e) => e.conversation_id !== id));
             }}
             role="button"
             tabIndex={0}
           >
-            <ItemDetails>
+            <div>
               <span>{firstTime}</span>
-              <span>({messages.length} mensagens)</span>
+              <Notification $count={newMessagesCount}>{newMessagesCount}</Notification>
+            </div>
+            <div>
               <span>{messages[0].content}</span>
-            </ItemDetails>
-            <TrashButton handleClick={() => deleteConversation(id)} />
+              <TrashButton
+                handleClick={() => {
+                  if (id === contextConversation?.id) {
+                    setConversation(newConversation);
+                  }
+
+                  return deleteConversation(id);
+                }}
+              />
+            </div>
           </ListItem>
         );
       })}

@@ -14,10 +14,11 @@ import {
 } from './SupportSidebar.styled';
 
 import { signOut } from '@/actions/auth';
+import { deleteNotifications } from '@/actions/notifications';
 import { Avatar, LoadingAvatar } from '@/components/styled';
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 import { LoadingStatus, Status } from '@/components/styled/Status.styled';
-import { useOutsideClick, useSupportList } from '@/hooks';
+import { useNotifications, useOutsideClick, useSupportList } from '@/hooks';
 import elapsedTime from '@/utils/elapsedTime';
 
 function Loading({ n }: { n: number }) {
@@ -49,6 +50,7 @@ function SupportList({
   const { supportList } = useSupportList();
 
   const pathId = pathname.split('/').splice(-1)[0];
+  const { notifications, setNotifications } = useNotifications(pathId);
 
   if (supportList === undefined) {
     return <Loading n={5} />;
@@ -66,25 +68,35 @@ function SupportList({
   return (
     <List>
       {supportList?.map(({ id, owner_profile, support_details }, index) => {
+        const supportNotifications = notifications.filter(
+          (e) => e.support_id === support_details?.id
+        );
+
         return (
           <ListItem
             className={pathId === id ? 'selected' : undefined}
             key={index}
             onClick={() => {
               setIsVisible(false);
+              deleteNotifications(supportNotifications);
+
+              setNotifications((draft) =>
+                draft.filter((e) => e.support_id !== support_details?.id)
+              );
               router.push(`/suporte/atendimentos/${support_details?.id}`);
             }}
-            role="button"
-            tabIndex={0}
           >
             <Avatar $picture={owner_profile?.picture} $width="40px">
               {owner_profile?.name.charAt(0)}
             </Avatar>
             <div>
               <div>{owner_profile?.name.split(' ')[0]}</div>
-              <span>{elapsedTime(support_details?.created_at as string)}</span>
+              <div>{elapsedTime(support_details?.created_at as string)}</div>
             </div>
-            <Status $status={support_details?.status} />
+            <Status
+              $status={support_details?.status}
+              $activity={supportNotifications.length !== 0}
+            />
           </ListItem>
         );
       })}

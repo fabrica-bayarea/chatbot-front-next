@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { SupportStatus } from '@/utils/definitions';
 
-export const Status = styled.div<{ $status?: SupportStatus }>`
+export const Status = styled.div<{ $status?: SupportStatus; $activity?: boolean }>`
   aspect-ratio: 1;
   background-color: var(--clr-light-gray);
   border-radius: 50%;
@@ -12,8 +12,13 @@ export const Status = styled.div<{ $status?: SupportStatus }>`
   ${({ $status }) =>
     $status === 'accepted' &&
     css`
-      animation: pulse 1500ms infinite;
-      background-color: var(--clr-b);
+      background-color: var(--clr-blue);
+    `}
+
+  ${({ $activity }) =>
+    $activity &&
+    css`
+      animation: pulse 2500ms infinite;
     `}
 `;
 

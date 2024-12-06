@@ -48,31 +48,13 @@ export const Container = styled.aside<{ $isVisible: boolean }>`
   }
 `;
 
-export const ItemDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-
-  & > span:nth-child(1) {
-    font-size: 0.75em;
-  }
-
-  & > span:nth-child(2) {
-    font-size: 0.75em;
-    margin-bottom: 10px;
-  }
-
-  & > span:nth-child(3) {
-    font-size: 0.9em;
-  }
-`;
-
 export const List = styled.ul`
   align-items: center;
   display: flex;
   flex-direction: column;
   flex-grow: 10;
   overflow-y: scroll;
+  width: 100%;
 
   & > span {
     margin: 120px 0 40px;
@@ -88,11 +70,10 @@ export const List = styled.ul`
 `;
 
 export const ListItem = styled.li`
-  align-items: center;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   gap: 20px;
-  justify-content: space-between;
   padding: 20px;
   transition: background-color 200ms ease;
   width: 100%;
@@ -103,6 +84,12 @@ export const ListItem = styled.li`
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--clr-light);
+  }
+
+  & > div {
+    display: flex;
+    font-size: 0.8rem;
+    justify-content: space-between;
   }
 `;
 

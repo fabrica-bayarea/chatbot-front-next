@@ -35,16 +35,6 @@ function useHistory() {
         {
           event: '*',
           schema: 'public',
-          table: 'human_messages',
-          filter: `owner_id=eq.${user?.id}`,
-        },
-        handleChange
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
           table: 'conversations',
           filter: `owner_id=eq.${user?.id}`,
         },
@@ -56,6 +46,15 @@ function useHistory() {
           event: 'DELETE',
           schema: 'public',
           table: 'conversations',
+        },
+        handleChange
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
         },
         handleChange
       )

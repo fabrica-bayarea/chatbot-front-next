@@ -12,7 +12,7 @@ function useMessages(conversation: Conversation) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const addNewMessage = async (content: string) => {
+  const sendMessage = async (content: string) => {
     try {
       setIsLoading(true);
 
@@ -38,7 +38,7 @@ function useMessages(conversation: Conversation) {
     setMessages(conversation.messages);
   }, [conversation]);
 
-  return { messages, isLoading, addNewMessage };
+  return { messages, isLoading, sendMessage };
 }
 
 export default useMessages;

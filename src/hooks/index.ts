@@ -4,6 +4,7 @@ import useConversation from './useConversation';
 import useHistory from './useHistory';
 import useMainContext from './useMainContext';
 import useMessages from './useMessages';
+import useNotifications from './useNotifications';
 import useOutsideClick from './useOutsideClick';
 import useSupportList from './useSupportList';
 import useValidation from './useValidation';
@@ -15,6 +16,7 @@ export {
   useHistory,
   useMainContext,
   useMessages,
+  useNotifications,
   useOutsideClick,
   useSupportList,
   useValidation,

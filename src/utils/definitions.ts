@@ -52,6 +52,14 @@ export interface Conversation {
   support_details: Support | null;
 }
 
+export interface Notification {
+  id: string;
+  type: 'new message';
+  conversation_id: string;
+  support_id: string;
+  recipient_id: string;
+}
+
 export type InputScheme = { isRequired: boolean; label: string; value: string };
 
 export type FetchStreamPayload = { body: { messages: Message[] } };

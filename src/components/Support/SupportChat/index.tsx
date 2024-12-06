@@ -9,7 +9,7 @@ import { useMessages } from '@/hooks';
 import type { Conversation, Support } from '@/utils/definitions';
 
 function SupportChat({ conversation }: { conversation: Conversation }) {
-  const { messages, addNewMessage } = useMessages(conversation);
+  const { messages, sendMessage } = useMessages(conversation);
   const conversationRef = useRef<HTMLDivElement | null>(null);
 
   const support = conversation.support_details as Support;
@@ -37,7 +37,7 @@ function SupportChat({ conversation }: { conversation: Conversation }) {
         })}
       </StyledConversation>
       <ChatForm
-        action={(content) => addNewMessage(content)}
+        action={(content) => sendMessage(content)}
         background={true}
         maxHeight={200}
         disabled={support.status !== 'accepted'}
