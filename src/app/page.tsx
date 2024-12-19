@@ -33,7 +33,7 @@ const Section = styled.section`
     color: white;
     display: flex;
     height: 80px;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 30px;
     width: 100%;
 
@@ -43,37 +43,15 @@ const Section = styled.section`
   }
 `;
 
-const OpenCloseContainer = styled.div`
-  visibility: hidden;
-  z-index: 1000;
-
-  ${mediaQueries.laptopS} {
-    visibility: visible;
-  }
-`;
-
 function Home() {
   const { user } = useMainContext();
-  const [showSideBar, setShowSideBar] = useState(false);
 
   return (
     <ChatProvider>
       <Main>
-        <ChatSideBar isVisible={showSideBar} showFn={setShowSideBar} />
+        <ChatSideBar />
         <Section>
-          <header>
-            <OpenCloseContainer>
-              <button onMouseDown={() => setShowSideBar(!showSideBar)}>
-                <Image
-                  src={showSideBar ? '/xmark.svg' : '/bars-white.svg'}
-                  height={24}
-                  width={24}
-                  alt="Alternar menu lateral"
-                />
-              </button>
-            </OpenCloseContainer>
-            {user && <Dropdown />}
-          </header>
+          <header>{user && <Dropdown />}</header>
           {user ? <Chat /> : <UnauthChat />}
         </Section>
       </Main>

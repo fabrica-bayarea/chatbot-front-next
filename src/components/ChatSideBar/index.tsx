@@ -1,13 +1,27 @@
 'use client';
 
 import Image from 'next/image';
-import { type Dispatch, type SetStateAction, useRef } from 'react';
+import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
 
-import { Container, List, ListItem, LoadingItem } from './ChatSideBar.styled';
+import {
+  Container,
+  List,
+  ListItem,
+  LoadingItem,
+  OpenCloseContainer,
+} from './ChatSideBar.styled';
+
 import { deleteConversation } from '@/actions/conversations';
 import { deleteNotifications } from '@/actions/notifications';
 import { TrashButton } from '@/components/Buttons';
-import { ActionButton, DialogButton, Notification } from '@/components/styled';
+
+import {
+  ActionButton,
+  DialogButton,
+  IconButton,
+  Notification,
+} from '@/components/styled';
+
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 
 import {
@@ -38,7 +52,7 @@ function Loading({ n }: { n: number }) {
   );
 }
 
-function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
+function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boolean>> }) {
   const {
     conversation: contextConversation,
     newConversation,
@@ -68,7 +82,7 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
         <DialogButton
           onClick={() => {
             setConversation(newConversation);
-            showFn(false);
+            setIsVisible(false);
           }}
           $width="150px"
         >
@@ -95,7 +109,7 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
             key={id}
             onClick={() => {
               setConversation(conversation);
-              showFn(false);
+              setIsVisible(false);
               deleteNotifications(conversationNotifications);
               setNotifications((draft) => draft.filter((e) => e.conversation_id !== id));
             }}
@@ -125,46 +139,53 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   );
 }
 
-function ChatSideBar({
-  isVisible,
-  showFn,
-}: {
-  isVisible: boolean;
-  showFn: Dispatch<SetStateAction<boolean>>;
-}) {
+function ChatSideBar() {
   const { newConversation, setConversation } = useChatContext();
   const { user } = useMainContext();
-  const sidebarRef = useRef<HTMLElement | null>(null);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-  useOutsideClick(sidebarRef, () => showFn(false));
+  useOutsideClick(sidebarRef, () => setIsVisible(false));
 
   return (
-    <Container ref={sidebarRef} $isVisible={isVisible}>
-      <div>
-        <header>
-          <h1>chatbot</h1>
+    <div ref={sidebarRef}>
+      <OpenCloseContainer>
+        <IconButton onMouseDown={() => setIsVisible(!isVisible)} $width="30px">
           <Image
-            src="/iesb-logo.png"
-            height={60}
-            width={60}
-            quality={100}
-            alt="Logo IESB"
+            src={isVisible ? '/xmark.svg' : '/bars-white.svg'}
+            height={24}
+            width={24}
+            alt="Alternar menu lateral"
           />
-        </header>
-        <History showFn={showFn} />
-        <footer>
-          <ActionButton
-            onClick={() => {
-              setConversation(newConversation);
-              showFn(false);
-            }}
-            disabled={!user}
-          >
-            +
-          </ActionButton>
-        </footer>
-      </div>
-    </Container>
+        </IconButton>
+      </OpenCloseContainer>
+      <Container $isVisible={isVisible}>
+        <div>
+          <header>
+            <h1>chatbot</h1>
+            <Image
+              src="/iesb-logo.png"
+              height={60}
+              width={60}
+              quality={100}
+              alt="Logo IESB"
+            />
+          </header>
+          <History setIsVisible={setIsVisible} />
+          <footer>
+            <ActionButton
+              onClick={() => {
+                setConversation(newConversation);
+                setIsVisible(false);
+              }}
+              disabled={!user}
+            >
+              +
+            </ActionButton>
+          </footer>
+        </div>
+      </Container>
+    </div>
   );
 }
 
