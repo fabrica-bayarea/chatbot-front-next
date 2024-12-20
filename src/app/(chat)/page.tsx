@@ -1,8 +1,8 @@
 'use client';
 
-import Chat from '@/components/Chat';
-import Dropdown from '@/components/Dropdown';
+import NewChat from '@/components/Chat/NewChat';
 import UnauthChat from '@/components/Chat/UnauthChat';
+import Dropdown from '@/components/Dropdown';
 import { ChatProvider } from '@/context';
 import { useMainContext } from '@/hooks';
 
@@ -13,7 +13,7 @@ function Home() {
     <ChatProvider>
       <section>
         <header>{user && <Dropdown />}</header>
-        {user ? <Chat /> : <UnauthChat />}
+        {user ? <NewChat /> : <UnauthChat />}
       </section>
     </ChatProvider>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 
 import { Container, Conversation } from '../Chat.styled';
