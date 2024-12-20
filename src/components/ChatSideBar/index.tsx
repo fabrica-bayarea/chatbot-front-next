@@ -53,15 +53,15 @@ function Loading({ n }: { n: number }) {
 }
 
 function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boolean>> }) {
-  const {
-    conversation: contextConversation,
-    newConversation,
-    setConversation,
-  } = useChatContext();
+  // const {
+  //   conversation: contextConversation,
+  //   newConversation,
+  //   setConversation,
+  // } = useChatContext();
 
   const { user } = useMainContext();
   const { history } = useHistory();
-  const { notifications, setNotifications } = useNotifications(contextConversation?.id);
+  // const { notifications, setNotifications } = useNotifications(contextConversation?.id);
 
   if (!user) {
     return (
@@ -81,7 +81,7 @@ function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boole
         <span>Não há nada aqui!</span>
         <DialogButton
           onClick={() => {
-            setConversation(newConversation);
+            // setConversation(newConversation);
             setIsVisible(false);
           }}
           $width="150px"
@@ -98,35 +98,35 @@ function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boole
         const { id, messages } = conversation;
         const firstTime = new Date(messages[0].created_at).toLocaleString('pt-BR');
 
-        const conversationNotifications = notifications.filter(
-          (e) => e.conversation_id === id
-        );
+        // const conversationNotifications = notifications.filter(
+        //   (e) => e.conversation_id === id
+        // );
 
-        const newMessagesCount = conversationNotifications.length;
+        // const newMessagesCount = conversationNotifications.length;
 
         return (
           <ListItem
             key={id}
             onClick={() => {
-              setConversation(conversation);
+              // setConversation(conversation);
               setIsVisible(false);
-              deleteNotifications(conversationNotifications);
-              setNotifications((draft) => draft.filter((e) => e.conversation_id !== id));
+              // deleteNotifications(conversationNotifications);
+              // setNotifications((draft) => draft.filter((e) => e.conversation_id !== id));
             }}
             role="button"
             tabIndex={0}
           >
             <div>
               <span>{firstTime}</span>
-              <Notification $count={newMessagesCount}>{newMessagesCount}</Notification>
+              {/* <Notification $count={newMessagesCount}>{newMessagesCount}</Notification> */}
             </div>
             <div>
               <span>{messages[0].content}</span>
               <TrashButton
                 handleClick={() => {
-                  if (id === contextConversation?.id) {
-                    setConversation(newConversation);
-                  }
+                  // if (id === contextConversation?.id) {
+                  //   setConversation(newConversation);
+                  // }
 
                   return deleteConversation(id);
                 }}
@@ -140,7 +140,7 @@ function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boole
 }
 
 function ChatSideBar() {
-  const { newConversation, setConversation } = useChatContext();
+  // const { newConversation, setConversation } = useChatContext();
   const { user } = useMainContext();
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -175,7 +175,7 @@ function ChatSideBar() {
           <footer>
             <ActionButton
               onClick={() => {
-                setConversation(newConversation);
+                // setConversation(newConversation);
                 setIsVisible(false);
               }}
               disabled={!user}
