@@ -17,7 +17,11 @@ export async function createAIMessage({
     .select()
     .single();
 
-  return response;
+  if (response.error) {
+    throw new Error(response.error.message);
+  }
+
+  return true;
 }
 
 export async function createHumanMessage({
@@ -35,7 +39,11 @@ export async function createHumanMessage({
     .select()
     .single();
 
-  return response;
+  if (response.error) {
+    throw new Error(response.error.message);
+  }
+
+  return true;
 }
 
 export async function updateMessageFeedback(id: string, feedback: MessageFeedback) {
@@ -47,5 +55,9 @@ export async function updateMessageFeedback(id: string, feedback: MessageFeedbac
     .eq('id', id)
     .select();
 
-  return response;
+  if (response.error) {
+    throw new Error(response.error.message);
+  }
+
+  return true;
 }

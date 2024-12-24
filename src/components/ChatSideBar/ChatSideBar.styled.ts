@@ -5,9 +5,8 @@ import { mediaQueries } from '@/utils/mediaQueries';
 export const Container = styled.aside<{ $isVisible: boolean }>`
   background-color: var(--clr-c);
   height: 100dvh;
-  max-width: 320px;
+  min-width: 320px;
   padding: 10px;
-  width: 100%;
   z-index: 100;
 
   & > div {
@@ -98,5 +97,17 @@ export const LoadingItem = styled(ListItem)`
 
   &:hover {
     background-color: unset;
+  }
+`;
+
+export const OpenCloseContainer = styled.div`
+  left: 25px;
+  position: absolute;
+  top: 25px;
+  visibility: hidden;
+  z-index: 1000;
+
+  ${mediaQueries.laptopS} {
+    visibility: visible;
   }
 `;

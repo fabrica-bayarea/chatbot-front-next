@@ -15,7 +15,7 @@ import {
 
 import { signOut } from '@/actions/auth';
 import { deleteNotifications } from '@/actions/notifications';
-import { Avatar, LoadingAvatar } from '@/components/styled';
+import { Avatar, IconButton, LoadingAvatar } from '@/components/styled';
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 import { LoadingStatus, Status } from '@/components/styled/Status.styled';
 import { useNotifications, useOutsideClick, useSupportList } from '@/hooks';
@@ -78,11 +78,15 @@ function SupportList({
             key={index}
             onClick={() => {
               setIsVisible(false);
-              deleteNotifications(supportNotifications);
 
-              setNotifications((draft) =>
-                draft.filter((e) => e.support_id !== support_details?.id)
-              );
+              if (supportNotifications.length > 0) {
+                deleteNotifications(supportNotifications);
+
+                setNotifications((draft) =>
+                  draft.filter((e) => e.support_id !== support_details?.id)
+                );
+              }
+
               router.push(`/suporte/atendimentos/${support_details?.id}`);
             }}
           >
@@ -113,14 +117,14 @@ function SupportSidebar() {
   return (
     <div ref={sidebarRef}>
       <OpenCloseContainer>
-        <button onMouseDown={() => setIsVisible(!isVisible)}>
+        <IconButton onMouseDown={() => setIsVisible(!isVisible)} $width="30px">
           <Image
             src={isVisible ? '/xmark-white.svg' : '/bars-white.svg'}
             height={24}
             width={24}
             alt="Alternar menu lateral"
           />
-        </button>
+        </IconButton>
       </OpenCloseContainer>
       <Container $isVisible={isVisible}>
         <h1>Atendimentos</h1>

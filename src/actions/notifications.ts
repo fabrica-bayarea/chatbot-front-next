@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/server';
 
 export async function deleteNotifications(notifications: Notification[]) {
   if (notifications.length === 0) {
-    return null;
+    throw new Error('No notifications to delete');
   }
 
   const supabase = createClient();
@@ -18,10 +18,14 @@ export async function deleteNotifications(notifications: Notification[]) {
       notifications.map((e) => e.id)
     );
 
-  return response;
+  if (response.error) {
+    throw new Error(response.error.message);
+  }
+
+  return true;
 }
 
-export async function fetchNotifications(recipientId: string) {
+export async function fetchNotifications(recipientId: string): Promise<Notification[]> {
   const supabase = createClient();
   
   const response = await supabase
@@ -29,5 +33,9 @@ export async function fetchNotifications(recipientId: string) {
     .select()
     .eq('recipient_id', recipientId);
 
-  return response;
+  if (response.error) {
+    throw new Error(response.error.message);
+  }
+
+  return response.data as Notification[];
 }

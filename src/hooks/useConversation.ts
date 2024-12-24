@@ -3,24 +3,27 @@
 import { useEffect, useState } from 'react';
 import { useImmer } from 'use-immer';
 
+import useMainContext from './useMainContext';
 import { fetchConversationById } from '@/actions/conversations';
 import type { Conversation, Message, Support } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/client';
 
 function useConversation(
-  returnFn: () => Conversation | null | Promise<Conversation | null>
+  conversationSource: Conversation | (() => Promise<Conversation | null>)
 ) {
   const [conversation, setConversation] = useImmer<Conversation | null | undefined>(
-    undefined
+    typeof conversationSource === 'function' ? undefined : conversationSource
   );
 
-  useEffect(() => {
-    const getConversation = async () => {
-      const data = await returnFn();
-      setConversation(data);
-    };
+  const { user } = useMainContext();
 
-    getConversation();
+  useEffect(() => {
+    if (typeof conversationSource === 'function') {
+      (async () => {
+        const data = await conversationSource();
+        setConversation(data);
+      })();
+    }
   }, []);
 
   useEffect(() => {
@@ -53,9 +56,12 @@ function useConversation(
           table: 'human_messages',
           filter: `conversation_id=eq.${conversation.id}`,
         },
-        async () => {
-          const data = await fetchConversationById(conversation.id);
-          setConversation(data);
+        async (payload) => {
+          if (payload.new.owner_id !== user?.id){
+
+            const data = await fetchConversationById(conversation.id);
+            setConversation(data);
+          }
         }
       )
       .subscribe();

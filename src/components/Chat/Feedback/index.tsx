@@ -3,46 +3,41 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { type Updater } from 'use-immer';
 
 import { Dialog, QuestionContainer } from './Feedback.styled';
 import { updateConversationStatus } from '@/actions/conversations';
 import { updateMessageFeedback } from '@/actions/messages';
 import { DialogButton, IconButton } from '@/components/styled';
-import { useChatContext, useMainContext } from '@/hooks';
-import type { MessageFeedback } from '@/utils/definitions';
+import { useMainContext } from '@/hooks';
+import type { Conversation, MessageFeedback } from '@/utils/definitions';
 
-function Feedback({ id }: { id: string }) {
-  const { conversation, setConversation } = useChatContext();
-  const { isLoading, setIsLoading, user } = useMainContext();
+function Feedback({
+  conversation,
+  setConversation,
+}: {
+  conversation: Conversation;
+  setConversation: Updater<Conversation>;
+}) {
+  const { user } = useMainContext();
   const [feedback, setFeedback] = useState<MessageFeedback | undefined>(undefined);
   const [showDialog, setShowDialog] = useState(false);
 
   const handleFeedback = async (value: MessageFeedback) => {
     if (feedback !== value) {
-      try {
-        setIsLoading(true);
-        await updateMessageFeedback(id, value);
-        setFeedback(value);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
+      updateMessageFeedback(conversation.id, value);
+      setFeedback(value);
     }
 
     setShowDialog(true);
   };
 
   const handleStatus = async () => {
-    try {
-      setIsLoading(true);
-      await updateConversationStatus(conversation.id, 'redirected');
-      setConversation({ ...conversation, status: 'redirected' });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
+    updateConversationStatus(conversation.id, 'redirected');
+
+    setConversation((draft) => {
+      draft.status = 'redirected';
+    });
   };
 
   const RedirectionOptions = () => {
@@ -66,12 +61,8 @@ function Feedback({ id }: { id: string }) {
         <>
           <span>Gostaria de ser direcionado para um de nossos colaboradores?</span>
           <div>
-            <DialogButton onClick={() => handleStatus()} disabled={isLoading}>
-              Sim
-            </DialogButton>
-            <DialogButton onClick={() => setShowDialog(false)} disabled={isLoading}>
-              Não
-            </DialogButton>
+            <DialogButton onClick={() => handleStatus()}>Sim</DialogButton>
+            <DialogButton onClick={() => setShowDialog(false)}>Não</DialogButton>
           </div>
         </>
       );

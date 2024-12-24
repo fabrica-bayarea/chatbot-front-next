@@ -1,21 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useImmer } from 'use-immer';
 
 import useMainContext from './useMainContext';
 import { deleteNotifications, fetchNotifications } from '@/actions/notifications';
-import type { Notification, Profile } from '@/utils/definitions';
+import type { Notification } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/client';
 
-function useNotifications(id?: string) {
+function useNotifications(id: string | null) {
   const { user } = useMainContext();
-
   const [notifications, setNotifications] = useImmer<Notification[]>([]);
 
   const getNotifications = async () => {
-    const { data } = await fetchNotifications((user as Profile).id);
-    setNotifications(data as Notification[]);
+    if (!user) {
+      return;
+    }
+
+    const data = await fetchNotifications(user.id);
+    setNotifications(data);
   };
 
   useEffect(() => {

@@ -1,17 +1,32 @@
 'use client';
 
 import Image from 'next/image';
-import { type Dispatch, type SetStateAction, useRef } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-import { Container, List, ListItem, LoadingItem } from './ChatSideBar.styled';
+import {
+  Container,
+  List,
+  ListItem,
+  LoadingItem,
+  OpenCloseContainer,
+} from './ChatSideBar.styled';
+
 import { deleteConversation } from '@/actions/conversations';
 import { deleteNotifications } from '@/actions/notifications';
 import { TrashButton } from '@/components/Buttons';
-import { ActionButton, DialogButton, Notification } from '@/components/styled';
+
+import {
+  ActionButton,
+  DialogButton,
+  IconButton,
+  Notification,
+} from '@/components/styled';
+
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 
 import {
-  useChatContext,
   useHistory,
   useMainContext,
   useNotifications,
@@ -38,16 +53,16 @@ function Loading({ n }: { n: number }) {
   );
 }
 
-function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
-  const {
-    conversation: contextConversation,
-    newConversation,
-    setConversation,
-  } = useChatContext();
-
-  const { user } = useMainContext();
+function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boolean>> }) {
   const { history } = useHistory();
-  const { notifications, setNotifications } = useNotifications(contextConversation?.id);
+  const { user } = useMainContext();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const slugs = pathname.split('/').filter(Boolean);
+  const conversationId = slugs.length > 1 ? slugs[1] : null;
+
+  const { notifications, setNotifications } = useNotifications(conversationId);
 
   if (!user) {
     return (
@@ -67,8 +82,8 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
         <span>Não há nada aqui!</span>
         <DialogButton
           onClick={() => {
-            setConversation(newConversation);
-            showFn(false);
+            setIsVisible(false);
+            router.push(`/novo/${uuidv4()}`);
           }}
           $width="150px"
         >
@@ -94,10 +109,16 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
           <ListItem
             key={id}
             onClick={() => {
-              setConversation(conversation);
-              showFn(false);
-              deleteNotifications(conversationNotifications);
-              setNotifications((draft) => draft.filter((e) => e.conversation_id !== id));
+              setIsVisible(false);
+
+              if (conversationNotifications.length > 0) {
+                deleteNotifications(conversationNotifications);
+                setNotifications((draft) =>
+                  draft.filter((e) => e.conversation_id !== id)
+                );
+              }
+
+              router.push(`/chat/${id}`);
             }}
             role="button"
             tabIndex={0}
@@ -110,8 +131,8 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
               <span>{messages[0].content}</span>
               <TrashButton
                 handleClick={() => {
-                  if (id === contextConversation?.id) {
-                    setConversation(newConversation);
+                  if (id === conversationId) {
+                    router.push(`/novo/${uuidv4()}`);
                   }
 
                   return deleteConversation(id);
@@ -125,46 +146,53 @@ function History({ showFn }: { showFn: Dispatch<SetStateAction<boolean>> }) {
   );
 }
 
-function ChatSideBar({
-  isVisible,
-  showFn,
-}: {
-  isVisible: boolean;
-  showFn: Dispatch<SetStateAction<boolean>>;
-}) {
-  const { newConversation, setConversation } = useChatContext();
+function ChatSideBar() {
   const { user } = useMainContext();
-  const sidebarRef = useRef<HTMLElement | null>(null);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
 
-  useOutsideClick(sidebarRef, () => showFn(false));
+  useOutsideClick(sidebarRef, () => setIsVisible(false));
 
   return (
-    <Container ref={sidebarRef} $isVisible={isVisible}>
-      <div>
-        <header>
-          <h1>chatbot</h1>
+    <div ref={sidebarRef}>
+      <OpenCloseContainer>
+        <IconButton onMouseDown={() => setIsVisible(!isVisible)} $width="30px">
           <Image
-            src="/iesb-logo.png"
-            height={60}
-            width={60}
-            quality={100}
-            alt="Logo IESB"
+            src={isVisible ? '/xmark.svg' : '/bars-white.svg'}
+            height={24}
+            width={24}
+            alt="Alternar menu lateral"
           />
-        </header>
-        <History showFn={showFn} />
-        <footer>
-          <ActionButton
-            onClick={() => {
-              setConversation(newConversation);
-              showFn(false);
-            }}
-            disabled={!user}
-          >
-            +
-          </ActionButton>
-        </footer>
-      </div>
-    </Container>
+        </IconButton>
+      </OpenCloseContainer>
+      <Container $isVisible={isVisible}>
+        <div>
+          <header>
+            <h1>chatbot</h1>
+            <Image
+              src="/iesb-logo.png"
+              height={60}
+              width={60}
+              quality={100}
+              alt="Logo IESB"
+            />
+          </header>
+          <History setIsVisible={setIsVisible} />
+          <footer>
+            <ActionButton
+              onClick={() => {
+                setIsVisible(false);
+                router.push(`/novo/${uuidv4()}`);
+              }}
+              disabled={!user}
+            >
+              +
+            </ActionButton>
+          </footer>
+        </div>
+      </Container>
+    </div>
   );
 }
 

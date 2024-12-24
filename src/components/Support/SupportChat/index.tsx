@@ -37,7 +37,7 @@ function SupportChat({ conversation }: { conversation: Conversation }) {
         })}
       </StyledConversation>
       <ChatForm
-        action={(content) => sendMessage(content)}
+        action={(content) => sendMessage(content, 'collaborator')}
         background={true}
         maxHeight={200}
         disabled={support.status !== 'accepted'}

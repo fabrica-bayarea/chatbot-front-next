@@ -111,9 +111,9 @@ export const LoadingItem = styled(ListItem)`
 export const OpenCloseContainer = styled.div`
   left: 20px;
   position: absolute;
-  top: 12px;
+  top: 10px;
   visibility: hidden;
-  z-index: 100;
+  z-index: 1000;
 
   ${mediaQueries.laptopS} {
     visibility: visible;
