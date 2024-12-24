@@ -8,19 +8,19 @@ import type { Conversation, Message, Support } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/client';
 
 function useConversation(
-  returnFn: () => Conversation | null | Promise<Conversation | null>
+  conversationSource: Conversation | (() => Promise<Conversation | null>)
 ) {
   const [conversation, setConversation] = useImmer<Conversation | null | undefined>(
-    undefined
+    typeof conversationSource === 'function' ? undefined : conversationSource
   );
 
   useEffect(() => {
-    const getConversation = async () => {
-      const data = await returnFn();
-      setConversation(data);
-    };
-
-    getConversation();
+    if (typeof conversationSource === 'function') {
+      (async () => {
+        const data = await conversationSource();
+        setConversation(data);
+      })();
+    }
   }, []);
 
   useEffect(() => {

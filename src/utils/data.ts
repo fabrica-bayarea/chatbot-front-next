@@ -10,7 +10,7 @@ const baseUrl = process.env.VERCEL_URL ?? '';
 const api = {
   async fetchStream({
     body,
-  }: FetchStreamPayload): Promise<APIResult<ReadableStreamDefaultReader>> {
+  }: FetchStreamPayload): Promise<ReadableStreamDefaultReader> {
     const response = await fetch(`${baseUrl}/api/ai/retrieval`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -20,7 +20,7 @@ const api = {
     const stream = response.body as ReadableStream;
     const reader = stream.getReader();
 
-    return { status: response.status, data: reader };
+    return reader;
   },
 
   async sendEmail({ body }: SendEmailPayload): Promise<APIResult<SendEmailResponse>> {

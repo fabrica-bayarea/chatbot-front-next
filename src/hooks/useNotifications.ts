@@ -8,7 +8,7 @@ import { deleteNotifications, fetchNotifications } from '@/actions/notifications
 import type { Notification } from '@/utils/definitions';
 import { createClient } from '@/utils/supabase/client';
 
-function useNotifications(id?: string) {
+function useNotifications(id: string | null) {
   const { user } = useMainContext();
   const [notifications, setNotifications] = useImmer<Notification[]>([]);
 

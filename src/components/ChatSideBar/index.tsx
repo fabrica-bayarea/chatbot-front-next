@@ -1,7 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   Container,
@@ -25,7 +27,6 @@ import {
 import { Skeleton, SkeletonContainer } from '@/components/styled/Skeleton.styled';
 
 import {
-  useChatContext,
   useHistory,
   useMainContext,
   useNotifications,
@@ -53,15 +54,15 @@ function Loading({ n }: { n: number }) {
 }
 
 function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boolean>> }) {
-  // const {
-  //   conversation: contextConversation,
-  //   newConversation,
-  //   setConversation,
-  // } = useChatContext();
-
-  const { user } = useMainContext();
   const { history } = useHistory();
-  // const { notifications, setNotifications } = useNotifications(contextConversation?.id);
+  const { user } = useMainContext();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const slugs = pathname.split('/').filter(Boolean);
+  const conversationId = slugs.length > 1 ? slugs[1] : null;
+
+  const { notifications, setNotifications } = useNotifications(conversationId);
 
   if (!user) {
     return (
@@ -81,8 +82,8 @@ function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boole
         <span>Não há nada aqui!</span>
         <DialogButton
           onClick={() => {
-            // setConversation(newConversation);
             setIsVisible(false);
+            router.push(`/novo/${uuidv4()}`);
           }}
           $width="150px"
         >
@@ -98,35 +99,41 @@ function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boole
         const { id, messages } = conversation;
         const firstTime = new Date(messages[0].created_at).toLocaleString('pt-BR');
 
-        // const conversationNotifications = notifications.filter(
-        //   (e) => e.conversation_id === id
-        // );
+        const conversationNotifications = notifications.filter(
+          (e) => e.conversation_id === id
+        );
 
-        // const newMessagesCount = conversationNotifications.length;
+        const newMessagesCount = conversationNotifications.length;
 
         return (
           <ListItem
             key={id}
             onClick={() => {
-              // setConversation(conversation);
               setIsVisible(false);
-              // deleteNotifications(conversationNotifications);
-              // setNotifications((draft) => draft.filter((e) => e.conversation_id !== id));
+
+              if (conversationNotifications.length > 0) {
+                deleteNotifications(conversationNotifications);
+                setNotifications((draft) =>
+                  draft.filter((e) => e.conversation_id !== id)
+                );
+              }
+
+              router.push(`/chat/${id}`);
             }}
             role="button"
             tabIndex={0}
           >
             <div>
               <span>{firstTime}</span>
-              {/* <Notification $count={newMessagesCount}>{newMessagesCount}</Notification> */}
+              <Notification $count={newMessagesCount}>{newMessagesCount}</Notification>
             </div>
             <div>
               <span>{messages[0].content}</span>
               <TrashButton
                 handleClick={() => {
-                  // if (id === contextConversation?.id) {
-                  //   setConversation(newConversation);
-                  // }
+                  if (id === conversationId) {
+                    router.push(`/novo/${uuidv4()}`);
+                  }
 
                   return deleteConversation(id);
                 }}
@@ -140,9 +147,9 @@ function History({ setIsVisible }: { setIsVisible: Dispatch<SetStateAction<boole
 }
 
 function ChatSideBar() {
-  // const { newConversation, setConversation } = useChatContext();
   const { user } = useMainContext();
   const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
   useOutsideClick(sidebarRef, () => setIsVisible(false));
@@ -175,8 +182,8 @@ function ChatSideBar() {
           <footer>
             <ActionButton
               onClick={() => {
-                // setConversation(newConversation);
                 setIsVisible(false);
+                router.push(`/novo/${uuidv4()}`);
               }}
               disabled={!user}
             >

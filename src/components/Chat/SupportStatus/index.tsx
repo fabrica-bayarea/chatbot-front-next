@@ -7,7 +7,7 @@ import { Container } from './SupportStatus.styled';
 import { Avatar } from '@/components/styled';
 import type { Support } from '@/utils/definitions';
 
-function SupportStatus({ support }: { support: Support | null }) {
+function SupportStatus({ support }: { support: Support | null | undefined }) {
   if (support && support.status === 'closed') {
     return (
       <Container $visible={true}>

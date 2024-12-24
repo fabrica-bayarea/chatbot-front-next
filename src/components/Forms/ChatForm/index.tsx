@@ -19,7 +19,7 @@ function ChatForm({
   background,
   disabled = false,
 }: {
-  action: (content: string) => void;
+  action: (content: string) => Promise<void>;
   maxHeight: number;
   background?: boolean;
   disabled?: boolean;

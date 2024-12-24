@@ -78,11 +78,15 @@ function SupportList({
             key={index}
             onClick={() => {
               setIsVisible(false);
-              deleteNotifications(supportNotifications);
 
-              setNotifications((draft) =>
-                draft.filter((e) => e.support_id !== support_details?.id)
-              );
+              if (supportNotifications.length > 0) {
+                deleteNotifications(supportNotifications);
+
+                setNotifications((draft) =>
+                  draft.filter((e) => e.support_id !== support_details?.id)
+                );
+              }
+
               router.push(`/suporte/atendimentos/${support_details?.id}`);
             }}
           >
