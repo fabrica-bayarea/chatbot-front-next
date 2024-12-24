@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRef, useState } from 'react';
-import type { Updater } from 'use-immer';
+import { type Updater } from 'use-immer';
 
 import { ButtonContainer, Container, UserContainer } from './SupportHeader.styled';
 

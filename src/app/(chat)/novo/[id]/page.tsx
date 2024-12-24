@@ -1,5 +1,7 @@
 'use client';
 
+import { type Updater } from 'use-immer';
+
 import Chat from '@/components/Chat';
 import Dropdown from '@/components/Dropdown';
 import { useConversation, useMainContext } from '@/hooks';
@@ -19,14 +21,17 @@ function Page({ params }: { params: { id: string } }) {
     support_details: null,
   };
 
-  const { conversation } = useConversation(newConversation);
+  const { conversation, setConversation } = useConversation(newConversation);
 
   return (
     <section>
       <header>
         <Dropdown />
       </header>
-      <Chat conversation={conversation} />
+      <Chat
+        conversation={conversation}
+        setConversation={setConversation as Updater<Conversation>}
+      />
     </section>
   );
 }

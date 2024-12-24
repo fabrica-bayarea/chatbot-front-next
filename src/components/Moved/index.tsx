@@ -7,7 +7,9 @@ function Moved() {
     <Container>
       <span>Esta conversa não existe ou foi movida.</span>
       <span>(｡•́︿•̀｡)</span>
-      <Link href={'/suporte'}>Página inicial</Link>
+      <Link href={'/suporte'} className="underline">
+        Página inicial
+      </Link>
     </Container>
   );
 }

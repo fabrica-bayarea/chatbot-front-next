@@ -1,5 +1,4 @@
 import useAnalyticsContext from './useAnalyticsContext';
-import useChatContext from './useChatContext';
 import useConversation from './useConversation';
 import useHistory from './useHistory';
 import useMainContext from './useMainContext';
@@ -11,7 +10,6 @@ import useValidation from './useValidation';
 
 export {
   useAnalyticsContext,
-  useChatContext,
   useConversation,
   useHistory,
   useMainContext,

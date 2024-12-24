@@ -99,13 +99,6 @@ export type MakeRequestParams<Payload, Data> = {
 
 export type MainContextShared = {
   isLoading: boolean;
-  makeRequest: <Payload, Data>({
-    apiRequest,
-    payload,
-    successCode,
-    successFn,
-    errorFn,
-  }: MakeRequestParams<Payload, Data>) => Promise<ContextResult<Data>>;
   message: string;
   setAndShow: (content: string) => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -113,15 +106,6 @@ export type MainContextShared = {
   showMessage: boolean;
   user: Profile | null;
   presence: string[];
-};
-
-export type ChatContextShared = {
-  conversation: Conversation;
-  getStream: (question: string) => Promise<ContextResult<ReadableStreamDefaultReader>>;
-  isStreaming?: boolean;
-  newConversation: Conversation;
-  setConversation: Updater<Conversation>;
-  sendMessage: (content: string) => void;
 };
 
 export type FilteredAnalyticsData = {

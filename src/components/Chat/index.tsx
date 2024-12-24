@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { type FormEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
+import { type Updater } from 'use-immer';
 
 import Feedback from './Feedback';
 import SupportStatus from './SupportStatus';
@@ -13,17 +13,21 @@ import { ChatForm } from '@/components/Forms';
 import { useMessages } from '@/hooks';
 import type { Conversation } from '@/utils/definitions';
 
-function Chat({ conversation }: { conversation: Conversation | null | undefined}) {
+function Chat({
+  conversation,
+  setConversation,
+}: {
+  conversation: Conversation | null | undefined;
+  setConversation: Updater<Conversation>;
+}) {
   const { getStream, isLoading, isStreaming, messages, sendMessage } =
     useMessages(conversation);
 
-  const pathname = usePathname();
   const conversationRef = useRef<HTMLDivElement | null>(null);
-  const router = useRouter();
   const [showFeedback, setShowFeedback] = useState(false);
 
-  const conversationStatus = conversation?.status;
   const conversationLength = messages?.length;
+  const conversationStatus = conversation?.status;
   const support = conversation?.support_details;
 
   const formAction = support
@@ -42,14 +46,11 @@ function Chat({ conversation }: { conversation: Conversation | null | undefined}
   });
 
   // Shows feedback if the conversation is open and the last message is from the assistant
-  // useEffect(() => {
-  //   setShowFeedback(
-  //     conversationStatus === 'open' &&
-  //       conversationLength % 2 === 0 &&
-  //       conversationLength !== 0 &&
-  //       !isLoading
-  //   );
-  // }, [conversation?.status, conversationLength, isLoading]);
+  useEffect(() => {
+    setShowFeedback(
+      conversationLength !== 0 && conversationStatus === 'open' && !isStreaming
+    );
+  }, [conversationLength, conversationStatus, isStreaming]);
 
   return (
     <Container>
@@ -76,10 +77,13 @@ function Chat({ conversation }: { conversation: Conversation | null | undefined}
             </ChatMessage>
           );
         })}
-        {/* {showFeedback && <Feedback id={messages[conversationLength - 1]?.id as string} />} */}
-        <Loading>
-          {(isLoading || isStreaming) && <BeatLoader color="lightgray" size={8} />}
-        </Loading>
+        {showFeedback && (
+          <Feedback
+            conversation={conversation as Conversation}
+            setConversation={setConversation}
+          />
+        )}
+        <Loading>{isStreaming && <BeatLoader color="lightgray" size={8} />}</Loading>
       </StyledConversation>
       <ChatForm
         action={formAction}
