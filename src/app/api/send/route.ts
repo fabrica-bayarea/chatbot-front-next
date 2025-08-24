@@ -8,7 +8,11 @@ const templates = {
   'support-update': SupportUpdateEmail,
 };
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resend: null | Resend = null;
+
+if (process.env.RESEND_API_KEY) {
+  resend = new Resend(process.env.RESEND_API_KEY);
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -21,7 +25,11 @@ export async function POST(req: NextRequest) {
       react: templates[body.template as 'end-of-support' | 'support-update'](body),
     };
 
-    const data = await resend.emails.send(payload);
+    let data: any = null;
+
+    if (resend) {
+      const data = await resend.emails.send(payload);
+    }
 
     return NextResponse.json(data);
   } catch (error) {
